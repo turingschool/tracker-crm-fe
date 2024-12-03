@@ -1,0 +1,49 @@
+html{
+    color: gray;
+  }
+  header {
+    font-size: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction:column;
+    background-color: gray;
+  }
+  
+  /*--------------------------// Logo & site title //----------------------*/
+  .logo-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    margin-right: 20px
+  }
+  
+  .carrot-logo {
+    width: 60px;
+  }
+  
+  .site-title {
+    color: orange;
+    font-family: "Yanone Kaffeesatz", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 25px;
+  }
+  
+  .full-site-title {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+  }
+  
+  /*--------------------------// Search All //----------------------*/
+  .search-all {
+    width: clamp(35vw, 84vw, 90vw);
+    display: flex;
+  }
+  
+  

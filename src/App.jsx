@@ -2,6 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import LoginForm from './Login';
 import { getUser } from './apiCalls';
+import MenuBar from './components/layout/MenuBar.jsx';
 
 function App() {
 
@@ -26,7 +27,7 @@ function App() {
       console.error('Error fetching logged in user:', err);
       setIsLoggedIn(false);
     }
-  };  
+  };
 
   const handleLogout = () => {
     setUserId(null);
@@ -53,10 +54,12 @@ function App() {
         </>
       )}
       {isLoggedIn && (
-        <>
+        <div className='main-area'>
+          <MenuBar />
+
           <h1>Welcome, {userData.username}</h1>
           <button onClick={handleLogout}>Log Out</button>
-        </>
+        </div>
       )}
     </div>
   );
