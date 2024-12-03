@@ -1,49 +1,50 @@
-html{
-    color: gray;
-  }
-  header {
-    font-size: 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction:column;
-    background-color: gray;
-  }
-  
-  /*--------------------------// Logo & site title //----------------------*/
-  .logo-container {
-    display: flex;
-    flex-direction: column;
-    margin-left: 20px;
-    margin-right: 20px
-  }
-  
-  .carrot-logo {
-    width: 60px;
-  }
-  
-  .site-title {
-    color: orange;
-    font-family: "Yanone Kaffeesatz", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 700;
-    font-style: normal;
-    font-size: 25px;
-  }
-  
-  .full-site-title {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-left: 10px;
-  }
-  
-  /*--------------------------// Search All //----------------------*/
-  .search-all {
-    width: clamp(35vw, 84vw, 90vw);
-    display: flex;
-  }
-  
-  
+html {
+  color: black;
+}
+
+header {
+  font-size: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  background-color: gray;
+
+}
+
+/*--------------------------// Logo //----------------------*/
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-right: 20px;
+  align-items: center;
+}
+
+.icon {
+  max-width: 15vw;
+  max-height: fit-content;
+  margin-bottom: 10vh;
+  justify-self: center;
+
+}
+
+
+.account-icon-container {
+  background: radial-gradient(ellipse at center, #a1d3ff  40%,#ffffff00 30%);
+}
+.small-icon {
+  max-width: 5vw;
+  justify-self: center;
+  max-height: fit-content;
+  margin-bottom: 8vh;
+
+}
+.account-icon {
+  max-width: 5vw;
+  margin:5vh;
+  justify-self: center;
+  max-height: fit-content;
+
+}
+

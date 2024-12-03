@@ -15,7 +15,18 @@
 .main-area{
   display:flex;
   flex-direction:column;
+  min-width: 25vw;
+  min-height: 25vh;
+  justify-content: center;
+  margin-left: 5vw;
+  justify-items: center;
 
+}
+.container-div{
+display: flex;
+flex-direction: row;
+min-height: 100vh;
+min-width: 100vw;
 }
 .App-header {
   background-color: #282c34;

@@ -48,18 +48,19 @@ function App() {
   return (
     <div>
       {!isLoggedIn && (
-        <>
+        <div className='main-area'>
           <h1>Please login</h1>
           <LoginForm onLogin={handleLogin} />
-        </>
+        </div>
       )}
       {isLoggedIn && (
-        <div className='main-area'>
+        <div className='container-div'>
           <MenuBar />
+          <div className='main-area'>
 
-          <h1>Welcome, {userData.username}</h1>
-          <button onClick={handleLogout}>Log Out</button>
-        </div>
+            <h1>Welcome, {userData.username}</h1>
+            <button onClick={handleLogout}>Log Out</button>
+          </div></div>
       )}
     </div>
   );

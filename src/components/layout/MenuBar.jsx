@@ -1,30 +1,23 @@
 import './MenuBar.css';
-// import SearchTitle from '../SearchTitle/SearchTitle.js';
-// import FilterByRating from '../FilterByRating/FilterByRating.js';
-// import {ReactComponent as Logo} from '../../assets/orange-carrot-2.svg'
-
+import home from '../../components/icons/home_738822.png'
+import turing from '../../components/icons/turing-logo-gray.png'
+import person from '../../components/icons/person-icon.png'
+import building from '../../components/icons/building-1062.png'
+import plus from '../../components/icons/plus-small_4338829.png'
+import papers from '../../components/icons/documents-symbol_35920.png'
 function MenuBar() {
   return (
     <header>
       <div className='logo-container'>
-        {/* <Logo className='carrot-logo' /> */}
-        {/* <img className='carrot-logo' src='/orange-carrot-2.svg' alt="crusty carrots logo" /> */}
-        <h1 className="full-site-title">
-          <div className="site-title">Crusty</div>
-          <div className="site-title">Carrots</div>
-        </h1>
-      </div>
-      <div className="search-all">
-        {/* <FilterByRating
-          setFilteredMovies={setFilteredMovies}
-          moviesList={moviesList}
-          filteredMovies={filteredMovies}
-        />
-        <SearchTitle
-          setFilteredMovies={setFilteredMovies}
-          moviesList={moviesList}
-          filteredMovies={filteredMovies}
-        /> */}
+        <img className="icon" src={turing} />
+        <img className="small-icon" src={home} />
+        <img className="small-icon" src={person} />
+        <img className="small-icon" src={building} />
+        <img className="small-icon" src={papers} />
+        <img className="small-icon" src={plus} />
+        <div className='account-icon-container'>
+          <img className="account-icon" src={person} />
+        </div>
       </div>
     </header >
   );
