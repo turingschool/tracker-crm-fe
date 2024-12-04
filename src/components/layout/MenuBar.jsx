@@ -9,12 +9,24 @@ function MenuBar() {
   return (
     <header>
       <div className='logo-container'>
-        <img className="icon" src={turing} />
-        <img className="small-icon" src={home} />
-        <img className="small-icon" src={person} />
-        <img className="small-icon" src={building} />
-        <img className="small-icon" src={papers} />
-        <img className="small-icon" src={plus} />
+        <img className="icon"
+          // onClick={() => Navigate()} 
+          src={turing} />
+        <img className="small-icon"
+          // onClick={() => Navigate()} 
+          src={home} />
+        <img className="small-icon"
+          // onClick={() => Navigate()} 
+          src={person} />
+        <img className="small-icon"
+          // onClick={() => Navigate()} 
+          src={building} />
+        <img className="small-icon"
+          // onClick={() => Navigate()} 
+          src={papers} />
+        <img className="small-icon"
+          // onClick={() => Navigate()} 
+          src={plus} />
         <div className='account-icon-container'>
           <img className="account-icon" src={person} />
         </div>

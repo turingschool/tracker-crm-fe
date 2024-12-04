@@ -24,6 +24,7 @@ header {
 .icon {
   max-width: 15vw;
   max-height: fit-content;
+  cursor:pointer;
   margin-bottom: 10vh;
   justify-self: center;
 
@@ -31,19 +32,25 @@ header {
 
 
 .account-icon-container {
-  background: radial-gradient(ellipse at center, #a1d3ff  40%,#ffffff00 30%);
+  background: radial-gradient(ellipse at center, #a1d3ff  45px,#ffffff00 45px);
+  min-width: 60px;
+
 }
 .small-icon {
   max-width: 5vw;
   justify-self: center;
   max-height: fit-content;
   margin-bottom: 8vh;
+  cursor:pointer;
+
 
 }
 .account-icon {
   max-width: 5vw;
   margin:5vh;
   justify-self: center;
+  min-width:60px;
+  cursor:pointer;
   max-height: fit-content;
 
 }
