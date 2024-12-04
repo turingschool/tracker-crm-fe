@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+ import { useState } from 'react';
 import './Login.css';
 
-const LoginForm = ({ onLogin }) => {
+const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setErrorMessage('');
     setSuccessMessage('');
@@ -36,7 +36,11 @@ const LoginForm = ({ onLogin }) => {
       setSuccessMessage('Login successful!');
       console.log('Response data:', responseData);
     } catch (error) {
-      setErrorMessage('Error logging in: ', error.message);
+      if (error instanceof Error) {
+        setErrorMessage(`Error logging in: ${error.message}`);
+      } else {
+        setErrorMessage('An unexpected error occurred');
+      }
     }
   };
 
