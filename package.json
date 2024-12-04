@@ -38,6 +38,9 @@
     ]
   },
   "devDependencies": {
-    "tailwindcss": "^3.4.16"
+    "@types/node": "^22.10.1",
+    "@types/react": "^18.3.13",
+    "tailwindcss": "^3.4.16",
+    "typescript": "^5.7.2"
   }
 }
