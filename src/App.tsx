@@ -1,14 +1,13 @@
 import './App.css';
 import { useState } from 'react';
-import LoginForm from './Login';
-import { getUser } from './apiCalls';
+import LoginForm from './Login.tsx';
+import { getUser } from './apiCalls.tsx';
 
 function App() {
 
   const [userId, setUserId] = useState(null);
   const [userData, setUserData] = useState({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
 
   const handleLogin = async (id) => {
     try {
@@ -42,6 +41,8 @@ function App() {
     setIsLoggedIn(false);
     setUserData({});
   };
+
+  let testVar  ;
 
 
   return (
