@@ -1,4 +1,4 @@
-html {
+/* html {
   color: black;
 }
 
@@ -13,7 +13,7 @@ header {
 }
 
 /*--------------------------// Logo //----------------------*/
-.logo-container {
+/* .logo-container {
   display: flex;
   flex-direction: column;
   margin-left: 20px;
@@ -53,5 +53,5 @@ header {
   cursor:pointer;
   max-height: fit-content;
 
-}
+} */
 

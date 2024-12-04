@@ -2,6 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import LoginForm from './Login.tsx';
 import { getUser } from './apiCalls.tsx';
+import MenuBar from './components/layout/MenuBar.jsx';
 
 interface UserInfo {
   id: number,
@@ -32,7 +33,7 @@ function App() {
       console.error('Error fetching logged in user:', err);
       setIsLoggedIn(false);
     }
-  };  
+  };
 
   const handleLogout = () => {
     setUserId(null);
@@ -54,16 +55,19 @@ function App() {
   return (
     <div>
       {!isLoggedIn && (
-        <>
+        <div className='main-area'>
           <h1>Please login</h1>
           <LoginForm onLogin={handleLogin} />
-        </>
+        </div>
       )}
       {isLoggedIn && (
-        <>
-          <h1>Welcome, {userData.username}</h1>
-          <button onClick={handleLogout}>Log Out</button>
-        </>
+        <div className='container-div'>
+          <MenuBar />
+          <div className='main-area'>
+
+            <h1>Welcome, {userData.username}</h1>
+            <button onClick={handleLogout}>Log Out</button>
+          </div></div>
       )}
     </div>
   );

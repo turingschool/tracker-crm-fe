@@ -8,7 +8,7 @@ import papers from '../../components/icons/documents-symbol_35920.png'
 function MenuBar() {
   return (
     <header>
-      <div className='logo-container'>
+      <div className='flex'>
         <img className="icon"
           // onClick={() => Navigate()} 
           src={turing} />
