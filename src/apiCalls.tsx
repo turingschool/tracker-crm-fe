@@ -1,6 +1,6 @@
 /*-----------------------------------// GET //--------------------------------------*/
 
-export const getUser = async (userId) => {
+export const getUser = async (userId: number) => {
   try {
     const response = await fetch(`http://localhost:3001/api/v1/users/${userId}`, {
       method: 'GET',
