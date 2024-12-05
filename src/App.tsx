@@ -2,6 +2,7 @@ import './App.css';
 import { useState } from 'react';
 import LoginForm from './Login.tsx';
 import { getUser } from './apiCalls.tsx';
+import MenuBar from './components/layout/MenuBar.tsx'
 
 interface UserInfo {
   id: number,
@@ -61,6 +62,7 @@ function App() {
       )}
       {isLoggedIn && (
         <>
+        <MenuBar />
           <h1>Welcome, {userData.username}</h1>
           <button onClick={handleLogout}>Log Out</button>
         </>

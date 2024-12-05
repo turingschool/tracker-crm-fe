@@ -1,10 +1,10 @@
 import './MenuBar.css';
-import home from '../../components/icons/home_738822.png'
-import turing from '../../components/icons/turing-logo-gray.png'
-import person from '../../components/icons/person-icon.png'
-import building from '../../components/icons/building-1062.png'
-import plus from '../../components/icons/plus-small_4338829.png'
-import papers from '../../components/icons/documents-symbol_35920.png'
+import * as home from '../../components/icons/home_738822.png'
+import * as turing from '../../components/icons/turing-logo-gray.png'
+import * as person from '../../components/icons/person-icon.png'
+import * as building from '../../components/icons/building-1062.png'
+import * as plus from '../../components/icons/plus-small_4338829.png'
+import * as papers from '../../components/icons/documents-symbol_35920.png'
 function MenuBar() {
   return (
     <header>
@@ -16,6 +16,7 @@ function MenuBar() {
         <img className="small-icon" src={papers} />
         <img className="small-icon" src={plus} />
         <div className='account-icon-container'>
+          <p>test</p>
           <img className="account-icon" src={person} />
         </div>
       </div>
