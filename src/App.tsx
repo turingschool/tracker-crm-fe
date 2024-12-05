@@ -61,11 +61,11 @@ function App() {
         </>
       )}
       {isLoggedIn && (
-        <>
+        <div className='flex flex-row'>
         <MenuBar />
           <h1>Welcome, {userData.username}</h1>
           <button onClick={handleLogout}>Log Out</button>
-        </>
+        </div>
       )}
     </div>
   );
