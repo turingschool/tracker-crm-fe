@@ -1,16 +1,17 @@
 import './App.css';
 import { useState } from 'react';
-import LoginForm from './Login';
-import { getUser } from './apiCalls';
+import LoginForm from './Login.tsx';
+import { getUser } from './apiCalls.tsx';
+import { UserInfo } from './Interfaces'
+
 
 function App() {
 
   const [userId, setUserId] = useState(null);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState< Partial < UserInfo >> ({});
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
-  const handleLogin = async (id) => {
+  const handleLogin = async (id: number) => {
     try {
       const loginResponse = await getUser(id);
       if (loginResponse) {
@@ -34,16 +35,17 @@ function App() {
     setIsLoggedIn(false);
   };
 
-  const userIsLoggedIn = () => {
-    setIsLoggedIn(true);
-  };
+  // const userIsLoggedIn = () => {
+  //   setIsLoggedIn(true);
+  // };
 
-  const userLogOut = () => {
-    setIsLoggedIn(false);
-    setUserData({});
-  };
+  // const userLogOut = () => {
+  //   setIsLoggedIn(false);
+  //   setUserData({});
+  // };
 
 
+  console.log(`we need to have ${userId}... NOT`)
   return (
     <div>
       {!isLoggedIn && (
