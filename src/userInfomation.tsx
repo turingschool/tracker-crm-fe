@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { UserInfo } from './Interfaces'
+import { updateUser } from './apiCalls'
 
 function UserInformation(userInfo:UserInfo) {
   interface DataCompile {
@@ -24,7 +25,13 @@ function UserInformation(userInfo:UserInfo) {
       compileData["password"] = password;
       compileData["password_confirmation"] = password2
     }
-    
+    updateUser(userInfo.id, compileData)
+      .then((updatedUser) => {
+        console.log("User updated successfully:", updatedUser);
+      })
+      .catch((error) => {
+        console.error("Error updating user:", error);
+      });
   }
 
   return (
