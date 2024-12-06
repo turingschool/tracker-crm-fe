@@ -1,8 +1,8 @@
 import './App.css';
 import { useState } from 'react';
-import LoginForm from './Login.tsx';
-import { getUser } from './apiCalls.tsx';
-import MenuBar from './components/layout/MenuBar.tsx'
+import LoginForm from './Login';
+import { getUser } from './apiCalls';
+import MenuBar from './components/layout/MenuBar'
 
 interface UserInfo {
   id: number,
@@ -28,10 +28,16 @@ function App() {
         });
         setUserId(loginResponse.data.id);
         setIsLoggedIn(true);
+        console.log(loginResponse);
+
       }
     } catch (err) {
+      console.log(err);
+
       console.error('Error fetching logged in user:', err);
       setIsLoggedIn(false);
+      console.log(err);
+
     }
   };  
 
@@ -51,7 +57,7 @@ function App() {
   // };
 
 
-  console.log(`we need to have ${userId}... NOT`)
+  // console.log(`we need to have ${userId}... NOT`)
   return (
     <div>
       {!isLoggedIn && (
