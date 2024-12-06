@@ -3,7 +3,7 @@ import { useState } from 'react';
 import LoginForm from './Login.tsx';
 import { getUser } from './apiCalls.tsx';
 import MenuBar from './components/layout/MenuBar.tsx'
-
+import { BrowserRouter } from 'react-router-dom';
 interface UserInfo {
   id: number,
   username: string,
@@ -52,8 +52,9 @@ function App() {
   // };
 
 
-  // console.log(`we need to have ${userId}... NOT`)
+  console.log(`we need to have ${userId}... NOT`)
   return (
+    <BrowserRouter>
     <div>
       {!isLoggedIn && (
         <>
@@ -70,6 +71,7 @@ function App() {
         </div>
       )}
     </div>
+    </BrowserRouter>
   );
 }
 

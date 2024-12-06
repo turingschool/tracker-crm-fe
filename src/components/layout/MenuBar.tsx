@@ -5,41 +5,43 @@ import building from '../../components/icons/building-1062.png';
 import plus from '../../components/icons/plus-small_4338829.png';
 import papers from '../../components/icons/documents-symbol_35920.png';
 
+
 function MenuBar() {
+
   return (
+
     <div className='flex flex-col justify-items-center  bg-gray-500  justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
+      <a href="https://www.google.com/search?q=Turing.edu">
+        <img className="m-auto w-1/2 cursor-pointer" src={logo}>
+        </img>
+      </a>
+      <a href="https://www.google.com/search?q=home">
+        <img className="m-auto w-1/4 cursor-pointer" src={home}>
+        </img>
+      </a>
 
-      <img className="m-auto w-1/2 cursor-pointer" src={logo}
-      // onClick={}
-      >
-      </img>
+      <a href="https://www.google.com/search?q=person">
+        <img className="m-auto w-1/4 cursor-pointer" src={person}>
+        </img>
+      </a>
 
-      <img className="m-auto w-1/4 cursor-pointer" src={home}
-      // onClick={}
-      >
+      <a href="https://www.google.com/search?q=building">
 
+        <img className="m-auto w-1/4 cursor-pointer" src={building}>
+        </img>
+      </a>
+      <img className="m-auto w-1/4 cursor-pointer" src={papers}>
       </img>
-      <img className="m-auto w-1/4 cursor-pointer" src={person}
-      // onClick={}
-      >
-      </img>
-      <img className="m-auto w-1/4 cursor-pointer" src={building}
-      // onClick={}
-      >
-      </img>
-      <img className="m-auto w-1/4 cursor-pointer" src={papers}
-      // onClick={}
-      >
-      </img>
-      <img className="m-auto w-1/4 cursor-pointer" src={plus}
-      // onClick={}
-      >
-      </img>
+      <a href="https://www.google.com/search?q=plus">
 
-      <img className="m-auto w-1/5  rounded-full bg-blue-200 cursor-pointer" src={person}
-      // onClick={}
-      >
-      </img>
+        <img className="m-auto w-1/4 cursor-pointer" src={plus}>
+        </img>
+      </a>
+      <a href="https://www.google.com/search?q=account">
+
+        <img className="m-auto w-1/5  rounded-full bg-blue-200 cursor-pointer" src={person}>
+        </img>
+      </a>
       <div className='m-auto h-auto '>
       </div>
 

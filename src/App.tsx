@@ -3,7 +3,7 @@ import { useState } from 'react';
 import LoginForm from './Login';
 import { getUser } from './apiCalls';
 import MenuBar from './components/layout/MenuBar'
-
+import { BrowserRouter } from 'react-router-dom';
 interface UserInfo {
   id: number,
   username: string,
@@ -14,7 +14,7 @@ interface UserInfo {
 function App() {
 
   const [userId, setUserId] = useState(null);
-  const [userData, setUserData] = useState< Partial < UserInfo >> ({});
+  const [userData, setUserData] = useState<Partial<UserInfo>>({});
   const [isLoggedIn, setIsLoggedIn] = useState(true);   // temporary until the login is fixed
 
   const handleLogin = async (id: number) => {
@@ -39,7 +39,7 @@ function App() {
       console.log(err);
 
     }
-  };  
+  };
 
   const handleLogout = () => {
     setUserId(null);
@@ -59,21 +59,23 @@ function App() {
 
   console.log(`we need to have ${userId}... NOT`)
   return (
-    <div>
-      {!isLoggedIn && (
-        <>
-          <h1>Please login</h1>
-          <LoginForm onLogin={handleLogin} />
-        </>
-      )}
-      {isLoggedIn && (
-        <div className='flex flex-row'>
-        <MenuBar />
-          <h1>Welcome, {userData.username}</h1>
-          <button onClick={handleLogout}>Log Out</button>
-        </div>
-      )}
-    </div>
+    <BrowserRouter>
+      <div>
+        {!isLoggedIn && (
+          <>
+            <h1>Please login</h1>
+            <LoginForm onLogin={handleLogin} />
+          </>
+        )}
+        {isLoggedIn && (
+          <div className='flex flex-row'>
+            <MenuBar />
+            <h1>Welcome, {userData.username}</h1>
+            <button onClick={handleLogout}>Log Out</button>
+          </div>
+        )}
+      </div>
+    </BrowserRouter>
   );
 }
 
