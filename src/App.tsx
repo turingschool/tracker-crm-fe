@@ -1,8 +1,8 @@
 import './App.css';
 import { useState } from 'react';
-import LoginForm from './Login.tsx';
-import { getUser } from './apiCalls.tsx';
-import MenuBar from './components/layout/MenuBar.tsx'
+import LoginForm from './Login';
+import { getUser } from './apiCalls';
+import MenuBar from './components/layout/MenuBar'
 
 interface UserInfo {
   id: number,

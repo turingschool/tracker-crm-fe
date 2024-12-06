@@ -17,7 +17,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strictFunctionTypes": true,
-    "allowImportingTsExtensions": true
+    "allowSyntheticDefaultImports": true, 
   },
   "include": ["src"]
 }
