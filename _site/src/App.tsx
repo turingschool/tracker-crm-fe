@@ -28,6 +28,7 @@ function App() {
         });
         setUserId(loginResponse.data.id);
         setIsLoggedIn(true);
+        console.log(loginResponse);
       }
     } catch (err) {
       console.error('Error fetching logged in user:', err);
@@ -51,12 +52,13 @@ function App() {
   // };
 
 
-  console.log(`we need to have ${userId}... NOT`)
+  // console.log(`we need to have ${userId}... NOT`)
   return (
     <div>
       {!isLoggedIn && (
         <>
           <h1>Please login</h1>
+        
           <LoginForm onLogin={handleLogin} />
         </>
       )}
