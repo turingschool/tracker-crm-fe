@@ -27,24 +27,18 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
       });
 
       if (!response.ok) {
-        console.log(response);
         const errorData = await response.json();
         throw new Error(errorData.message || 'Login failed');
       }
 
       const responseData = await response.json();
-      console.log(responseData)
       onLogin(responseData.data.id);
       setSuccessMessage('Login successful!');
       console.log('Response data:', responseData);
     } catch (error) {
       if (error instanceof Error) {
-        console.log(error);
-
         setErrorMessage(`Error logging in: ${error.message}`);
       } else {
-        console.log(error);
-
         setErrorMessage('An unexpected error occurred');
       }
     }
