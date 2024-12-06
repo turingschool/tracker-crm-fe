@@ -57,7 +57,7 @@ function App() {
   // };
 
 
-  // console.log(`we need to have ${userId}... NOT`)
+  console.log(`we need to have ${userId}... NOT`)
   return (
     <div>
       {!isLoggedIn && (
