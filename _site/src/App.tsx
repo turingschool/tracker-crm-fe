@@ -1,8 +1,8 @@
 import './App.css';
 import { useState } from 'react';
-import LoginForm from './Login';
-import { getUser } from './apiCalls';
-import MenuBar from './components/layout/MenuBar'
+import LoginForm from './Login.tsx';
+import { getUser } from './apiCalls.tsx';
+import MenuBar from './components/layout/MenuBar.tsx'
 import { BrowserRouter } from 'react-router-dom';
 interface UserInfo {
   id: number,
@@ -14,8 +14,8 @@ interface UserInfo {
 function App() {
 
   const [userId, setUserId] = useState(null);
-  const [userData, setUserData] = useState<Partial<UserInfo>>({});
-  const [isLoggedIn, setIsLoggedIn] = useState(true);   // temporary until the login is fixed
+  const [userData, setUserData] = useState< Partial < UserInfo >> ({});
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogin = async (id: number) => {
     try {
@@ -29,17 +29,12 @@ function App() {
         setUserId(loginResponse.data.id);
         setIsLoggedIn(true);
         console.log(loginResponse);
-
       }
     } catch (err) {
-      console.log(err);
-
       console.error('Error fetching logged in user:', err);
       setIsLoggedIn(false);
-      console.log(err);
-
     }
-  };
+  };  
 
   const handleLogout = () => {
     setUserId(null);
@@ -60,21 +55,22 @@ function App() {
   console.log(`we need to have ${userId}... NOT`)
   return (
     <BrowserRouter>
-      <div>
-        {!isLoggedIn && (
-          <>
-            <h1>Please login</h1>
-            <LoginForm onLogin={handleLogin} />
-          </>
-        )}
-        {isLoggedIn && (
-          <div className='flex flex-row'>
-            <MenuBar />
-            <h1>Welcome, {userData.username}</h1>
-            <button onClick={handleLogout}>Log Out</button>
-          </div>
-        )}
-      </div>
+    <div>
+      {!isLoggedIn && (
+        <>
+          <h1>Please login</h1>
+        
+          <LoginForm onLogin={handleLogin} />
+        </>
+      )}
+      {isLoggedIn && (
+        <div className='flex flex-row'>
+        <MenuBar />
+          <h1>Welcome, {userData.username}</h1>
+          <button onClick={handleLogout}>Log Out</button>
+        </div>
+      )}
+    </div>
     </BrowserRouter>
   );
 }

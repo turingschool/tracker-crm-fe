@@ -17,8 +17,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strictFunctionTypes": true,
-    "esModuleInterop":true,
-    "allowSyntheticDefaultImports": true, 
+    "allowImportingTsExtensions": true
   },
   "include": ["src"]
 }
