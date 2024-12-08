@@ -47,11 +47,11 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
 
   return (
     <div className='login-form-wrap flex w-screen h-screen justify-center'>
-      <div className='w-6/12 flex'>
+      <div className='form-inputs w-6/12 flex'>
         <img className='turing-logo size-20' src={turingLogo} />
-        <form onSubmit={handleSubmit} className='flex flex-col justify-evenly items-center w-4/5 px-11 py-72'>
-          <h2 className='font-[Helvetica Neue] font-sans  text-xl'>Login</h2>
-          <div className='flex flex-col justify-center w-[100%] mb-[10px]'>
+        <form onSubmit={handleSubmit} className='flex flex-col justify-evenly items-center w-[83%] px-11 py-72'>
+          <h1 className='font-[Helvetica Neue] font-sans  text-xl'>Please login</h1>
+          <div className='email-input flex flex-col justify-center w-[100%] mb-[10px]'>
             <label htmlFor="email" className='font-[Helvetica Neue] font-sans text-xl'>Email:</label>
             <input
               type="email"
@@ -62,7 +62,7 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
               className='w-[100%] p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200'
             />
           </div>
-          <div className='flex flex-col justify-center w-[100%] mb-[10px]'>
+          <div className='password-input flex flex-col justify-center w-[100%] mb-[10px]'>
             <label htmlFor="password" className='font-[Helvetica Neue] font-sans text-xl'>Password:</label>
             <input
               type="password"
@@ -73,26 +73,26 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
               className='w-[100%] p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200'
             />
           </div>
-          <button type="submit" className='w-[35%] h-[10%] rounded-sm bg-[#3cb6cc] font-[Helvetica Neue] font-sans'>
+          <button type="submit" className='login-btn w-[35%] h-[10%] rounded-sm bg-[#3cb6cc] font-[Helvetica Neue] font-sans text-base'>
             Login
           </button>
-          <p className='font-[Helvetica Neue] font-sans'>No Account? Click <button className='font-[Helvetica Neue] font-sans text-cyan-700'>Here</button> To Register.</p>
+          <p className='no-account-message font-[Helvetica Neue] font-sans'>No Account? Click <button className='font-[Helvetica Neue] font-sans text-cyan-700'>Here</button> To Register.</p>
         </form>
-        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-        {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+        {errorMessage && <p className='failed-login flex justify-center items-center rounded-md border-red-600 border-2 bg-slate-700 w-[50%] h-[5%] absolute top-[25%] left-[25%] font-[Helvetica Neue] font-sans font-semibold text-lg text-red-600'>{errorMessage}</p>}
+        {successMessage && <p className='success-login flex justify-center items-center rounded-md border-green-600 border-2 bg-slate-700 w-[50%] h-[5%] absolute top-[25%] left-[25%] font-[Helvetica Neue] font-sans font-semibold text-lg text-green-600'>{successMessage}</p>}
       </div>
-      <div className='flex flex-col w-[1%] h-[100%]'>
-        <div className='bg-cyan-500 w-[100%] h-[25%]'/>
-        <div className='bg-yellow-500 w-[100%] h-[25%]'/>
-        <div className='bg-red-500 w-[100%] h-[25%]'/>
-        <div className='bg-green-500 w-[100%] h-[25%]'/>
+      <div className='quad-color-bar flex flex-col w-[1%] h-[100%]'>
+        <div className='cyan-bar bg-cyan-500 w-[100%] h-[25%]'/>
+        <div className='yellow-bar bg-yellow-500 w-[100%] h-[25%]'/>
+        <div className='red-bar bg-red-500 w-[100%] h-[25%]'/>
+        <div className='green-bar bg-green-500 w-[100%] h-[25%]'/>
       </div>
       <div className='title-wrap w-6/12 flex flex-col justify-center items-center bg-[#046576]'>
-        <div className='flex justify-center'>
-          <h1 className='font-sans font-[Helvetica Neue] text-7xl font-semibold tracking-wide text-slate-100'>Tracker</h1>
-          <h2 className='font-sans font-[Helvetica Neue] text-2xl font-bold leading-9 tracking-wide text-[#34a6bb]'><br />&nbsp; by Turing</h2>
+        <div className='app-name-and-author flex justify-center'>
+          <h1 className='app-name font-sans font-[Helvetica Neue] text-7xl font-semibold tracking-wide text-slate-100'>Tracker</h1>
+          <h2 className='app-author font-sans font-[Helvetica Neue] text-2xl font-bold leading-9 tracking-wide text-[#34a6bb]'><br />&nbsp; by Turing</h2>
         </div>
-        <h3 className='flex justify-center font-sans font-[Helvetica Neue] text-3xl font-extralight tracking-widest ml-5 text-slate-100'>Job hunting made easier.</h3>
+        <h3 className='app-tagline flex justify-center font-sans font-[Helvetica Neue] text-3xl font-extralight tracking-widest ml-5 text-slate-100'>Job hunting made easier.</h3>
       </div>
     </div>
   );

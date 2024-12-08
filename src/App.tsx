@@ -64,7 +64,7 @@ function App() {
       <div>
         {!isLoggedIn && (
           <>
-            <h1>Please login</h1>
+            {/* <h1>Please login</h1> */}
             <LoginForm onLogin={handleLogin} />
           </>
         )}
