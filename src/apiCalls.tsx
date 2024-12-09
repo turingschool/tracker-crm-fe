@@ -24,9 +24,9 @@ export const getUser = async (userId: number) => {
 };
 
 /*-----------------------------------// UPDATE //--------------------------------------*/
-export const updateUser = async (userId: number, userParams: Record<string, any> ) => {
+export const updateUser = async (userParams: Record<string, any> ) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/v1/users/${userId}`, {
+    const response = await fetch(`http://localhost:3001/api/v1/users/${userParams['id']}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

@@ -41,7 +41,7 @@ function MenuBar() {
         <img className="m-auto w-1/4 cursor-pointer" src={plus}>
         </img>
       </a>
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=account">
+      <a className="m-auto  cursor-pointer" href="../../userInformation">
 
         <img className="m-auto w-1/5  rounded-full bg-blue-200 cursor-pointer" src={person}>
         </img>

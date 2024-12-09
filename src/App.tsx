@@ -1,23 +1,16 @@
 import './App.css';
 import { useState } from 'react';
-import LoginForm from './Login.tsx';
-import { getUser } from './apiCalls.tsx';
-import { UserInfo } from './Interfaces'
+import { UserData } from './Interfaces'
 import LoginForm from './Login';
 import { getUser } from './apiCalls';
 import MenuBar from './components/layout/MenuBar'
-import { BrowserRouter } from 'react-router-dom';
-interface UserInfo {
-  id: number,
-  username: string,
-  email: string
-}
-
+import UserInformation from './userInformation';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
 
   const [userId, setUserId] = useState(null);
-  const [userData, setUserData] = useState<Partial<UserInfo>>({});
+  const [userData, setUserData] = useState<Partial<UserData>>({});
   const [isLoggedIn, setIsLoggedIn] = useState(true);   // temporary until the login is fixed
 
   const handleLogin = async (id: number) => {
@@ -63,21 +56,35 @@ function App() {
   console.log(`we need to have ${userId}... NOT`)
   return (
     <BrowserRouter>
-      <div>
-        {!isLoggedIn && (
-          <>
-            <h1>Please login</h1>
-            <LoginForm onLogin={handleLogin} />
-          </>
-        )}
-        {isLoggedIn && (
-          <div className='flex flex-row'>
-            <MenuBar />
-            <h1>Welcome, {userData.username}</h1>
-            <button onClick={handleLogout}>Log Out</button>
+      <Routes>
+        <Route path="/" element={
+          <div>
+            {!isLoggedIn && (
+              <>
+                <h1>Please login</h1>
+                <LoginForm onLogin={handleLogin} />
+              </>
+            )}
+            {isLoggedIn && (
+              <div className='flex flex-row'>
+                <MenuBar />
+                <h1>Welcome, {userData.username}</h1>
+                <button onClick={handleLogout}>Log Out</button>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        } />
+        <Route path="/user/:id/userInformation" element={
+          <>
+            {isLoggedIn && (
+              <>
+                <MenuBar />
+                <UserInformation bob={userData} />
+              </>
+            )}
+          </>
+        } />
+      </Routes>
     </BrowserRouter>
   );
 }
