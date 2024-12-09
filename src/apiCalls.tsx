@@ -10,11 +10,14 @@ export const getUser = async (userId: number) => {
     });
 
     if (!response.ok) {
+      console.log(response);
+
       throw new Error(`Failed to fetch user data: ${response.status}`);
     }
 
     return await response.json();
   } catch (err) {
+    
     console.error('Error in getUser:', err);
     throw err;
   }
