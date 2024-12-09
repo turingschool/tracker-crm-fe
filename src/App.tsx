@@ -10,7 +10,11 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 function App() {
 
   const [userId, setUserId] = useState(null);
-  const [userData, setUserData] = useState<Partial<UserData>>({});
+  const [userData, setUserData] = useState<UserData>({
+    id: 0, 
+    username: '', 
+    email: '', 
+  });
   const [isLoggedIn, setIsLoggedIn] = useState(true);   // temporary until the login is fixed
 
   const handleLogin = async (id: number) => {
@@ -39,7 +43,11 @@ function App() {
 
   const handleLogout = () => {
     setUserId(null);
-    setUserData({});
+    setUserData({
+      id: 0,
+      username: '', 
+      email: '', 
+    });
     setIsLoggedIn(false);
   };
 
@@ -79,7 +87,7 @@ function App() {
             {isLoggedIn && (
               <>
                 <MenuBar />
-                <UserInformation bob={userData} />
+                <UserInformation userData={userData} />
               </>
             )}
           </>

@@ -2,15 +2,19 @@ import { useState } from 'react';
 import { UserData } from './Interfaces'
 import { updateUser } from './apiCalls'
 
-function UserInformation(bob: UserData) {
+interface UserInformationProps {
+  userData: UserData;
+}
+
+function UserInformation({userData}: UserInformationProps) {
   interface DataCompile {
     id?: number;
     name?: string;
     email?: string;
     [key: string]: any;  
   }
-  const [name, setName] = useState(bob.username);
-  const [email, setEmail] = useState(bob.email);
+  const [name, setName] = useState(userData.username);
+  const [email, setEmail] = useState(userData.email);
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -18,7 +22,7 @@ function UserInformation(bob: UserData) {
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const compileData: DataCompile = {
-      id: bob.id,
+      id: userData.id,
       name: name,
       email: email,
     }
