@@ -4,7 +4,8 @@ import LoginForm from './Login';
 import { getUser } from './apiCalls';
 import MenuBar from './components/layout/MenuBar';
 import { Route, Routes, Navigate } from "react-router-dom";
-import Companies  from './components/companies/Companies'
+import Companies  from './components/companies/Companies';
+import NewCompany from './components/companies/NewCompany';
 
 interface UserInfo {
   id: number,
@@ -84,10 +85,8 @@ function App() {
             )
           }
         /> 
-        <Route 
-          path="/companies"
-          element={<Companies/>}
-        />
+        <Route path="/companies" element={<Companies/>} />
+        <Route path="/companies/new" element={<NewCompany />} />
       </Routes>
     </div>
   );
