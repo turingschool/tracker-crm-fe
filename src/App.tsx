@@ -2,8 +2,10 @@ import './App.css';
 import { useState } from 'react';
 import LoginForm from './Login';
 import { getUser } from './apiCalls';
-import MenuBar from './components/layout/MenuBar'
-import { BrowserRouter } from 'react-router-dom';
+import MenuBar from './components/layout/MenuBar';
+import { Route, Routes, Navigate } from "react-router-dom";
+import Companies  from './components/companies/Companies'
+
 interface UserInfo {
   id: number,
   username: string,
@@ -12,7 +14,6 @@ interface UserInfo {
 
 
 function App() {
-
   const [userId, setUserId] = useState(null);
   const [userData, setUserData] = useState<Partial<UserInfo>>({});
   const [isLoggedIn, setIsLoggedIn] = useState(true);   // temporary until the login is fixed
@@ -59,23 +60,36 @@ function App() {
 
   console.log(`we need to have ${userId}... NOT`)
   return (
-    <BrowserRouter>
-      <div>
-        {!isLoggedIn && (
-          <>
-            <h1>Please login</h1>
-            <LoginForm onLogin={handleLogin} />
-          </>
-        )}
-        {isLoggedIn && (
-          <div className='flex flex-row'>
-            <MenuBar />
-            <h1>Welcome, {userData.username}</h1>
-            <button onClick={handleLogout}>Log Out</button>
-          </div>
-        )}
-      </div>
-    </BrowserRouter>
+    <div>
+      <Routes>
+        <Route 
+          path="/"
+          element={
+            isLoggedIn ? (<Navigate to="/home" replace /> ):( <LoginForm onLogin={handleLogin} /> )
+          }
+        />
+        <Route 
+          path="/home"
+          element={
+            isLoggedIn ? (
+              <div className='flex flex-row'>
+                <MenuBar />
+                <div>
+                  <h1>Welcome, {userData.username}</h1>
+                  <button onClick={handleLogout}>Log Out</button>
+                </div>
+              </div>
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        /> 
+        <Route 
+          path="/companies"
+          element={<Companies/>}
+        />
+      </Routes>
+    </div>
   );
 }
 

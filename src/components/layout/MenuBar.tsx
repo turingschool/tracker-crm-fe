@@ -1,54 +1,54 @@
 import home from '../../components/icons/home_738822.png';
 import logo from '../../turing-logo-gray.png';
 import person from '../../components/icons/person-icon.png';
-import building from '../../components/icons/building-1062.png';
+import companies from '../../components/icons/building-1062.png';
 import plus from '../../components/icons/plus-small_4338829.png';
 import papers from '../../components/icons/documents-symbol_35920.png';
+import { useParams, Link } from 'react-router-dom';
 
 
 function MenuBar() {
+  const { userID } = useParams()
+  console.log(userID)
 
   return (
-
     <div className='flex flex-col justify-items-center  bg-gray-500  justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=Turing.edu">
-        <img className="m-auto w-1/2 cursor-pointer" src={logo}>
-        </img>
-      </a>
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=home">
-        <img className="m-auto w-1/4 cursor-pointer" src={home}>
-        </img>
-      </a>
+      {/* Logo */}
+      <Link className="m-auto cursor-pointer" to="/">
+        <img className="m-auto w-1/2 cursor-pointer" src={logo} alt="Logo" />
+      </Link>
 
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=person">
-        <img className="m-auto w-1/4 cursor-pointer" src={person}>
-        </img>
-      </a>
+      {/* Home */}
+      <Link className="m-auto cursor-pointer" to="/home">
+        <img className="m-auto w-1/4 cursor-pointer" src={home} alt="Home" />
+      </Link>
 
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=building">
+      {/* Profile */}
+      <Link className="m-auto cursor-pointer" to="/profile">
+        <img className="m-auto w-1/4 cursor-pointer" src={person} alt="Profile" />
+      </Link>
 
-        <img className="m-auto w-1/4 cursor-pointer" src={building}>
-        </img>
-      </a>
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=papers">
+      {/* Companies */}
+      <Link className="m-auto cursor-pointer" to="/companies">
+        <img className="m-auto w-1/4 cursor-pointer" src={companies} alt="Companies" />
+      </Link>
 
-      <img className="m-auto w-1/4 cursor-pointer" src={papers}>
-      </img>
-      </a>
+      {/* Documents */}
+      <Link className="m-auto cursor-pointer" to="/documents">
+        <img className="m-auto w-1/4 cursor-pointer" src={papers} alt="Documents" />
+      </Link>
 
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=plus">
+      {/* Add New */}
+      <Link className="m-auto cursor-pointer" to="/add-new">
+        <img className="m-auto w-1/4 cursor-pointer" src={plus} alt="Add New" />
+      </Link>
 
-        <img className="m-auto w-1/4 cursor-pointer" src={plus}>
-        </img>
-      </a>
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=account">
+      {/* Account */}
+      <Link className="m-auto cursor-pointer" to="/account">
+        <img className="m-auto w-1/5 rounded-full bg-blue-200 cursor-pointer" src={person} alt="Account" />
+      </Link>
 
-        <img className="m-auto w-1/5  rounded-full bg-blue-200 cursor-pointer" src={person}>
-        </img>
-      </a>
-      <div className='m-auto h-auto '>
-      </div>
-
+      <div className="m-auto h-auto"></div>  
     </div>
   );
 }

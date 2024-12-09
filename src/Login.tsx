@@ -1,6 +1,9 @@
- import { useState } from 'react';
-
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
+  const { userID} = useParams()
+  console.log(userID)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -45,10 +48,10 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: 'auto' }}>
+    <div style={{ maxWidth: "400px", margin: "auto" }}>
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '10px' }}>
+        <div style={{ marginBottom: "10px" }}>
           <label htmlFor="email">Email:</label>
           <input
             type="email"
@@ -56,10 +59,10 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', marginTop: '4px' }}
+            style={{ width: "100%", padding: "8px", marginTop: "4px" }}
           />
         </div>
-        <div style={{ marginBottom: '10px' }}>
+        <div style={{ marginBottom: "10px" }}>
           <label htmlFor="password">Password:</label>
           <input
             type="password"
@@ -67,15 +70,17 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: '100%', padding: '8px', marginTop: '4px' }}
+            style={{ width: "100%", padding: "8px", marginTop: "4px" }}
           />
         </div>
-        <button type="submit" style={{ padding: '10px 20px' }}>
-          Login
-        </button>
+        <Link to="/home">
+          <button type="submit" style={{ padding: "10px 20px" }}>
+            Login
+          </button>
+        </Link>
       </form>
-      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
+      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
     </div>
   );
 };
