@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 function NewCompany() {
   const navigate = useNavigate();
 
-  const [companyName, setCompanyName] = useState<string>('');
+  const [name, setName] = useState<string>('');
   const [website, setWebsite] = useState<string>('');
   const [streetAddress, setStreetAddress] = useState<string>('');
   const [city, setCity] = useState<string>('');
@@ -15,22 +15,25 @@ function NewCompany() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newCompany = {
-      companyName,
+      name,
       website,
-      streetAddress,
+      street_address: streetAddress,
       city,
       state,
-      zipCode,
+      zip_code: zipCode,
       notes
     };
 
     try {
-      const response = await fetch('http://localhost:3001/companies', {
-        method: 'POST',
+      const token =
+        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE3MzM4Nzc3MDl9.-i8rU67sSk-OiJXLLLYfR4hNudf-Za1-s2PyjWTAJpw";
+      const response = await fetch("http://localhost:3001/api/v1/users/3/companies", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(newCompany)
+        body: JSON.stringify(newCompany),
       });
 
       if (!response.ok) {
@@ -50,8 +53,8 @@ function NewCompany() {
           <label className="mb-2 text-gray-700">Company Name:</label>
           <input
             type="text"
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
@@ -59,7 +62,7 @@ function NewCompany() {
         <div className="flex flex-col">
           <label className="mb-2 text-gray-700">Website:</label>
           <input
-            type="url"
+            type="text"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"

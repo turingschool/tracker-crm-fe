@@ -7,72 +7,79 @@ import { useEffect, useState } from "react"
 import MenuBar from "../layout/MenuBar";
 import { Link } from "react-router-dom";
 
-interface Company {
+
+interface CompanyAttributes {
   id: number;
-  company_name: string;
-  application_status: string;
+  name: string;
+  website: string;
+  street_address: string;
+  city: string;
+  state: string;
+  zip_code: string;
   notes: string;
 }
 
+interface Company {
+  id: number;
+  type: string;
+  attributes: CompanyAttributes;
+}
+
 function Companies() {
-  const [companies, setCompanies] = useState<Company[] | null>(null); 
+  const [companies, setCompanies] = useState<Company[] | null>([]); 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
-  
-  const mockCompanies = [
-    { id: 1, company_name: "Company A", application_status: "Pending", notes: "Follow up next week" },
-    { id: 2, company_name: "Company B", application_status: "Interview Scheduled", notes: "Prepare presentation" },
-  ];
+
 
   useEffect(() => {
-    setCompanies(mockCompanies);
-    setFilteredCompanies(mockCompanies);
+    const fetchCompanies = async () => {
+      try {
+        const token =
+          "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE3MzM4Nzc3MDl9.-i8rU67sSk-OiJXLLLYfR4hNudf-Za1-s2PyjWTAJpw";
+        const response = await fetch("http://localhost:3001/api/v1/users/1/companies", {
+          method: "GET",
+          headers: {
+            authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+        });
+        console.log(response)
+        if (!response.ok) {
+          throw new Error(`Failed to fetch companies: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log(data.data);
+        setCompanies(data.data as Company[]);
+        setFilteredCompanies(data.data as Company[]);
+      } catch (error) {
+        console.error("Fetch error", error);
+      }
+    };
+    fetchCompanies();
   }, []);
 
   useEffect(() => {
     if (companies) {
       setFilteredCompanies(
         companies.filter((company) =>
-          company.company_name.toLowerCase().includes(searchTerm.toLowerCase())
+          company.attributes.name.toLowerCase().includes(searchTerm.toLowerCase())
         )
       );
     }
   }, [searchTerm, companies]);
 
-  // useEffect(() => {
-  //   const fetchCompanies = async () => {
-  //     try {
-  //       const response  = await fetch("http://localhost:3001/api/v1/companies", {
-  //         method: "GET",
-  //         headers: {
-  //           // 'authorization': `Bearer ${token}
-  //           // "Content-Type": "application/json"
-  //         }
-  //       });
-  //       if (!response.ok) {
-  //         throw new Error()
-  //       }
-
-  //       const data = await response.json();
-  //       console.log(response)
-  //       setCompanies( data as Company[] );
-  //     } catch (error) {
-  //         console.error('Fetch error', error)
-  //     }
-  //   }
-  //     fetchCompanies();
-  //   }, []);
+  
 
   return (
     <div className="flex min-h-screen">
-      
       {/* Menu Bar */}
       <MenuBar />
-      
+
       {/* Main Content */}
       <main className="flex-1 p-6 bg-gray-100">
         <h1 className="text-2xl font-bold mb-4">Companies</h1>
-        
+
         {/* Search and Add New Button */}
         <div className="flex justify-between mb-4">
           <input
@@ -82,7 +89,12 @@ function Companies() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Link to="/companies/new" className="bg-blue-500 text-white px-4 py-2 rounded-lg">Add New</Link>
+          <Link
+            to="/companies/new"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+          >
+            Add New
+          </Link>
         </div>
 
         {/* Companies Table */}
@@ -97,10 +109,13 @@ function Companies() {
             </thead>
             <tbody>
               {filteredCompanies.map((company) => (
-                <tr key={company.id} className="even:bg-gray-50 hover:bg-gray-100">
-                  <td className="p-4 border-b">{company.company_name}</td>
-                  <td className="p-4 border-b">{company.application_status}</td>
-                  <td className="p-4 border-b">{company.notes}</td>
+                <tr
+                  key={company.id}
+                  className="even:bg-gray-50 hover:bg-gray-100"
+                >
+                  <td className="p-4 border-b">{company.attributes.name}</td>
+                  <td className="p-4 border-b">{company.attributes.website}</td>
+                  <td className="p-4 border-b">{company.attributes.notes}</td>
                 </tr>
               ))}
             </tbody>
