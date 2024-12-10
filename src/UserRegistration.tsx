@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
 function UserRegistration(): React.ReactElement {
@@ -92,7 +93,7 @@ function UserRegistration(): React.ReactElement {
 
         {/* Needs to create a link to the Login Page */}
         <p>
-          Already have an account? <a href="/login">Click here to login</a>
+          Already have an account? <Link to="/login">Click here to login</Link>
         </p>
       </div>
       <div className="text-container">
