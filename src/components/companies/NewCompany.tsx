@@ -26,8 +26,8 @@ function NewCompany() {
 
     try {
       const token =
-        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE3MzM4Nzc3MDl9.-i8rU67sSk-OiJXLLLYfR4hNudf-Za1-s2PyjWTAJpw";
-      const response = await fetch("http://localhost:3001/api/v1/users/3/companies", {
+        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJleHAiOjE3MzM5NTQ0MzJ9.QrBNobs8ySXQeDMKlRBEYODcH9BPk78e1-Wl61a1j0Q";
+      const response = await fetch("http://localhost:3001/api/v1/users/2/companies", {
         method: "POST",
         headers: {
           authorization: `Bearer ${token}`,
