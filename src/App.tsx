@@ -4,7 +4,7 @@ import { UserData } from './Interfaces'
 import LoginForm from './Login';
 import { getUser } from './apiCalls';
 import MenuBar from './components/layout/MenuBar'
-import UserInformation from './userInformation';
+import UserInformation from './components/pages/userInformation';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -82,7 +82,7 @@ function App() {
             )}
           </div>
         } />
-        <Route path="/user/:id/userInformation" element={
+        <Route path="/userInformation" element={
           <>
             {isLoggedIn && (
               <>
