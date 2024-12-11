@@ -10,43 +10,46 @@ function MenuBar() {
 
   return (
 
-    <div className='flex flex-col justify-items-center  bg-gray-500  justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=Turing.edu">
-        <img className="m-auto w-1/2 cursor-pointer" src={logo}>
+    <div className='flex-col flex  border-r-8 border-gray-300  bg-white  h-screen mr-10 md:w-[7vw] max-w-[20vw]'>
+      
+      <a className=" m-auto w-[5vw]  cursor-pointer" href="https://www.google.com/search?q=Turing.edu">
+      
+        <img className="  cursor-pointer" src={logo}>
         </img>
       </a>
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=home">
-        <img className="m-auto w-1/4 cursor-pointer" src={home}>
+      <a className="m-auto w-[3vw] cursor-pointer" href="https://www.google.com/search?q=home">
+      
+        <img className="m-auto  cursor-pointer" src={home}>
         </img>
       </a>
 
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=person">
-        <img className="m-auto w-1/4 cursor-pointer" src={person}>
+      <a className="m-auto w-[3vw] cursor-pointer" href="https://www.google.com/search?q=person">
+        <img className="m-auto cursor-pointer" src={person}>
         </img>
       </a>
 
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=building">
+      <a className="m-auto w-[3vw] cursor-pointer" href="https://www.google.com/search?q=building">
 
-        <img className="m-auto w-1/4 cursor-pointer" src={building}>
+        <img className="m-auto cursor-pointer" src={building}>
         </img>
       </a>
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=papers">
+      <a className="m-auto w-[3vw] cursor-pointer" href="https://www.google.com/search?q=papers">
 
-      <img className="m-auto w-1/4 cursor-pointer" src={papers}>
+      <img className="m-auto  cursor-pointer" src={papers}>
       </img>
       </a>
 
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=plus">
+      <a className="m-auto w-[3vw] cursor-pointer" href="https://www.google.com/search?q=plus">
 
-        <img className="m-auto w-1/4 cursor-pointer" src={plus}>
+        <img className="m-auto  cursor-pointer" src={plus}>
         </img>
       </a>
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=account">
+      <a className="m-auto w-[2.5vw] cursor-pointer" href="https://www.google.com/search?q=account">
 
-        <img className="m-auto w-1/5  rounded-full bg-blue-200 cursor-pointer" src={person}>
+        <img className="m-auto rounded-full bg-blue-200 cursor-pointer" src={person}>
         </img>
       </a>
-      <div className='m-auto h-auto '>
+      <div className='mt-[25vh] h-auto '>
       </div>
 
     </div>
