@@ -1,12 +1,6 @@
-// then a live search component
-// an add new button (fetch call to POST)
-// then a container that holds all companies (fetch to to INDEX companies)
-// should have a header of company name, application status and notes
-// should show all company names, application statuses and notes
 import { useEffect, useState } from "react"
 import MenuBar from "../layout/MenuBar";
 import { Link } from "react-router-dom";
-
 
 interface CompanyAttributes {
   id: number;
@@ -29,7 +23,7 @@ function Companies() {
   const [companies, setCompanies] = useState<Company[] | null>([]); 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
-
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -44,6 +38,7 @@ function Companies() {
           },
         });
         console.log(response)
+
         if (!response.ok) {
           throw new Error(`Failed to fetch companies: ${response.statusText}`);
         }
@@ -54,6 +49,8 @@ function Companies() {
         setFilteredCompanies(data.data as Company[]);
       } catch (error) {
         console.error("Fetch error", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchCompanies();
@@ -98,7 +95,9 @@ function Companies() {
         </div>
 
         {/* Companies Table */}
-        {filteredCompanies.length > 0 ? (
+        {isLoading ? (
+          <p data-testid="loading-message">Loading...</p>
+        ) : filteredCompanies.length > 0 ? (
           <table className="table-auto w-full bg-white border border-gray-300 rounded-lg shadow-md">
             <thead className="bg-gray-200">
               <tr>
@@ -114,14 +113,14 @@ function Companies() {
                   className="even:bg-gray-50 hover:bg-gray-100"
                 >
                   <td className="p-4 border-b">{company.attributes.name}</td>
-                  <td className="p-4 border-b">{company.attributes.website}</td>
+                  <td className="p-4 border-b">Not Applied Yet</td> {/*Change to application status */}
                   <td className="p-4 border-b">{company.attributes.notes}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         ) : (
-          <p>Loading...</p>
+          <p data-testid="no-companies">No companies found</p>
         )}
       </main>
     </div>
