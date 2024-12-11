@@ -53,6 +53,7 @@ function NewCompany() {
           <label className="mb-2 text-gray-700">Company Name:</label>
           <input
             type="text"
+            id="companyName"
             value={name}
             onChange={(e) => setName(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -63,6 +64,7 @@ function NewCompany() {
           <label className="mb-2 text-gray-700">Website:</label>
           <input
             type="text"
+            id="website"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -72,6 +74,7 @@ function NewCompany() {
           <label className="mb-2 text-gray-700">Street Address:</label>
           <input
             type="text"
+            id="streetAddress"
             value={streetAddress}
             onChange={(e) => setStreetAddress(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -82,6 +85,7 @@ function NewCompany() {
           <label className="mb-2 text-gray-700">City:</label>
           <input
             type="text"
+            id="city"
             value={city}
             onChange={(e) => setCity(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -147,13 +151,13 @@ function NewCompany() {
             <option value="WV">West Virginia</option>
             <option value="WI">Wisconsin</option>
             <option value="WY">Wyoming</option>
-            {/* Add all other states as needed */}
           </select>
         </div>
         <div className="flex flex-col">
           <label className="mb-2 text-gray-700">Zip Code:</label>
           <input
             type="text"
+            id="zipCode"
             value={zipCode}
             onChange={(e) => setZipCode(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
