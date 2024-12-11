@@ -4,9 +4,15 @@ import person from '../../components/icons/person-icon.png';
 import building from '../../components/icons/building-1062.png';
 import plus from '../../components/icons/plus-small_4338829.png';
 import papers from '../../components/icons/documents-symbol_35920.png';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 
 function MenuBar() {
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false)
+  const toggleDropDown = () => {
+    setIsDropDownOpen((previousState) => !previousState)
+  }
 
   return (
 
@@ -32,15 +38,23 @@ function MenuBar() {
       </a>
       <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=papers">
 
-      <img className="m-auto w-1/4 cursor-pointer" src={papers}>
-      </img>
+        <img className="m-auto w-1/4 cursor-pointer" src={papers}>
+        </img>
       </a>
 
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=plus">
+      {/* <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=plus">
 
         <img className="m-auto w-1/4 cursor-pointer" src={plus}>
         </img>
-      </a>
+      </a> */}
+
+      <div className='dropDownPlus'>
+        <button className='dropDownPlusButton' onClick={toggleDropDown}>
+          <img className="m-auto w-1/4 cursor-pointer"> src={plus} alt="Plus Icon"</img>
+        </button>
+        {/* // is dropdown open && (code here) */}
+      </div>
+
       <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=account">
 
         <img className="m-auto w-1/5  rounded-full bg-blue-200 cursor-pointer" src={person}>
