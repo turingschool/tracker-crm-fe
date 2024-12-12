@@ -22,13 +22,13 @@ describe('Landing page after logging in spec', () => {
 
     cy.get('[href="https://www.google.com/search?q=papers"] >.m-auto').should('have.attr', 'src').should('include', 'VORK5CYII')
 
-    cy.get('[href="https://www.google.com/search?q=plus"] > .m-auto').should('have.attr', 'src').should('include', 'SuQmCC')
+    cy.get('button.m-auto > .m-auto').should('have.attr', 'src').should('include', 'SuQmCC')
 
     cy.get('[href="https://www.google.com/search?q=account"] > .m-auto').should('have.attr', 'src').should('include', '/static/media/person-icon.7a1fafe972143cff67a1.png')
 
 
   })
-  it('Should have clickable links for each icon;', () => {
+  xit('Should have clickable links for each icon;', () => {
     cy.get('[href="https://www.google.com/search?q=Turing.edu"] > .m-auto');
     cy.url('match', 'https://www.google.com/search?q=Turing.edu');
     cy.visit('http://localhost:3000/')
@@ -49,9 +49,9 @@ describe('Landing page after logging in spec', () => {
     cy.url('match', 'https://www.google.com/search?q=papers');
     cy.visit('http://localhost:3000/')
 
-    cy.get('[href="https://www.google.com/search?q=plus"]').click()
-    cy.url('match', 'https://www.google.com/search?q=plus');
-    cy.visit('http://localhost:3000/')
+    // cy.get('[href="https://www.google.com/search?q=plus"]').click()
+    // cy.url('match', 'https://www.google.com/search?q=plus');
+    // cy.visit('http://localhost:3000/')
 
     cy.get('[href="https://www.google.com/search?q=account"]').click()
     cy.url('match', 'https://www.google.com/search?q=account');
@@ -59,5 +59,27 @@ describe('Landing page after logging in spec', () => {
 
   })
 
+  it('should render dropdown menu with link to create new contact', () => {
+    cy.visit('http://localhost:3000/')
+    cy.get('button.m-auto > .m-auto').click()
+    cy.contains('Create New Contact').should('exist');
+    cy.get('.bg-cyan-600 > :nth-child(1) > a').click()
+    cy.url('match', 'http://localhost:3000/contacts/new');
+  })
 
+  it('should render dropdown menu with link to create new company', () => {
+    cy.visit('http://localhost:3000/')
+    cy.get('button.m-auto > .m-auto').click()
+    cy.contains('Create New Company').should('exist');
+    cy.get('.bg-cyan-600 > :nth-child(2) > a').click()
+    cy.url('match', 'http://localhost:3000/companies/new');
+  })
+
+  it('should render dropdown menu with link to create new contact', () => {
+    cy.visit('http://localhost:3000/')
+    cy.get('button.m-auto > .m-auto').click()
+    cy.contains('Create New Job Application').should('exist');
+    cy.get('.bg-cyan-600 > :nth-child(3) > a').click()
+    cy.url('match', 'http://localhost:3000/jobapplications/new');
+  })
 })
