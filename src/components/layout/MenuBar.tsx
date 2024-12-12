@@ -42,17 +42,24 @@ function MenuBar() {
         </img>
       </a>
 
-      {/* <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=plus">
-
-        <img className="m-auto w-1/4 cursor-pointer" src={plus}>
-        </img>
-      </a> */}
-
       <div className='dropDownPlus'>
-        <button className='dropDownPlusButton' onClick={toggleDropDown}>
-          <img className="m-auto w-1/4 cursor-pointer"> src={plus} alt="Plus Icon"</img>
+        <button className="m-auto cursor-pointer" onClick={toggleDropDown}>
+          <img className="m-auto w-1/4 cursor-pointer" src={plus} alt="Plus Icon"/>
         </button>
-        {/* // is dropdown open && (code here) */}
+        
+        {isDropDownOpen && (
+          <ul className="bg-cyan-600 m-4 shadow-md rounded-md">
+            <li className="p-2 hover:bg-gray-200 rounded text-center mb-2">
+              <Link to="/contacts/new">Create New Contact</Link>
+            </li>
+            <li className="p-2 hover:bg-gray-200 rounded text-center mb-2">
+              <Link to="/companies/new">Create New Company</Link>
+            </li>
+            <li className="p-2 hover:bg-gray-200 rounded text-center">
+              <Link to="/jobapplications/new">Create New Job Application</Link>
+            </li>
+          </ul>
+        )}
       </div>
 
       <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=account">
