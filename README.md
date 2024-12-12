@@ -139,7 +139,16 @@ This is an example of how to list things you need to use the software and how to
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Design Doc
+Currently, we will be using Helvetica Neue Sans-Serif as our primary font, with the font size being set using vh/vw. 
 
+Example: className="text-[5vw] font-[Helvetica Neue]"
+
+(Note that most text should be Helvetica Neue by default, but if it isn't, setting it manually can be done as above.)
+
+
+We'll be using colors according to the image below.
+![alt text](ColorGuide.png)
 
 <!-- USAGE EXAMPLES -->
 ## Usage
