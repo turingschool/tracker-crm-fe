@@ -1,12 +1,8 @@
-<<<<<<< HEAD
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-=======
 import turingLogo from './Turing-logo.png';
-import { useState } from 'react';
 
->>>>>>> 20088d3f046df47985d03043cce980c9f18fd3cb
 const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
   const { userID} = useParams()
   console.log(userID)
@@ -54,41 +50,6 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
   };
 
   return (
-<<<<<<< HEAD
-    <div style={{ maxWidth: "400px", margin: "auto" }}>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            style={{ width: "100%", padding: "8px", marginTop: "4px" }}
-          />
-        </div>
-        <div style={{ marginBottom: "10px" }}>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            style={{ width: "100%", padding: "8px", marginTop: "4px" }}
-          />
-        </div>
-        <Link to="/home">
-          <button type="submit" style={{ padding: "10px 20px" }}>
-            Login
-          </button>
-        </Link>
-      </form>
-      {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-      {successMessage && <p style={{ color: "green" }}>{successMessage}</p>}
-=======
     <div className='login-form-wrap flex w-screen h-screen justify-center'>
       <div className='form-inputs w-6/12 flex'>
         <img className='turing-logo size-20' src={turingLogo} />
@@ -137,7 +98,6 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
         </div>
         <h3 className='app-tagline flex justify-center font-sans font-[Helvetica Neue] text-3xl font-extralight tracking-widest ml-5 text-slate-100'>Job hunting made easier.</h3>
       </div>
->>>>>>> 20088d3f046df47985d03043cce980c9f18fd3cb
     </div>
   );
 };

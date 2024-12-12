@@ -62,7 +62,6 @@ function App() {
 
   console.log(`we need to have ${userId}... NOT`)
   return (
-<<<<<<< HEAD
     <div>
       <Routes>
         <Route 
@@ -91,25 +90,6 @@ function App() {
         <Route path="/companies/new" element={<NewCompany />} />
       </Routes>
     </div>
-=======
-    <BrowserRouter>
-      <div>
-        {!isLoggedIn && (
-          <>
-            {/* <h1>Please login</h1> */}
-            <LoginForm onLogin={handleLogin} />
-          </>
-        )}
-        {isLoggedIn && (
-          <div className='flex flex-row'>
-            <MenuBar />
-            <h1>Welcome, {userData.username}</h1>
-            <button onClick={handleLogout}>Log Out</button>
-          </div>
-        )}
-      </div>
-    </BrowserRouter>
->>>>>>> 20088d3f046df47985d03043cce980c9f18fd3cb
   );
 }
 
