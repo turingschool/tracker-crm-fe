@@ -146,9 +146,16 @@ Example: className="text-[5vw] font-[Helvetica Neue]"
 
 (Note that most text should be Helvetica Neue by default, but if it isn't, setting it manually can be done as above.)
 
+We will be refactoring to make use of MUI's SvgIcon icons, rather than images. Follow the following links for more information about how we'll be doing this:
+https://mui.com/material-ui/getting-started/
+https://mui.com/material-ui/material-icons/?query=home
+
 
 We'll be using colors according to the image below.
 ![alt text](ColorGuide.png)
+Fo
+
+When we get text that's too long for our designated page area, we will cut that text off after a certain point, then insert a "Read More" button. This will open a modal containing the full version of the previously-truncated text.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
