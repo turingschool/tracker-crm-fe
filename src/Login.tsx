@@ -33,7 +33,7 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
       }
 
       const responseData = await response.json();
-      onLogin(responseData.data.id);
+      onLogin(responseData.user.data.id);
       setSuccessMessage('Login successful!');
       console.log('Response data:', responseData);
     } catch (error) {

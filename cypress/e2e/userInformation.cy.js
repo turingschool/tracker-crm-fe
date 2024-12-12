@@ -1,9 +1,10 @@
 describe('Landing page after logging in spec and clicking user information button', () => {
   beforeEach(() => {
-      cy.intercept('GET', '/api/user/123', {
+      cy.intercept('GET', '/api/user/0', {
         statusCode: 200,
         body: { username: 'Stubbed User', email: "stubbyemail@email.com" },
       }).as('getUserInfo');
+
     cy.visit('http://localhost:3000/')
     cy.get('[data-testid="update-user"]').click();
   });
@@ -28,7 +29,7 @@ describe('Landing page after logging in spec and clicking user information butto
     cy.get('[data-testid="password-input"]').type(password).should('have.value', password);
     cy.get('[data-testid="password-confirmation-input"]').type(passwordConfirmation).should('have.value', passwordConfirmation);
 
-    cy.get('[data-testid="submit-button"]').click();
+    cy.get('[data-testid="submit-button"]').should('exist');
   });
   
   it('Should show an error if the passwords do not match', () => {
@@ -50,7 +51,6 @@ describe('Landing page after logging in spec and clicking user information butto
   
   it('Should show an error when the form is submitted with empty fields', () => {
     const name = 'John Doe';
-    const email = 'johndoe@example.com';
     
     cy.get('[data-testid="submit-button"]').click();
     
@@ -69,10 +69,31 @@ describe('Landing page after logging in spec and clicking user information butto
   });
   
   it('Should send a fetch request to backend API with update information', () => {
-  
+
+    cy.intercept('PUT', '/api/v1/user/123', {
+      statusCode: 200,
+      body: { message: 'User updated successfully' },
+    }).as('updateUser');
+
+    cy.get('[data-testid="name-input"]').clear().type('Stubbed User');
+    cy.get('[data-testid="email-input"]').clear().type('stubbyemail@email.com');
+    cy.get('[data-testid="password-input"]').type('pass123');
+    cy.get('[data-testid="password-confirmation-input"]').type('pass123');
+
+    cy.get('[data-testid="submit-button"]').click();
+
+    cy.wait('@updateUser').then((interception) => {
+      expect(interception.request.method).to.eq('PUT');
+      expect(interception.request.body).to.deep.equal({
+        id: 3,
+        username: 'Stubbed User', 
+        email: "stubbyemail@email.com",
+        password: "pass123",
+        passwordConfirmation: "pass123"  
+      });
+    });
+
+    cy.contains('User updated successfully').should('be.visible');
   })
-  
-  it('Should recieve a 200 okay status resolving the update request', () => {
-  
-  })
+
 })

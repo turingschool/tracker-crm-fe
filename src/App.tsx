@@ -16,7 +16,7 @@ function App() {
     username: '', 
     email: '', 
   });
-  const [isLoggedIn, setIsLoggedIn] = useState(true);   // temporary until the login is fixed
+  const [isLoggedIn, setIsLoggedIn] = useState(false);   // temporary until the login is fixed
 
   const handleLogin = async (id: number) => {
     try {

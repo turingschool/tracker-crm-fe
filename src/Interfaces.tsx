@@ -1,7 +1,14 @@
 export interface UserData {
-  id: number,
-  username: string,
-  email: string
+  token: string,
+  user: {
+    id: number,
+    type: string,
+    attributes: {
+      name: string,
+      email: string
+      companies: []
+    }
+  }
 }
 
 export interface UserInformationProps {

@@ -8,13 +8,14 @@ interface UserInformationProps {
 
 function UserInformation({userData}: UserInformationProps) {
   interface DataCompile {
+    token?: string;
     id?: number;
     name?: string;
     email?: string;
     [key: string]: any;  
   }
-  const [name, setName] = useState(userData.username);
-  const [email, setEmail] = useState(userData.email);
+  const [name, setName] = useState(userData.user.attributes.name);
+  const [email, setEmail] = useState(userData.user.attributes.email);
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -22,7 +23,7 @@ function UserInformation({userData}: UserInformationProps) {
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const compileData: DataCompile = {
-      id: userData.id,
+      id: userData.user.id,
       name: name,
       email: email,
     }

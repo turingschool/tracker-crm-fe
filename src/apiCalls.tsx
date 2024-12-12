@@ -30,6 +30,7 @@ export const updateUser = async (userParams: Record<string, any> ) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userParams.token}`
       },
       body: JSON.stringify(userParams),
     });
