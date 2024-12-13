@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { registerUser } from '../apiCalls';
 
@@ -19,11 +19,9 @@ function UserRegistration(): React.ReactElement {
     }
 
     try {
-      // Fires the registerUser function (POST) upon button click
       const newUser = await registerUser({ name, email, password, passwordConfirmation});  
       console.log('User registered successfully: ', newUser)
 
-      // We want to clear the form upon successful registration.  Security concern.
       setName('');
       setEmail('');
       setPassword('');
@@ -31,16 +29,14 @@ function UserRegistration(): React.ReactElement {
 
       setErrorMessage(null);
 
-      // I want to navigate the user to their dashboard upon successful login.
-      // Navigate('')
+      const navigate = useNavigate();
+      navigate('/dashboard');
+
     } catch (error: any) {
       console.error('Error registering user: ', error);
       setErrorMessage(error.message || "Registration failed. Please try again.")
     }
   };
-
-    // Shane wants to avoid using regular expressions at all costs for validations.
-    // Will change if Erin requires it.
 
   return (
     <div className="user-registration">
@@ -54,7 +50,8 @@ function UserRegistration(): React.ReactElement {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-          />
+            placeholder="Add text"
+            />
 
           <label htmlFor="email">Email</label>
           <input
@@ -63,7 +60,8 @@ function UserRegistration(): React.ReactElement {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-          />
+            placeholder="Add text"
+            />
 
           <label htmlFor="password">Password</label>
           <input
@@ -72,7 +70,8 @@ function UserRegistration(): React.ReactElement {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-          />
+            placeholder="Add text"
+            />
 
           <label htmlFor="passwordConfirmation">Confirm Password</label>
           <input
@@ -81,11 +80,11 @@ function UserRegistration(): React.ReactElement {
             value={passwordConfirmation}
             onChange={(e) => setPasswordConfirmation(e.target.value)}
             required
+            placeholder="Add text"
           />
 
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-        {/* USE registerUser with button */}
           <button type="submit">Register</button>
         </form>
 
