@@ -159,11 +159,11 @@ When we get text that's too long for our designated page area, we will cut that 
 
 When creating tables and forms, we'll be alternating between white and grey-100 for the background, and when we wish to create a button or search bars, we'll generally style them like this unless specifically told otherwise: 
 
-`<button className='bg-cyan-600 text-white px-4 py-2 rounded w-[10vw]'>Add New +</button>`
+ `<button className='bg-cyan-600 text-white p-[1vh] rounded w-[10vw]'>Add New +</button>`
 
-`<input className='p-2 border-2 border-slate-800 rounded w-[12vw]'/>
-`
 
+
+`<input className='p-[1vh] border-2 border-slate-800 rounded w-[12vw] h-full' />`
 
 
 For an example of what this might look like in practice, see below.
