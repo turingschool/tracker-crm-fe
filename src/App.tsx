@@ -1,3 +1,4 @@
+import { Routes, Route } from 'react-router-dom';
 import './App.css';
 import { useState } from 'react';
 import LoginForm from './Login';
@@ -12,7 +13,7 @@ interface UserInfo {
 }
 
 
-function App() {
+function App(): React.ReactElement {
 
   const [userId, setUserId] = useState(null);
   const [userData, setUserData] = useState<Partial<UserInfo>>({});
@@ -56,6 +57,13 @@ function App() {
   //   setIsLoggedIn(false);
   //   setUserData({});
   // };
+
+  // ########################################################
+  
+  // WHERE I LEFT OFF
+  // Working on Routes from Login link to User Registration Page
+  
+  // ########################################################
 
 
   console.log(`we need to have ${userId}... NOT`)
