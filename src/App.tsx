@@ -1,4 +1,3 @@
-import { Routes, Route } from 'react-router-dom';
 // import turingLogo from './Turing-logo.png';
 import './App.css';
 import { useState } from 'react';
