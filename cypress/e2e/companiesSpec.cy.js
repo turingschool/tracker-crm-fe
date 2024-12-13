@@ -1,4 +1,4 @@
-import { mockCompanies } from "../support/mockCompanies.js";
+import { mockCompanies } from "../fixtures/mockCompanies.js";
 
 describe("Companies page after logging in", () => {
   beforeEach(() => {
