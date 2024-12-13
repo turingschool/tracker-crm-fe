@@ -94,7 +94,7 @@ function App(): React.ReactElement {
 
         {/* Register User Route */}
         <Route
-          path="/register"
+          path="/UserRegistration"
           element={
             <div>
               <h1>Register User</h1>

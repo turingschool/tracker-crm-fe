@@ -1,5 +1,6 @@
 import turingLogo from './Turing-logo.png';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
   const [email, setEmail] = useState('');
@@ -76,7 +77,8 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
           <button type="submit" className='login-btn w-[35%] h-[10%] rounded-sm bg-[#3cb6cc] font-[Helvetica Neue] font-sans text-base'>
             Login
           </button>
-          <p className='no-account-message font-[Helvetica Neue] font-sans'>No Account? Click <button className='font-[Helvetica Neue] font-sans text-cyan-700'>Here</button> To Register.</p>
+          <p className='no-account-message font-[Helvetica Neue] font-sans'>No Account? Click <Link to="/UserRegistration">Here</Link> To Register.</p>
+
         </form>
         {errorMessage && <p className='failed-login flex justify-center items-center rounded-md border-red-600 border-2 bg-slate-700 w-[50%] h-[5%] absolute top-[25%] left-[25%] font-[Helvetica Neue] font-sans font-semibold text-lg text-red-600'>{errorMessage}</p>}
         {successMessage && <p className='success-login flex justify-center items-center rounded-md border-green-600 border-2 bg-slate-700 w-[50%] h-[5%] absolute top-[25%] left-[25%] font-[Helvetica Neue] font-sans font-semibold text-lg text-green-600'>{successMessage}</p>}

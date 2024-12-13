@@ -9,6 +9,7 @@ function UserRegistration(): React.ReactElement {
   const [password, setPassword] = useState<string>('');
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,7 +30,6 @@ function UserRegistration(): React.ReactElement {
 
       setErrorMessage(null);
 
-      const navigate = useNavigate();
       navigate('/dashboard');
 
     } catch (error: any) {
@@ -39,8 +39,8 @@ function UserRegistration(): React.ReactElement {
   };
 
   return (
-    <div className="user-registration">
-      <div className="form-container">
+    <div className="">
+      <div className="">
         <h2>Create Account</h2>
         <form onSubmit={handleFormSubmit}>
           <label htmlFor="name">Name</label>
