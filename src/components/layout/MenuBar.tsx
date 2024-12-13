@@ -3,6 +3,7 @@ import logo from '../../turing-logo-gray.png';
 import person from '../../components/icons/person-icon.png';
 import building from '../../components/icons/building-1062.png';
 import plus from '../../components/icons/plus-small_4338829.png';
+import plusOpen from '../../components/icons/plus-open.png';
 import papers from '../../components/icons/documents-symbol_35920.png';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -43,9 +44,13 @@ function MenuBar() {
       </a>
 
       <div className='dropDownPlus'>
-        <button className="m-auto cursor-pointer" onClick={toggleDropDown}>
-          <img className="m-auto w-1/4 cursor-pointer" src={plus} alt="Plus Icon"/>
-        </button>
+      <button className="m-auto cursor-pointer" onClick={toggleDropDown}>
+        <img
+          className="m-auto w-1/4 cursor-pointer"
+          src={isDropDownOpen ? plusOpen : plus}
+          alt="Teal Plus Icon"
+        />
+      </button>
         
         {isDropDownOpen && (
           <ul className="bg-cyan-600 m-4 shadow-md rounded-md">
