@@ -1,3 +1,4 @@
+// import turingLogo from './Turing-logo.png';
 import './App.css';
 import { useState } from 'react';
 import LoginForm from './Login';
@@ -66,7 +67,7 @@ function App() {
       {/* <div>
         {!isLoggedIn && (
           <>
-            <h1>Please login</h1>
+            {/* <h1>Please login</h1> */}
             <LoginForm onLogin={handleLogin} />
           </>
         )}
