@@ -183,6 +183,12 @@ Don't forget to give the project a star! Thanks again!
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Core Contributors:
+<!-- 
+HEY YOU!!!! Keep it in alphabetical by last name!!!
+FORMAT: lastname, firstname 
+  - github link 
+  - linkedin link
+  -->
 
 **Chirchirillo, Joe**
    - [Github](https://github.com/jchirch)
