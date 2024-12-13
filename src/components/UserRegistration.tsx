@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
+import { registerUser } from '../apiCalls';
 
 function UserRegistration(): React.ReactElement {
   const [name, setName] = useState<string>('');
@@ -12,33 +13,29 @@ function UserRegistration(): React.ReactElement {
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setErrorMessage(null);
-
     if (password !== passwordConfirmation) {
       setErrorMessage("Passwords must match. Please try again.");
       return;
     }
 
-    const userData = { name, email, password };
-    
     try {
-      const response = await fetch('/api/v1/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
+      // Fires the registerUser function (POST) upon button click
+      const newUser = await registerUser({ name, email, password, passwordConfirmation});  
+      console.log('User registered successfully: ', newUser)
 
-      if (!response.ok) {
-        const error = await response.json();
-        setErrorMessage(error.message || "Failed to register");
-        return;
-      }
+      // We want to clear the form upon successful registration.  Security concern.
+      setName('');
+      setEmail('');
+      setPassword('');
+      setPasswordConfirmation('');
 
-      console.log("User successfully registered");
-    } catch (error) {
-      setErrorMessage("An unexpected error occurred. Please try again.");
+      setErrorMessage(null);
+
+      // I want to navigate the user to their dashboard upon successful login.
+      // Navigate('')
+    } catch (error: any) {
+      console.error('Error registering user: ', error);
+      setErrorMessage(error.message || "Registration failed. Please try again.")
     }
   };
 
@@ -88,10 +85,10 @@ function UserRegistration(): React.ReactElement {
 
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 
+        {/* USE registerUser with button */}
           <button type="submit">Register</button>
         </form>
 
-        {/* Needs to create a link to the Login Page */}
         <p>
           Already have an account? <Link to="/login">Click here to login</Link>
         </p>

@@ -3,7 +3,8 @@ import { useState } from 'react';
 import LoginForm from './Login';
 import { getUser } from './apiCalls';
 import MenuBar from './components/layout/MenuBar'
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import UserRegistration from './components/UserRegistration';
 interface UserInfo {
   id: number,
   username: string,
@@ -60,21 +61,40 @@ function App() {
   console.log(`we need to have ${userId}... NOT`)
   return (
     <BrowserRouter>
-      <div>
-        {!isLoggedIn && (
-          <>
-            <h1>Please login</h1>
-            <LoginForm onLogin={handleLogin} />
-          </>
-        )}
-        {isLoggedIn && (
-          <div className='flex flex-row'>
-            <MenuBar />
-            <h1>Welcome, {userData.username}</h1>
-            <button onClick={handleLogout}>Log Out</button>
-          </div>
-        )}
-      </div>
+      <Routes>
+        {/* Index Route */}
+        <Route
+          path="/"
+          element={
+            <div>
+              {!isLoggedIn && (
+                <>
+                  <h1>Please login</h1>
+                  <LoginForm onLogin={handleLogin} />
+                </>
+              )}
+              {isLoggedIn && (
+                <div className="flex flex-row">
+                  <MenuBar />
+                  <h1>Welcome, {userData.username}</h1>
+                  <button onClick={handleLogout}>Log Out</button>
+                </div>
+              )}
+            </div>
+          }
+        />
+
+        {/* Register User Route */}
+        <Route
+          path="/register"
+          element={
+            <div>
+              <h1>Register User</h1>
+              <UserRegistration />
+            </div>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   );
 }
