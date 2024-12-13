@@ -4,6 +4,7 @@ import person from '../../components/icons/person-icon.png';
 import building from '../../components/icons/building-1062.png';
 import plus from '../../components/icons/plus-small_4338829.png';
 import papers from '../../components/icons/documents-symbol_35920.png';
+import { Link } from 'react-router-dom';
 
 
 function MenuBar() {
@@ -20,10 +21,15 @@ function MenuBar() {
         </img>
       </a>
 
-      <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=person">
+      {/* <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=person">
         <img className="m-auto w-1/4 cursor-pointer" src={person}>
         </img>
-      </a>
+      </a> */}
+      
+       {/* Contacts Form*/}
+       <Link className="m-auto cursor-pointer" to="/newContact">
+      <img className="m-auto w-1/4 cursor-pointer" src={person} alt="New Contact"/>
+      </Link>
 
       <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=building">
 
