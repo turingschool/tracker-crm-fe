@@ -3,14 +3,14 @@ import './App.css';
 import { useState } from 'react';
 import { UserData } from './Interfaces'
 import LoginForm from './Login';
-import { getUser } from './apiCalls';
+// import { getUser } from './apiCalls';
 import MenuBar from './components/layout/MenuBar'
 import UserInformation from './components/pages/userInformation';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 function App() {
 
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState<number | null>(null);
   const [userData, setUserData] = useState<UserData>({
     token: '',
     user: {
@@ -25,36 +25,36 @@ function App() {
   });
   const [isLoggedIn, setIsLoggedIn] = useState(false);   // temporary until the login is fixed
 
-  const handleLogin = async (id: number) => {
-    try {
-      const loginResponse = await getUser(id);
-      if (loginResponse) {
-        setUserData({
-          token: loginResponse.data.token,
-          user: {
-            id: loginResponse.data.user.id,
-            type: 'user',
-            attributes: {
-              email: loginResponse.data.user.attributes.email,
-              name: loginResponse.data.user.attributes.name,
-              companies: loginResponse.data.user.attributes.companies
-            }
-          }
-        });
-        setUserId(loginResponse.data.id);
-        setIsLoggedIn(true);
-        console.log(loginResponse);
+  // const handleLogin = async (id: number) => {
+  //   try {
+  //     const loginResponse = await getUser(id);
+  //     if (loginResponse) {
+  //       setUserData({
+  //         token: loginResponse.data.token,
+  //         user: {
+  //           id: loginResponse.data.user.id,
+  //           type: 'user',
+  //           attributes: {
+  //             email: loginResponse.data.user.attributes.email,
+  //             name: loginResponse.data.user.attributes.name,
+  //             companies: loginResponse.data.user.attributes.companies
+  //           }
+  //         }
+  //       });
+  //       setUserId(loginResponse.data.id);
+  //       setIsLoggedIn(true);
+  //       console.log(loginResponse);
 
-      }
-    } catch (err) {
-      console.log(err);
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
 
-      console.error('Error fetching logged in user:', err);
-      setIsLoggedIn(false);
-      console.log(err);
+  //     console.error('Error fetching logged in user:', err);
+  //     setIsLoggedIn(false);
+  //     console.log(err);
 
-    }
-  };
+  //   }
+  // };
 
   const handleLogout = () => {
     setUserId(null);
@@ -73,17 +73,18 @@ function App() {
     setIsLoggedIn(false);
   };
 
-  // const userIsLoggedIn = () => {
-  //   setIsLoggedIn(true);
-  // };
+  const userIsLoggedIn = () => {
+    setIsLoggedIn(true);
+    console.log(`Is this right? ${userData}`)
+    console.log(`we need to have ${userId}... NOT`)
+  };
 
   // const userLogOut = () => {
   //   setIsLoggedIn(false);
   //   setUserData({});
   // };
 
-
-  console.log(`we need to have ${userId}... NOT`)
+  console.log(userIsLoggedIn)
   return (
     <BrowserRouter>
       <Routes>
@@ -92,7 +93,7 @@ function App() {
             {!isLoggedIn && (
               <>
                 <h1>Please login</h1>
-                <LoginForm onLogin={handleLogin} />
+                <LoginForm setLogin={setIsLoggedIn} setData={setUserData} setId={setUserId} />
               </>
             )}
             {isLoggedIn && (

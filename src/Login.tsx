@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import turingLogo from './Turing-logo.png';
 import { useState } from 'react';
+import { LoginFormProps } from './Interfaces'
 
-const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ setLogin, setData, setId }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -34,10 +35,24 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
       }
 
       const responseData = await response.json();
-      onLogin(responseData.user.data.id);
+      console.log('Response data:', responseData);
+      setData({
+        token: responseData.token,
+        user: {
+          id: responseData.user.data.id,
+          type: 'user',
+          attributes: {
+            email: responseData.user.data.attributes.email,
+            name: responseData.user.data.attributes.name,
+            companies: responseData.user.data.attributes.companies
+          }
+        }
+      });
+      setId(responseData.user.data.id);
+      setLogin(true);
       setSuccessMessage('Login successful!');
       navigate("/")
-      console.log('Response data:', responseData);
+      
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(`Error logging in: ${error.message}`);

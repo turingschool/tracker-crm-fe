@@ -1,31 +1,18 @@
 describe('Landing page after logging in spec and clicking user information button', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/api/v1/users/2', {
-      statusCode: 200,
-      body: 
-        {token: "The token",
-        user: {
-          id: 2,
-          type: "user",
-          attributes: {
-            name: "Billy",
-            email: "billy@email.com",
-            companies: []
-          }
-        }},
-    }).as('getUserInfo');
-
     cy.intercept('POST', 'http://localhost:3001/api/v1/sessions', {
       statusCode: 200,
       body: 
         {token: "The token",
         user: {
-          id: 2,
-          type: "user",
-          attributes: {
-            name: "Billy",
-            email: "billy@email.com",
-            companies: []
+          data: {
+            id: 2,
+            type: "user",
+            attributes: {
+              name: "Billy",
+              email: "billy@email.com",
+              companies: []
+            }
           }
         }
       },
@@ -35,7 +22,7 @@ describe('Landing page after logging in spec and clicking user information butto
     cy.get('#email').type('dollyP@email.com');
     cy.get('#password').type('Jolene123');
     cy.get('.login-btn').click();
-    // cy.wait('@getUserInfo');
+    cy.wait('@postUserInfo');
     cy.get('[data-testid="update-user"]').click();
   });
 
@@ -54,8 +41,8 @@ describe('Landing page after logging in spec and clicking user information butto
     const password = 'Password123';
     const passwordConfirmation = 'Password123';
 
-    cy.get('[data-testid="name-input"]').type(name).should('have.value', name);
-    cy.get('[data-testid="email-input"]').type(email).should('have.value', email);
+    cy.get('[data-testid="name-input"]').clear().type(name).should('have.value', name);
+    cy.get('[data-testid="email-input"]').clear().type(email).should('have.value', email);
     cy.get('[data-testid="password-input"]').type(password).should('have.value', password);
     cy.get('[data-testid="password-confirmation-input"]').type(passwordConfirmation).should('have.value', passwordConfirmation);
 
@@ -81,7 +68,8 @@ describe('Landing page after logging in spec and clicking user information butto
   
   it('Should show an error when the form is submitted with empty fields', () => {
     const name = 'John Doe';
-    
+    cy.get('[data-testid="name-input"]').clear();
+    cy.get('[data-testid="email-input"]').clear();
     cy.get('[data-testid="submit-button"]').click();
     
     cy.get('input:invalid').should('have.length', 2);
@@ -100,9 +88,19 @@ describe('Landing page after logging in spec and clicking user information butto
   
   it('Should send a fetch request to backend API with update information', () => {
 
-    cy.intercept('PUT', '/api/v1/user/123', {
+    cy.intercept('PUT', 'http://localhost:3001/api/v1/users/2', {
       statusCode: 200,
-      body: { message: 'User updated successfully' },
+      body: {
+        "data": {
+          "id": "2",
+          "type": "user",
+          "attributes": {
+            "name": "Stubbed User",
+            "email": "stubbyemail@email.com",
+            "companies": []
+          }
+        }
+      },
     }).as('updateUser');
 
     cy.get('[data-testid="name-input"]').clear().type('Stubbed User');
@@ -113,17 +111,17 @@ describe('Landing page after logging in spec and clicking user information butto
     cy.get('[data-testid="submit-button"]').click();
 
     cy.wait('@updateUser').then((interception) => {
+      console.log(interception.request.body)
       expect(interception.request.method).to.eq('PUT');
-      expect(interception.request.body).to.deep.equal({
-        id: 3,
-        username: 'Stubbed User', 
-        email: "stubbyemail@email.com",
-        password: "pass123",
-        passwordConfirmation: "pass123"  
-      });
+      expect(interception.request.body).to.deep.include(
+        {
+          "id": 2,
+          "name": "Stubbed User",              
+          "email": "stubbyemail@email.com",
+          "password": "pass123",
+          "password_confirmation": 'pass123'
+        }
+      );
     });
-
-    cy.contains('User updated successfully').should('be.visible');
   })
-
 })
