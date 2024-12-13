@@ -1,19 +1,49 @@
 describe('Landing page after logging in spec and clicking user information button', () => {
   beforeEach(() => {
-      cy.intercept('GET', '/api/user/0', {
-        statusCode: 200,
-        body: { username: 'Stubbed User', email: "stubbyemail@email.com" },
-      }).as('getUserInfo');
+    cy.intercept('GET', '/api/v1/users/2', {
+      statusCode: 200,
+      body: 
+        {token: "The token",
+        user: {
+          id: 2,
+          type: "user",
+          attributes: {
+            name: "Billy",
+            email: "billy@email.com",
+            companies: []
+          }
+        }},
+    }).as('getUserInfo');
+
+    cy.intercept('POST', 'http://localhost:3001/api/v1/sessions', {
+      statusCode: 200,
+      body: 
+        {token: "The token",
+        user: {
+          id: 2,
+          type: "user",
+          attributes: {
+            name: "Billy",
+            email: "billy@email.com",
+            companies: []
+          }
+        }
+      },
+    }).as('postUserInfo');
 
     cy.visit('http://localhost:3000/')
+    cy.get('#email').type('dollyP@email.com');
+    cy.get('#password').type('Jolene123');
+    cy.get('.login-btn').click();
+    // cy.wait('@getUserInfo');
     cy.get('[data-testid="update-user"]').click();
   });
 
   it('Should open the user info page;', () => {
     cy.url().should('include', '/userInformation');
 
-    cy.get('[data-testid="name-input"]').should('contain', '');
-    cy.get('[data-testid="email-input"]').should('contain', '');
+    cy.get('[data-testid="name-input"]').should('have.value', 'Billy');
+    cy.get('[data-testid="email-input"]').should('have.value', 'billy@email.com');
     cy.get('[data-testid="password-input"]').should('contain', '');
     cy.get('[data-testid="password-confirmation-input"]').should('contain', '');
   });

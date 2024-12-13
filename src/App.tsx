@@ -12,9 +12,16 @@ function App() {
 
   const [userId, setUserId] = useState(null);
   const [userData, setUserData] = useState<UserData>({
-    id: 0, 
-    username: '', 
-    email: '', 
+    token: '',
+    user: {
+      id: 0,
+    type: 'user',
+    attributes: {
+      name: '',
+      email: '',
+      companies: []
+    }
+  } 
   });
   const [isLoggedIn, setIsLoggedIn] = useState(false);   // temporary until the login is fixed
 
@@ -23,9 +30,16 @@ function App() {
       const loginResponse = await getUser(id);
       if (loginResponse) {
         setUserData({
-          id: loginResponse.data.id,
-          email: loginResponse.data.attributes.email,
-          username: loginResponse.data.attributes.username,
+          token: loginResponse.data.token,
+          user: {
+            id: loginResponse.data.user.id,
+            type: 'user',
+            attributes: {
+              email: loginResponse.data.user.attributes.email,
+              name: loginResponse.data.user.attributes.name,
+              companies: loginResponse.data.user.attributes.companies
+            }
+          }
         });
         setUserId(loginResponse.data.id);
         setIsLoggedIn(true);
@@ -45,9 +59,16 @@ function App() {
   const handleLogout = () => {
     setUserId(null);
     setUserData({
-      id: 0,
-      username: '', 
-      email: '', 
+      token: '',
+      user: {
+        id: 0,
+        type: 'user',
+        attributes: {
+          name: '',
+          email: '',
+          companies: []
+    }
+  }
     });
     setIsLoggedIn(false);
   };
@@ -77,7 +98,7 @@ function App() {
             {isLoggedIn && (
               <div className='flex flex-row'>
                 <MenuBar />
-                <h1>Welcome, {userData.username}</h1>
+                <h1>Welcome, {userData.user.attributes.name}</h1>
                 <button onClick={handleLogout}>Log Out</button>
               </div>
             )}

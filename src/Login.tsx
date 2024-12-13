@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import turingLogo from './Turing-logo.png';
 import { useState } from 'react';
 
@@ -6,7 +7,7 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -35,6 +36,7 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
       const responseData = await response.json();
       onLogin(responseData.user.data.id);
       setSuccessMessage('Login successful!');
+      navigate("/")
       console.log('Response data:', responseData);
     } catch (error) {
       if (error instanceof Error) {

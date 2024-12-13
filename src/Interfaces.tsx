@@ -5,7 +5,7 @@ export interface UserData {
     type: string,
     attributes: {
       name: string,
-      email: string
+      email: string,
       companies: []
     }
   }
