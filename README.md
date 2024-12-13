@@ -139,7 +139,40 @@ This is an example of how to list things you need to use the software and how to
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Design Doc
+Currently, we will be using Helvetica Neue Sans-Serif as our primary font, with the font size being set using vh/vw. 
 
+Example: className="text-[5vw] font-[Helvetica Neue]"
+
+(Note that most text should be Helvetica Neue by default, but if it isn't, setting it manually can be done as above.)
+
+We will be refactoring to make use of MUI's SvgIcon icons, rather than images. Follow the following links for more information about how we'll be doing this:
+https://mui.com/material-ui/getting-started/
+https://mui.com/material-ui/material-icons/?query=home
+
+
+We'll be using colors according to the image below.
+![alt text](ColorGuide.png)
+
+
+When we get text that's too long for our designated page area, we will cut that text off after a certain point, then insert a "Read More" button. This will open a modal containing the full version of the previously-truncated text.
+
+When creating tables and forms, we'll be alternating between white and grey-100 for the background, and when we wish to create a button or search bars, we'll generally style them like this unless specifically told otherwise: 
+
+ `<button className='bg-cyan-600 text-white p-[1vh] rounded w-[10vw]'>Add New +</button>`
+
+
+
+`<input className='p-[1vh] border-2 border-slate-800 rounded w-[12vw] h-full' />`
+
+
+For an example of what this might look like in practice, see below.
+
+
+
+
+
+![alt text](exampleDesign.png)
 
 <!-- USAGE EXAMPLES -->
 ## Usage
