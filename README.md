@@ -153,9 +153,26 @@ https://mui.com/material-ui/material-icons/?query=home
 
 We'll be using colors according to the image below.
 ![alt text](ColorGuide.png)
-Fo
+
 
 When we get text that's too long for our designated page area, we will cut that text off after a certain point, then insert a "Read More" button. This will open a modal containing the full version of the previously-truncated text.
+
+When creating tables and forms, we'll be alternating between white and grey-100 for the background, and when we wish to create a button or search bars, we'll generally style them like this unless specifically told otherwise: 
+
+`<button className='bg-cyan-600 text-white px-4 py-2 rounded w-[10vw]'>Add New +</button>`
+
+`<input className='p-2 border-2 border-slate-800 rounded w-[12vw]'/>
+`
+
+
+
+For an example of what this might look like in practice, see below.
+
+
+
+
+
+![alt text](exampleDesign.png)
 
 <!-- USAGE EXAMPLES -->
 ## Usage
