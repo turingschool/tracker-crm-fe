@@ -55,7 +55,7 @@ function MenuBar() {
         {isDropDownOpen && (
           <ul className="bg-cyan-600 m-4 shadow-md rounded-md">
             <li className="p-2 hover:bg-gray-200 rounded text-center mb-2">
-              <Link to="/contacts/new">Create New Contact</Link>
+              <Link to="/newContact">Create New Contact</Link>
             </li>
             <li className="p-2 hover:bg-gray-200 rounded text-center mb-2">
               <Link to="/companies/new">Create New Company</Link>
