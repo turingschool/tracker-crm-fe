@@ -3,11 +3,10 @@ import './App.css';
 import { useState } from 'react';
 import LoginForm from './Login';
 import { getUser } from './apiCalls';
-import MenuBar from './components/layout/MenuBar'
-import { BrowserRouter } from 'react-router-dom';
-// import { Route, Routes,Navigate } from 'react-router-dom';
+import MenuBar from './components/layout/MenuBar';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Contacts from './components/contacts/Contacts';
 
-// import Contacts from './components/contacts/Contacts';
 
 interface UserInfo {
   id: number,
@@ -82,24 +81,56 @@ function App() {
 //       </div>
 //     </BrowserRouter>
 //   );
+  // return (
+  //   // <BrowserRouter>
+  //     <div>
+  //       {!isLoggedIn && (
+  //         <>
+  //           {/* <h1>Please login</h1> */}
+  //           <LoginForm onLogin={handleLogin} />
+  //         </>
+  //       )}
+  //       {isLoggedIn && (
+  //         <div className='flex flex-row'>
+  //           <MenuBar />
+  //           <h1>Welcome, {userData.username}</h1>
+  //           <button onClick={handleLogout}>Log Out</button>
+  //         </div>
+  //       )}
+  //     </div>
+  //   // </BrowserRouter>
+  // );
   return (
-    <BrowserRouter>
-      <div>
-        {!isLoggedIn && (
-          <>
-            {/* <h1>Please login</h1> */}
-            <LoginForm onLogin={handleLogin} />
-          </>
-        )}
-        {isLoggedIn && (
-          <div className='flex flex-row'>
-            <MenuBar />
-            <h1>Welcome, {userData.username}</h1>
-            <button onClick={handleLogout}>Log Out</button>
-          </div>
-        )}
-      </div>
-    </BrowserRouter>
+    <div>
+      <Routes>
+        <Route 
+          path="/"
+          element={
+            isLoggedIn ? (<Navigate to="/home" replace /> ):( <LoginForm onLogin={handleLogin} /> )
+          }
+        />
+        <Route 
+          path="/home"
+          element={
+            isLoggedIn ? (
+              <div className='flex flex-row'>
+                <MenuBar />
+                <div>
+                  <h1>Welcome, {userData.username}</h1>
+                  <button onClick={handleLogout}>Log Out</button>
+                </div>
+              </div>
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        /> 
+        <Route 
+          path="/contacts"
+          element={<Contacts/>}
+        />
+      </Routes>
+    </div>
   );
 }
 

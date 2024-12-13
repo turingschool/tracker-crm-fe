@@ -12,7 +12,8 @@ function MenuBar() {
 
   return (
 
-    <div className='flex flex-col justify-items-center  bg-gray-500  justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
+    // <div className='flex flex-col justify-items-center  bg-gray-500  justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
+    <div className='flex flex-col justify-items-center border-r-[2px] justify-evenly h-screen mr-10 md:w-1/6'>
       <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=Turing.edu">
         <img className="m-auto w-1/2 cursor-pointer" src={logo}>
         </img>
