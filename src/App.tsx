@@ -108,10 +108,10 @@ function App() {
         <Route path="/userInformation" element={
           <>
             {isLoggedIn && (
-              <>
+              <div className="flex items-start">
                 <MenuBar />
                 <UserInformation userData={userData} />
-              </>
+              </div>
             )}
           </>
         } />

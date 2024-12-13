@@ -58,7 +58,7 @@ function UserInformation({userData}: UserInformationProps) {
   
   return (
     <>
-      <form onSubmit={submit} className="max-w-md mx-auto p-4 bg-white shadow-lg rounded-lg">
+      <form onSubmit={submit} className="flex-col flex max-w-md min-w-md mx-auto p-8 bg-white shadow-lg rounded-lg">
         <h2 className="text-2xl font-bold mb-4">Name</h2>
         <input
           type="text"
@@ -88,7 +88,7 @@ function UserInformation({userData}: UserInformationProps) {
           className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           data-testid="password-input"
         />
-        <h2>Re-enter password</h2>
+        <h2 className="text-2xl font-bold mb-4">Re-enter password</h2>
         <input
           type="text"
           placeholder="Name"
