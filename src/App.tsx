@@ -6,7 +6,7 @@ import { getUser } from './apiCalls';
 import MenuBar from './components/layout/MenuBar';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Contacts from './components/contacts/Contacts';
-
+import NewContact from './components/newContact/NewContact';
 
 interface UserInfo {
   id: number,
@@ -128,6 +128,10 @@ function App() {
         <Route 
           path="/contacts"
           element={<Contacts/>}
+        />
+        <Route 
+          path="/newContacts"
+          element={<NewContact/>}
         />
       </Routes>
     </div>

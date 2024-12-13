@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import MenuBar from "../layout/MenuBar";
+// import NewContact from './components/newContact/NewContact';
 
 interface ContactData {
   "id": string,
@@ -21,7 +23,7 @@ function Contacts() {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJleHAiOjE3MzQxMzczNTV9.JTg4088WxutlaNjmcIqYBLMPqGzeHdwx94PxUdOMxyA";
+        const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJleHAiOjE3MzQyMDQ1NDR9.H9Qp64a08xdzn1O_8zMQ7T5az8aU4exu8sEK-VvYdHQ";
         const response = await fetch("http://localhost:3001/api/v1/users/4/contacts", {
           method: "GET",
           headers: {
@@ -60,17 +62,18 @@ function Contacts() {
   return (
     <section className='flex'>
       <MenuBar/>
-      <div className='w-[70vw]'>
-        <h1 className="text-[5vw] font-bold text-cyan-600">Contacts</h1>
+      <div className='w-[70vw] pl-[4vw]'>
+        <h1 className="text-[5vw] font-bold text-cyan-600 my-[5vh]">Contacts</h1>
         <div className='flex justify-between'>
           <input
-          // className='p-2 border-2 border-slate-800 rounded w-[12vw] h-full max-h-24'
           className='p-2 border-2 border-slate-800 rounded w-[12vw] h-full'
           type='text'
           // value={}
           placeholder='Search contacts...'
           />
-          <button className='bg-cyan-600 text-white px-4 py-2 rounded w-[10vw] h-full max-h-24'>Add New +</button>
+          <Link to='/newContacts'>
+            <button className='bg-cyan-600 text-white px-4 py-2 rounded w-[10vw] h-full max-h-24'>Add New +</button>
+          </Link>
         </div>
         <table className='w-[70vw] mt-[1.5vh]'>
           <thead className="border-t bg-gray-200">

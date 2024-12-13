@@ -4,8 +4,9 @@ import person from '../../components/icons/person-icon.png';
 import building from '../../components/icons/building-1062.png';
 import plus from '../../components/icons/plus-small_4338829.png';
 import papers from '../../components/icons/documents-symbol_35920.png';
-
 import { Link } from 'react-router-dom';
+
+// import { Link } from 'react-router-dom';
 // import Contacts from '../contacts/Contacts';
 
 function MenuBar() {
@@ -13,7 +14,7 @@ function MenuBar() {
   return (
 
     // <div className='flex flex-col justify-items-center  bg-gray-500  justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
-    <div className='flex flex-col justify-items-center border-r-[2px] justify-evenly h-screen mr-10 md:w-1/6'>
+    <div className='flex flex-col justify-items-center border-r-[2px] justify-evenly h-screen mr-10 md:w-[10vw]'>
       <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=Turing.edu">
         <img className="m-auto w-1/2 cursor-pointer" src={logo}>
         </img>
