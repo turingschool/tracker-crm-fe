@@ -198,9 +198,20 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
+- [ ] Feature 1 - Login
+- [ ] Feature 2 - Home
+- [ ] Feature 3 - Companies
+
+The Companies section allows users to seamlessly manage a list of their companies. 
+
+Key functionalities include:
+	•	View All Companies: Browse a comprehensive list of companies with detailed information such as company name, application status, and notes.
+	•	Create a Company: Add new companies by filling out a simple form with fields like name, website, address, and notes.
+	•	Search for a Company: Use the search bar to quickly find companies by name, enhancing efficiency and user experience.
+
+![Companies Section Demo](/tracker-crm-fe/public/assets/companies.gif)
+
+- [ ] Feature 4
     - [ ] Nested Feature
 
 See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
