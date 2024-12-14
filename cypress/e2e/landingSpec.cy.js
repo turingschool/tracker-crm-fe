@@ -75,7 +75,7 @@ describe('Landing page after logging in spec', () => {
       cy.get('.bg-cyan-600 > :nth-child(2) > a').click()
       cy.url('match', 'http://localhost:3000/companies/new');
     })
-    it('should render dropdown menu with link to create new contact', () => {
+    it('should render dropdown menu with link to create job application', () => {
       cy.visit('http://localhost:3000/')
       cy.get('button.m-auto > .m-auto').click()
       cy.contains('Create New Job Application').should('exist');
