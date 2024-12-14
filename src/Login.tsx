@@ -1,7 +1,11 @@
-import turingLogo from './Turing-logo.png';
 import { useState } from 'react';
+// import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import turingLogo from './Turing-logo.png';
 
 const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
+  const { userID} = useParams()
+  console.log(userID)
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');

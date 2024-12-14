@@ -139,7 +139,50 @@ This is an example of how to list things you need to use the software and how to
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Design Doc
+Currently, we will be using Helvetica Neue Sans-Serif as our primary font, with the font size being set using vh/vw. 
 
+Example: className="text-[5vw] font-[Helvetica Neue]"
+
+(Note that most text should be Helvetica Neue by default, but if it isn't, setting it manually can be done as above.)
+
+We will be refactoring to make use of MUI's SvgIcon icons, rather than images. Follow the following links for more information about how we'll be doing this:
+https://mui.com/material-ui/getting-started/
+https://mui.com/material-ui/material-icons/?query=home
+
+
+We'll be using colors according to the image below.
+![alt text](ColorGuide.png)
+
+For a form container, we'll be using something like this:
+`<div className="w-[50vw] mx-auto my-[2vh] p-[3vh] ">`
+
+while for our Save Button, we'll be following this example.
+`bg-cyan-600 text-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2`
+
+For our form boxes, we'll be using this styling.
+`<label htmlFor="email" className="block text-gray-700 font-medium mb-[1vh]"> Email </label> <input className="w-full px-[1vh] py-[1vh] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" name="email"/>`
+
+
+When we get text that's too long for our designated page area, we will cut that text off after a certain point, then insert a "Read More" button. This will open a modal containing the full version of the previously-truncated text.
+
+When creating tables and forms, we'll be alternating between white and grey-100 for the background, and when we wish to create a button or search bars, we'll generally style them like this unless specifically told otherwise: 
+
+ `<button className='bg-cyan-600 text-white p-[1vh] rounded w-[10vw]'>Add New +</button>`
+
+
+
+`<input className='p-[1vh] border-2 border-slate-800 rounded w-[12vw] h-full' />`
+
+
+
+For an example of what this might look like in practice, see below.
+
+
+
+
+
+![alt text](exampleDesign.png)
 
 <!-- USAGE EXAMPLES -->
 ## Usage
@@ -155,9 +198,20 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
+- [ ] Feature 1 - Login
+- [ ] Feature 2 - Home
+- [ ] Feature 3 - Companies
+
+The Companies section allows users to seamlessly manage a list of their companies. 
+
+Key functionalities include:
+	•	View All Companies: Browse a comprehensive list of companies with detailed information such as company name, application status, and notes.
+	•	Create a Company: Add new companies by filling out a simple form with fields like name, website, address, and notes.
+	•	Search for a Company: Use the search bar to quickly find companies by name, enhancing efficiency and user experience.
+
+![Companies Section Demo](/tracker-crm-fe/public/assets/companies.gif)
+
+- [ ] Feature 4
     - [ ] Nested Feature
 
 See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
