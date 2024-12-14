@@ -32,7 +32,7 @@ function Contacts() {
           },
         });
         if (!response.ok) {
-          throw new Error(`Failed to fetch companies: ${response.statusText}`);
+          throw new Error(`Failed to fetch contacts: ${response.statusText}`);
         }
         const data = await response.json();
         console.log(data.data);
@@ -66,13 +66,14 @@ function Contacts() {
         <h1 className="text-[5vw] font-bold text-cyan-600 my-[5vh]">Contacts</h1>
         <div className='flex justify-between'>
           <input
-          className='p-2 border-2 border-slate-800 rounded w-[12vw] h-full'
+          className='p-[1vh] border-2 border-slate-800 rounded w-[12vw] h-full'
           type='text'
           // value={}
           placeholder='Search contacts...'
           />
           <Link to='/newContacts'>
-            <button className='bg-cyan-600 text-white px-4 py-2 rounded w-[10vw] h-full max-h-24'>Add New +</button>
+            {/* <button className='bg-cyan-600 text-white px-4 py-2 rounded w-[10vw]'>Add New +</button> */}
+            <button className='bg-cyan-600 text-white p-[1vh] rounded w-[10vw]'>Add New +</button>
           </Link>
         </div>
         <table className='w-[70vw] mt-[1.5vh]'>

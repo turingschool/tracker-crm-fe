@@ -49,7 +49,7 @@ const NewContact = () => {
       // const token = "YOUR_AUTH_TOKEN_HERE";
       const token =
         "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJleHAiOjE3MzQyMDQ1NDR9.H9Qp64a08xdzn1O_8zMQ7T5az8aU4exu8sEK-VvYdHQ";
-      const response = await fetch("http://localhost:3001/api/v1/users/3/contacts", {
+      const response = await fetch("http://localhost:3001/api/v1/users/4/contacts", {
         method: "POST",
         headers: {
           authorization: `Bearer ${token}`,
@@ -83,7 +83,7 @@ const NewContact = () => {
       
       <MenuBar />
 
-     <div className="w-3/4 max-w-4xl mx-auto my-4 p-8 ">
+     <div className="w-[50vw] mx-auto my-[2vh] p-[3vh] ">
       <h1 className="text-[5vh] font-bold mb-6 text-cyan-600">Add New Contact</h1>
       {feedback && (
           <div
@@ -130,11 +130,11 @@ const NewContact = () => {
           </div>
         </div>
         <div>
-          <label htmlFor="email" className="block text-gray-700 font-medium mb-1">
+          <label htmlFor="email" className="block text-gray-700 font-medium mb-[1vh]">
             Email
           </label>
           <input
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            className="w-full px-[1vw] py-[1vh] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
             type="email"
             id="email"
             name="email"
@@ -199,7 +199,8 @@ const NewContact = () => {
         <div className="text-left">
           <button
             type="submit"
-            className= "bg-cyan-600 text-white px-4 py-2 rounded w-[10vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2"
+            // className= "bg-cyan-600 text-white px-4 py-2 rounded w-[10vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2"
+            className= "bg-cyan-600 text-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2"
           >
 
             Save
