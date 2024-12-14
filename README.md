@@ -154,6 +154,15 @@ https://mui.com/material-ui/material-icons/?query=home
 We'll be using colors according to the image below.
 ![alt text](ColorGuide.png)
 
+For a form container, we'll be using something like this:
+`<div className="w-[50vw] mx-auto my-[2vh] p-[3vh] ">`
+
+while for our Save Button, we'll be following this example.
+`bg-cyan-600 text-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2`
+
+For our form boxes, we'll be using this styling.
+`<label htmlFor="email" className="block text-gray-700 font-medium mb-[1vh]"> Email </label> <input className="w-full px-[1vh] py-[1vh] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" name="email"/>`
+
 
 When we get text that's too long for our designated page area, we will cut that text off after a certain point, then insert a "Read More" button. This will open a modal containing the full version of the previously-truncated text.
 
@@ -164,6 +173,7 @@ When creating tables and forms, we'll be alternating between white and grey-100 
 
 
 `<input className='p-[1vh] border-2 border-slate-800 rounded w-[12vw] h-full' />`
+
 
 
 For an example of what this might look like in practice, see below.
