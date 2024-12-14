@@ -44,27 +44,29 @@ function MenuBar() {
       </a>
 
       <div className='dropDownPlus'>
-      <button className="m-auto cursor-pointer" onClick={toggleDropDown}>
-        <img
-          className="m-auto w-1/4 cursor-pointer"
-          src={isDropDownOpen ? plusOpen : plus}
-          alt="Teal Plus Icon"
-        />
-      </button>
+        <button className="m-auto cursor-pointer" onClick={toggleDropDown}>
+          <img
+            className="m-auto w-1/4 cursor-pointer"
+            src={isDropDownOpen ? plusOpen : plus}
+            alt="Teal Plus Icon"
+          />
+        </button>
         
-        {isDropDownOpen && (
-          <ul className="bg-cyan-600 m-4 shadow-md rounded-md">
-            <li className="p-2 hover:bg-gray-200 rounded text-center mb-2">
-              <Link to="/newContact">Create New Contact</Link>
-            </li>
-            <li className="p-2 hover:bg-gray-200 rounded text-center mb-2">
-              <Link to="/companies/new">Create New Company</Link>
-            </li>
-            <li className="p-2 hover:bg-gray-200 rounded text-center">
-              <Link to="/jobapplications/new">Create New Job Application</Link>
-            </li>
-          </ul>
-        )}
+        <ul
+          className={`bg-cyan-600 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform ${
+            isDropDownOpen ? 'scale-100 opacity-100 visible' : 'scale-95 opacity-0 invisible'
+          }`}
+        >
+          <li className="p-2 hover:bg-gray-200 rounded text-center mb-2">
+            <Link to="/newContact">Create New Contact</Link>
+          </li>
+          <li className="p-2 hover:bg-gray-200 rounded text-center mb-2">
+            <Link to="/companies/new">Create New Company</Link>
+          </li>
+          <li className="p-2 hover:bg-gray-200 rounded text-center">
+            <Link to="/jobapplications/new">Create New Job Application</Link>
+          </li>
+        </ul>
       </div>
 
       <a className="m-auto  cursor-pointer" href="https://www.google.com/search?q=account">
