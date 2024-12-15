@@ -93,7 +93,7 @@ function Contacts() {
     <section className='flex'>
       <MenuBar/>
       <div className='w-[70vw] pl-[4vw]'>
-        <h1 className="text-[5vw] font-bold text-cyan-600 my-[5vh]">Contacts</h1>
+        <h1 className="text-[5vh] font-bold text-cyan-600 my-[5vh]">Contacts</h1>
         <div className='flex justify-between items-center'>
           {/* <input
           onSubmit={(event) => event.preventDefault()}
