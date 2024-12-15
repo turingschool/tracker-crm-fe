@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import MenuBar from "../layout/MenuBar";
-// import NewContact from './components/newContact/NewContact';
 
 interface ContactData {
   "id": string,
@@ -19,6 +18,8 @@ interface ContactData {
 
 function Contacts() {
   const [contacts, setContacts] = useState<ContactData[] | []>([])
+  const [allContacts, setAllContacts] = useState<ContactData[] | []>([])
+  const [contactSearch, setContactSearch] = useState<string>("")
   
   useEffect(() => {
     const fetchContacts = async () => {
@@ -37,13 +38,42 @@ function Contacts() {
         const data = await response.json();
         console.log(data.data);
         setContacts(data.data as ContactData[]);
-        // setFilteredCompanies(data.data as Company[]);
+        setAllContacts(data.data as ContactData[]);
       } catch (error) {
         console.error("Fetch error", error);
       }
     };
     fetchContacts();
   }, []);
+
+  function searchContactList(event: React.ChangeEvent<HTMLInputElement>) {
+  // function searchContactList(event: React.FormEvent<HTMLFormElement>) {
+    const search = event.target.value
+    setContactSearch(search);
+    if (search === "") {
+      setContacts(allContacts)
+    } else {
+      const filteredContacts = allContacts.filter(contact => {
+        console.log(contact, "HERE")
+        return contact.attributes.first_name.toLowerCase().includes(search.toLowerCase())
+      })
+      setContacts(filteredContacts)
+    }   
+  };
+
+  const searchBar = (
+    <form onSubmit={(event) => event.preventDefault()}>
+      {/* <img className='search-icon' src={searchIcon} alt='search icon'/> */}
+      <input
+        className='p-[1vh] border-2 border-slate-800 rounded w-[200px] h-full'
+        type="search"
+        id="contacts-search"
+        placeholder='Search Contacts...'
+        value={contactSearch}
+        onChange={searchContactList}
+      />
+    </form>
+  )
 
   const contactData = contacts.map(data => {
     console.log(data, "DATA")
@@ -64,15 +94,17 @@ function Contacts() {
       <MenuBar/>
       <div className='w-[70vw] pl-[4vw]'>
         <h1 className="text-[5vw] font-bold text-cyan-600 my-[5vh]">Contacts</h1>
-        <div className='flex justify-between'>
-          <input
-          className='p-[1vh] border-2 border-slate-800 rounded w-[12vw] h-full'
+        <div className='flex justify-between items-center'>
+          {/* <input
+          onSubmit={(event) => event.preventDefault()}
+          className='p-[1vh] border-2 border-slate-800 rounded w-[200px] h-full'
+          // className='p-[1vh] border-2 border-slate-800 rounded w-[12vw] h-full'
           type='text'
           // value={}
           placeholder='Search contacts...'
-          />
+          /> */}
+          {searchBar}
           <Link to='/newContacts'>
-            {/* <button className='bg-cyan-600 text-white px-4 py-2 rounded w-[10vw]'>Add New +</button> */}
             <button className='bg-cyan-600 text-white p-[1vh] rounded w-[10vw]'>Add New +</button>
           </Link>
         </div>

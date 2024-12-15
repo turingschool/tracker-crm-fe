@@ -84,6 +84,7 @@ const NewContact = () => {
       <MenuBar />
 
      <div className="w-[50vw] mx-auto my-[2vh] p-[3vh] ">
+     {/* <div className="w-[50vw] mx-auto my-[2vh] p-[3vh] "> */}
       <h1 className="text-[5vh] font-bold mb-6 text-cyan-600">Add New Contact</h1>
       {feedback && (
           <div
