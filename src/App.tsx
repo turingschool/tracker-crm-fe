@@ -6,7 +6,7 @@ import { getUser } from './apiCalls';
 import MenuBar from './components/layout/MenuBar';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Contacts from './components/contacts/Contacts';
-import NewContact from './components/newContact/NewContact';
+import NewContact from './components/contacts/NewContact';
 
 interface UserInfo {
   id: number,
