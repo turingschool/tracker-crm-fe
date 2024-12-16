@@ -104,7 +104,7 @@ function Contacts() {
           placeholder='Search contacts...'
           /> */}
           {searchBar}
-          <Link to='/newContacts'>
+          <Link to='/contacts/new'>
             <button className='bg-cyan-600 text-white p-[1vh] rounded w-[10vw]'>Add New +</button>
           </Link>
         </div>

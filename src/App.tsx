@@ -128,14 +128,8 @@ function App() {
         /> 
         <Route path="/companies" element={<Companies/>} />
         <Route path="/companies/new" element={<NewCompany />} />
-        <Route 
-          path="/contacts"
-          element={<Contacts/>}
-        />
-        <Route 
-          path="/newContacts"
-          element={<NewContact/>}
-        />
+        <Route path="/contacts" element={<Contacts/>} />
+        <Route path="/contacts/new" element={<NewContact/>} />
       </Routes>
     </div>
   );
