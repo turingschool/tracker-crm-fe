@@ -48,7 +48,7 @@ const NewContact = () => {
     try {
       // const token = "YOUR_AUTH_TOKEN_HERE";
       const token =
-        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJleHAiOjE3MzQyMDQ1NDR9.H9Qp64a08xdzn1O_8zMQ7T5az8aU4exu8sEK-VvYdHQ";
+        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJleHAiOjE3MzQ0Njg1MjR9.P5tqsH3teuE_E8oPOM01SD_makjWlsuSUQ2unr5bmn0";
       const response = await fetch("http://localhost:3001/api/v1/users/4/contacts", {
         method: "POST",
         headers: {
