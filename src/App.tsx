@@ -94,7 +94,7 @@ function App() {
         <Route 
           path="/"
           element={
-            isLoggedIn ? (<Navigate to="/home" replace /> ):( <LoginForm onLogin={handleLogin} /> )
+            isLoggedIn ? (<Navigate to="/home" replace /> ):( <LoginForm setLogin={setIsLoggedIn} setData={setUserData} setId={setUserId} /> )
           }
         />
         <Route 
@@ -104,7 +104,7 @@ function App() {
               <div className='flex flex-row'>
                 <MenuBar />
                 <div>
-                  <h1>Welcome, {userData.username}</h1>
+                  <h1>Welcome, {userData.user.attributes.name}</h1>
                   <button onClick={handleLogout}>Log Out</button>
                 </div>
               </div>
@@ -115,6 +115,13 @@ function App() {
         /> 
         <Route path="/companies" element={<Companies/>} />
         <Route path="/companies/new" element={<NewCompany />} />
+        <Route path="/userInformation" element={
+              <div className="flex items-start">
+                <MenuBar />
+                <UserInformation userData={userData} />
+              </div>
+            }
+        />
       </Routes>
     </div>
   );
