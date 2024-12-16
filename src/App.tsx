@@ -58,12 +58,7 @@ function App(): React.ReactElement {
   //   setUserData({});
   // };
 
-  // ########################################################
-  
-  // WHERE I LEFT OFF
-  // Working on Routes from Login link to User Registration Page
-  
-  // ########################################################
+
 
 
   console.log(`we need to have ${userId}... NOT`)
@@ -97,7 +92,6 @@ function App(): React.ReactElement {
           path="/UserRegistration"
           element={
             <div>
-              <h1>Register User</h1>
               <UserRegistration />
             </div>
           }

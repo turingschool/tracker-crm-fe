@@ -1,4 +1,5 @@
 import React from 'react';
+import turingLogo from '../Turing-logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { registerUser } from '../apiCalls';
@@ -39,11 +40,12 @@ function UserRegistration(): React.ReactElement {
   };
 
   return (
-    <div className="">
-      <div className="">
+    <div className="login-form-wrap flex w-screen h-screen justify-center">
+      <div className="form-inputs w-6/12 flex">
+        <img className='turing-logo size-20' src={turingLogo} />
         <h2>Create Account</h2>
         <form onSubmit={handleFormSubmit}>
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name" className='font-[Helvetica Neue] font-sans text-xl'>Name</label>
           <input
             id="name"
             type="text"
@@ -51,9 +53,10 @@ function UserRegistration(): React.ReactElement {
             onChange={(e) => setName(e.target.value)}
             required
             placeholder="Add text"
+            className='w-[100%] p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200'
             />
 
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email" className='font-[Helvetica Neue] font-sans text-xl'>Email</label>
           <input
             id="email"
             type="email"
@@ -61,9 +64,10 @@ function UserRegistration(): React.ReactElement {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="Add text"
+            className='w-[100%] p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200'
             />
 
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password" className='font-[Helvetica Neue] font-sans text-xl'>Password</label>
           <input
             id="password"
             type="password"
@@ -71,9 +75,10 @@ function UserRegistration(): React.ReactElement {
             onChange={(e) => setPassword(e.target.value)}
             required
             placeholder="Add text"
+            className='w-[100%] p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200'
             />
 
-          <label htmlFor="passwordConfirmation">Confirm Password</label>
+          <label htmlFor="passwordConfirmation" className='font-[Helvetica Neue] font-sans text-xl'>Confirm Password</label>
           <input
             id="passwordConfirmation"
             type="password"
@@ -81,11 +86,12 @@ function UserRegistration(): React.ReactElement {
             onChange={(e) => setPasswordConfirmation(e.target.value)}
             required
             placeholder="Add text"
+            className='w-[100%] p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200'
           />
 
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-          <button type="submit">Register</button>
+          <button type="submit" >Register</button>
         </form>
 
         <p>
