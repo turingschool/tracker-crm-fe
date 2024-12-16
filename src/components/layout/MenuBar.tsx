@@ -1,20 +1,59 @@
-// import home from '../../components/icons/home_738822.png';
 import logo from '../../turing-logo-gray.png';
-// import person from '../../components/icons/person-icon.png';
+import { useParams, Link } from 'react-router-dom';
+
+// MUI Icons
+import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-// import building from '../../components/icons/building-1062.png';
 import ApartmentIcon from '@mui/icons-material/Apartment';
-// import plus from '../../components/icons/plus-small_4338829.png';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 // import papers from '../../components/icons/documents-symbol_35920.png';
 import { Link } from 'react-router-dom';
 import DescriptionIcon from '@mui/icons-material/Description';
-import HomeIcon from '@mui/icons-material/Home';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
 function MenuBar() {
-  console.log(HomeIcon);
+  const { userID } = useParams();
+  console.log(userID);
+
   return (
+    <div className='flex flex-col justify-items-center bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
+      
+      {/* Logo */}
+      <Link className="m-auto cursor-pointer" to="/">
+        <img className="m-auto w-1/2 cursor-pointer" src={logo} alt="Logo" />
+      </Link>
+
+      {/* Home */}
+      <Link className="m-auto cursor-pointer" to="/home">
+        <HomeIcon fontSize="large" className="m-auto text-white" />
+      </Link>
+
+      {/* Profile */}
+      <Link className="m-auto cursor-pointer" to="/profile">
+        <PersonIcon fontSize="large" className="m-auto text-white" />
+      </Link>
+
+      {/* Companies */}
+      <Link className="m-auto cursor-pointer" to="/companies">
+        <ApartmentIcon fontSize="large" className="m-auto text-white" />
+      </Link>
+
+      {/* Documents */}
+      <Link className="m-auto cursor-pointer" to="/documents">
+        <DescriptionIcon fontSize="large" className="m-auto text-white" />
+      </Link>
+
+      {/* Add New */}
+      <Link className="m-auto cursor-pointer" to="/add-new">
+        <PersonAddAlt1Icon fontSize="large" className="m-auto text-white" />
+      </Link>
+
+      {/* Account */}
+      <Link className="m-auto cursor-pointer" to="/account">
+        <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-blue-200 text-white" />
+      </Link>
+
+      <div className="m-auto h-auto"></div>  
 
     <div className='flex-col flex  border-r-8 border-gray-300  bg-white  h-screen mr-10 md:w-[7.5vw] max-w-[20vw]'>
       <a className=" m-auto w-[5vw]  cursor-pointer" href="https://www.google.com/search?q=Turing.edu">
