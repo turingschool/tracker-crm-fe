@@ -7,9 +7,19 @@ import PersonIcon from '@mui/icons-material/Person';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import DescriptionIcon from '@mui/icons-material/Description';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+// import plusOpen from '../../components/icons/plus-open.png';
+// import plus from '../../components/icons/plus-small_4338829.png'; 
+
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import { useState } from 'react';
+
 
 function MenuBar() {
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false)
+  const toggleDropDown = () => {
+    setIsDropDownOpen((previousState) => !previousState)
+  }
   const { userID } = useParams();
   console.log(userID);
 
@@ -50,6 +60,31 @@ function MenuBar() {
       <Link className="m-auto cursor-pointer" to="/account">
         <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-blue-200 text-white" />
       </Link>
+
+      {/* Drop Down Shortcut Menu */}
+      <div className="flex flex-col items-center justify-center relative">
+        <button className="flex items-center justify-items-center" onClick={toggleDropDown}>
+          <AddCircleIcon fontSize="large" className="m-auto text-white justify-items-center" />
+        </button>
+        
+        <ul
+          className={`bg-cyan-600 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform ${
+            isDropDownOpen ? 'scale-100 opacity-100 visible' : 'scale-95 opacity-0 invisible'
+          }`}
+        >
+          <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
+            <Link to="/newContact">Create New Contact</Link>
+          </li>
+          <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
+            <Link to="/companies/new">Create New Company</Link>
+          </li>
+          <li className="p-2 hover:bg-gray-100 rounded text-center font-[Helvetica Neue]">
+            <Link to="/jobapplications/new">Create New Job Application</Link>
+          </li>
+        </ul>
+      </div>
+
+
 
       <div className="m-auto h-auto"></div>  
     </div>

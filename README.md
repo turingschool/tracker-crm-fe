@@ -236,11 +236,18 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Top contributors:
+## Core Contributors:
+<!-- 
+HEY YOU!!!! Keep it in alphabetical by last name!!!
+FORMAT: lastname, firstname 
+  - github link 
+  - linkedin link
+  -->
 
-<a href="https://github.com/github_username/repo_name/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=github_username/repo_name" alt="contrib.rocks image" />
-</a>
+**Chirchirillo, Joe**
+   - [Github](https://github.com/jchirch)
+   - [LinkedIn](https://www.linkedin.com/in/joechirchirillo/)
+
 
 
 
@@ -258,7 +265,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [Tracker](https://github.com/turingschool/tracker-crm-fe)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
