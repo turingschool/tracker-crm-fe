@@ -91,7 +91,17 @@ function UserRegistration(): React.ReactElement {
 
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-          <button type="submit" >Register</button>
+          <button 
+            type="submit" 
+            className="bg-cyan-600 text-white
+            px-[2vw] py-[1vh]
+            rounded w-[10vw]
+            hover:bg-cyan-700
+            focus:ring-2 focus:ring-cyan-500
+            "
+            >
+              Register
+            </button>
         </form>
 
         <p>
@@ -100,6 +110,7 @@ function UserRegistration(): React.ReactElement {
       </div>
       <div className="text-container">
         <h1>Tracker</h1>
+        {/* MISSING "by Turing" --> Probably needs to be its own element since styling is different*/}
         <p>Job hunting made easier.</p>
       </div>
     </div>
