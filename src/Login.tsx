@@ -1,16 +1,14 @@
-import { useState } from 'react';
-// import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import turingLogo from './Turing-logo.png';
+import { useState } from 'react';
+import { LoginFormProps } from './Interfaces'
 
-const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
-  const { userID} = useParams()
-  console.log(userID)
+const LoginForm: React.FC<LoginFormProps> = ({ setLogin, setData, setId }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -37,9 +35,24 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
       }
 
       const responseData = await response.json();
-      onLogin(responseData.data.id);
-      setSuccessMessage('Login successful!');
       console.log('Response data:', responseData);
+      setData({
+        token: responseData.token,
+        user: {
+          id: responseData.user.data.id,
+          type: 'user',
+          attributes: {
+            email: responseData.user.data.attributes.email,
+            name: responseData.user.data.attributes.name,
+            companies: responseData.user.data.attributes.companies
+          }
+        }
+      });
+      setId(responseData.user.data.id);
+      setLogin(true);
+      setSuccessMessage('Login successful!');
+      navigate("/")
+      
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(`Error logging in: ${error.message}`);
