@@ -7,6 +7,8 @@ import MenuBar from './components/layout/MenuBar';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Contacts from './components/contacts/Contacts';
 import NewContact from './components/contacts/NewContact';
+import Companies  from './components/companies/Companies';
+import NewCompany from './components/companies/NewCompany';
 
 interface UserInfo {
   id: number,
@@ -16,7 +18,6 @@ interface UserInfo {
 
 
 function App() {
-
   const [userId, setUserId] = useState(null);
   const [userData, setUserData] = useState<Partial<UserInfo>>({});
   const [isLoggedIn, setIsLoggedIn] = useState(true);   // temporary until the login is fixed
@@ -125,6 +126,8 @@ function App() {
             )
           }
         /> 
+        <Route path="/companies" element={<Companies/>} />
+        <Route path="/companies/new" element={<NewCompany />} />
         <Route 
           path="/contacts"
           element={<Contacts/>}
