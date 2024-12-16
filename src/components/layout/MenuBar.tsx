@@ -14,44 +14,37 @@ function MenuBar() {
   console.log(userID);
 
   return (
-    <div className='flex flex-col justify-items-center bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
-      
-      {/* Logo */}
-      <Link className="m-auto cursor-pointer" to="/">
-        <img className="m-auto w-1/2 cursor-pointer" src={logo} alt="Logo" />
-      </Link>
-
-      {/* Home */}
-      <Link className="m-auto cursor-pointer" to="/home">
-        <HomeIcon fontSize="large" className="m-auto text-white" />
-      </Link>
-
-      {/* Profile */}
-      <Link className="m-auto cursor-pointer" to="/profile">
-        <PersonIcon fontSize="large" className="m-auto text-white" />
-      </Link>
-
-      {/* Companies */}
-      <Link className="m-auto cursor-pointer" to="/companies">
-        <ApartmentIcon fontSize="large" className="m-auto text-white" />
-      </Link>
-
-      {/* Documents */}
-      <Link className="m-auto cursor-pointer" to="/documents">
-        <DescriptionIcon fontSize="large" className="m-auto text-white" />
-      </Link>
-
-      {/* Add New */}
-      <Link className="m-auto cursor-pointer" to="/add-new">
-        <PersonAddAlt1Icon fontSize="large" className="m-auto text-white" />
-      </Link>
-
-      {/* Account */}
-      <Link className="m-auto cursor-pointer" to="/account">
-        <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-blue-200 text-white" />
-      </Link>
-
-      <div className="m-auto h-auto"></div>  
+    <div className='flex bg-white  h-screen mr-10 md:w-[10vw] max-w-[20vw]'>
+      <div className='flex flex-col h-screen w-[94%]'>
+        <a className=" m-auto w-[5vw]  cursor-pointer" href="https://www.google.com/search?q=Turing.edu">
+          <img className="  cursor-pointer" src={logo}>
+          </img>
+        </a>
+        <a className="m-auto  text-[3vw] cursor-pointer " href="https://www.google.com/search?q=home">
+          <HomeIcon fontSize='inherit' />
+        </a>
+        <a className="m-auto text-[3vw] cursor-pointer" href="https://www.google.com/search?q=person">
+          <PersonIcon fontSize='inherit' />
+        </a>
+        <a className="m-auto text-[3vw] cursor-pointer" href="https://www.google.com/search?q=building">
+          <ApartmentIcon fontSize='inherit' />
+        </a>
+        <a className="m-auto text-[3vw] cursor-pointer" href="https://www.google.com/search?q=papers">
+          <DescriptionIcon fontSize='inherit' />
+        </a>
+        <a className="m-auto text-[3vw] cursor-pointer" href="https://www.google.com/search?q=plus">
+          <PersonAddAlt1Icon fontSize='inherit' />
+        </a>
+        <a className="m-auto mt-[10vh] text-[2.5vw] cursor-pointer rounded-full bg-cyan-200" href="https://www.google.com/search?q=account">
+          <PersonOutlineOutlinedIcon fontSize='inherit' />
+        </a>
+      </div>
+      <div className='quad-color-bar flex flex-col w-[6%] h-[100%]'>
+        <div className='cyan-bar bg-cyan-500 w-[100%] h-[25%]'/>
+        <div className='yellow-bar bg-yellow-500 w-[100%] h-[25%]'/>
+        <div className='red-bar bg-red-500 w-[100%] h-[25%]'/>
+        <div className='green-bar bg-green-500 w-[100%] h-[25%]'/>
+      </div>
     </div>
   );
 }

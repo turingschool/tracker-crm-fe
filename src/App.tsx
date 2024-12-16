@@ -7,22 +7,25 @@ import MenuBar from './components/layout/MenuBar';
 import { Route, Routes, Navigate } from "react-router-dom";
 import Companies  from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
+import { UserLoggedContextProvider } from './context/UserLoggedContext.tsx';
 
 interface UserInfo {
   id: number,
   username: string,
-  email: string
+  email: string,
+  token: number,
+  role: string[]
 }
-
 
 function App() {
   const [userId, setUserId] = useState(null);
   const [userData, setUserData] = useState<Partial<UserInfo>>({});
-  const [isLoggedIn, setIsLoggedIn] = useState(true);   // temporary until the login is fixed
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleLogin = async (id: number) => {
+  const handleLogin = async (id: number, userToken: string) => {
     try {
-      const loginResponse = await getUser(id);
+      const loginResponse = await getUser(id, userToken);
+      // console.log(loginResponse, '<--- HERE IN APP')
       if (loginResponse) {
         setUserData({
           id: loginResponse.data.id,
@@ -31,8 +34,6 @@ function App() {
         });
         setUserId(loginResponse.data.id);
         setIsLoggedIn(true);
-        console.log(loginResponse);
-
       }
     } catch (err) {
       console.log(err);
@@ -62,34 +63,36 @@ function App() {
 
   console.log(`we need to have ${userId}... NOT`)
   return (
-    <div>
-      <Routes>
-        <Route 
-          path="/"
-          element={
-            isLoggedIn ? (<Navigate to="/home" replace /> ):( <LoginForm onLogin={handleLogin} /> )
-          }
-        />
-        <Route 
-          path="/home"
-          element={
-            isLoggedIn ? (
-              <div className='flex flex-row'>
-                <MenuBar />
-                <div>
-                  <h1>Welcome, {userData.username}</h1>
-                  <button onClick={handleLogout}>Log Out</button>
+    <UserLoggedContextProvider>
+      <div>
+        <Routes>
+          <Route 
+            path="/"
+            element={
+              isLoggedIn ? (<Navigate to="/home" replace /> ):( <LoginForm onLogin={handleLogin} /> )
+            }
+          />
+          <Route 
+            path="/home"
+            element={
+              isLoggedIn ? (
+                <div className='flex flex-row'>
+                  <MenuBar />
+                  <div>
+                    <h1>Welcome, {userData.username}</h1>
+                    <button onClick={handleLogout}>Log Out</button>
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <Navigate to="/" replace />
-            )
-          }
-        /> 
-        <Route path="/companies" element={<Companies/>} />
-        <Route path="/companies/new" element={<NewCompany />} />
-      </Routes>
-    </div>
+              ) : (
+                <Navigate to="/" replace />
+              )
+            }
+          /> 
+          <Route path="/companies" element={<Companies/>} />
+          <Route path="/companies/new" element={<NewCompany />} />
+        </Routes>
+      </div>
+    </UserLoggedContextProvider>
   );
 }
 

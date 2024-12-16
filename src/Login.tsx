@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import turingLogo from './Turing-logo.png';
 
-const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
+const LoginForm = ({ onLogin }: { onLogin: (id: number, userToken: string) => void }) => {
   const { userID} = useParams()
   console.log(userID)
   const [email, setEmail] = useState('');
@@ -37,7 +37,8 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
       }
 
       const responseData = await response.json();
-      onLogin(responseData.data.id);
+      console.log(responseData, '<--- HERE IN LOGIN')
+      onLogin(responseData.user.data.id, responseData.token);
       setSuccessMessage('Login successful!');
       console.log('Response data:', responseData);
     } catch (error) {
