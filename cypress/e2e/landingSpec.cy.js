@@ -11,53 +11,71 @@ describe('Landing page after logging in spec', () => {
   }
   )
 
-  it('Should have images in sidebar;', () => {
-    cy.get('[src="/static/media/turing-logo-gray.59a7002c9c188f4f0265.png"').should('have.attr', 'src').should('include', 'turing-logo')
+  it('Should have images in the sidebar', () => {
+    cy.get('img[alt="Logo"]').should('have.attr', 'src').should('include', 'turing-logo-gray');
 
-    cy.get('[src="/static/media/home_738822.d05df93742daba39e5e7.png"').should('have.attr', 'src').should('include', 'home_738822')
+    cy.get('[href="/home"] > .MuiSvgIcon-root').should('exist');
+    cy.get('[href="/profile"] > .MuiSvgIcon-root').should('exist');
+    cy.get('[href="/companies"] > .MuiSvgIcon-root').should('exist');
+    cy.get('[href="/documents"] > .MuiSvgIcon-root').should('exist');
+    cy.get('[href="/add-new"] > .MuiSvgIcon-root').should('exist');
+    cy.get('[href="/account"] > .MuiSvgIcon-root').should('exist');
+  });
+  
+  it('Should have clickable links for each icon', () => {
+    cy.get('[href="/home"]').click();
+    cy.url().should('include', '/home');
+    cy.visit('http://localhost:3000/');
 
-    cy.get('[src="/static/media/person-icon.7a1fafe972143cff67a1.png"').should('have.attr', 'src').should('include', 'person-icon')
+    cy.get('[href="/profile"]').click();
+    cy.url().should('include', '/profile');
+    cy.visit('http://localhost:3000/');
 
-    cy.get('[src="/static/media/building-1062.81aab7e590dfc1bc416c.png"').should('have.attr', 'src').should('include', 'building-1062')
+    cy.get('[href="/companies"]').click();
+    cy.url().should('include', '/companies');
+    cy.visit('http://localhost:3000/');
 
-    cy.get('[href="https://www.google.com/search?q=papers"] >.m-auto').should('have.attr', 'src').should('include', 'VORK5CYII')
+    cy.get('[href="/documents"]').click();
+    cy.url().should('include', '/documents');
+    cy.visit('http://localhost:3000/');
 
-    cy.get('[href="https://www.google.com/search?q=plus"] > .m-auto').should('have.attr', 'src').should('include', 'SuQmCC')
+    cy.get('[href="/add-new"]').click();
+    cy.url().should('include', '/add-new');
+    cy.visit('http://localhost:3000/');
 
-    cy.get('[href="https://www.google.com/search?q=account"] > .m-auto').should('have.attr', 'src').should('include', '/static/media/person-icon.7a1fafe972143cff67a1.png')
+    cy.get('[href="/account"]').click();
+    cy.url().should('include', '/account');
+  });
 
-
+  describe('DropDown Menu', () => {
+    it('has a container for dropdown elements', () => {
+      cy.visit('http://localhost:3000/');
+      cy.get('button > .MuiSvgIcon-root').click();
+      cy.get('.bg-cyan-600').should('exist');
+    });
+    it('should render dropdown menu with link to create new contact', () => {
+      cy.visit('http://localhost:3000/');
+      cy.get('button > .MuiSvgIcon-root').click();
+      cy.get('.bg-cyan-600').should('exist');
+      cy.contains('Create New Contact').should('exist');
+      cy.get('[href="/newContact"]').click();
+      cy.url().should('include', '/newContact');
+    });
+    it('should render dropdown menu with link to create new company', () => {
+      cy.visit('http://localhost:3000/');
+      cy.get('button > .MuiSvgIcon-root').click();
+      cy.get('.bg-cyan-600').should('exist');
+      cy.contains('Create New Company').should('exist');
+      cy.get('[href="/companies/new"]').click();
+      cy.url().should('include', '/companies/new');
+    });
+    it('should render dropdown menu with link to create new job application', () => {
+      cy.visit('http://localhost:3000/');
+      cy.get('button > .MuiSvgIcon-root').click();
+      cy.get('.bg-cyan-600').should('exist');
+      cy.contains('Create New Job Application').should('exist');
+      cy.get('[href="/jobapplications/new"]').click();
+      cy.url().should('include', '/jobapplications/new');
+    });
   })
-  it('Should have clickable links for each icon;', () => {
-    cy.get('[href="https://www.google.com/search?q=Turing.edu"] > .m-auto');
-    cy.url('match', 'https://www.google.com/search?q=Turing.edu');
-    cy.visit('http://localhost:3000/')
-
-    cy.get('[href="https://www.google.com/search?q=home"]').click()
-    cy.url('match', 'https://www.google.com/search?q=home');
-    cy.visit('http://localhost:3000/')
-
-    cy.get('[href="https://www.google.com/search?q=person"]').click()
-    cy.url('match', 'https://www.google.com/search?q=person');
-    cy.visit('http://localhost:3000/')
-
-    cy.get('[href="https://www.google.com/search?q=building"]').click()
-    cy.url('match', 'https://www.google.com/search?q=building');
-    cy.visit('http://localhost:3000/')
-
-    cy.get('[href="https://www.google.com/search?q=papers"]').click()
-    cy.url('match', 'https://www.google.com/search?q=papers');
-    cy.visit('http://localhost:3000/')
-
-    cy.get('[href="https://www.google.com/search?q=plus"]').click()
-    cy.url('match', 'https://www.google.com/search?q=plus');
-    cy.visit('http://localhost:3000/')
-
-    cy.get('[href="https://www.google.com/search?q=account"]').click()
-    cy.url('match', 'https://www.google.com/search?q=account');
-    cy.visit('http://localhost:3000/')
-
-  })
-
-
 })
