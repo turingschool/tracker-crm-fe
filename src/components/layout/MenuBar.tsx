@@ -48,10 +48,10 @@ function MenuBar() {
 
       {/* Account */}
       <Link to="/userInformation"
-        className="m-auto mt-[10vh] text-[2.5vw] cursor-pointer rounded-full bg-cyan-200"
+        className="m-auto mt-[10vh] text-[2.5vw] cursor-pointer rounded-full"
         data-testid="update-user"
       >
-        <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-blue-200 text-white" />
+        <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-cyan-500 text-white" />
       </Link>
 
     </div>

@@ -35,7 +35,7 @@ describe('Landing page after logging in spec and clicking user information butto
     cy.get('[data-testid="password-confirmation-input"]').should('contain', '');
   });
 
-  it('Should allow the user to fill the form and submit it', () => {
+  it('Should allow the user to fill the user information form and submit it', () => {
     const name = 'John Doe';
     const email = 'johndoe@example.com';
     const password = 'Password123';
