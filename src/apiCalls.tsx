@@ -2,7 +2,8 @@
 
 export const getUser = async (userId: number) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/v1/users/${userId}`, {
+    const apiURL = process.env.BACKEND_APP_API_URL
+    const response = await fetch(`${apiURL}${userId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -26,7 +27,8 @@ export const getUser = async (userId: number) => {
 /*-----------------------------------// UPDATE //--------------------------------------*/
 export const updateUser = async (userParams: Record<string, any> ) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/v1/users/${userParams['id']}`, {
+    const apiURL = process.env.BACKEND_APP_API_URL
+    const response = await fetch(`${apiURL}api/v1/users/${userParams['id']}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
