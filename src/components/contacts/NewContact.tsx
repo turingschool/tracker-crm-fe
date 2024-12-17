@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MenuBar from '../layout/MenuBar';
 
@@ -7,7 +7,8 @@ export interface FormData {
   lastName: string;
   email: string;
   phoneNumber: string;
-  currentCompany: string;
+  // currentCompany: string;
+  companyId?: number | null;
   notes: string;
 }
 
@@ -19,19 +20,57 @@ const NewContact = () => {
     lastName: '',
     email: '',
     phoneNumber: '',
-    currentCompany: '',
+    companyId: null,
+    // currentCompany: '',
     notes: '',
   });
+
+  console.log("formData", formData.companyId);
+  
 // added for feedback
   const [feedback, setFeedback] = useState<string | null>(null);
 
 
   // companies for the current company field, placeholder for now
-  const companies = ['Company A', 'Company B', 'Company C'];
+  const [companies, setCompanies] = useState<{ id: number; name: string }[]>([]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDU1NzkwNn0.gEfV8jFt2wT2TfG0tO5CScbwVfU8NaeYtN0VhnnEcfg"; 
+        const response = await fetch("http://localhost:3001/api/v1/users/4/companies", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch companies");
+        }
+
+        const data = await response.json();
+        const companyList = data.data.map((company: any) => ({
+          id: company.id,
+          name: company.attributes.name
+        }));
+
+        setCompanies(companyList);
+      } catch (error: any) {
+        console.error("Error fetching companies:", error.message);
+      }
+    };
+
+    fetchCompanies();
+  }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+  
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -41,15 +80,20 @@ const NewContact = () => {
       last_name: formData.lastName,
       email: formData.email,
       phone_number: formData.phoneNumber,
-      current_company: formData.currentCompany,
+      // current_company: formData.currentCompany,
       notes: formData.notes,
     };
 
     try {
       // const token = "YOUR_AUTH_TOKEN_HERE";
       const token =
-        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjo0LCJleHAiOjE3MzQ0Njg1MjR9.P5tqsH3teuE_E8oPOM01SD_makjWlsuSUQ2unr5bmn0";
-      const response = await fetch("http://localhost:3001/api/v1/users/4/contacts", {
+        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDQ5NzU4MH0.H5sA2ei6oOywogeXSfoUu-R-zxikfWUSR3mRBSwgWzo";
+        let url = `http://localhost:3001/api/v1/users/4/contacts`;
+        if (formData.companyId) {
+        
+          url = `http://localhost:3001/api/v1/users/4/companies/${formData.companyId}/contacts`;
+        }
+      const response = await fetch(url, {
         method: "POST",
         headers: {
           authorization: `Bearer ${token}`,
@@ -160,27 +204,44 @@ const NewContact = () => {
           />
         </div>
         <div>
-          <label htmlFor="currentCompany" className="block text-gray-700 font-medium mb-1">
+          {/* <label htmlFor="currentCompany" className="block text-gray-700 font-medium mb-1"> */}
+          <label htmlFor="companyId" className="block text-gray-700 font-medium mb-1">
             Company
           </label>
-          <input
+          {/* <input
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
             type="text"
-            id="Company"
-            name="Company"
+            id="currentCompany"
+            name="currentCompany"
             list="companies" // this is the id of the companies datalist
             placeholder="Type or select a company"
             value={formData.currentCompany}
             onChange={handleInputChange}
-          />
-          <datalist id="companies">
-            {companies.map((company) => (
-              <option key={company} value={company}>
-                {company}
-              </option>
-            ))}
-          </datalist>
-        </div>
+            />
+            <datalist id="companies">
+              {companies.map((company) => (
+                <option key={company.id} value={company.name} />
+                
+              ))}
+            </datalist> */}
+ <select
+  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+  id="companyId"
+  name="companyId" 
+  value={formData.companyId || ""} 
+  onChange={handleInputChange}
+>
+  <option value="" disabled>
+    Select a company
+  </option>
+  {companies.map((company) => (
+    <option key={company.id} value={company.id}>
+      {company.name}
+    </option>
+  ))}
+</select>
+          </div>
+
         <div>
           <label htmlFor="notes" className="block text-gray-700 font-medium mb-1">
             Notes
