@@ -77,37 +77,26 @@ export const updateUser = async (userParams: Record<string, any> ) => {
   }
 };
 
-/*-----------------------------------// POST - Register New User //--------------------------------------*/
+/*-----------------------------------// DashBoard //--------------------------------------*/
 
-interface UserData {
-  name: string,
-  email: string,
-  password: string,
-  passwordConfirmation: string
-}
-
-export const registerUser = async (userData: UserData): Promise<void> => {
+export const dashBoardData = async (userParams: Record<string, any> ) => {
   try {
-    const response = await fetch(`${backendURL}users`, {
-      method: 'POST',
+    const response = await fetch(`http://localhost:3001/api/v1/users/${userParams['id']}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userParams.token}`
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(userParams),
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      console.log('error', error);
-      console.log('Error: ', error)
-      throw new Error(error.message);
+      throw new Error(`Failed to update user data: ${response.status}`);
     }
 
-    console.log('User successfully registered');
     return await response.json();
-
-  } catch (error) {
-    console.error('Failed to register User:', error);
-    throw error;
+  } catch (err) {
+    console.error('Error in updateUser:', err);
+    throw err;
   }
 };
