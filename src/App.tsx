@@ -6,7 +6,9 @@ import LoginForm from './Login';
 // import { getUser } from './apiCalls';
 import MenuBar from './components/layout/MenuBar';
 import UserInformation from './components/pages/userInformation';
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Contacts from './components/contacts/Contacts';
+import NewContact from './components/contacts/NewContact';
 import Companies  from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
 
@@ -87,7 +89,46 @@ function App() {
   //   setUserData({});
   // };
 
-  console.log(userIsLoggedIn)
+
+  console.log(`we need to have ${userId}... NOT`)
+//   return (
+//     <BrowserRouter>
+//       <div>
+//         {!isLoggedIn && (
+//           <>
+//             <h1>Please login</h1>
+//             <LoginForm onLogin={handleLogin} />
+//           </>
+//         )}
+//         {isLoggedIn && (
+//           <div className='flex flex-row'>
+//             <MenuBar />
+//             <h1>Welcome, {userData.username}</h1>
+//             <button onClick={handleLogout}>Log Out</button>
+//           </div>
+//         )}
+//       </div>
+//     </BrowserRouter>
+//   );
+  // return (
+  //   // <BrowserRouter>
+  //     <div>
+  //       {!isLoggedIn && (
+  //         <>
+  //           {/* <h1>Please login</h1> */}
+  //           <LoginForm onLogin={handleLogin} />
+  //         </>
+  //       )}
+  //       {isLoggedIn && (
+  //         <div className='flex flex-row'>
+  //           <MenuBar />
+  //           <h1>Welcome, {userData.username}</h1>
+  //           <button onClick={handleLogout}>Log Out</button>
+  //         </div>
+  //       )}
+  //     </div>
+  //   // </BrowserRouter>
+  // );
   return (
     <div>
       <Routes>
@@ -115,12 +156,13 @@ function App() {
         /> 
         <Route path="/companies" element={<Companies/>} />
         <Route path="/companies/new" element={<NewCompany />} />
-        <Route path="/userInformation" element={
-              <div className="flex items-start">
-                <MenuBar />
-                <UserInformation userData={userData} />
-              </div>
-            }
+        <Route 
+          path="/contacts"
+          element={<Contacts/>}
+        />
+        <Route 
+          path="/newContacts"
+          element={<NewContact/>}
         />
       </Routes>
     </div>

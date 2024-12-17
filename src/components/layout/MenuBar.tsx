@@ -15,6 +15,9 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import { useState } from 'react';
 
 
+// import { Link } from 'react-router-dom';
+// import Contacts from '../contacts/Contacts';
+
 function MenuBar() {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
   const toggleDropDown = () => {
@@ -37,13 +40,19 @@ function MenuBar() {
       </Link>
 
       {/* Profile */}
-      <Link className="m-auto cursor-pointer" to="/profile">
-        <PersonIcon fontSize="large" className="m-auto text-white" />
-      </Link>
+    
 
       {/* Companies */}
       <Link className="m-auto cursor-pointer" to="/companies">
         <ApartmentIcon fontSize="large" className="m-auto text-white" />
+      </Link>
+
+      <Link className="m-auto cursor-pointer" to="/profile">
+        <PersonIcon fontSize="large" className="m-auto text-white" />
+      </Link>
+
+      <Link className="m-auto cursor-pointer" to="/contacts">
+        <PersonIcon fontSize="large" className="m-auto text-white" />
       </Link>
 
       {/* Documents */}
