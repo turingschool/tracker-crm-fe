@@ -37,7 +37,7 @@ const NewContact = () => {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDU1NzkwNn0.gEfV8jFt2wT2TfG0tO5CScbwVfU8NaeYtN0VhnnEcfg"; 
+        const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDU2NTM4NH0.e8VFaiDpJhHBO8CL1SSAF3XPL6FpaeA_fA-Y0aAq2P8"; 
         const response = await fetch("http://localhost:3001/api/v1/users/4/companies", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ const NewContact = () => {
     try {
       // const token = "YOUR_AUTH_TOKEN_HERE";
       const token =
-        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDQ5NzU4MH0.H5sA2ei6oOywogeXSfoUu-R-zxikfWUSR3mRBSwgWzo";
+        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDU2NTM4NH0.e8VFaiDpJhHBO8CL1SSAF3XPL6FpaeA_fA-Y0aAq2P8";
         let url = `http://localhost:3001/api/v1/users/4/contacts`;
         if (formData.companyId) {
         
