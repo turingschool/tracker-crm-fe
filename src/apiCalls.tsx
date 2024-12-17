@@ -22,3 +22,30 @@ export const getUser = async (userId: number) => {
     throw err;
   }
 };
+
+export const fetchApplicationsData = async (userId: number, token: string) => {
+  try {
+    const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/job_applications`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`, 
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch applications: ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    const formattedData = result.data.map((item: any) => ({
+      id: item.id,
+      ...item.attributes,
+    }));
+
+    return formattedData;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
