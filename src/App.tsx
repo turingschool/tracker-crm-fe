@@ -9,6 +9,7 @@ import UserInformation from './components/pages/userInformation';
 import { Route, Routes, Navigate } from "react-router-dom";
 import Companies  from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
+import ApplicationsGrid from './components/JobApplications/JobApplications';
 
 
 function App() {
@@ -89,41 +90,73 @@ function App() {
 
   console.log(userIsLoggedIn)
   return (
-    <div>
-      <Routes>
-        <Route 
+    // <div>
+    //   <Routes>
+    //     <Route 
+    //       path="/"
+    //       element={
+    //         isLoggedIn ? (<Navigate to="/home" replace /> ):( <LoginForm onLogin={handleLogin} /> )
+    //       }
+    //     />
+    //     <Route 
+    //       path="/home"
+    //       element={
+    //         isLoggedIn ? (
+    //           <div className='flex flex-row'>
+    //             <MenuBar />
+    //             <div>
+    //               <h1>Welcome, {userData.username}</h1>
+    //               <button onClick={handleLogout}>Log Out</button>
+    //             </div>
+    //           </div>
+    //         ) : (
+    //           <Navigate to="/" replace />
+    //         )
+    //       }
+    //     /> 
+    //     <Route path="/jobAppliations" element={<ApplicationsGrid/>}/>
+    //     <Route path="/companies" element={<Companies/>} />
+    //     <Route path="/companies/new" element={<NewCompany />} />
+    //   </Routes>
+    // </div>
+    <Routes>
+        {/* Public route */}
+        <Route
           path="/"
           element={
-            isLoggedIn ? (<Navigate to="/home" replace /> ):( <LoginForm setLogin={setIsLoggedIn} setData={setUserData} setId={setUserId} /> )
+            isLoggedIn ? (
+              <Navigate to="/home" replace />
+            ) : (
+              <LoginForm onLogin={handleLogin} />
+            )
           }
         />
-        <Route 
-          path="/home"
+
+        {/* Protected layout using MenuBar */}
+        <Route
           element={
             isLoggedIn ? (
-              <div className='flex flex-row'>
-                <MenuBar />
-                <div>
-                  <h1>Welcome, {userData.user.attributes.name}</h1>
-                  <button onClick={handleLogout}>Log Out</button>
-                </div>
-              </div>
+              <MenuBar />
             ) : (
               <Navigate to="/" replace />
             )
           }
-        /> 
-        <Route path="/companies" element={<Companies/>} />
-        <Route path="/companies/new" element={<NewCompany />} />
-        <Route path="/userInformation" element={
-              <div className="flex items-start">
-                <MenuBar />
-                <UserInformation userData={userData} />
+        >
+          {/* Home route with unchanged snippet */}
+          <Route
+            path="/home"
+            element={
+              <div>
+                <h1>Welcome, {userData.username}</h1>
+                <button onClick={handleLogout}>Log Out</button>
               </div>
             }
-        />
+          />
+          <Route path="/job_applications" element={<ApplicationsGrid />} />
+          <Route path="/companies" element={<Companies />} />
+          <Route path="/companies/new" element={<NewCompany />} />
+        </Route>
       </Routes>
-    </div>
   );
 }
 

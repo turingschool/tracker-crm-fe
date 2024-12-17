@@ -1,5 +1,5 @@
 import logo from '../../turing-logo-gray.png';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Outlet, NavLink} from 'react-router-dom';
 
 // MUI Icons
 import HomeIcon from '@mui/icons-material/Home';
@@ -24,74 +24,75 @@ function MenuBar() {
   console.log(userID);
 
   return (
-    <div className='flex flex-col justify-items-center bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
-      
-      {/* Logo */}
-      <Link className="m-auto cursor-pointer" to="/">
-        <img className="m-auto w-1/2 cursor-pointer" src={logo} alt="Logo" />
-      </Link>
-
-      {/* Home */}
-      <Link className="m-auto cursor-pointer" to="/home">
-        <HomeIcon fontSize="large" className="m-auto text-white" />
-      </Link>
-
-      {/* Profile */}
-      <Link className="m-auto cursor-pointer" to="/profile">
-        <PersonIcon fontSize="large" className="m-auto text-white" />
-      </Link>
-
-      {/* Companies */}
-      <Link className="m-auto cursor-pointer" to="/companies">
-        <ApartmentIcon fontSize="large" className="m-auto text-white" />
-      </Link>
-
-      {/* Documents */}
-      <Link className="m-auto cursor-pointer" to="/documents">
-        <DescriptionIcon fontSize="large" className="m-auto text-white" />
-      </Link>
-
-      {/* Add New */}
-      <Link className="m-auto cursor-pointer" to="/add-new">
-        <PersonAddAlt1Icon fontSize="large" className="m-auto text-white" />
-      </Link>
-
-      {/* Account */}
-      <Link to="/userInformation"
-        className="m-auto mt-[10vh] text-[2.5vw] cursor-pointer rounded-full"
-        data-testid="update-user"
-      >
-        <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-cyan-500 text-white" />
-      </Link>
-
-      {/* Drop Down Shortcut Menu */}
-      <div className="flex flex-col items-center justify-center relative">
-        <button className="flex items-center justify-items-center" onClick={toggleDropDown}>
-          <AddCircleIcon fontSize="large" className="m-auto text-white justify-items-center" />
-        </button>
+   <div className="flex w-full h-screen">
+      <div className='flex flex-col justify-items-center bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
         
-        <ul
-          className={`bg-cyan-600 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform ${
-            isDropDownOpen ? 'scale-100 opacity-100 visible' : 'scale-95 opacity-0 invisible'
-          }`}
+        {/* Logo */}
+        <NavLink className="m-auto cursor-pointer" to="/">
+          <img className="m-auto w-1/2 cursor-pointer" src={logo} alt="Logo" />
+        </NavLink>
+
+        {/* Home */}
+        <NavLink 
+          className={({ isActive }) => isActive ? "m-auto text-cyan-800 transform scale-150" : "m-auto text-white transform scale-100"}
+          to="/home"
         >
-          <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
-            <Link to="/newContact">Create New Contact</Link>
-          </li>
-          <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
-            <Link to="/companies/new">Create New Company</Link>
-          </li>
-          <li className="p-2 hover:bg-gray-100 rounded text-center font-[Helvetica Neue]">
-            <Link to="/jobapplications/new">Create New Job Application</Link>
-          </li>
-        </ul>
+          <HomeIcon fontSize="large" />
+        </NavLink>
+
+        {/* Profile */}
+        <NavLink 
+          className={({ isActive }) => isActive ? "m-auto text-cyan-800 transform scale-150" : "m-auto text-white transform scale-100"}
+          to="/profile"
+        >
+          <PersonIcon fontSize="large" />
+        </NavLink>
+
+        {/* Companies */}
+        <NavLink 
+          className={({ isActive }) => isActive ? "m-auto text-cyan-800 transform scale-150" : "m-auto text-white transform scale-100"}
+          to="/companies"
+        >
+          <ApartmentIcon fontSize="large" />
+        </NavLink>
+
+        {/* Documents */}
+        <NavLink 
+          className={({ isActive }) => isActive ? "m-auto text-cyan-800 transform scale-150" : "m-auto text-white transform scale-100"}
+          to="/job_applications"
+        >
+          <DescriptionIcon fontSize="large" />
+        </NavLink>
+
+        {/* Add New */}
+        <NavLink 
+          className={({ isActive }) => isActive ? "m-auto text-cyan-800 transform scale-150" : "m-auto text-white transform scale-100"} 
+          to="/add-new"
+        >
+          <PersonAddAlt1Icon fontSize="large" />
+        </NavLink>
+
+        {/* Account */}
+        <NavLink 
+          className={({ isActive }) => 
+            isActive 
+              ? "m-auto  rounded-full bg-blue-500 text-white transform scale-150" 
+              : "m-auto rounded-full bg-blue-200 text-white transform scale-100"
+          } 
+          to="/account"
+        >
+          <PersonOutlineOutlinedIcon fontSize="large" /> 
+        </NavLink>
+
+        <div className="m-auto h-auto"></div>  
+  
       </div>
-
-
-
-      <div className="m-auto h-auto"></div>  
+      <div className='flex-1 p-4'>
+        <Outlet />
+      </div>
     </div>
   );
 }
 
 export default MenuBar;
+
