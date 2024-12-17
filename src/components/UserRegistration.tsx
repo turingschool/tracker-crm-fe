@@ -43,8 +43,11 @@ function UserRegistration(): React.ReactElement {
     <div className="login-form-wrap flex w-screen h-screen justify-center">
       <div className="form-inputs w-6/12 flex">
         <img className='turing-logo size-20' src={turingLogo} />
-        <h2>Create Account</h2>
+        
+
+
         <form onSubmit={handleFormSubmit}>
+          <h2 className="text-3xl font-bold text-center">Create Account</h2>
           <label htmlFor="name" className='block text-x1 font-[Helvetica Neue] font-sans text-xl '>Name</label>
           <input
             id="name"
@@ -53,7 +56,7 @@ function UserRegistration(): React.ReactElement {
             onChange={(e) => setName(e.target.value)}
             required
             placeholder="Add text"
-            className='w-[100%] p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200 py-[2vh] px-[3vh]'
+            className='p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200 py-[2vh] px-[3vh]'
             />
 
           <label htmlFor="email" className='block text-x1 font-[Helvetica Neue] font-sans text-xl '>Email</label>
@@ -64,7 +67,7 @@ function UserRegistration(): React.ReactElement {
             onChange={(e) => setEmail(e.target.value)}
             required
             placeholder="Add text"
-            className='w-[100%] p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200 py-[2vh] px-[3vh]'
+            className='p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200 py-[2vh] px-[3vh]'
             />
 
           <label htmlFor="password" className='block text-x1 font-[Helvetica Neue] font-sans text-xl '>Password</label>
@@ -75,7 +78,7 @@ function UserRegistration(): React.ReactElement {
             onChange={(e) => setPassword(e.target.value)}
             required
             placeholder="Add text"
-            className='w-[100%] p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200 py-[2vh] px-[3vh]'
+            className='p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200 py-[2vh] px-[3vh]'
             />
 
           <label htmlFor="passwordConfirmation" className='block text-x1 font-[Helvetica Neue] font-sans text-xl '>Confirm Password</label>
@@ -86,25 +89,25 @@ function UserRegistration(): React.ReactElement {
             onChange={(e) => setPasswordConfirmation(e.target.value)}
             required
             placeholder="Add text"
-            className='w-[100%] p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200 py-[2vh] px-[3vh]'
+            className='p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200 py-[2vh] px-[3vh]'
           />
 
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-          <div className="flex flex-col items-center">
+          <div className="mt-4">
             <button 
               type="submit" 
-              className="flex justify-center items-center bg-cyan-800 text-white px-[6vw] py-[2vh] rounded w-[10vw] hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500 mt-4">Register
+              className="flex justify-center items-center bg-cyan-800 text-white px-[6vw] py-[2vh] rounded w-[10vw] hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500"
+              >
+                Register
             </button>
-          </div>
+              <p className="text-gray-500 text-2xl font-extralight block mt-4 text-center">
+                Already have an account? <Link to="/login" className="hover:underline">Click here to login.</Link>
+              </p>
+            </div>
         </form>
       </div>
 
-      <div>
-        <p className="block text-x1 mt-4 text-center">
-          Already have an account? <Link to="/login">Click here to login</Link>
-        </p>
-      </div>
       <div className='quad-color-bar flex flex-col w-[1%] h-[100%]'>
         <div className='cyan-bar bg-cyan-500 w-[100%] h-[25%]'/>
         <div className='yellow-bar bg-yellow-500 w-[100%] h-[25%]'/>
