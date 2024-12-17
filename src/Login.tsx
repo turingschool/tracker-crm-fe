@@ -1,13 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import turingLogo from './Turing-logo.png';
 import { useState } from 'react';
-import { LoginFormProps } from './Interfaces'
+import { LoginFormProps } from './Interfaces';
+import { useUserLoggedContext } from './context/UserLoggedContext';
 
-const LoginForm: React.FC<LoginFormProps> = ({ setLogin, setData, setId }) => {
+const LoginForm: React.FC<LoginFormProps> = ({ setData }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const { userLogged } = useUserLoggedContext()
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -48,11 +50,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin, setData, setId }) => {
           }
         }
       });
-      setId(responseData.user.data.id);
-      setLogin(true);
+      // setId(responseData.user.data.id);
+      // setLogin(true);
+      console.log(responseData, '<-- CHECK HERE IN LOGIN')
       setSuccessMessage('Login successful!');
+      userLogged(responseData.token, responseData.user.data.type)
       navigate("/")
-      
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(`Error logging in: ${error.message}`);

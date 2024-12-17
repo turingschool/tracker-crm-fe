@@ -1,6 +1,7 @@
 /*-----------------------------------// GET //--------------------------------------*/
 
 export const getUser = async (userId: number) => {
+  console.log(userId, '---> HIT GET USER')
   try {
     const response = await fetch(`http://localhost:3001/api/v1/users/${userId}`, {
       method: 'GET',
@@ -14,7 +15,7 @@ export const getUser = async (userId: number) => {
 
       throw new Error(`Failed to fetch user data: ${response.status}`);
     }
-
+    console.log(response.json(), '<--- HERE IN API')
     return await response.json();
   } catch (err) {
     

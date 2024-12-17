@@ -12,10 +12,11 @@ export interface UserData {
 }
 
 export interface LoginFormProps {
-  setLogin: (login: boolean) => void;
+  // setLogin: (login: boolean) => void;
   setData: (data: UserData) => void;
-  setId: (id: number) => void;
+  // setId: (id: number) => void;
 }
+
 export interface UserInformationProps {
   userData?: Partial<UserData>;
 }
