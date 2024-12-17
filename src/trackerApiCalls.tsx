@@ -1,4 +1,4 @@
-/*-----------------------------------// GET //--------------------------------------*/
+/*-----------------------------------// GET USER //--------------------------------------*/
 
 export const getUser = async (userId: number) => {
   try {
@@ -24,7 +24,7 @@ export const getUser = async (userId: number) => {
   }
 };
 
-/*-----------------------------------// UPDATE //--------------------------------------*/
+/*-----------------------------------// UPDATE USER//--------------------------------------*/
 export const updateUser = async (userParams: Record<string, any> ) => {
   try {
     const apiURL = process.env.REACT_APP_BACKEND_API_URL;
