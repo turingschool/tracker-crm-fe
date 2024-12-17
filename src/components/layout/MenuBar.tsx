@@ -8,6 +8,8 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 // import plusOpen from '../../components/icons/plus-open.png';
 // import plus from '../../components/icons/plus-small_4338829.png'; 
 
@@ -16,7 +18,7 @@ import { useState } from 'react';
 
 
 function MenuBar() {
-  const [sideMenuOpen, setSideMenuOpen] = useState(false)
+  const [sideMenuOpen, setSideMenuOpen] = useState(true)
   const toggleSideMenu = () => {
     setSideMenuOpen((previousState) => !previousState)
   }
@@ -29,13 +31,19 @@ function MenuBar() {
   console.log(userID);
 
   return (
-<div className='flex flex-col justify-items-center  min-sm:hidden bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
-<button className="flex items-center max-sm:visible justify-items-center" onClick={toggleSideMenu}>
-          <AddCircleIcon fontSize="large" className="m-auto text-white justify-items-center" />
+    
+<div className='flex flex-col justify-items-center  min-sm:hidden bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6' >
+<button className="flex items-center min-sm:hidden justify-items-center" onClick={toggleSideMenu}>
+          <MenuIcon fontSize="large" className="m-auto text-white justify-items-center" />
         </button>
 
+
     <div className={"fixed overflow-hidden min-sm:hidden z-10 bg-opacity-100 inset-0 transform ease-in-out flex flex-col justify-items-center duration-500 bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6 " + (sideMenuOpen ? " transition-opacity opacity-30 duration-500 -translate-x-full  " : " transition-all opacity-1000 translate-x-0")}>
-max-sm:hidden      
+
+    <button className="min-sm:hidden" onClick={toggleSideMenu}>
+          <CloseIcon fontSize="large" className="m-auto text-white justify-items-center" />
+        </button>
+
 
       {/* Logo */}
       <Link className="m-auto cursor-pointer" to="/">
@@ -67,19 +75,20 @@ max-sm:hidden
         <PersonAddAlt1Icon fontSize="large" className="m-auto text-white" />
       </Link>
 
-      {/* Account */}
-      <Link to="/userInformation"
-        className="m-auto mt-[10vh] text-[2.5vw] cursor-pointer rounded-full"
-        data-testid="update-user"
-      >
-        <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-cyan-500 text-white" />
-      </Link>
-
       {/* Drop Down Shortcut Menu */}
       <div className="flex flex-col items-center justify-center relative">
         <button className="flex items-center justify-items-center" onClick={toggleDropDown}>
           <AddCircleIcon fontSize="large" className="m-auto text-white justify-items-center" />
         </button>
+
+      {/* Account */}
+      <Link to="/userInformation"
+        className="m-auto mt-[10vh] text-[2.5vw] cursor-pointer rounded-full"
+        data-testid="update-user">
+        <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-cyan-500 text-white" />
+      </Link>
+
+
         
         <ul
           className={`bg-cyan-600 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform ${
