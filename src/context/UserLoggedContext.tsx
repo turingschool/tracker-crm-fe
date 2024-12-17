@@ -1,7 +1,7 @@
 import React, { createContext, useState, useContext } from 'react';
 
 interface Value {
-  token: number | null,
+  token: string | null,
   roles: string[] | null,
   userLogged: Function,
   clearUserLogged: Function
@@ -10,11 +10,11 @@ interface Value {
 const UserLoggedContext = createContext<null | Value>(null);
 
 export function UserLoggedContextProvider({ children }: React.PropsWithChildren) {
-  const [token, setToken] = useState<null | number>(null);
+  const [token, setToken] = useState<null | string>(null);
   const [roles, setRoles] = useState<[] | string[]>([]);
 
   // Function to set the logged-in state
-  const userLogged = (newToken: number, userRoles: string[]) => {
+  const userLogged = (newToken: string, userRoles: string[]) => {
     setToken(newToken);
     setRoles(userRoles);
   };

@@ -8,6 +8,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import Companies  from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
 import { UserLoggedContextProvider } from './context/UserLoggedContext.tsx';
+import TestComponent from './test component/TestComponent.tsx';
 
 interface UserInfo {
   id: number,
@@ -20,7 +21,7 @@ interface UserInfo {
 function App() {
   const [userId, setUserId] = useState(null);
   const [userData, setUserData] = useState<Partial<UserInfo>>({});
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const handleLogin = async (id: number, userToken: string) => {
     try {
@@ -81,6 +82,7 @@ function App() {
                   <div>
                     <h1>Welcome, {userData.username}</h1>
                     <button onClick={handleLogout}>Log Out</button>
+                    {/* <TestComponent testProps={[isLoggedIn, userData]} /> */}
                   </div>
                 </div>
               ) : (

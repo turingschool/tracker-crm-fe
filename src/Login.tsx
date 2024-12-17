@@ -2,6 +2,7 @@ import { useState } from 'react';
 // import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import turingLogo from './Turing-logo.png';
+import { useUserLoggedContext } from './context/UserLoggedContext.tsx';
 
 const LoginForm = ({ onLogin }: { onLogin: (id: number, userToken: string) => void }) => {
   const { userID} = useParams()
@@ -10,6 +11,7 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number, userToken: string) => vo
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const values = useUserLoggedContext();
 
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -37,8 +39,9 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number, userToken: string) => vo
       }
 
       const responseData = await response.json();
-      console.log(responseData, '<--- HERE IN LOGIN')
+      // console.log(responseData, '<--- HERE IN LOGIN')
       onLogin(responseData.user.data.id, responseData.token);
+      values.userLogged(responseData.token);
       setSuccessMessage('Login successful!');
       console.log('Response data:', responseData);
     } catch (error) {
