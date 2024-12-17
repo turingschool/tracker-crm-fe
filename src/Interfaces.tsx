@@ -1,16 +1,15 @@
 export interface UserData {
     token: string,
     user: {
-        data: {
-            id: number,
-            type: string,
-            attributes: {
-                name: string,
-                email: string,
-                companies: []
-            }
+        id: number,
+        type: string,
+        attributes: {
+            name: string,
+            email: string,
+            companies: []
         }
-    }
+    },
+    Userdata?: [() => void, UserData]
 }
 
 export interface LoginFormProps {
