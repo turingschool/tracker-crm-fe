@@ -9,6 +9,7 @@ import UserInformation from './components/pages/userInformation';
 import { Route, Routes, Navigate } from "react-router-dom";
 import Companies  from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
+import JobApplication from './components/pages/showJobApplication';
 
 
 function App() {
@@ -122,6 +123,12 @@ function App() {
               </div>
             }
         />
+        <Route path="/jobApplication/:id" element={ //temporary to test page render
+          <div className="flex items-start">
+             <MenuBar />
+            <JobApplication />
+          </div>
+        }/>
       </Routes>
     </div>
   );
