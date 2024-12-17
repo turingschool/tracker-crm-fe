@@ -23,7 +23,6 @@ export const getUser = async (userId: number) => {
   }
 };
 
-
 /*-----------------------------------// UPDATE //--------------------------------------*/
 export const updateUser = async (userParams: Record<string, any> ) => {
   try {
@@ -46,4 +45,3 @@ export const updateUser = async (userParams: Record<string, any> ) => {
     throw err;
   }
 };
-
