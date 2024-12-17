@@ -64,13 +64,13 @@ function MenuBar() {
         <NavLink
           to="/userInformation"
           className={({ isActive }) =>
-            isActive
-              ? "m-auto mt-[10vh] text-[2.5vw] cursor-pointer rounded-full bg-cyan-700"
-              : "m-auto mt-[10vh] text-[2.5vw] cursor-pointer rounded-full"
+            isActive 
+          ? "m-auto  rounded-full bg-blue-500 text-white transform scale-150" 
+          : "m-auto rounded-full bg-blue-200 text-white transform scale-100"
           }
           data-testid="update-user"
         >
-          <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-cyan-500 text-white" />
+          <PersonOutlineOutlinedIcon fontSize="large" />
         </NavLink>
 
         {/* Drop Down Shortcut Menu */}
