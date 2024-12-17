@@ -1,106 +1,67 @@
 // import turingLogo from './Turing-logo.png';
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { UserData } from './Interfaces';
 import LoginForm from './Login';
-import { getUser } from './apiCalls';
 import MenuBar from './components/layout/MenuBar';
-import { Route, Routes, Navigate } from "react-router-dom";
-import Companies  from './components/companies/Companies';
+import UserInformation from './components/pages/userInformation';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
-import ApplicationsGrid from './components/JobApplications/JobApplications';
-
-interface UserInfo {
-  id: number,
-  username: string,
-  email: string
-}
-
 
 function App() {
-  const [userId, setUserId] = useState(null);
-  const [userData, setUserData] = useState<Partial<UserInfo>>({});
-  const [isLoggedIn, setIsLoggedIn] = useState(true);   // temporary until the login is fixed
-
-  const handleLogin = async (id: number) => {
-    try {
-      const loginResponse = await getUser(id);
-      if (loginResponse) {
-        setUserData({
-          id: loginResponse.data.id,
-          email: loginResponse.data.attributes.email,
-          username: loginResponse.data.attributes.username,
-        });
-        setUserId(loginResponse.data.id);
-        setIsLoggedIn(true);
-        console.log(loginResponse);
-
+  const [userId, setUserId] = useState<number | null>(null);
+  const [userData, setUserData] = useState<UserData>({
+    token: '',
+    user: {
+      id: 0,
+      type: 'user',
+      attributes: {
+        name: '',
+        email: '',
+        companies: []
       }
-    } catch (err) {
-      console.log(err);
-
-      console.error('Error fetching logged in user:', err);
-      setIsLoggedIn(false);
-      console.log(err);
-
     }
-  };
+  });
+  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = () => {
     setUserId(null);
-    setUserData({});
+    setUserData({
+      token: '',
+      user: {
+        id: 0,
+        type: 'user',
+        attributes: {
+          name: '',
+          email: '',
+          companies: []
+        }
+      }
+    });
     setIsLoggedIn(false);
   };
+  const userIsLoggedIn = () => {
+    setIsLoggedIn(true);
+    console.log(`Is this right? ${userData}`)
+    console.log(`we need to have ${userId}... NOT`)
+  };
 
-  // const userIsLoggedIn = () => {
-  //   setIsLoggedIn(true);
-  // };
-
-  // const userLogOut = () => {
-  //   setIsLoggedIn(false);
-  //   setUserData({});
-  // };
-
-
-  console.log(`we need to have ${userId}... NOT`)
+  useEffect(() => {
+    userIsLoggedIn();
+  }, []);
+  
   return (
-    // <div>
-    //   <Routes>
-    //     <Route 
-    //       path="/"
-    //       element={
-    //         isLoggedIn ? (<Navigate to="/home" replace /> ):( <LoginForm onLogin={handleLogin} /> )
-    //       }
-    //     />
-    //     <Route 
-    //       path="/home"
-    //       element={
-    //         isLoggedIn ? (
-    //           <div className='flex flex-row'>
-    //             <MenuBar />
-    //             <div>
-    //               <h1>Welcome, {userData.username}</h1>
-    //               <button onClick={handleLogout}>Log Out</button>
-    //             </div>
-    //           </div>
-    //         ) : (
-    //           <Navigate to="/" replace />
-    //         )
-    //       }
-    //     /> 
-    //     <Route path="/jobAppliations" element={<ApplicationsGrid/>}/>
-    //     <Route path="/companies" element={<Companies/>} />
-    //     <Route path="/companies/new" element={<NewCompany />} />
-    //   </Routes>
-    // </div>
-    <Routes>
+      <Routes>
         {/* Public route */}
-        <Route
+        <Route 
           path="/"
           element={
             isLoggedIn ? (
               <Navigate to="/home" replace />
             ) : (
-              <LoginForm onLogin={handleLogin} />
+              <LoginForm setLogin={setIsLoggedIn} setData={setUserData} setId={setUserId} />
             )
           }
         />
@@ -115,22 +76,27 @@ function App() {
             )
           }
         >
-          {/* Home route with unchanged snippet */}
-          <Route
+          <Route 
             path="/home"
             element={
               <div>
-                <h1>Welcome, {userData.username}</h1>
+                <h1>Welcome, {userData.user.attributes.name}</h1>
                 <button onClick={handleLogout}>Log Out</button>
               </div>
             }
           />
-          <Route path="/job_applications" element={<ApplicationsGrid />} />
           <Route path="/companies" element={<Companies />} />
           <Route path="/companies/new" element={<NewCompany />} />
+          <Route 
+            path="/userInformation"
+            element={<UserInformation userData={userData} />}
+          />
         </Route>
       </Routes>
   );
 }
 
 export default App;
+
+
+
