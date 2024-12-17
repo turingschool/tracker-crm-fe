@@ -1,7 +1,7 @@
 describe('testing for Login page', () => {
   beforeEach(() => {
     cy.visit('http://localhost:3000/') // Need to find the actual URL. Temporary code until the login is the first page.
-    cy.get('button').click()
+    cy.get('[data-testid="login-button"]').click()
   });
 
   it('checks for the elements on the page', () => {
@@ -55,6 +55,6 @@ describe('testing for Login page', () => {
     .get('.login-form-wrap > .form-inputs > form > .password-input > #password').type("NotARealPassword")
     .get('.login-form-wrap > .form-inputs > form > .login-btn').click()
     .get('.login-form-wrap > .form-inputs > .failed-login').should('be.visible')
-    .get('.login-form-wrap > .form-inputs > .failed-login').should('contain', 'Error logging in: Failed to fetch')
+    .get('.login-form-wrap > .form-inputs > .failed-login').should('contain', 'Error in Login: Invalid login credentials')
   });
 });

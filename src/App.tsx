@@ -26,38 +26,7 @@ function App() {
     }
   } 
   });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);   // temporary until the login is fixed
-
-  // const handleLogin = async (id: number) => {
-  //   try {
-  //     const loginResponse = await getUser(id);
-  //     if (loginResponse) {
-  //       setUserData({
-  //         token: loginResponse.data.token,
-  //         user: {
-  //           id: loginResponse.data.user.id,
-  //           type: 'user',
-  //           attributes: {
-  //             email: loginResponse.data.user.attributes.email,
-  //             name: loginResponse.data.user.attributes.name,
-  //             companies: loginResponse.data.user.attributes.companies
-  //           }
-  //         }
-  //       });
-  //       setUserId(loginResponse.data.id);
-  //       setIsLoggedIn(true);
-  //       console.log(loginResponse);
-
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-
-  //     console.error('Error fetching logged in user:', err);
-  //     setIsLoggedIn(false);
-  //     console.log(err);
-
-  //   }
-  // };
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = () => {
     setUserId(null);
@@ -78,15 +47,10 @@ function App() {
 
   const userIsLoggedIn = () => {
     setIsLoggedIn(true);
-    console.log(`Is this right? ${userData}`)
-    console.log(`we need to have ${userId}... NOT`)
   };
-
-  // const userLogOut = () => {
-  //   setIsLoggedIn(false);
-  //   setUserData({});
-  // };
-
+  
+  console.log(`Is this right? ${userData}`)
+  console.log(`we need to have ${userId}... NOT`)
   console.log(userIsLoggedIn)
   return (
     <div>
