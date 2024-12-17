@@ -27,12 +27,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin, setData, setId }) => {
         setData({
           token: loggedInUser.token,
           user: {
-            id: loggedInUser.user.id,
-            type: 'user',
-            attributes: {
-              email: loggedInUser.user.data.attributes.email,
-              name: loggedInUser.user.data.attributes.name,
-              companies: loggedInUser.user.data.attributes.companies
+            data: {
+              id: loggedInUser.user.data.id,
+              type: 'user',
+              attributes: {
+                email: loggedInUser.user.data.attributes.email,
+                name: loggedInUser.user.data.attributes.name,
+                companies: loggedInUser.user.data.attributes.companies
+              }
             }
           }
         });

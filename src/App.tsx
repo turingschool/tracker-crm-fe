@@ -17,12 +17,14 @@ function App() {
   const [userData, setUserData] = useState<UserData>({
     token: '',
     user: {
-      id: 0,
-    type: 'user',
-    attributes: {
-      name: '',
-      email: '',
-      companies: []
+      data: {
+        id: 0,
+      type: 'user',
+      attributes: {
+        name: '',
+        email: '',
+        companies: []
+      }
     }
   } 
   });
@@ -33,14 +35,16 @@ function App() {
     setUserData({
       token: '',
       user: {
-        id: 0,
+        data: {
+          id: 0,
         type: 'user',
         attributes: {
           name: '',
           email: '',
           companies: []
-    }
-  }
+        }
+      }
+    } 
     });
     setIsLoggedIn(false);
   };
@@ -68,7 +72,7 @@ function App() {
               <div className='flex flex-row'>
                 <MenuBar />
                 <div>
-                  <h1>Welcome, {userData.user.attributes.name}</h1>
+                  <h1>Welcome, {userData.user.data.attributes.name}</h1>
                   <button onClick={handleLogout}>Log Out</button>
                 </div>
               </div>
