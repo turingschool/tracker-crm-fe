@@ -1,5 +1,5 @@
 import logo from '../../turing-logo-gray.png';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, Outlet } from 'react-router-dom';
 
 // MUI Icons
 import HomeIcon from '@mui/icons-material/Home';
@@ -31,7 +31,7 @@ function MenuBar() {
   console.log(userID);
 
   return (
-
+    <div>
     // Slideout Menu
     <div className='flex flex-col min-sm:hidden bg-[#046576] justify-evenly h-screen  md:w-1/12  ' >
 
@@ -171,6 +171,10 @@ function MenuBar() {
 
         <div className="m-auto h-auto"></div>
 
+            <div className='flex-1 p-4'>
+              <Outlet/>
+            </div>
+        </div>
       </div>
     </div>
   );
