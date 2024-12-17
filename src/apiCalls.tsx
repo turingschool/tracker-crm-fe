@@ -72,3 +72,27 @@ export const updateUser = async (userParams: Record<string, any> ) => {
     throw err;
   }
 };
+
+/*-----------------------------------// DashBoard //--------------------------------------*/
+
+export const dashBoardData = async (userParams: Record<string, any> ) => {
+  try {
+    const response = await fetch(`http://localhost:3001/api/v1/users/${userParams['id']}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userParams.token}`
+      },
+      body: JSON.stringify(userParams),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to update user data: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (err) {
+    console.error('Error in updateUser:', err);
+    throw err;
+  }
+};
