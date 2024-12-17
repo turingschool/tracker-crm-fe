@@ -27,7 +27,7 @@ export const getUser = async (userId: number) => {
 /*-----------------------------------// UPDATE //--------------------------------------*/
 export const updateUser = async (userParams: Record<string, any> ) => {
   try {
-    const apiURL = process.env.BACKEND_APP_API_URL
+    const apiURL = process.env.REACT_APP_BACKEND_API_URL;
     const response = await fetch(`${apiURL}api/v1/users/${userParams['id']}`, {
       method: 'PUT',
       headers: {

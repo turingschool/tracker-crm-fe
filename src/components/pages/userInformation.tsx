@@ -24,6 +24,7 @@ function UserInformation({userData}: UserInformationProps) {
     e.preventDefault();
     const compileData: DataCompile = {
       id: userData.user.id,
+      token: userData.token,
       name: name,
       email: email,
     }
