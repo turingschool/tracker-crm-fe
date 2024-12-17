@@ -78,29 +78,25 @@ export const updateUser = async (userParams: Record<string, any> ) => {
 };
 
 /*-----------------------------------// DashBoard //--------------------------------------*/
-export const fetchDashBoardData = async (userId: number, token: string) => {
+
+export const dashBoardData = async (userParams: Record<string, any> ) => {
   try {
-    const response = await fetch(`http://localHost:3001/api/v1/users/${userId}/dashboard`, {
-      method: 'GET',
+    const response = await fetch(`http://localhost:3001/api/v1/users/${userParams['id']}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${userParams.token}`
       },
+      body: JSON.stringify(userParams),
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch applications: ${response.statusText}`);
+      throw new Error(`Failed to update user data: ${response.status}`);
     }
 
-    const result = await response.json();
-    const formattedData = result.data.map((item: any) => ({
-      id: item.id,
-      ...item.attributes,
-    }));
-
-    return formattedData;
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    throw error;
+    return await response.json();
+  } catch (err) {
+    console.error('Error in updateUser:', err);
+    throw err;
   }
-}
+};
