@@ -126,7 +126,7 @@ function App() {
         <Route path="/jobApplication/:id" element={ //temporary to test page render
           <div className="flex items-start">
              <MenuBar />
-            <JobApplication />
+            <JobApplication/>
           </div>
         }/>
       </Routes>
