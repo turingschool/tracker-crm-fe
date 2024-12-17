@@ -32,7 +32,7 @@ function MenuBar() {
 
   return (
     
-<div className='flex flex-col justify-items-center  min-sm:hidden bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6' >
+<div className='flex flex-col justify-items-center  min-sm:hidden bg-gray-500 justify-evenly h-screen  md:w-1/6 max-w-1/6' >
 <button className="flex items-center min-sm:hidden justify-items-center" onClick={toggleSideMenu}>
           <MenuIcon fontSize="large" className="m-auto text-white justify-items-center" />
         </button>
