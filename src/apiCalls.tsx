@@ -23,6 +23,33 @@ export const getUser = async (userId: number) => {
   }
 };
 
+
+/*-----------------------------------// SHOW //--------------------------------------*/
+
+export const showJobApp = async (userId: number, jobAppId: number, token: number) => {
+  try {
+    const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/job_applications/${jobAppId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log(response);
+
+      throw new Error(`Failed to fetch user data: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (err) {
+    
+    console.error('Error in getUser:', err);
+    throw err;
+  }
+};
+
 /*-----------------------------------// UPDATE //--------------------------------------*/
 export const updateUser = async (userParams: Record<string, any> ) => {
   try {
