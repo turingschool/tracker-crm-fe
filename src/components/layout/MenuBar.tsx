@@ -1,5 +1,5 @@
 import logo from '../../turing-logo-gray.png';
-import { useParams, Link, Outlet} from 'react-router-dom';
+import { useParams, Outlet, NavLink} from 'react-router-dom';
 
 // MUI Icons
 import HomeIcon from '@mui/icons-material/Home';
@@ -18,48 +18,71 @@ function MenuBar() {
       <div className='flex flex-col justify-items-center bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
         
         {/* Logo */}
-        <Link className="m-auto cursor-pointer" to="/">
+        <NavLink className="m-auto cursor-pointer" to="/">
           <img className="m-auto w-1/2 cursor-pointer" src={logo} alt="Logo" />
-        </Link>
+        </NavLink>
 
         {/* Home */}
-        <Link className="m-auto cursor-pointer" to="/home">
-          <HomeIcon fontSize="large" className="m-auto text-white" />
-        </Link>
+        <NavLink 
+          className={({ isActive }) => isActive ? "m-auto text-cyan-800 transform scale-150" : "m-auto text-white transform scale-100"}
+          to="/home"
+        >
+          <HomeIcon fontSize="large" />
+        </NavLink>
 
         {/* Profile */}
-        <Link className="m-auto cursor-pointer" to="/profile">
-          <PersonIcon fontSize="large" className="m-auto text-white" />
-        </Link>
+        <NavLink 
+          className={({ isActive }) => isActive ? "m-auto text-cyan-800 transform scale-150" : "m-auto text-white transform scale-100"}
+          to="/profile"
+        >
+          <PersonIcon fontSize="large" />
+        </NavLink>
 
         {/* Companies */}
-        <Link className="m-auto cursor-pointer" to="/companies">
-          <ApartmentIcon fontSize="large" className="m-auto text-white" />
-        </Link>
+        <NavLink 
+          className={({ isActive }) => isActive ? "m-auto text-cyan-800 transform scale-150" : "m-auto text-white transform scale-100"}
+          to="/companies"
+        >
+          <ApartmentIcon fontSize="large" />
+        </NavLink>
 
         {/* Documents */}
-        <Link className="m-auto cursor-pointer" to="/job_applications">
-          <DescriptionIcon fontSize="large" className="m-auto text-white" />
-        </Link>
+        <NavLink 
+          className={({ isActive }) => isActive ? "m-auto text-cyan-800 transform scale-150" : "m-auto text-white transform scale-100"}
+          to="/job_applications"
+        >
+          <DescriptionIcon fontSize="large" />
+        </NavLink>
 
         {/* Add New */}
-        <Link className="m-auto cursor-pointer" to="/add-new">
-          <PersonAddAlt1Icon fontSize="large" className="m-auto text-white" />
-        </Link>
+        <NavLink 
+          className={({ isActive }) => isActive ? "m-auto text-cyan-800 transform scale-150" : "m-auto text-white transform scale-100"} 
+          to="/add-new"
+        >
+          <PersonAddAlt1Icon fontSize="large" />
+        </NavLink>
 
         {/* Account */}
-        <Link className="m-auto cursor-pointer" to="/account">
-          <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-blue-200 text-white" />
-        </Link>
+        <NavLink 
+          className={({ isActive }) => 
+            isActive 
+              ? "m-auto  rounded-full bg-blue-500 text-white transform scale-150" 
+              : "m-auto rounded-full bg-blue-200 text-white transform scale-100"
+          } 
+          to="/account"
+        >
+          <PersonOutlineOutlinedIcon fontSize="large" /> 
+        </NavLink>
 
         <div className="m-auto h-auto"></div>  
   
       </div>
       <div className='flex-1 p-4'>
-      <Outlet />
+        <Outlet />
+      </div>
     </div>
-  </div>
   );
 }
 
 export default MenuBar;
+
