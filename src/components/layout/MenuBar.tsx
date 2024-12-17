@@ -16,6 +16,11 @@ import { useState } from 'react';
 
 
 function MenuBar() {
+  const [sideMenuOpen, setSideMenuOpen] = useState(false)
+  const toggleSideMenu = () => {
+    setSideMenuOpen((previousState) => !previousState)
+  }
+
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
   const toggleDropDown = () => {
     setIsDropDownOpen((previousState) => !previousState)
@@ -24,8 +29,14 @@ function MenuBar() {
   console.log(userID);
 
   return (
-    <div className='flex flex-col justify-items-center bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
-      
+<div className='flex flex-col justify-items-center  min-sm:hidden bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
+<button className="flex items-center max-sm:visible justify-items-center" onClick={toggleSideMenu}>
+          <AddCircleIcon fontSize="large" className="m-auto text-white justify-items-center" />
+        </button>
+
+    <div className={"fixed overflow-hidden min-sm:hidden z-10 bg-opacity-100 inset-0 transform ease-in-out flex flex-col justify-items-center duration-500 bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6 " + (sideMenuOpen ? " transition-opacity opacity-30 duration-500 -translate-x-full  " : " transition-all opacity-1000 translate-x-0")}>
+max-sm:hidden      
+
       {/* Logo */}
       <Link className="m-auto cursor-pointer" to="/">
         <img className="m-auto w-1/2 cursor-pointer" src={logo} alt="Logo" />
@@ -90,6 +101,9 @@ function MenuBar() {
 
 
       <div className="m-auto h-auto"></div>  
+    </div>
+
+
     </div>
   );
 }
