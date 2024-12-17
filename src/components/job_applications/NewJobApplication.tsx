@@ -15,9 +15,10 @@ function NewJobApplication() {
   return (
     <div className='bg-white border'>
       <MenuBar />
+      <h1 className="text-[2vw] font-[Helvetica Neue] font-semibold text-cyan-600">Add New Application</h1>
       <form>
         <label className="text-[1vw] font-[Helvetica Neue]">
-          Enter Position Title:
+          <span className="font-semibold">Enter Position Title:</span>
           <input
             type="text"
             value={positionTitle}
@@ -28,7 +29,7 @@ function NewJobApplication() {
 
         {/* Date Applied */}
         <label className="text-[1vw] font-[Helvetica Neue]">
-          Date Applied:
+        <span className="font-semibold">Date Applied:</span>
           <input
             type="date"
             value={dateApplied}
@@ -39,7 +40,7 @@ function NewJobApplication() {
 
         {/* Status */}
         <label className="text-[1vw] font-[Helvetica Neue]">
-          Application Status:
+        <span className="font-semibold">Application Status:</span>
           <input
             type="number"
             value={status}
@@ -50,9 +51,8 @@ function NewJobApplication() {
 
         {/* Notes */}
         <label className="text-[1vw] font-[Helvetica Neue]">
-          Notes:
+        <span className="font-semibold">Notes:</span>
           <textarea
-            // type="text"
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
             className="p-2 border border-black-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-black-800 w-full"
@@ -62,7 +62,7 @@ function NewJobApplication() {
 
         {/* Job Description */}
         <label className="text-[1vw] font-[Helvetica Neue]">
-          Job Description:
+        <span className="font-semibold">Job Description:</span>
           <textarea
             value={jobDescription}
             onChange={(e) => setJobDescription(e.target.value)}
@@ -73,7 +73,7 @@ function NewJobApplication() {
 
         {/* Application URL */}
         <label className="text-[1vw] font-[Helvetica Neue]">
-          Application URL:
+        <span className="font-semibold">Application URL:</span>
           <input
             type="url"
             value={applicationURL}
@@ -84,14 +84,14 @@ function NewJobApplication() {
 
         {/* Contact Information */}
         <label className="text-[1vw] font-[Helvetica Neue]">
-          Contact Information:
+        <span className="font-semibold">Contact Information:</span>
           <input
             type="text"
             value={contactInformation}
             onChange={(e) => setContactInformation(e.target.value)}
             className="p-2 border border-black-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-black-800"
           />
-        </label>      
+        </label>
       </form>
     </div>
   )
