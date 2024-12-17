@@ -82,7 +82,7 @@ function MenuBar() {
           }`}
         >
           <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
-            <Link to="/newContact">Create New Contact</Link>
+            <Link to="/contacts/new">Create New Contact</Link>
           </li>
           <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
             <Link to="/companies/new">Create New Company</Link>
