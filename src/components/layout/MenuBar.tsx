@@ -7,14 +7,24 @@ import PersonIcon from '@mui/icons-material/Person';
 import ApartmentIcon from '@mui/icons-material/Apartment';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import DescriptionIcon from '@mui/icons-material/Description';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+// import plusOpen from '../../components/icons/plus-open.png';
+// import plus from '../../components/icons/plus-small_4338829.png'; 
+
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import { useState } from 'react';
+
 
 function MenuBar() {
+  const [isDropDownOpen, setIsDropDownOpen] = useState(false)
+  const toggleDropDown = () => {
+    setIsDropDownOpen((previousState) => !previousState)
+  }
   const { userID } = useParams();
   console.log(userID);
 
   return (
-    <div className="flex w-full h-screen">
+   <div className="flex w-full h-screen">
       <div className='flex flex-col justify-items-center bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6'>
         
         {/* Logo */}
