@@ -31,88 +31,147 @@ function MenuBar() {
   console.log(userID);
 
   return (
+
+    // Slideout Menu
+    <div className='flex flex-col min-sm:hidden bg-[#046576] justify-evenly h-screen  md:w-1/12  ' >
+
+      {/* Close button for Slideout Menu */}
+      <button className="flex items-center min-sm:hidden justify-items-center" onClick={toggleSideMenu}>
+        <MenuIcon fontSize="large" className="m-auto text-white justify-items-center" />
+      </button>
     
-<div className='flex flex-col justify-items-center  min-sm:hidden bg-gray-500 justify-evenly h-screen  md:w-1/6 max-w-1/6' >
-<button className="flex items-center min-sm:hidden justify-items-center" onClick={toggleSideMenu}>
-          <MenuIcon fontSize="large" className="m-auto text-white justify-items-center" />
-        </button>
+      {/* Slideout Menu */}
+      <div className={"fixed overflow-hidden min-sm:hidden  z-10 bg-opacity-100 inset-0 transform ease-in-out flex flex-col justify-items-center duration-500 bg-[#046576] justify-evenly h-screen  md:w-1/6 max-w-1/6 " + (sideMenuOpen ? " transition-opacity opacity-30 duration-500 -translate-x-full  " : " transition-all opacity-90 translate-x-0")}>
 
-
-    <div className={"fixed overflow-hidden min-sm:hidden z-10 bg-opacity-100 inset-0 transform ease-in-out flex flex-col justify-items-center duration-500 bg-gray-500 justify-evenly h-screen mr-10 md:w-1/6 max-w-1/6 " + (sideMenuOpen ? " transition-opacity opacity-30 duration-500 -translate-x-full  " : " transition-all opacity-1000 translate-x-0")}>
-
-    <button className="min-sm:hidden" onClick={toggleSideMenu}>
+        <button className="min-sm:hidden" onClick={toggleSideMenu}>
           <CloseIcon fontSize="large" className="m-auto text-white justify-items-center" />
         </button>
 
+        {/* Logo */}
+        <Link className="m-auto cursor-pointer" to="/">
+          <img className="m-auto w-1/2 cursor-pointer" src={logo} alt="Logo" />
+        </Link>
 
-      {/* Logo */}
-      <Link className="m-auto cursor-pointer" to="/">
-        <img className="m-auto w-1/2 cursor-pointer" src={logo} alt="Logo" />
-      </Link>
+        {/* Home */}
+        <Link className="m-auto cursor-pointer" to="/home">
+          <HomeIcon fontSize="large" className="m-auto text-white" />
+        </Link>
 
-      {/* Home */}
-      <Link className="m-auto cursor-pointer" to="/home">
-        <HomeIcon fontSize="large" className="m-auto text-white" />
-      </Link>
+        {/* Profile */}
+        <Link className="m-auto cursor-pointer" to="/profile">
+          <PersonIcon fontSize="large" className="m-auto text-white" />
+        </Link>
 
-      {/* Profile */}
-      <Link className="m-auto cursor-pointer" to="/profile">
-        <PersonIcon fontSize="large" className="m-auto text-white" />
-      </Link>
+        {/* Companies */}
+        <Link className="m-auto cursor-pointer" to="/companies">
+          <ApartmentIcon fontSize="large" className="m-auto text-white" />
+        </Link>
 
-      {/* Companies */}
-      <Link className="m-auto cursor-pointer" to="/companies">
-        <ApartmentIcon fontSize="large" className="m-auto text-white" />
-      </Link>
+        {/* Documents */}
+        <Link className="m-auto cursor-pointer" to="/documents">
+          <DescriptionIcon fontSize="large" className="m-auto text-white" />
+        </Link>
 
-      {/* Documents */}
-      <Link className="m-auto cursor-pointer" to="/documents">
-        <DescriptionIcon fontSize="large" className="m-auto text-white" />
-      </Link>
+        {/* Add New */}
+        <Link className="m-auto cursor-pointer" to="/add-new">
+          <PersonAddAlt1Icon fontSize="large" className="m-auto text-white" />
+        </Link>
 
-      {/* Add New */}
-      <Link className="m-auto cursor-pointer" to="/add-new">
-        <PersonAddAlt1Icon fontSize="large" className="m-auto text-white" />
-      </Link>
+        {/* Drop Down Shortcut Menu */}
+        <div className="flex mt-auto flex-col items-center justify-center relative">
+          <button className="flex items-center justify-items-center" onClick={toggleDropDown}>
+            <AddCircleIcon fontSize="large" className="m-auto text-white justify-items-center" />
+          </button>
 
-      {/* Drop Down Shortcut Menu */}
-      <div className="flex flex-col items-center justify-center relative">
-        <button className="flex items-center justify-items-center" onClick={toggleDropDown}>
-          <AddCircleIcon fontSize="large" className="m-auto text-white justify-items-center" />
-        </button>
+          <ul
+            className={`bg-cyan-600 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform ${isDropDownOpen ? 'scale-100 opacity-100 visible' : 'scale-95 opacity-0 invisible'
+              }`}
+          >
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
+              <Link to="/newContact">Create New Contact</Link>
+            </li>
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
+              <Link to="/companies/new">Create New Company</Link>
+            </li>
+            <li className="p-2 hover:bg-gray-100 rounded text-center font-[Helvetica Neue]">
+              <Link to="/jobapplications/new">Create New Job Application</Link>
+            </li>
+          </ul>
+        </div>
 
-      {/* Account */}
-      <Link to="/userInformation"
-        className="m-auto mt-[10vh] text-[2.5vw] cursor-pointer rounded-full"
-        data-testid="update-user">
-        <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-cyan-500 text-white" />
-      </Link>
+        {/* Account */}
+        <Link to="/userInformation"
+          className="m-auto mt-[10vh] text-[2.5vw] cursor-pointer rounded-full"
+          data-testid="update-user">
+          <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-cyan-500 text-white" />
+        </Link>
 
-
-        
-        <ul
-          className={`bg-cyan-600 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform ${
-            isDropDownOpen ? 'scale-100 opacity-100 visible' : 'scale-95 opacity-0 invisible'
-          }`}
-        >
-          <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
-            <Link to="/newContact">Create New Contact</Link>
-          </li>
-          <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
-            <Link to="/companies/new">Create New Company</Link>
-          </li>
-          <li className="p-2 hover:bg-gray-100 rounded text-center font-[Helvetica Neue]">
-            <Link to="/jobapplications/new">Create New Job Application</Link>
-          </li>
-        </ul>
+        <div className="m-auto h-auto"></div>
       </div>
 
+      {/* Desktop Menu */}
+      <div className='flex fixed flex-col bg-[#046576]  max-sm:hidden justify-items-center h-screen md:w-1/12 '>
 
+        {/* Logo */}
+        <Link className="m-auto cursor-pointer" to="/">
+          <img className="m-auto w-1/2 cursor-pointer" src={logo} alt="Logo" />
+        </Link>
 
-      <div className="m-auto h-auto"></div>  
-    </div>
+        {/* Home */}
+        <Link className="m-auto cursor-pointer" to="/home">
+          <HomeIcon fontSize="large" className="m-auto text-white" />
+        </Link>
 
+        {/* Profile */}
+        <Link className="m-auto cursor-pointer" to="/profile">
+          <PersonIcon fontSize="large" className="m-auto text-white" />
+        </Link>
 
+        {/* Companies */}
+        <Link className="m-auto cursor-pointer" to="/companies">
+          <ApartmentIcon fontSize="large" className="m-auto text-white" />
+        </Link>
+
+        {/* Documents */}
+        <Link className="m-auto cursor-pointer" to="/documents">
+          <DescriptionIcon fontSize="large" className="m-auto text-white" />
+        </Link>
+
+        {/* Add New */}
+        <Link className="m-auto cursor-pointer" to="/add-new">
+          <PersonAddAlt1Icon fontSize="large" className="m-auto text-white" />
+        </Link>
+
+        {/* Drop Down Shortcut Menu */}
+        <div className="flex mt-auto flex-col items-center justify-center relative">
+          <button className="flex items-center justify-items-center" onClick={toggleDropDown}>
+            <AddCircleIcon fontSize="large" className="m-auto text-white justify-items-center" />
+          </button>
+          <ul className={`bg-cyan-600 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform ${isDropDownOpen ? 'scale-100 opacity-100 visible' : 'scale-95 opacity-0 invisible'
+            }`}
+          >
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
+              <Link to="/newContact">Create New Contact</Link>
+            </li>
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
+              <Link to="/companies/new">Create New Company</Link>
+            </li>
+            <li className="p-2 hover:bg-gray-100 rounded text-center font-[Helvetica Neue]">
+              <Link to="/jobapplications/new">Create New Job Application</Link>
+            </li>
+          </ul>
+        </div>
+
+        {/* Account */}
+        <Link to="/userInformation"
+          className="m-auto mt-auto text-[2.5vw] cursor-pointer rounded-full"
+          data-testid="update-user">
+          <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-cyan-500 text-white" />
+        </Link>
+
+        <div className="m-auto h-auto"></div>
+
+      </div>
     </div>
   );
 }

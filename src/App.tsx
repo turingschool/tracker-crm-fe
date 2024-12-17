@@ -101,7 +101,7 @@ function App() {
           path="/home"
           element={
             isLoggedIn ? (
-              <div className='flex flex-row'>
+              <div className='flex bg-gray-100 flex-row'>
                 <MenuBar />
                 <div>
                   <h1>Welcome, {userData.user.attributes.name}</h1>

@@ -90,7 +90,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin, setData, setId }) => {
               className='w-[100%] p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200'
             />
           </div>
-          <button type="submit" className='login-btn w-[35%] h-[10%] rounded-sm bg-[#3cb6cc] font-[Helvetica Neue] font-sans text-base'>
+          <button type="submit" className='login-btn w-[35%] min-h-10vh  rounded-sm bg-[#3cb6cc] font-[Helvetica Neue] font-sans text-base'>
             Login
           </button>
           <p className='no-account-message font-[Helvetica Neue] font-sans'>No Account? Click <button className='font-[Helvetica Neue] font-sans text-cyan-700'>Here</button> To Register.</p>
