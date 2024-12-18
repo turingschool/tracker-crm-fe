@@ -14,10 +14,6 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { useState } from 'react';
 
-
-// import { Link } from 'react-router-dom';
-// import Contacts from '../contacts/Contacts';
-
 function MenuBar() {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
   const toggleDropDown = () => {

@@ -29,7 +29,7 @@ function Companies() {
     const fetchCompanies = async () => {
       try {
         const token =
-          "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDU2NTM4NH0.e8VFaiDpJhHBO8CL1SSAF3XPL6FpaeA_fA-Y0aAq2P8";
+          "";
         const response = await fetch("http://localhost:3001/api/v1/users/4/companies", {
           method: "GET",
           headers: {

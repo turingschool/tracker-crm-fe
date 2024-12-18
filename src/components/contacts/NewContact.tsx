@@ -87,9 +87,8 @@ const NewContact = () => {
     };
 
     try {
-      // const token = "YOUR_AUTH_TOKEN_HERE";
       const token =
-        "";
+        "YOUR_AUTH_TOKEN_HERE";
       let url = `http://localhost:3001/api/v1/users/4/contacts`;
       if (formData.companyId) {
         url = `http://localhost:3001/api/v1/users/4/companies/${formData.companyId}/contacts`;
