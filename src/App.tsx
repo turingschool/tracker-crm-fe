@@ -28,7 +28,7 @@ function App() {
   } 
   });
   
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const handleLogout = () => {
     setUserId(null);
@@ -91,8 +91,8 @@ function App() {
             path="/userInformation"
             element={<UserInformation userData={userData} />}
           />
+          <Route path="/job_applications/:jobAppId" element={<JobApplication/>} />
         </Route>
-        <Route path="/job_applications/:id" element={<JobApplication/>} />
       </Routes>
   );
 }

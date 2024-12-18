@@ -10,10 +10,7 @@ module.exports = {
       backgroundImage:theme => ({
         none:"none",
         'turing-logo':"url('turing-logo-gray.png')"
-      }),
-      colors: {
-        customTeal: "#298a8f"
-      }
+      })
     },
   },
   plugins: [],
