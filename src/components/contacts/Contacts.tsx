@@ -29,6 +29,7 @@ function Contacts() {
   const [contacts, setContacts] = useState<ContactData[] | []>([]);
   const [allContacts, setAllContacts] = useState<ContactData[] | []>([]);
   const [contactSearch, setContactSearch] = useState<string>("");
+  const [fetchError, setFetchError] = useState<string | null>(null);
   
   useEffect(() => {
     const fetchContacts = async () => {
@@ -45,10 +46,10 @@ function Contacts() {
           throw new Error(`Failed to fetch contacts: ${response.statusText}`);
         }
         const data = await response.json();
-        console.log(data.data);
         setContacts(data.data as ContactData[]);
         setAllContacts(data.data as ContactData[]);
       } catch (error) {
+        setFetchError(`${(error as Error).message} user contacts. Please try again later.`)
         console.error("Fetch error", error);
       }
     };
@@ -83,12 +84,13 @@ function Contacts() {
   );
 
   const contactData = contacts.map(data => {
-    console.log(data.attributes.company.name, "DATA HERE")
+    const companyName = data.attributes.company?.name || "N/A";
+    console.log(companyName, "companyName HERE")
     return (
      <tr key={data.id} className="even:bg-gray-50 hover:bg-gray-100">
       <td className="p-4 border-b">{data.attributes.first_name} {data.attributes.last_name}</td>
       <td className="p-4 border-b">
-        {data.attributes.company.name}
+        {companyName}
       </td>
       <td className="p-4 border-b">{data.attributes.notes}</td>
     </tr>
@@ -106,6 +108,7 @@ function Contacts() {
             <button className='bg-cyan-600 text-white p-[1vh] rounded w-[10vw]'>Add New +</button>
           </Link>
         </div>
+        {(fetchError !== null) ? <p data-cy="failed-fetch-message" className="text-center font-bold text-red-600">{fetchError}</p> : null}
         <table className='w-[70vw] mt-[1.5vh]'>
           <thead className="border-t bg-gray-200">
             <tr>
@@ -118,7 +121,7 @@ function Contacts() {
             {contactData}
           </tbody>
       </table>
-        {(contacts?.length || 0) === 0 ? <p className="text-center">No contacts saved. Click "Add New +" to start saving contacts.</p> : null}
+        {(contacts?.length || 0) === 0 ? <p data-cy="no-contacts-message" className="text-center">No contacts saved. Click "Add New +" to start saving contacts.</p> : null}
       </div>
     </section>
   );
