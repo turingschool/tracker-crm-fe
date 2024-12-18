@@ -118,7 +118,7 @@ function Contacts() {
             {contactData}
           </tbody>
       </table>
-        {/* {contacts.length === 0 ? noContacts : contactData} */}
+        {(contacts?.length || 0) === 0 ? <p className="text-center">No contacts saved. Click "Add New +" to start saving contacts.</p> : null}
       </div>
     </section>
   );
