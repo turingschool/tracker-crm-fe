@@ -1,14 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import turingLogo from './Turing-logo.png';
 import { useState } from 'react';
-import { LoginFormProps } from './Interfaces'
+// import { LoginFormProps } from './Interfaces';
+import { useUserLoggedContext } from './context/UserLoggedContext';
 import { loginUser } from './trackerApiCalls'
 
-const LoginForm: React.FC<LoginFormProps> = ({ setLogin, setData, setId }) => {
+const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const { userLogged, setUserData } = useUserLoggedContext()
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,7 +26,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin, setData, setId }) => {
     loginUser(requestBody)
       .then((loggedInUser) => {
         console.log("logged data:", loggedInUser)
-        setData({
+        setUserData({
           token: loggedInUser.token,
           user: {
             data: {
@@ -38,9 +40,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ setLogin, setData, setId }) => {
             }
           }
         });
-        setId(loggedInUser.user.data.id);
-        setLogin(true);
+        // setId(loggedInUser.user.data.id);
+        // setLogin(true);
         setSuccessMessage('Login successful!');
+        userLogged(loggedInUser.token, loggedInUser.user.data.type)
         navigate("/")
         console.log("User updated successfully:", loggedInUser);
       })
