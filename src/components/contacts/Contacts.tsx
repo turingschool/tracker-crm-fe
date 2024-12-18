@@ -81,7 +81,9 @@ function Contacts() {
 
       // <tr key={data.id} className="bg-gray-50 hover:bg-gray-100">
      <tr key={data.id} className="even:bg-gray-50 hover:bg-gray-100">
+      <Link to={`/contacts/${data.id}`}>
         <td className="p-4 border-b">{data.attributes.first_name} {data.attributes.last_name}</td>
+      </Link>
         <td className="p-4 border-b">Company Name</td>
         <td className="p-4 border-b">{data.attributes.notes}</td>
       </tr>
