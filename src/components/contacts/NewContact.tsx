@@ -33,7 +33,7 @@ const NewContact = () => {
     const fetchCompanies = async () => {
       try {
         const token =
-          "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDY0MzQxMn0.M77wmWOIYiJlYjrmZ5SZMunzLcP5LStDSCXYfa61Bo4";
+          "";
         const response = await fetch(
           "http://localhost:3001/api/v1/users/4/companies",
           {
@@ -89,7 +89,7 @@ const NewContact = () => {
     try {
       // const token = "YOUR_AUTH_TOKEN_HERE";
       const token =
-        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDY0MzQxMn0.M77wmWOIYiJlYjrmZ5SZMunzLcP5LStDSCXYfa61Bo4";
+        "";
       let url = `http://localhost:3001/api/v1/users/4/contacts`;
       if (formData.companyId) {
         url = `http://localhost:3001/api/v1/users/4/companies/${formData.companyId}/contacts`;
