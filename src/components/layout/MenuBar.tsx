@@ -1,5 +1,7 @@
 import logo from '../../turing-logo-gray.png';
 import { useParams, NavLink, Link, Outlet } from 'react-router-dom';
+import { useState } from 'react';
+import { useUserLoggedContext } from '../../context/UserLoggedContext.tsx'; 
 
 // MUI Icons
 import HomeIcon from '@mui/icons-material/Home';
@@ -9,19 +11,19 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import { useState } from 'react';
 
 // import { Link } from 'react-router-dom';
 // import Contacts from '../contacts/Contacts';
 
 function MenuBar() {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
+  const { userData } = useUserLoggedContext();
   const toggleDropDown = () => {
     setIsDropDownOpen(prevState => !prevState);
   };
 
-  const { userID } = useParams();
-  console.log(userID);
+  let { userId = userData.user.data.id } = useParams();
+  console.log(userId);
 
   // A reusable function to create NavLink classes dynamically
   const linkClasses = ({ isActive }: { isActive: boolean }) =>
