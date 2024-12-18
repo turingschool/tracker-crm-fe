@@ -26,7 +26,7 @@ function JobApplication() {
 
   const userId = 1;
   const jobAppId = 1;
-  const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDUzNTQxNn0.mzP7p1xn_irLbd2k5VtZV2wItAaFLckEJoNmMRZLf1Q";
+  const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDYyMzI0Nn0.DQpdZR8Ko3tdFmDTTNIZnlXUImBeeqeONZOG0W-4Tlw";
 
 
   useEffect(() => {
@@ -45,24 +45,42 @@ function JobApplication() {
 
   }, [])
   return(
-    <div>
-      <h1>Job Application</h1>
+    <body>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {jobApp ? (
-        <div>
-          <h2>{jobApp.position_title}</h2>
-          <p><strong>Date Applied:</strong> {new Date(jobApp.date_applied).toLocaleDateString()}</p>
-          <p><strong>Status:</strong> {jobApp.status}</p>
-          <p><strong>Notes:</strong> {jobApp.notes}</p>
-          <p><strong>Description:</strong> {jobApp.job_description}</p>
-          <p><strong>Application URL:</strong> <a href={jobApp.application_url}>{jobApp.application_url}</a></p>
-          <p><strong>Contact:</strong> {jobApp.contact_information}</p>
-          <p><strong>Company Name:</strong> {jobApp.company_name}</p>
-        </div>
+        <main className="grid grid-cols-2 p-20">
+          <section>
+            <h1 className="text-customTeal text-5xl font-semibold ">{jobApp.position_title}</h1>
+            <h2 className="text-customTeal text-3xl font-semibold">{jobApp.company_name}</h2>
+            <p>Date Applied: {new Date(jobApp.date_applied).toLocaleDateString()}</p>
+            <p>Status: {jobApp.status === 1 ? "Application Pending" : jobApp.status === 2 ? "Application Sent" : "Unknown Status"}</p>
+            <h3 className="text-customTeal text-3xl font-semibold">Notes</h3>
+            <p>{jobApp.notes}</p>
+            <button className="bg-transparent border border-customTeal text-customTeal px-4 py-2 rounded">Edit</button>
+          </section>
+          <div className="flex flex-col gap-4">
+            <section>
+              <h2 className="text-customTeal text-3xl font-semibold"> Job Description</h2>
+              <a 
+                href={"https://www.google.com/"} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-400 underline hover:text-blue-700"
+              >
+                {jobApp.application_url}
+              </a>
+              <p>{jobApp.job_description}</p>
+            </section>
+            <section>
+              <h2>My contacts at {jobApp.company_name}</h2>
+              <p className="text-blue-400">{jobApp.contact_information}</p>
+            </section>
+          </div>
+        </main>
       ) : (
         <p>Loading...</p>
       )}
-    </div>
+    </body>
   );
 }
 
