@@ -1,137 +1,103 @@
 // import turingLogo from './Turing-logo.png';
 import './App.css';
 import { useState } from 'react';
-import { UserData } from './Interfaces'
+import { UserData } from './Interfaces';
 import LoginForm from './Login';
-// import { getUser } from './apiCalls';
 import MenuBar from './components/layout/MenuBar';
 import UserInformation from './components/pages/userInformation';
-import { Route, Routes, Navigate } from "react-router-dom";
-import Companies  from './components/companies/Companies';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
 import JobApplication from './components/pages/showJobApplication';
 
 
 function App() {
-
   const [userId, setUserId] = useState<number | null>(null);
   const [userData, setUserData] = useState<UserData>({
     token: '',
     user: {
-      id: 0,
-    type: 'user',
-    attributes: {
-      name: '',
-      email: '',
-      companies: []
+      data: {
+        id: 0,
+      type: 'user',
+      attributes: {
+        name: '',
+        email: '',
+        companies: []
+      }
     }
   } 
   });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);   // temporary until the login is fixed
-
-  // const handleLogin = async (id: number) => {
-  //   try {
-  //     const loginResponse = await getUser(id);
-  //     if (loginResponse) {
-  //       setUserData({
-  //         token: loginResponse.data.token,
-  //         user: {
-  //           id: loginResponse.data.user.id,
-  //           type: 'user',
-  //           attributes: {
-  //             email: loginResponse.data.user.attributes.email,
-  //             name: loginResponse.data.user.attributes.name,
-  //             companies: loginResponse.data.user.attributes.companies
-  //           }
-  //         }
-  //       });
-  //       setUserId(loginResponse.data.id);
-  //       setIsLoggedIn(true);
-  //       console.log(loginResponse);
-
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-
-  //     console.error('Error fetching logged in user:', err);
-  //     setIsLoggedIn(false);
-  //     console.log(err);
-
-  //   }
-  // };
+  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = () => {
     setUserId(null);
     setUserData({
       token: '',
       user: {
-        id: 0,
+        data: {
+          id: 0,
         type: 'user',
         attributes: {
           name: '',
           email: '',
           companies: []
-    }
-  }
+        }
+      }
+    } 
     });
     setIsLoggedIn(false);
   };
 
-  const userIsLoggedIn = () => {
-    setIsLoggedIn(true);
-    console.log(`Is this right? ${userData}`)
-    console.log(`we need to have ${userId}... NOT`)
-  };
+  console.log(`Is this right? ${userData}`)
+  console.log(`we need to have ${userId}... NOT`)
 
-  // const userLogOut = () => {
-  //   setIsLoggedIn(false);
-  //   setUserData({});
-  // };
-
-  console.log(userIsLoggedIn)
   return (
-    <div>
       <Routes>
+        {/* Public route */}
         <Route 
           path="/"
           element={
-            isLoggedIn ? (<Navigate to="/home" replace /> ):( <LoginForm setLogin={setIsLoggedIn} setData={setUserData} setId={setUserId} /> )
+            isLoggedIn ? (
+              <Navigate to="/home" replace />
+            ) : (
+              <LoginForm setLogin={setIsLoggedIn} setData={setUserData} setId={setUserId} />
+            )
           }
         />
-        <Route 
-          path="/home"
+
+        {/* Protected layout using MenuBar */}
+        <Route
           element={
             isLoggedIn ? (
-              <div className='flex flex-row'>
-                <MenuBar />
-                <div>
-                  <h1>Welcome, {userData.user.attributes.name}</h1>
-                  <button onClick={handleLogout}>Log Out</button>
-                </div>
-              </div>
+              <MenuBar />
             ) : (
               <Navigate to="/" replace />
             )
           }
-        /> 
-        <Route path="/companies" element={<Companies/>} />
-        <Route path="/companies/new" element={<NewCompany />} />
-        <Route path="/userInformation" element={
-              <div className="flex items-start">
-                <MenuBar />
-                <UserInformation userData={userData} />
+        >
+          <Route 
+            path="/home"
+            element={
+              <div>
+                <h1>Welcome, {userData.user.data.attributes.name}</h1>
+                <button onClick={handleLogout}>Log Out</button>
               </div>
             }
-        />
-        <Route path="/jobApplication/:id" element={ //temporary to test page render
-          <div className="flex items-start">
-             <MenuBar />
-            <JobApplication/>
-          </div>
-        }/>
+          />
+          <Route path="/companies" element={<Companies />} />
+          <Route path="/companies/new" element={<NewCompany />} />
+          <Route 
+            path="/userInformation"
+            element={<UserInformation userData={userData} />}
+          />
+        </Route>
+        <Route path="/job_applications/:id" element={<JobApplication/>} />
       </Routes>
-    </div>
   );
 }
 
 export default App;
+
+
+
