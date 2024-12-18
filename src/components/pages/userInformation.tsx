@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { UserData } from '../../Interfaces'
-import { updateUser } from '../../apiCalls'
+import { updateUser } from '../../trackerApiCalls'
 
 interface UserInformationProps {
   userData: UserData;
@@ -14,8 +14,8 @@ function UserInformation({userData}: UserInformationProps) {
     email?: string;
     [key: string]: any;  
   }
-  const [name, setName] = useState(userData.user.attributes.name);
-  const [email, setEmail] = useState(userData.user.attributes.email);
+  const [name, setName] = useState(userData.user.data.attributes.name);
+  const [email, setEmail] = useState(userData.user.data.attributes.email);
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -23,7 +23,8 @@ function UserInformation({userData}: UserInformationProps) {
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const compileData: DataCompile = {
-      id: userData.user.id,
+      id: userData.user.data.id,
+      token: userData.token,
       name: name,
       email: email,
     }
@@ -31,6 +32,8 @@ function UserInformation({userData}: UserInformationProps) {
       compileData["password"] = password;
       compileData["password_confirmation"] = password2
     }
+    console.log(userData)
+    console.log(compileData)
     updateUser(compileData)
       .then((updatedUser) => {
         console.log("User updated successfully:", updatedUser);

@@ -1,6 +1,6 @@
 // import turingLogo from './Turing-logo.png';
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { UserData } from './Interfaces';
 import LoginForm from './Login';
 import MenuBar from './components/layout/MenuBar';
@@ -14,7 +14,8 @@ function App() {
   const [userData, setUserData] = useState<UserData>({
     token: '',
     user: {
-      id: 0,
+      data: {
+        id: 0,
       type: 'user',
       attributes: {
         name: '',
@@ -22,6 +23,7 @@ function App() {
         companies: []
       }
     }
+  } 
   });
   
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -31,7 +33,8 @@ function App() {
     setUserData({
       token: '',
       user: {
-        id: 0,
+        data: {
+          id: 0,
         type: 'user',
         attributes: {
           name: '',
@@ -39,19 +42,14 @@ function App() {
           companies: []
         }
       }
+    } 
     });
     setIsLoggedIn(false);
   };
-  const userIsLoggedIn = () => {
-    setIsLoggedIn(true);
-    console.log(`Is this right? ${userData}`)
-    console.log(`we need to have ${userId}... NOT`)
-  };
 
-  useEffect(() => {
-    userIsLoggedIn();
-  }, []);
-  
+  console.log(`Is this right? ${userData}`)
+  console.log(`we need to have ${userId}... NOT`)
+
   return (
       <Routes>
         {/* Public route */}
@@ -80,7 +78,7 @@ function App() {
             path="/home"
             element={
               <div>
-                <h1>Welcome, {userData.user.attributes.name}</h1>
+                <h1>Welcome, {userData.user.data.attributes.name}</h1>
                 <button onClick={handleLogout}>Log Out</button>
               </div>
             }
