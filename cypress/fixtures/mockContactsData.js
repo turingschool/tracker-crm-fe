@@ -10,7 +10,17 @@ const mockContactsData = {
           "email": "123@example.com",
           "phone_number": "123-555-6789",
           "notes": "Type notes here...",
-          "user_id": 4
+          "user_id": 4,
+          "company": {
+            "id": 2,
+            "name": "Future Designs LLC",
+            "website": "https://futuredesigns.com",
+            "street_address": "456 Future Blvd",
+            "city": "Austin",
+            "state": "TX",
+            "zip_code": "73301",
+            "notes": "Submitted application for the UI Designer role."
+        }
       }
     },
     {
@@ -23,7 +33,17 @@ const mockContactsData = {
           "email": "123@example.com",
           "phone_number": "555-555-6789",
           "notes": "Type notes here...",
-          "user_id": 4
+          "user_id": 4,
+          "company": {
+            "id": 2,
+            "name": "Future Designs LLC",
+            "website": "https://futuredesigns.com",
+            "street_address": "456 Future Blvd",
+            "city": "Austin",
+            "state": "TX",
+            "zip_code": "73301",
+            "notes": "Submitted application for the UI Designer role."
+        }
       }
     }
   ]   

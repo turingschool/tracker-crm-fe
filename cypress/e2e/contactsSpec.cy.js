@@ -34,6 +34,7 @@ describe("Contacts page", () => {
   });
 
   it ("Should have a search bar", () => {
+    // cy.get('#contacts-search').should("exist");
     cy.get("input[type='search']").should("exist");
     cy.get("input[type='search']").should("have.attr", "placeholder", "Search Contacts...");
   });
@@ -58,10 +59,10 @@ describe("Contacts page", () => {
   it("Should display the correct company information", () => {
     cy.wait("@get-contacts");
     cy.get("table tbody tr").eq(0).find("td").eq(0).should("have.text", "John Smith");
-    cy.get("table tbody tr").eq(0).find("td").eq(1).should("have.text", "Company Name");
+    cy.get("table tbody tr").eq(0).find("td").eq(1).should("have.text", "Future Designs LLC");
     cy.get("table tbody tr").eq(0).find("td").eq(2).should("have.text", "Type notes here...");
     cy.get("table tbody tr").eq(1).find("td").eq(0).should("have.text", "Jane Smith");
-    cy.get("table tbody tr").eq(1).find("td").eq(1).should("have.text", "Company Name");
+    cy.get("table tbody tr").eq(1).find("td").eq(1).should("have.text", "Future Designs LLC");
     cy.get("table tbody tr").eq(1).find("td").eq(2).should("have.text", "Type notes here...");
   });
 
@@ -82,8 +83,6 @@ describe("Contacts page", () => {
     cy.wait("@empty-contacts");
   
     cy.get("table").find("th").should("have.length", 3);
-    cy.get("table tbody tr").eq(0).find("td").eq(0).should("not.exist");
-    // cy.get("[data-testid='no-companies']").should("exist").and("have.text", "No companies found");
-    // cy.get("table").should("not.exist");
+    cy.get("table tbody tr").should("not.exist");
   });
 })
