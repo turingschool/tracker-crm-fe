@@ -224,22 +224,22 @@ const NewContact = () => {
                 
               ))}
             </datalist> */}
- <select
-  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
-  id="companyId"
-  name="companyId" 
-  value={formData.companyId || ""} 
-  onChange={handleInputChange}
->
-  <option value="" disabled>
-    Select a company
-  </option>
-  {companies.map((company) => (
-    <option key={company.id} value={company.id}>
-      {company.name}
-    </option>
-  ))}
-</select>
+          <select
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            id="companyId"
+            name="companyId" 
+            value={formData.companyId || ""} 
+            onChange={handleInputChange}
+          >
+            <option value="" disabled>
+              Select a company
+            </option>
+            {companies.map((company) => (
+              <option key={company.id} value={company.id}>
+                {company.name}
+              </option>
+            ))}
+          </select>
           </div>
 
         <div>
