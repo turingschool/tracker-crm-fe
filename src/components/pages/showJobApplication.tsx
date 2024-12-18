@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 // import { Link } from "react-router-dom";
-import { showJobApp } from "../../apiCalls"
+import { showJobApp } from "../../trackerApiCalls";
 
 interface JobApplicationAttributes {
   position_title: string,
