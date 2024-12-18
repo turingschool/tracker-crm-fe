@@ -37,7 +37,7 @@ const NewContact = () => {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDU2NTM4NH0.e8VFaiDpJhHBO8CL1SSAF3XPL6FpaeA_fA-Y0aAq2P8"; 
+        const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDYzNDE0OH0.QmxSxYYgxND0XjyI4PADqIX6Xl2R0y1nbEkH5znIgPE"; 
         const response = await fetch("http://localhost:3001/api/v1/users/4/companies", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -63,13 +63,14 @@ const NewContact = () => {
 
     fetchCompanies();
   }, []);
+  // const selectedCompanyName = companies.find(company => company.id === formData.companyId)?.name || "No Company Selected";
 
   const handleInputChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
   
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value === " " ? null : value,
     }));
   };
 
@@ -87,7 +88,7 @@ const NewContact = () => {
     try {
       // const token = "YOUR_AUTH_TOKEN_HERE";
       const token =
-        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDU2NTM4NH0.e8VFaiDpJhHBO8CL1SSAF3XPL6FpaeA_fA-Y0aAq2P8";
+        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDYzNDE0OH0.QmxSxYYgxND0XjyI4PADqIX6Xl2R0y1nbEkH5znIgPE";
         let url = `http://localhost:3001/api/v1/users/4/contacts`;
         if (formData.companyId) {
         
@@ -224,22 +225,26 @@ const NewContact = () => {
                 
               ))}
             </datalist> */}
-          <select
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
-            id="companyId"
-            name="companyId" 
-            value={formData.companyId || ""} 
-            onChange={handleInputChange}
-          >
-            <option value="" disabled>
-              Select a company
-            </option>
-            {companies.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.name}
-              </option>
-            ))}
-          </select>
+<select
+  className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 ${
+    !formData.companyId ? "text-gray-400" : "text-black"
+  }`}
+  id="companyId"
+  name="companyId"
+  value={formData.companyId || ""}
+  onChange={handleInputChange}
+>
+
+  <option value="" className="text-gray-400">
+    Leave blank or select a company
+  </option>
+
+  {companies.map((company) => (
+    <option key={company.id} value={company.id} className="text-black">
+      {company.name}
+    </option>
+  ))}
+</select>
           </div>
 
         <div>
