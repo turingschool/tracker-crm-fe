@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { fetchApplicationsData } from '../../apiCalls';
-
+import ClipLoader from "react-spinners/ClipLoader";
+import useSWR from 'swr';
 
 interface JobApplication {
   id: string;
@@ -13,7 +14,7 @@ interface JobApplication {
   application_url: string;
   contact_information: string;
   company_id: number;
-  company_name?: string; // Assuming this is included in your API response
+  company_name?: string;
 }
 
 const statusMap: { [key: number]: string } = {
@@ -33,29 +34,24 @@ const statusStyles: { [key: string]: string } = {
 };
 
 const ApplicationsGrid: React.FC = () => {
-  const [applications, setApplications] = useState<JobApplication[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
   const [searchTerm, setSearchTerm] = useState<string>('');
+  
+  const userId = 1;
+  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDU2MzA1OX0.QD3gokwcsJmchM4PojZteuxuNsqZ4UZv_NotJUoiDKw';
 
-  useEffect(() => {
-    const userId = 1;
-    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDQ3NTk2NH0.2ioaIqAyRhtXUwOWCdvhSB2vycYj0Rkr-wiFbl0XFgA';
+  const fetcher = async (): Promise<JobApplication[]> => {
+    return await fetchApplicationsData(userId, token);
+  };
 
-    const loadApplications = async () => {
-      try {
-        const data = await fetchApplicationsData(userId, token);
-        setApplications(data);
-      } catch (error) {
-        console.error('Error loading applications:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const { data: applications, error, isLoading } = useSWR('applications', fetcher, {
+    refreshInterval: 10000,
+  });
 
-    loadApplications();
-  }, []);
+  if (error) {
+    return <div className="p-6 text-red-600">Error loading applications.</div>;
+  }
 
-  const filteredApplications = applications.filter((app) =>
+  const filteredApplications = (applications || []).filter((app) =>
     app.company_name
       ? app.company_name.toLowerCase().includes(searchTerm.toLowerCase())
       : true
@@ -68,8 +64,8 @@ const ApplicationsGrid: React.FC = () => {
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center">
           <input
-            type="text"
-            placeholder="Search"
+            type="search"
+            placeholder="Search Company"
             className="border rounded px-4 py-2 w-64"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -82,20 +78,14 @@ const ApplicationsGrid: React.FC = () => {
         </Link>
       </div>
 
-      {loading ? (
+      {isLoading ? (
         <div className="flex justify-center items-center h-64">
-          <div className="loader ease-linear rounded-full border-8 border-t-8 border-gray-200 h-16 w-16"></div>
-          {/* 
-            Add CSS for loader:
-            .loader {
-              border-top-color: #3498db;
-              animation: spin 1s linear infinite;
-            }
-            @keyframes spin {
-              0% { transform: rotate(0deg); }
-              100% { transform: rotate(360deg); }
-            }
-          */}
+          <ClipLoader
+            color={"#3498db"}
+            loading={isLoading}
+            size={60}
+            aria-label="Loading Applications"
+          />
         </div>
       ) : (
         <div className="border rounded-lg overflow-hidden">
@@ -113,14 +103,24 @@ const ApplicationsGrid: React.FC = () => {
                   key={app.id}
                   className="hover:bg-gray-50 border-b transition-colors duration-200"
                 >
-                  <td className="p-4 text-gray-700">{app.company_name || app.company_id}</td>
-                  <td className="p-4 text-gray-700">{app.position_title}</td>
+                  <td className="p-4 text-gray-700">
+                    <Link to={`/job_applications/${app.id}`}>
+                      {app.company_name || app.company_id}
+                    </Link>
+                  </td>
+                  <td className="p-4 text-gray-700">
+                    <Link to={`/job_applications/${app.id}`}>
+                      {app.position_title}
+                    </Link>
+                  </td>
                   <td className="p-4">
-                    <span
-                      className={`py-1 px-2 rounded-md text-sm font-medium ${statusStyles[statusMap[app.status]]}`}
-                    >
-                      {statusMap[app.status]}
-                    </span>
+                    <Link to={`/job_applications/${app.id}`}>
+                      <span
+                        className={`py-1 px-2 rounded-md text-sm font-medium ${statusStyles[statusMap[app.status]]}`}
+                      >
+                        {statusMap[app.status]}
+                      </span>
+                    </Link>
                   </td>
                 </tr>
               ))}
