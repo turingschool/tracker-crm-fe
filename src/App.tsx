@@ -6,6 +6,7 @@ import UserInformation from './components/pages/userInformation';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
+import ShowContact from './components/contacts/ShowContact.tsx';
 
 function App() {
   const { isLoggedIn, clearUserLogged, userData } = useUserLoggedContext()
@@ -47,6 +48,7 @@ function App() {
           path="/userInformation"
           element={<UserInformation userData={userData} />}
         />
+        <Route path="/contacts/:contactId" element={<ShowContact />} />
       </Route>
     </Routes>
   );
