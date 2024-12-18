@@ -1,6 +1,4 @@
 import './App.css';
-import { useState } from 'react';
-import { UserData } from './Interfaces';
 import LoginForm from './Login';
 import MenuBar from './components/layout/MenuBar'
 import { useUserLoggedContext } from './context/UserLoggedContext.tsx';
@@ -10,40 +8,7 @@ import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
 
 function App() {
-  const { isLoggedIn, clearUserLogged } = useUserLoggedContext()
-  const [userData, setUserData] = useState<UserData>({
-    token: '',
-    user: {
-      data: {
-        id: 0,
-        type: 'user',
-        attributes: {
-          name: '',
-          email: '',
-          companies: []
-        }
-      }
-    }
-  });
-
-  const handleLogout = () => {
-    setUserData({
-      token: '',
-      user: {
-        data: {
-          id: 0,
-          type: 'user',
-          attributes: {
-            name: '',
-            email: '',
-            companies: []
-          }
-        }
-      }
-    });
-    clearUserLogged()
-  };
-
+  const { isLoggedIn, clearUserLogged, userData } = useUserLoggedContext()
   return (
     <Routes>
       <Route // Public Route
@@ -52,7 +17,7 @@ function App() {
           isLoggedIn ? (
             <Navigate to="/home" replace />
           ) : (
-            <LoginForm setData={setUserData} />
+            <LoginForm />
           )
         }
       />
@@ -72,7 +37,7 @@ function App() {
           element={
             <div>
               <h1>Welcome, {userData.user.data.attributes.name}</h1>
-              <button onClick={handleLogout}>Log Out</button>
+              <button onClick={() => clearUserLogged()}>Log Out</button>
             </div>
           }
         />

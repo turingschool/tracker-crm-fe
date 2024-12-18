@@ -2,7 +2,7 @@ export interface UserData {
   token: string,
   user: {
     data: {
-      id: number,
+      id: number | string | undefined,
       type: string,
       attributes: {
         name: string,
@@ -11,12 +11,6 @@ export interface UserData {
       }
     }
   }
-}
-
-export interface LoginFormProps {
-  // setLogin: (login: boolean) => void;
-  setData: (data: UserData) => void;
-  // setId: (id: number) => void;
 }
 
 export interface UserInformationProps {
