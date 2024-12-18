@@ -8,6 +8,7 @@ import UserInformation from './components/pages/userInformation';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
+import CompanyShow from './components/companies/CompanyShow';
 
 function App() {
   const [userId, setUserId] = useState<number | null>(null);
@@ -85,6 +86,7 @@ function App() {
           />
           <Route path="/companies" element={<Companies />} />
           <Route path="/companies/new" element={<NewCompany />} />
+          <Route path="/companies/:id/contacts" element={<CompanyShow />} />
           <Route 
             path="/userInformation"
             element={<UserInformation userData={userData} />}

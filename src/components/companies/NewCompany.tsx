@@ -26,7 +26,7 @@ function NewCompany() {
 
     try {
       const token =
-        "";
+        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDY0MTg2Mn0.4GEWX2QPGGKfBJ8C0f4uqDzt3bumLAChqDPO4PkAM38";
       const response = await fetch("http://localhost:3001/api/v1/users/2/companies", {
         method: "POST",
         headers: {

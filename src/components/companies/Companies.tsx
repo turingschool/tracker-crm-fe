@@ -1,22 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom";
-
-interface CompanyAttributes {
-  id: number;
-  name: string;
-  website: string;
-  street_address: string;
-  city: string;
-  state: string;
-  zip_code: string;
-  notes: string;
-}
-
-interface Company {
-  id: number;
-  type: string;
-  attributes: CompanyAttributes;
-}
+import { Company } from "../../Interfaces";
 
 function Companies() {
   const [companies, setCompanies] = useState<Company[] | null>([]); 
@@ -28,7 +12,7 @@ function Companies() {
     const fetchCompanies = async () => {
       try {
         const token =
-          "";
+          "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDY0MTg2Mn0.4GEWX2QPGGKfBJ8C0f4uqDzt3bumLAChqDPO4PkAM38";
         const response = await fetch("http://localhost:3001/api/v1/users/2/companies", {
           method: "GET",
           headers: {
@@ -65,8 +49,6 @@ function Companies() {
     }
   }, [searchTerm, companies]);
 
-  
-
   return (
       <main className="flex-1 p-6 bg-gray-100">
         <h1 className="text-2xl font-bold mb-4">Companies</h1>
@@ -101,16 +83,17 @@ function Companies() {
               </tr>
             </thead>
             <tbody>
-              {filteredCompanies.map((company) => (
-                <tr
-                  key={company.id}
-                  className="even:bg-gray-50 hover:bg-gray-100"
-                >
-                  <td className="p-4 border-b">{company.attributes.name}</td>
-                  <td className="p-4 border-b">Not Applied Yet</td> {/*Change to application status */}
-                  <td className="p-4 border-b">{company.attributes.notes}</td>
-                </tr>
-              ))}
+            {filteredCompanies.map((company) => (
+              <tr key={company.id} className="even:bg-gray-50 hover:bg-gray-100">
+                <td className="p-4 border-b">
+                  <Link to={`/companies/${company.id}/contacts`}>
+                    {company.attributes.name}
+                  </Link>
+                </td>
+                <td className="p-4 border-b">Not Applied Yet</td>
+                <td className="p-4 border-b">{company.attributes.notes}</td>
+              </tr>
+            ))}
             </tbody>
           </table>
         ) : (
