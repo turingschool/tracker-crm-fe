@@ -1,12 +1,14 @@
 export interface UserData {
   token: string,
   user: {
-    id: number,
-    type: string,
-    attributes: {
-      name: string,
-      email: string,
-      companies: []
+    data: {
+      id: number,
+      type: string,
+      attributes: {
+        name: string,
+        email: string,
+        companies: []
+      }
     }
   }
 }

@@ -184,6 +184,24 @@ For an example of what this might look like in practice, see below.
 
 ![alt text](exampleDesign.png)
 
+<!-- USER GLOBAL CONTEXT -->
+
+## Implementing User Context With React's Context Hook
+
+### Dev Team! React's Context is now live in the project!
+
+Right up front, here is a guide for implementation:
+
+<font color='red'>**PRE REQS:**</font> <font color='#db5800'>The only requirement is that your component is being proprerly rendered in 'App.tsx' so make sure to check that first.</font>
+
+1. Import useUserLoggedContext into your component page:
+> <font color='#774b94'>import</font> <font color='yellow'>{</font> <font color='#0096db'>useUserLoggedContext</font> <font color='yellow'>}</font> <font color='#774b94'>from</font> <font color='#a84100'>'./context/UserLoggedContext.tsx'</font>;
+
+2. Destructure the function call ***INSIDE*** your component declaration:
+> <font color='#2555a8'>const</font> <font color='yellow'>{</font> <font color='#0096db'>    token, roles, isLoggedIn, userLogged, clearUserLogged</font> <font color='yellow'>}</font> = <font color='#a84100'>useUserLoggedContext</font><font color='#774b94'>()</font>;
+
+3. Use the whatever part of the context you need!
+
 <!-- USAGE EXAMPLES -->
 ## Usage
 

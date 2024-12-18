@@ -25,7 +25,8 @@ function App() {
   const [userData, setUserData] = useState<UserData>({
     token: '',
     user: {
-      id: 0,
+      data: {
+        id: 0,
       type: 'user',
       attributes: {
         name: '',
@@ -33,13 +34,15 @@ function App() {
         companies: []
       }
     }
+  } 
   });
 
   const handleLogout = () => {
     setUserData({
       token: '',
       user: {
-        id: 0,
+        data: {
+          id: 0,
         type: 'user',
         attributes: {
           name: '',
@@ -47,6 +50,7 @@ function App() {
           companies: []
         }
       }
+    } 
     });
     clearUserLogged()
   };
@@ -64,33 +68,33 @@ function App() {
         }
       />
 
-      {/* Protected layout using MenuBar */}
-      <Route
-        element={
-          isLoggedIn ? (
-            <MenuBar />
-          ) : (
-            <Navigate to="/" replace />
-          )
-        }
-      >
+        {/* Protected layout using MenuBar */}
         <Route
-          path="/home"
           element={
-            <div>
-              <h1>Welcome, {userData.user.attributes.name}</h1>
-              <button onClick={handleLogout}>Log Out</button>
-            </div>
+            isLoggedIn ? (
+              <MenuBar />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
-        />
-        <Route path="/companies" element={<Companies />} />
-        <Route path="/companies/new" element={<NewCompany />} />
-        <Route
-          path="/userInformation"
-          element={<UserInformation userData={userData} />}
-        />
-      </Route>
-    </Routes>
+        >
+          <Route 
+            path="/home"
+            element={
+              <div>
+                <h1>Welcome, {userData.user.data.attributes.name}</h1>
+                <button onClick={handleLogout}>Log Out</button>
+              </div>
+            }
+          />
+          <Route path="/companies" element={<Companies />} />
+          <Route path="/companies/new" element={<NewCompany />} />
+          <Route 
+            path="/userInformation"
+            element={<UserInformation userData={userData} />}
+          />
+        </Route>
+      </Routes>
   );
 }
 
