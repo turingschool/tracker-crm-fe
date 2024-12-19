@@ -1,7 +1,7 @@
 import logo from '../../turing-logo-gray.png';
 import { useParams, NavLink, Link, Outlet } from 'react-router-dom';
 import { useState } from 'react';
-import { useUserLoggedContext } from '../../context/UserLoggedContext.tsx'; 
+import { useUserLoggedContext } from '../../context/UserLoggedContext.tsx';
 
 // MUI Icons
 import HomeIcon from '@mui/icons-material/Home';
@@ -39,20 +39,20 @@ function MenuBar() {
       : "m-auto text-white transform scale-100 transition-transform duration-150";
 
   return (
-    <div className='md:w-1/12'>
+    <div className='flex flex-row'>
       {/* // Menu */}
-      <nav className='flex flex-col  min-sm:hidden bg-[#046576] justify-evenly h-screen  md:w-1/12  ' >
+      <nav className='flex flex-col   bg-[#046576] justify-evenly h-screen  md:w-1/12  ' >
 
         {/* Close button for Slideout Menu */}
-        <button className="flex items-center min-sm:hidden justify-items-center" onClick={toggleSideMenu}>
-          <MenuIcon fontSize="large" className="m-auto text-white justify-items-center" />
+        <button className="flex items-center  justify-items-center" onClick={toggleSideMenu}>
+          <MenuIcon fontSize="large" className="m-auto text-black justify-items-center" />
         </button>
 
         {/* Slideout Menu */}
         <nav className={"fixed overflow-hidden min-sm:hidden  z-10 bg-opacity-100 inset-0 transform ease-in-out flex flex-col justify-items-center duration-500 bg-[#046576] justify-evenly h-screen  md:w-1/6 max-w-1/6 " + (sideMenuOpen ? " transition-opacity opacity-30 duration-500 -translate-x-full  " : " transition-all opacity-90 translate-x-0")}>
 
           <button className="min-sm:hidden" onClick={toggleSideMenu}>
-            <CloseIcon fontSize="large" className="m-auto text-white justify-items-center" />
+            <CloseIcon fontSize="large" className="m-auto text-black justify-items-center" />
           </button>
 
           {/* Logo */}
@@ -75,10 +75,10 @@ function MenuBar() {
             <ApartmentIcon fontSize="large" />
           </NavLink>
 
-        {/* Job Apps */}
-        <NavLink className={linkClasses} to="/job_applications">
-          <DescriptionIcon fontSize="large" />
-        </NavLink>
+          {/* Job Apps */}
+          <NavLink className={linkClasses} to="/job_applications">
+            <DescriptionIcon fontSize="large" />
+          </NavLink>
 
           {/* Add New */}
           <NavLink className={linkClasses} to="/add-new">
@@ -92,9 +92,7 @@ function MenuBar() {
               isActive
                 ? "m-auto  rounded-full bg-blue-500 text-white transform scale-150"
                 : "m-auto rounded-full bg-blue-200 text-white transform scale-100"
-            }
-            data-testid="update-user"
-          >
+            } data-testid="update-user">
             <PersonOutlineOutlinedIcon fontSize="large" />
           </NavLink>
 
@@ -172,11 +170,11 @@ function MenuBar() {
             <PersonOutlineOutlinedIcon fontSize="large" />
           </NavLink>
           <div className="m-auto h-auto"></div>
-          <div className='flex-1 p-4'>
-            <Outlet />
-          </div>
         </nav >
       </nav>
+      <div className='flex-1 m-auto'>
+            <Outlet />
+          </div>
     </div>
   );
 }
