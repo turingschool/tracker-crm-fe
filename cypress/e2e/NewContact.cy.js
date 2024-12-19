@@ -71,7 +71,6 @@ describe("New Contacts page after logging in", () => {
 
   describe("Happy Path", () => {
     it("Should navigate to the new contact form and display fields", () => {
-      // cy.pause();
       cy.get("a > .bg-cyan-600").click();
       cy.contains("Create New Contact");
 
