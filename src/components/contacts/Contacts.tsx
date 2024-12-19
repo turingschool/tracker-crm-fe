@@ -64,7 +64,6 @@ function Contacts() {
       setContacts(allContacts)
     } else {
       const filteredContacts = allContacts.filter(contact => {
-        console.log(contact, "Contact")
         const firstName = contact.attributes.first_name.toLowerCase();
         const lastName = contact.attributes.last_name.toLowerCase();
         const companyName = contact.attributes.company?.name?.toLowerCase() || "";

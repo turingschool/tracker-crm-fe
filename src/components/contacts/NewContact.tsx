@@ -25,7 +25,6 @@ const NewContact = () => {
     notes: "",
   });
 
-  console.log("formData", formData.companyId);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [companies, setCompanies] = useState<{ id: number; name: string }[]>(
     []
