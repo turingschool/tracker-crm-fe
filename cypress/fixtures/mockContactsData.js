@@ -45,6 +45,29 @@ const mockContactsData = {
             "notes": "Submitted application for the UI Designer role."
         }
       }
+    },
+    {
+      "id": "3", // Add Alice Green here
+      "type": "contacts",
+      "attributes": {
+          "first_name": "Alice",
+          "last_name": "Green",
+          "company_id": 3,
+          "email": "alice.green@example.com",
+          "phone_number": "555-555-5555",
+          "notes": "Note about Alice",
+          "user_id": 4,
+          "company": {
+            "id": 3,
+            "name": "Company A",
+            "website": "https://companya.com",
+            "street_address": "123 Main St",
+            "city": "Dallas",
+            "state": "TX",
+            "zip_code": "75201",
+            "notes": "New company contact."
+          }
+      }
     }
   ]   
 }

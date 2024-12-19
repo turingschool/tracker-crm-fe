@@ -27,7 +27,7 @@ function NewCompany() {
     try {
       const token =
         "";
-      const response = await fetch("http://localhost:3001/api/v1/users/2/companies", {
+      const response = await fetch("http://localhost:3001/api/v1/users/4/companies", {
         method: "POST",
         headers: {
           authorization: `Bearer ${token}`,
