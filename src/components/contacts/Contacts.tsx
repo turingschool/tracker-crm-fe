@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
+import { UserData } from '../../Interfaces';
 
 interface ContactData {
   "id": string,
@@ -25,18 +26,23 @@ interface ContactData {
   }
 };
 
-function Contacts() {
+interface UserInformationProps {
+  userData: UserData;
+};
+
+function Contacts( {userData}: UserInformationProps ) {
   const [contacts, setContacts] = useState<ContactData[] | []>([]);
   const [allContacts, setAllContacts] = useState<ContactData[] | []>([]);
   const [contactSearch, setContactSearch] = useState<string>("");
   const [fetchError, setFetchError] = useState<string | null>(null);
 
   const { token } = useUserLoggedContext();
-  
+  const userId = userData.user.data.id ? Number(userData.user.data.id) : undefined
+ 
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch("http://localhost:3001/api/v1/users/4/contacts", {
+        const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/contacts`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${token}`,
