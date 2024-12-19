@@ -43,88 +43,11 @@ function MenuBar() {
       {/* // Menu */}
       <nav className='flex flex-col   bg-[#046576] justify-evenly h-screen  md:w-1/12  ' >
 
-        {/* Close button for Slideout Menu */}
-        <button className="flex items-center  justify-items-center" onClick={toggleSideMenu}>
-          <MenuIcon fontSize="large" className="m-auto text-black justify-items-center" />
+        {/* Open button for Slideout Menu */}
+        <button className="flex items-center justify-items-center" onClick={toggleSideMenu}>
+          <MenuIcon data-testid="menu-iconM" fontSize="large" className="m-auto text-black justify-items-center" />
         </button>
 
-        {/* Slideout Menu */}
-        <nav className={"fixed overflow-hidden min-sm:hidden  z-10 bg-opacity-100 inset-0 transform ease-in-out flex flex-col justify-items-center duration-500 bg-[#046576] justify-evenly h-screen  md:w-1/6 max-w-1/6 " + (sideMenuOpen ? " transition-opacity opacity-30 duration-500 -translate-x-full  " : " transition-all opacity-90 translate-x-0")}>
-
-          <button className="min-sm:hidden" onClick={toggleSideMenu}>
-            <CloseIcon fontSize="large" className="m-auto text-black justify-items-center" />
-          </button>
-
-          {/* Logo */}
-          <Link className="m-auto cursor-pointer" to="/">
-            <img className="m-auto w-1/2 cursor-pointer" src={logo} alt="Logo" />
-          </Link>
-
-          {/* Home */}
-          <NavLink className={linkClasses} to="/home">
-            <HomeIcon fontSize="large" />
-          </NavLink>
-
-          {/* Profile */}
-          <NavLink className={linkClasses} to="/profile">
-            <PersonIcon fontSize="large" />
-          </NavLink>
-
-          {/* Companies */}
-          <NavLink className={linkClasses} to="/companies">
-            <ApartmentIcon fontSize="large" />
-          </NavLink>
-
-          {/* Job Apps */}
-          <NavLink className={linkClasses} to="/job_applications">
-            <DescriptionIcon fontSize="large" />
-          </NavLink>
-
-          {/* Add New */}
-          <NavLink className={linkClasses} to="/add-new">
-            <PersonAddAlt1Icon fontSize="large" />
-          </NavLink>
-
-          {/* Account */}
-          <NavLink
-            to="/userInformation"
-            className={({ isActive }) =>
-              isActive
-                ? "m-auto  rounded-full bg-blue-500 text-white transform scale-150"
-                : "m-auto rounded-full bg-blue-200 text-white transform scale-100"
-            } data-testid="update-user">
-            <PersonOutlineOutlinedIcon fontSize="large" />
-          </NavLink>
-
-          {/* Drop Down Shortcut Menu */}
-          <div className="flex mt-auto flex-col items-center justify-center relative">
-            <button className="flex items-center justify-items-center" onClick={toggleDropDown}>
-              <AddCircleIcon fontSize="large" className="m-auto text-white justify-items-center" />
-            </button>
-
-            <ul className={`bg-cyan-600 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform ${isDropDownOpen ? 'scale-100 opacity-100 visible' : 'scale-95 opacity-0 invisible'
-              }`}>
-              <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
-                <Link to="/newContact">Create New Contact</Link>
-              </li>
-              <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
-                <Link to="/companies/new">Create New Company</Link>
-              </li>
-              <li className="p-2 hover:bg-gray-100 rounded text-center font-[Helvetica Neue]">
-                <Link to="/jobapplications/new">Create New Job Application</Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Account */}
-          <Link to="/userInformation"
-            className="m-auto mt-[10vh] text-[2.5vw] cursor-pointer rounded-full"
-            data-testid="update-user">
-            <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-cyan-500 text-white" />
-          </Link>
-
-          <div className="m-auto h-auto"></div>
-        </nav >
 
         {/* Desktop Menu */}
         < nav className='flex flex-col fixed bg-[#046576] max-sm:hidden  justify-items-center h-screen md:w-1/12 ' >
@@ -136,27 +59,27 @@ function MenuBar() {
 
           {/* Home */}
           <NavLink className={linkClasses} to="/home">
-            <HomeIcon fontSize="large" />
+            <HomeIcon data-testid="home-iconD" fontSize="large" />
           </NavLink>
 
           {/* Profile */}
           <NavLink className={linkClasses} to="/profile">
-            <PersonIcon fontSize="large" />
+            <PersonIcon data-testid="profile-iconD" fontSize="large" />
           </NavLink>
 
           {/* Companies */}
           <NavLink className={linkClasses} to="/companies">
-            <ApartmentIcon fontSize="large" />
+            <ApartmentIcon data-testid="companies-iconD" fontSize="large" />
           </NavLink>
 
           {/* Documents */}
           <NavLink className={linkClasses} to="/documents">
-            <DescriptionIcon fontSize="large" />
+            <DescriptionIcon data-testid="applications-iconD" fontSize="large" />
           </NavLink>
 
           {/* Add New */}
           <NavLink className={linkClasses} to="/add-new">
-            <PersonAddAlt1Icon fontSize="large" />
+            <PersonAddAlt1Icon data-testid="add-iconD" fontSize="large" />
           </NavLink>
 
           {/* Account */}
@@ -167,14 +90,93 @@ function MenuBar() {
                 ? "m-auto  rounded-full bg-blue-500 text-white transform scale-150"
                 : "m-auto rounded-full bg-blue-200 text-white transform scale-100"
             } data-testid="update-user">
-            <PersonOutlineOutlinedIcon fontSize="large" />
+            <PersonOutlineOutlinedIcon data-testid="updateUser-iconD" fontSize="large" />
           </NavLink>
           <div className="m-auto h-auto"></div>
         </nav >
+                  {/* Slideout Menu */}
+
+        <nav className={"fixed overflow-hidden min-sm:invisible min-sm:hidden  z-10 bg-opacity-100 inset-0 transform ease-in-out flex flex-col justify-items-center duration-500 bg-[#046576] justify-evenly h-screen  md:w-1/6 max-w-1/6 " + (sideMenuOpen ? " transition-opacity opacity-30 duration-500 -translate-x-full  " : " transition-all opacity-90 translate-x-0")}>
+
+          <button className="min-sm:hidden" onClick={toggleSideMenu}>
+            <CloseIcon fontSize="large" data-testid="close-iconM" className="m-auto text-black justify-items-center" />
+          </button>
+
+          {/* Logo */}
+          <Link className="m-auto cursor-pointer" to="/">
+            <img className="m-auto w-1/2 cursor-pointerM" src={logo} alt="Logo" />
+          </Link>
+
+          {/* Home */}
+          <NavLink className={linkClasses} to="/home">
+          <HomeIcon data-testid="home-iconM" fontSize="large" />
+          </NavLink>
+
+          {/* Profile */}
+          <NavLink className={linkClasses} to="/profile">
+          <PersonIcon data-testid="profile-iconM" fontSize="large" />
+          </NavLink>
+
+          {/* Companies */}
+          <NavLink className={linkClasses} to="/companies">
+          <ApartmentIcon data-testid="companies-iconM" fontSize="large" />
+          </NavLink>
+
+          {/* Job Apps */}
+          <NavLink className={linkClasses} to="/job_applications">
+          <DescriptionIcon data-testid="applications-iconM" fontSize="large" />
+          </NavLink>
+
+          {/* Add New */}
+          <NavLink className={linkClasses} to="/add-new">
+          <PersonAddAlt1Icon data-testid="add-iconM" fontSize="large" />
+          </NavLink>
+
+          {/* Account */}
+          <NavLink
+            to="/userInformation"
+            className={({ isActive }) =>
+              isActive
+                ? "m-auto  rounded-full bg-blue-500 text-white transform scale-150"
+                : "m-auto rounded-full bg-blue-200 text-white transform scale-100"
+            } data-testid="update-userM">
+            <PersonOutlineOutlinedIcon data-testid="updateUser-iconM" fontSize="large" />
+            </NavLink>
+
+          {/* Drop Down Shortcut Menu */}
+          <div className="flex mt-auto flex-col items-center justify-center relative">
+            <button className="flex items-center justify-items-center" onClick={toggleDropDown}>
+              <AddCircleIcon data-testid="newmenu-iconM" fontSize="large" className="m-auto text-white justify-items-center" />
+            </button>
+
+            <ul className={`bg-cyan-600 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform ${isDropDownOpen ? 'scale-100 opacity-100 visible' : 'scale-95 opacity-0 invisible'
+              }`}>
+              <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
+                <Link data-testid="newContactLink" to="/newContact">Create New Contact</Link>
+              </li>
+              <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
+                <Link data-testid="newCompanyLink" to="/companies/new">Create New Company</Link>
+              </li>
+              <li className="p-2 hover:bg-gray-100 rounded text-center font-[Helvetica Neue]">
+                <Link data-testid="newAppLink" to="/jobapplications/new">Create New Job Application</Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Account */}
+          <Link to="/userInformation"
+            className="m-auto mt-[10vh] text-[2.5vw] cursor-pointer rounded-full"
+            data-testid="update-userM">
+            <PersonOutlineOutlinedIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-cyan-500 text-white" />
+          </Link>
+
+          <div className="m-auto h-auto"></div>
+        </nav >
+
       </nav>
       <div className='flex-1 m-auto'>
-            <Outlet />
-          </div>
+        <Outlet />
+      </div>
     </div>
   );
 }

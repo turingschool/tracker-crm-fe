@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import MenuBar from "../layout/MenuBar";
 
 
 function NewCompany() {
@@ -49,7 +48,6 @@ function NewCompany() {
 
   return (
     <div className='flex flex-row'>
-      <MenuBar/>
     <div className="max-w-4xl w-10/12  m-auto p-12 justify-self-center bg-white border border-gray-200 rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-4">Add New Company</h1>
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
