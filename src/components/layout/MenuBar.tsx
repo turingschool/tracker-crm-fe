@@ -1,5 +1,7 @@
 import logo from '../../turing-logo-gray.png';
 import { useParams, NavLink, Link, Outlet } from 'react-router-dom';
+import { useState } from 'react';
+import { useUserLoggedContext } from '../../context/UserLoggedContext.tsx'; 
 
 // MUI Icons
 import HomeIcon from '@mui/icons-material/Home';
@@ -14,7 +16,6 @@ import CloseIcon from '@mui/icons-material/Close';
 // import plus from '../../components/icons/plus-small_4338829.png'; 
 
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
-import { useState } from 'react';
 
 function MenuBar() {
   const [sideMenuOpen, setSideMenuOpen] = useState(true)
@@ -23,12 +24,13 @@ function MenuBar() {
   }
 
   const [isDropDownOpen, setIsDropDownOpen] = useState(false)
+  const { userData } = useUserLoggedContext();
   const toggleDropDown = () => {
     setIsDropDownOpen(prevState => !prevState);
   };
 
-  const { userID } = useParams();
-  console.log(userID);
+  let { userId = userData.user.data.id } = useParams();
+  console.log(userId);
 
   // A reusable function to create NavLink classes dynamically
   const linkClasses = ({ isActive }: { isActive: boolean }) =>
@@ -73,10 +75,10 @@ function MenuBar() {
             <ApartmentIcon fontSize="large" />
           </NavLink>
 
-          {/* Documents */}
-          <NavLink className={linkClasses} to="/documents">
-            <DescriptionIcon fontSize="large" />
-          </NavLink>
+        {/* Job Apps */}
+        <NavLink className={linkClasses} to="/job_applications">
+          <DescriptionIcon fontSize="large" />
+        </NavLink>
 
           {/* Add New */}
           <NavLink className={linkClasses} to="/add-new">
