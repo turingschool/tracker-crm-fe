@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import MenuBar from "../layout/MenuBar";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 
 export interface FormData {
@@ -35,8 +34,6 @@ const NewContact = () => {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        // const token =
-        //   `${token}`;
         const response = await fetch(
           "http://localhost:3001/api/v1/users/4/companies",
           {
@@ -90,8 +87,6 @@ const NewContact = () => {
     };
 
     try {
-      // const token =
-      //   `${token}`;
       let url = `http://localhost:3001/api/v1/users/4/contacts`;
       if (formData.companyId) {
         url = `http://localhost:3001/api/v1/users/4/companies/${formData.companyId}/contacts`;
@@ -121,7 +116,6 @@ const NewContact = () => {
 
   return (
     <div className="flex min-h-screen">
-      {/* <MenuBar /> */}
       <div className="w-[50vw] mx-auto my-[2vh] p-[3vh] ">
         <h1 className="text-[5vh] font-bold mb-6 text-cyan-600">
           Add New Contact

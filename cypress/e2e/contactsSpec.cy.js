@@ -1,7 +1,25 @@
 import { mockContactsData } from "../fixtures/mockContactsData";
 
-describe("Navigation to Contacts Page from Menu Bar", () => {
+describe("Contacts page", () => {
   beforeEach(() => {
+    cy.intercept('POST', 'http://localhost:3001/api/v1/sessions', {
+      statusCode: 200,
+      body: 
+        {token: "The token",
+        user: {
+          data: {
+            id: 2,
+            type: "user",
+            attributes: {
+              name: "Dolly Parton",
+              email: "dollyP@email.com",
+              companies: []
+            }
+          }
+        }
+      },
+    }).as('postUserInfo');
+
     cy.intercept("GET", "http://localhost:3001/api/v1/users/4/contacts", {
       statusCode: 200,
       body: mockContactsData,
@@ -9,37 +27,26 @@ describe("Navigation to Contacts Page from Menu Bar", () => {
         "Content-Type": "application/json"
       }
     }).as("get-contacts");
-    cy.visit("http://localhost:3000/");
-  });
 
-  it ("Should have a header with the text 'Contacts'", () => {
+    cy.visit('http://localhost:3000/')
+    cy.get('#email').type('dollyP@email.com');
+    cy.get('#password').type('Jolene123');
+    cy.get('.login-btn').click();
+    cy.wait('@postUserInfo');
+
     cy.get('[data-testid="PersonIcon"]').click();
     cy.url().should("include", "/contacts");
   });
-});
 
-describe("Contacts page", () => {
-  beforeEach(() => {
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/4/contacts", {
-      statusCode: 200,
-      body: mockContactsData,
-      headers: {
-        "Content-Type": "application/json"
-      }
-    }).as("get-contacts");
-    
-    cy.visit("http://localhost:3000/contacts");
-  });
-
-  it ("Should have a header with the text 'Contacts'", () => {
+  it("Should have a header with the text 'Contacts'", () => {
     cy.get("h1").should("have.text", "Contacts");
   });
 
-  it ("Should have a search bar", () => {
+  it("Should have a search bar", () => {
     cy.get("input[type='search']").should("have.attr", "placeholder", "Search Contacts...");
   });
 
-  it ("Should have a button with the text 'Add Contact +'", () => {
+  it("Should have a button with the text 'Add Contact +'", () => {
     cy.contains("Add New").click();
     cy.url().should("include", "/contacts/new");
   });
@@ -53,7 +60,7 @@ describe("Contacts page", () => {
 
   it("Should display the correct number of companies", () => {
     cy.wait("@get-contacts");
-    cy.get("table").find("tr").should("have.length", 3);
+    cy.get("table").find("tr").should("have.length", 4);
   });
 
   it("Should display the correct company information", () => {
@@ -69,18 +76,44 @@ describe("Contacts page", () => {
   it("Should search for contacts by first name", () => {
 
   });
+});
 
-  it("Should display 'No contacts found' when no contacts exist", () => {
+describe("Contacts Page - No contacts", () => {
+  it("Should display 'No contacts found' when no contacts exist", () => {    
+    cy.intercept('POST', 'http://localhost:3001/api/v1/sessions', {
+      statusCode: 200,
+      body: 
+        {token: "The token",
+        user: {
+          data: {
+            id: 2,
+            type: "user",
+            attributes: {
+              name: "Dolly Parton",
+              email: "dollyP@email.com",
+              companies: []
+            }
+          }
+        }
+      },
+    }).as('postUserInfo');
+
     cy.intercept("GET", "http://localhost:3001/api/v1/users/4/contacts", {
       statusCode: 200,
       body: { data: [] },
       headers: {
         "Content-Type": "application/json"
       }
-    }).as("empty-contacts");
-  
-    cy.reload(); 
-    cy.wait("@empty-contacts");
+    }).as("get-empty-contacts");
+
+    cy.visit('http://localhost:3000/')
+    cy.get('#email').type('dollyP@email.com');
+    cy.get('#password').type('Jolene123');
+    cy.get('.login-btn').click();
+    cy.wait('@postUserInfo');
+
+    cy.get('[data-testid="PersonIcon"]').click();
+    cy.url().should("include", "/contacts");
   
     cy.get("table").find("th").should("have.length", 3);
     cy.get("table tbody tr").should("not.exist");
@@ -90,14 +123,39 @@ describe("Contacts page", () => {
 
 describe("Sad Paths - Contacts Page", () => {
   beforeEach(() => {
+    cy.intercept('POST', 'http://localhost:3001/api/v1/sessions', {
+      statusCode: 200,
+      body: 
+        {token: "The token",
+        user: {
+          data: {
+            id: 2,
+            type: "user",
+            attributes: {
+              name: "Dolly Parton",
+              email: "dollyP@email.com",
+              companies: []
+            }
+          }
+        }
+      },
+    }).as('postUserInfo');
+
     cy.intercept("GET", "http://localhost:3001/api/v1/users/4/contacts", {
       statusCode: 500
     }).as("sad-contacts");
     
-    cy.visit("http://localhost:3000/contacts");
+     cy.visit('http://localhost:3000/')
+    cy.get('#email').type('dollyP@email.com');
+    cy.get('#password').type('Jolene123');
+    cy.get('.login-btn').click();
+    cy.wait('@postUserInfo');
+
+    cy.get('[data-testid="PersonIcon"]').click();
+    cy.url().should("include", "/contacts");
   });
 
-  it ("Should have a header, search bar, add new button, and table header", () => {
+  it("Should have a header, search bar, add new button, and table header", () => {
     cy.get("h1").should("have.text", "Contacts");
 
     cy.get("input[type='search']").should("have.attr", "placeholder", "Search Contacts...");
@@ -108,7 +166,7 @@ describe("Sad Paths - Contacts Page", () => {
     cy.get("table").find("th").eq(2).should("have.text", "Notes");
   });
 
-  it ("Schould render an error message when a fetch request fails", () => {
+  it ("Should render an error message when a fetch request fails", () => {
     cy.get('[data-cy="failed-fetch-message"]')
   });
 });
