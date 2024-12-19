@@ -12,9 +12,6 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
-// import { Link } from 'react-router-dom';
-// import Contacts from '../contacts/Contacts';
-
 function MenuBar() {
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const { userData } = useUserLoggedContext();
@@ -55,8 +52,8 @@ function MenuBar() {
           <ApartmentIcon fontSize="large" />
         </NavLink>
 
-        {/* Documents */}
-        <NavLink className={linkClasses} to="/documents">
+        {/* Job Apps */}
+        <NavLink className={linkClasses} to="/job_applications">
           <DescriptionIcon fontSize="large" />
         </NavLink>
 

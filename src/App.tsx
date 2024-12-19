@@ -7,6 +7,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
 import ShowContact from './components/contacts/ShowContact.tsx';
+import ApplicationsGrid from './components/JobApplications/JobApplications';
 
 function App() {
   const { isLoggedIn, clearUserLogged, userData } = useUserLoggedContext()
@@ -44,11 +45,11 @@ function App() {
         />
         <Route path="/companies" element={<Companies />} />
         <Route path="/companies/new" element={<NewCompany />} />
+        <Route path="/job_applications" element={<ApplicationsGrid/>}/>
         <Route
           path="/userInformation"
           element={<UserInformation userData={userData} />}
         />
-        <Route path="/contacts/:contactId" element={<ShowContact />} />
       </Route>
     </Routes>
   );
