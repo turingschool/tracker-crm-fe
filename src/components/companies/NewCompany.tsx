@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createCompany} from '../../trackerApiCalls';
+import { fetchCompanies, createCompany} from '../../trackerApiCalls';
 import { CompanyAttributes } from '../../Interfaces';
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 
@@ -42,6 +42,16 @@ function NewCompany() {
       return;
     }
 
+    // Check for duplicate company name
+    const isDuplicate = existingCompanies.some(
+      (company) => company.attributes.name.toLowerCase() === name.trim().toLowerCase()
+    );
+
+    if (isDuplicate) {
+      setErrors({ duplicate: 'A company with this name already exists.' });
+      return;
+    }
+
     const newCompany: CompanyAttributes = {
       id: 0,
       name,
@@ -54,24 +64,20 @@ function NewCompany() {
     };
 
     try {
-      if (!token || !userData.user.data.id) {
-      console.error("Missing token or user ID");
-      return;
-    }
+      if (!token || !userData?.user?.data?.id) {
+        console.error('Missing token or user ID');
+        return;
+      }
 
-    setIsLoading(true);
-    await createCompany(userData.user.data.id, token, newCompany, navigate);
-    setSuccessMessage('Company added successfully!');
-  } catch (error: any) {
-    if (error.message.includes('409')) {
-      setErrors({ duplicate: 'A company with this name already exists.' });
-    } else {
+      setIsLoading(true);
+      await createCompany(userData.user.data.id, token, newCompany, navigate);
+      setSuccessMessage('Company added successfully!');
+    } catch (error) {
       console.error('Error adding company:', error);
+    } finally {
+      setIsLoading(false);
     }
-  } finally {
-    setIsLoading(false);
-  }
-};
+  };
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
