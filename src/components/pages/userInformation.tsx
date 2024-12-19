@@ -23,7 +23,8 @@ function UserInformation({userData}: UserInformationProps) {
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const compileData: DataCompile = {
-      id: userData.user.data.id,
+      // id: userData.user.data.id,
+      id: userData.user.data.id ? Number(userData.user.data.id) : undefined,
       token: userData.token,
       name: name,
       email: email,
