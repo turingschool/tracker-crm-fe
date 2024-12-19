@@ -3,6 +3,7 @@ import turingLogo from '../Turing-logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { registerUser } from '../apiCalls';
+import FormField from './layout/FormField';
 
 function UserRegistration(): React.ReactElement {
   const [name, setName] = useState<string>('');
@@ -41,65 +42,26 @@ function UserRegistration(): React.ReactElement {
 
   return (
     <div className="login-form-wrap flex w-screen h-screen justify-center">
-      <div className="form-inputs w-6/12 flex">
-        <img className='turing-logo size-20 mt-7 ml-7' src={turingLogo} />
+      <div className="form-inputs w-6/12 flex flex-col items-center">
+        <img className='absolute top-5 left-5 size-20' src={turingLogo} alt="Turing Logo"/>
 
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleFormSubmit} >
 
           <h2 className="text-4xl text-gray-600 font-[Helvetica Neue] text-center mt-40 mb-10 tracking-wider">Create Account</h2>
 
           <div className="">
-            <label htmlFor="name" className="block font-light text-gray-500 font-[Helvetica Neue] font-sans text-xl tracking-wider">Name</label>
-            <input
-              id="name"
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              placeholder="Add text"
-              className="p-[8px] mt-[4px] mb-5 border-4 rounded-md border-slate-600 bg-slate-200 py-[2vh] px-[3vh]"
-              />
-
-            <label htmlFor="email" className="block font-light text-gray-500 font-[Helvetica Neue] font-sans text-xl tracking-wider">Email</label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="Add text"
-              className="p-[8px] mt-[4px] mb-5 border-4 rounded-md border-slate-600 bg-slate-200 py-[2vh] px-[3vh]"
-              />
-
-            <label htmlFor="password" className="block font-light text-gray-500 font-[Helvetica Neue] font-sans text-xl tracking-wider">Password</label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="Add text"
-              className="p-[8px] mt-[4px] mb-5 border-4 rounded-md border-slate-600 bg-slate-200 py-[2vh] px-[3vh]"
-              />
-
-            <label htmlFor="passwordConfirmation" className="block font-light text-gray-500 font-[Helvetica Neue] font-sans text-xl tracking-wider">Confirm Password</label>
-            <input
-              id="passwordConfirmation"
-              type="password"
-              value={passwordConfirmation}
-              onChange={(e) => setPasswordConfirmation(e.target.value)}
-              required
-              placeholder="Add text"
-              className="p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200 py-[2vh] px-[3vh]"
-            />
+            <FormField formType={"text"} state={name} onChangeHandler={(e) => setName(e.target.value)} name={"Username"}  />
+            <FormField formType={"text"} state={name} onChangeHandler={(e) => setName(e.target.value)} name={"Email"}  />
+            <FormField formType={"text"} state={name} onChangeHandler={(e) => setName(e.target.value)} name={"Password"}  />
+            <FormField formType={"text"} state={name} onChangeHandler={(e) => setName(e.target.value)} name={"Confirm Password"}  />
           </div>
 
           {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-          <div className="mt-4">
+          <div className="mt-5 flex flex-col items-center justify-center">
             <button 
               type="submit" 
-              className="flex justify-center items-center bg-cyan-800 text-white px-[6vw] py-[2vh] rounded w-[10vw] hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500"
+              className="flex justify-center items-center bg-cyan-800 text-white rounded !h-[3vw] w-[10vw] hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500"
               >
                 Register
             </button>
@@ -108,7 +70,7 @@ function UserRegistration(): React.ReactElement {
                 <br/>
                 <Link to="/login" className="hover:underline">Click here to login.</Link>
               </p>
-            </div>
+          </div>
         </form>
       </div>
 
