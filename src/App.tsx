@@ -8,6 +8,7 @@ import Contacts from './components/contacts/Contacts';
 import NewContact from './components/contacts/NewContact';
 import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
+import ApplicationsGrid from './components/JobApplications/JobApplications';
 
 function App() {
   const { isLoggedIn, clearUserLogged, userData } = useUserLoggedContext()
@@ -47,6 +48,7 @@ function App() {
         <Route path="/companies/new" element={<NewCompany />} />
         <Route path="/contacts" element={<Contacts/>} />
         <Route path="/contacts/new" element={<NewContact/>} />
+        <Route path="/job_applications" element={<ApplicationsGrid/>}/>
         <Route
           path="/userInformation"
           element={<UserInformation userData={userData} />}
