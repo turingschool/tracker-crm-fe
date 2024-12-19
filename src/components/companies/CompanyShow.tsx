@@ -69,53 +69,52 @@ function CompanyShow() {
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
-      {/* Company Details */}
       <h1 className="text-2xl font-bold mb-6">Company Details</h1>
+      <div className="flex justify-between items-start space-x-8">
+        {/* Company Details */}
+        <div className="space-y-4">
+          <div>
+            <h2 className="font-semibold text-gray-700">Company Name:</h2>
+            <p className="text-gray-900">{companyAttributes.name}</p>
+          </div>
 
-      <div className="space-y-4">
-        <div>
-          <h2 className="font-semibold text-gray-700">Company Name:</h2>
-          <p className="text-gray-900">{companyAttributes.name}</p>
+          <div>
+            <h2 className="font-semibold text-gray-700">Website:</h2>
+            <p className="text-blue-500 hover:underline">
+              <a href={companyAttributes.website} target="_blank" rel="noopener noreferrer">
+                {companyAttributes.website}
+              </a>
+            </p>
+          </div>
+
+          <div>
+            <h2 className="font-semibold text-gray-700">Address:</h2>
+            <p className="text-gray-900">
+              {companyAttributes.street_address} {companyAttributes.city}, {companyAttributes.state} {companyAttributes.zip_code}</p>
+          </div>
+
+          <div>
+            <h2 className="font-semibold text-gray-700">Notes:</h2>
+            <p className="text-gray-900">{companyAttributes.notes}</p>
+          </div>
         </div>
 
-        <div>
-          <h2 className="font-semibold text-gray-700">Website:</h2>
-          <p className="text-blue-500 hover:underline">
-            <a href={companyAttributes.website} target="_blank" rel="noopener noreferrer">
-              {companyAttributes.website}
-            </a>
-          </p>
-        </div>
-
-        <div>
-          <h2 className="font-semibold text-gray-700">Address:</h2>
-          <p className="text-gray-900">
-            {companyAttributes.street_address} {companyAttributes.city}, {companyAttributes.state} {companyAttributes.zip_code}</p>
-        </div>
-
-        <div>
-          <h2 className="font-semibold text-gray-700">Notes:</h2>
-          <p className="text-gray-900">{companyAttributes.notes}</p>
-        </div>
-      </div>
-
-      {/* Contacts Section */}
-      <div className="mt-8">
-        <h2 className="text-xl font-bold mb-4">Contacts</h2>
-        <div className="grid gap-4">
-          {mockContacts.map((contact) => (
-            <div key={contact.id} className="p-4 border rounded-lg bg-gray-50">
+        {/* Contacts Section */}
+        <div className="w-1/2">
+          <h2 className="text-xl font-bold mb-4">Contacts</h2>
+          <div className="flex flex-col space-y-4">
+            {mockContacts.map((contact) => (
               <Link
+                key={contact.id}
                 to={`/contacts/${contact.userId}`}
                 className="text-blue-500 hover:underline text-lg font-semibold"
               >
                 {contact.name}
               </Link>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
-
 
       <Link to="/companies" className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-6 inline-block">
         Back to Companies
