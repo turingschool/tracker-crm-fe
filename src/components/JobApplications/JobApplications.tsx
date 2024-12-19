@@ -87,7 +87,7 @@ const ApplicationsGrid: React.FC = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            <Link to="/add-new">
+            <Link to="/jobapplications/new">
               <button className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded">
                 Add New +
               </button>

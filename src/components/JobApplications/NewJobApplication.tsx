@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import MenuBar from '../layout/MenuBar';
 import { useNavigate } from 'react-router-dom';
-// import { useUserLoggedContext } from './context/UserLoggedContext';
+import { useUserLoggedContext } from '../../context/UserLoggedContext';
 
 function NewJobApplication() {
-  // const { token } = useUserLoggedContext();
+  const { token, userData } = useUserLoggedContext();
   const [positionTitle, setPositionTitle] = useState('');
   const [dateApplied, setDateApplied] = useState('');
   const [status, setStatus] = useState(0);
+  const [company, setCompany] = useState('');
   const [notes, setNotes] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [applicationURL, setApplicationURL] = useState('');
@@ -18,25 +18,26 @@ function NewJobApplication() {
   async function createJobApplication() {
     const newJobApplication = {
       job_application: {
-        position_title: "CEO",
-        date_applied: "01/01/2001",
-        status: 0,
-        notes: "notes here",
-        job_description: "a job description",
-        application_url: "www.example.com",
-        contact_information: "call bob"
+        position_title: positionTitle,
+        date_applied: dateApplied,
+        status: status,
+        company_id: company,
+        notes: notes,
+        job_description: jobDescription,
+        application_url: applicationURL,
+        contact_information: contactInformation
       }
     };
 
     try {
-      const token =
-        "";
       console.log("createJobApplication called");
-      const response = await fetch("http://localhost:3001/api/v1/users/2/job_applications", {
+      console.log("user id here", userData.user.data.id);
+      console.log("token here", token);
+      const response = await fetch(`http://localhost:3001/api/v1/users/${userData.user.data.id}/job_applications`, {
         method: "POST",
         headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(newJobApplication)
       })
@@ -51,7 +52,6 @@ function NewJobApplication() {
 
   return (
     <div className='bg-white h-screen flex'>
-      <MenuBar />
       <div className='flex-1 p-5'>
         <h1 className="text-[2.5vw] font-[Helvetica Neue] font-semibold text-cyan-600">Add New Application</h1>
         <form className="grid grid-cols-2 gap-4">
@@ -75,8 +75,8 @@ function NewJobApplication() {
               <span className="font-semibold">Company:</span>
               <input
                 type="number"
-                value={dateApplied}
-                onChange={(e) => setDateApplied(e.target.value)}
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
                 required
               />
