@@ -6,6 +6,7 @@ import UserInformation from './components/pages/userInformation';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
+import NewJobApplication from './components/job_applications/NewJobApplication';
 import ApplicationsGrid from './components/JobApplications/JobApplications';
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
             </div>
           }
         />
+        <Route path="/jobapplications/new" element={<NewJobApplication />} />
         <Route path="/companies" element={<Companies />} />
         <Route path="/companies/new" element={<NewCompany />} />
         <Route path="/job_applications" element={<ApplicationsGrid/>}/>

@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import MenuBar from '../layout/MenuBar';
 import { useNavigate } from 'react-router-dom';
+// import { useUserLoggedContext } from './context/UserLoggedContext';
 
 function NewJobApplication() {
+  // const { token } = useUserLoggedContext();
   const [positionTitle, setPositionTitle] = useState('');
   const [dateApplied, setDateApplied] = useState('');
   const [status, setStatus] = useState(0);
@@ -13,21 +15,27 @@ function NewJobApplication() {
   const navigate = useNavigate();
   // const [isLoading, setIsLoading] = useState(true);
 
-  async function createJobApplication () {
+  async function createJobApplication() {
     const newJobApplication = {
-      position_title: positionTitle,
-      date_applied: dateApplied,
-      status,
-      notes,
-      job_description: jobDescription,
-      application_url: applicationURL,
-      contact_information: contactInformation
-    }
+      job_application: {
+        position_title: "CEO",
+        date_applied: "01/01/2001",
+        status: 0,
+        notes: "notes here",
+        job_description: "a job description",
+        application_url: "www.example.com",
+        contact_information: "call bob"
+      }
+    };
 
     try {
-      const response = await fetch("http://localhost:3000/api/v1/users/2/job_applications", {
+      const token =
+        "";
+      console.log("createJobApplication called");
+      const response = await fetch("http://localhost:3001/api/v1/users/2/job_applications", {
         method: "POST",
         headers: {
+          authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newJobApplication)
@@ -149,7 +157,7 @@ function NewJobApplication() {
           </div>
         </form>
         <div className='pt-4 pl-2'>
-        <button className="text-[1vw] font-[Helvetica Neue] text-white bg-cyan-600 pl-11 pr-11 p-3 rounded-md w-[15%] hover:bg-cyan-800" onClick={createJobApplication}>Save</button>
+          <button className="text-[1vw] font-[Helvetica Neue] text-white bg-cyan-600 pl-11 pr-11 p-3 rounded-md w-[15%] hover:bg-cyan-800" onClick={createJobApplication}>Save</button>
         </div>
       </div>
     </div>
