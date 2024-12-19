@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import MenuBar from '../layout/MenuBar';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function NewJobApplication() {
   const [positionTitle, setPositionTitle] = useState('');
@@ -10,7 +10,36 @@ function NewJobApplication() {
   const [jobDescription, setJobDescription] = useState('');
   const [applicationURL, setApplicationURL] = useState('');
   const [contactInformation, setContactInformation] = useState('');
+  const navigate = useNavigate();
+  // const [isLoading, setIsLoading] = useState(true);
 
+  async function createJobApplication () {
+    const newJobApplication = {
+      position_title: positionTitle,
+      date_applied: dateApplied,
+      status,
+      notes,
+      job_description: jobDescription,
+      application_url: applicationURL,
+      contact_information: contactInformation
+    }
+
+    try {
+      const response = await fetch("http://localhost:3000/api/v1/users/2/job_applications", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newJobApplication)
+      })
+      if (!response.ok) {
+        throw new Error('Failed to add job application');
+      }
+      navigate('/job_applications')
+    } catch (error) {
+      console.error("Error adding job application:", error)
+    }
+  }
 
   return (
     <div className='bg-white h-screen flex'>
@@ -29,6 +58,7 @@ function NewJobApplication() {
                 value={positionTitle}
                 onChange={(e) => setPositionTitle(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
+                required
               />
             </label>
 
@@ -40,6 +70,7 @@ function NewJobApplication() {
                 value={dateApplied}
                 onChange={(e) => setDateApplied(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
+                required
               />
             </label>
 
@@ -63,10 +94,10 @@ function NewJobApplication() {
                   value={status}
                   onChange={(e) => setStatus(Number(e.target.value))}
                   className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
+                  required
                 />
               </label>
             </div>
-
 
             {/* Job Description */}
             <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
@@ -76,6 +107,7 @@ function NewJobApplication() {
                 onChange={(e) => setJobDescription(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2  m-2"
                 rows={6}
+                required
               />
             </label>
 
@@ -117,7 +149,7 @@ function NewJobApplication() {
           </div>
         </form>
         <div className='pt-4 pl-2'>
-        <button className="text-[1vw] font-[Helvetica Neue] text-white bg-cyan-600 pl-11 pr-11 p-3 rounded-md hover:bg-cyan-800">Save</button>
+        <button className="text-[1vw] font-[Helvetica Neue] text-white bg-cyan-600 pl-11 pr-11 p-3 rounded-md w-[15%] hover:bg-cyan-800" onClick={createJobApplication}>Save</button>
         </div>
       </div>
     </div>
