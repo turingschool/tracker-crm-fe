@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import MenuBar from "../layout/MenuBar";
+import { useUserLoggedContext } from "../../context/UserLoggedContext";
 
 interface ContactData {
   "id": string,
@@ -30,11 +30,12 @@ function Contacts() {
   const [allContacts, setAllContacts] = useState<ContactData[] | []>([]);
   const [contactSearch, setContactSearch] = useState<string>("");
   const [fetchError, setFetchError] = useState<string | null>(null);
+
+  const { token } = useUserLoggedContext();
   
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const token = "";
         const response = await fetch("http://localhost:3001/api/v1/users/4/contacts", {
           method: "GET",
           headers: {
@@ -49,7 +50,7 @@ function Contacts() {
         setContacts(data.data as ContactData[]);
         setAllContacts(data.data as ContactData[]);
       } catch (error) {
-        setFetchError(`${(error as Error).message} user contacts. Please try again later.`)
+        setFetchError(`${(error as Error).message}. Please try again later.`)
         console.error("Fetch error", error);
       }
     };
@@ -63,8 +64,16 @@ function Contacts() {
       setContacts(allContacts)
     } else {
       const filteredContacts = allContacts.filter(contact => {
-        console.log(contact, "HERE")
-        return contact.attributes.first_name.toLowerCase().includes(search.toLowerCase())
+        console.log(contact, "Contact")
+        const firstName = contact.attributes.first_name.toLowerCase();
+        const lastName = contact.attributes.last_name.toLowerCase();
+        const companyName = contact.attributes.company?.name?.toLowerCase() || "";
+
+        return (
+          firstName.includes(search) ||
+          lastName.includes(search) ||
+          companyName.includes(search)
+          )
       })
       setContacts(filteredContacts)
     }   
@@ -85,21 +94,19 @@ function Contacts() {
 
   const contactData = contacts.map(data => {
     const companyName = data.attributes.company?.name || "N/A";
-    console.log(companyName, "companyName HERE")
     return (
      <tr key={data.id} className="even:bg-gray-50 hover:bg-gray-100">
-      <td className="p-4 border-b">{data.attributes.first_name} {data.attributes.last_name}</td>
-      <td className="p-4 border-b">
+      <td className="p-4 border-b truncate max-w-[8vw]">{data.attributes.first_name} {data.attributes.last_name}</td>
+      <td className="p-4 border-b truncate max-w-[8vw]">
         {companyName}
       </td>
-      <td className="p-4 border-b">{data.attributes.notes}</td>
+      <td className="p-4 border-b truncate max-w-[8vw]">{data.attributes.notes}</td>
     </tr>
     )
   });
 
   return (
     <section className='flex'>
-      <MenuBar/>
       <div className='w-[70vw] pl-[4vw]'>
         <h1 className="text-[5vh] font-bold text-cyan-600 my-[5vh]">Contacts</h1>
         <div className='flex justify-between items-center'>
