@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Company } from "../../Interfaces";
 
 function Companies() {
@@ -7,6 +7,7 @@ function Companies() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -84,12 +85,12 @@ function Companies() {
             </thead>
             <tbody>
             {filteredCompanies.map((company) => (
-              <tr key={company.id} className="even:bg-gray-50 hover:bg-gray-100">
-                <td className="p-4 border-b">
-                  <Link to={`/companies/${company.id}/contacts`}>
-                    {company.attributes.name}
-                  </Link>
-                </td>
+              <tr 
+                key={company.id} 
+                className="even:bg-gray-50 hover:bg-gray-100 cursor-pointer"
+                onClick={() => navigate(`/companies/${company.id}/contacts`)}
+                >
+                <td className="p-4 border-b">{company.attributes.name}</td>
                 <td className="p-4 border-b">Not Applied Yet</td>
                 <td className="p-4 border-b">{company.attributes.notes}</td>
               </tr>
