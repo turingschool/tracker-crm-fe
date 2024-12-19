@@ -6,7 +6,7 @@ import UserInformation from './components/pages/userInformation';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
-import NewJobApplication from './components/job_applications/NewJobApplication';
+import NewJobApplication from './components/JobApplications/NewJobApplication';
 import ApplicationsGrid from './components/JobApplications/JobApplications';
 
 function App() {
