@@ -1,39 +1,25 @@
-import './App.css';
-import LoginForm from './Login';
-import MenuBar from './components/layout/MenuBar'
-import { useUserLoggedContext } from './context/UserLoggedContext.tsx';
-import UserInformation from './components/pages/userInformation';
-import { Route, Routes, Navigate } from 'react-router-dom';
-import Companies from './components/companies/Companies';
-import NewCompany from './components/companies/NewCompany';
-import ShowContact from './components/contacts/ShowContact.tsx';
-import ApplicationsGrid from './components/JobApplications/JobApplications';
+import "./App.css";
+import LoginForm from "./Login";
+import MenuBar from "./components/layout/MenuBar";
+import { useUserLoggedContext } from "./context/UserLoggedContext.tsx";
+import UserInformation from "./components/pages/userInformation";
+import { Route, Routes, Navigate } from "react-router-dom";
+import Companies from "./components/companies/Companies";
+import NewCompany from "./components/companies/NewCompany";
+import ShowContact from "./components/contacts/ShowContact.tsx";
+import ApplicationsGrid from "./components/JobApplications/JobApplications";
 
 function App() {
-  const { isLoggedIn, clearUserLogged, userData } = useUserLoggedContext()
+  const { isLoggedIn, clearUserLogged, userData } = useUserLoggedContext();
   return (
     <Routes>
       <Route // Public Route
         path="/"
-        element={
-          isLoggedIn ? (
-            <Navigate to="/home" replace />
-          ) : (
-            <LoginForm />
-          )
-        }
+        element={isLoggedIn ? <Navigate to="/home" replace /> : <LoginForm />}
       />
 
       {/* Protected layout using MenuBar */}
-      <Route
-        element={
-          isLoggedIn ? (
-            <MenuBar />
-          ) : (
-            <Navigate to="/" replace />
-          )
-        }
-      >
+      <Route element={isLoggedIn ? <MenuBar /> : <Navigate to="/" replace />}>
         <Route
           path="/home"
           element={
@@ -45,11 +31,12 @@ function App() {
         />
         <Route path="/companies" element={<Companies />} />
         <Route path="/companies/new" element={<NewCompany />} />
-        <Route path="/job_applications" element={<ApplicationsGrid/>}/>
+        <Route path="/job_applications" element={<ApplicationsGrid />} />
         <Route
           path="/userInformation"
           element={<UserInformation userData={userData} />}
         />
+        <Route path="/contacts/:contactId" element={<ShowContact />}/>
       </Route>
     </Routes>
   );
