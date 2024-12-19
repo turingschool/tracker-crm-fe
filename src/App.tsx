@@ -7,6 +7,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
 import ApplicationsGrid from './components/JobApplications/JobApplications';
+import ShowContact from './components/contacts/ShowContact';
 
 function App() {
   const { isLoggedIn, clearUserLogged, userData } = useUserLoggedContext();
