@@ -61,7 +61,7 @@ function UserRegistration(): React.ReactElement {
           <div className="mt-5 flex flex-col items-center justify-center">
             <button 
               type="submit" 
-              className="flex justify-center items-center bg-cyan-800 text-white rounded !h-[3vw] w-[10vw] hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500"
+              className="flex justify-center items-center bg-cyan-800 text-white rounded h-12 w-40 p-[8px] mt-[4px] hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500"
               >
                 Register
             </button>
