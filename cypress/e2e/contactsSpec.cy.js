@@ -71,10 +71,33 @@ describe("Contacts page", () => {
     cy.get("table tbody tr").eq(1).find("td").eq(0).should("have.text", "Jane Smith");
     cy.get("table tbody tr").eq(1).find("td").eq(1).should("have.text", "Future Designs LLC");
     cy.get("table tbody tr").eq(1).find("td").eq(2).should("have.text", "Type notes here...");
+    cy.get("table tbody tr").eq(2).find("td").eq(0).should("have.text", "Alice Green");
+    cy.get("table tbody tr").eq(2).find("td").eq(1).should("have.text", "Company A");
+    cy.get("table tbody tr").eq(2).find("td").eq(2).should("have.text", "Note about Alice");
   });
 
   it("Should search for contacts by first name", () => {
+    cy.get('#contacts-search').type('jan');
+    cy.get("table tbody tr").eq(0).find("td").eq(0).should("have.text", "Jane Smith");
+    cy.get("table tbody tr").eq(0).find("td").eq(1).should("have.text", "Future Designs LLC");
+    cy.get("table tbody tr").eq(0).find("td").eq(2).should("have.text", "Type notes here...");
+  });
 
+  it("Should search for contacts by last name", () => {
+    cy.get('#contacts-search').type('gre');
+    cy.get("table tbody tr").eq(0).find("td").eq(0).should("have.text", "Alice Green");
+    cy.get("table tbody tr").eq(0).find("td").eq(1).should("have.text", "Company A");
+    cy.get("table tbody tr").eq(0).find("td").eq(2).should("have.text", "Note about Alice");
+  });
+
+  it("Should search for contacts by company name", () => {
+    cy.get('#contacts-search').type('fut');
+    cy.get("table tbody tr").eq(0).find("td").eq(0).should("have.text", "John Smith");
+    cy.get("table tbody tr").eq(0).find("td").eq(1).should("have.text", "Future Designs LLC");
+    cy.get("table tbody tr").eq(0).find("td").eq(2).should("have.text", "Type notes here...");
+    cy.get("table tbody tr").eq(1).find("td").eq(0).should("have.text", "Jane Smith");
+    cy.get("table tbody tr").eq(1).find("td").eq(1).should("have.text", "Future Designs LLC");
+    cy.get("table tbody tr").eq(1).find("td").eq(2).should("have.text", "Type notes here...");
   });
 });
 
