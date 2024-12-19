@@ -1,3 +1,77 @@
+/*----------------------------------// FETCH Companies //--------------------------------*/
+
+export const fetchCompanies = async (userId: number, token: string ) => {
+  try {
+    const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/companies`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch companies: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log(data.data);
+    return data.data
+  } catch (error) {
+    console.error("Fetch error", error);
+  }
+};
+
+/*-----------------------------------// CREATE A COMPANY //---------------------------------*/
+
+export const createCompany = async (userId: number, token: string, newCompany: object, navigate: Function) => {
+  try {
+    const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/companies`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newCompany),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to add the company');
+          }
+          navigate('/companies');
+        } catch (error) {
+          console.error("Error adding company:", error);
+        }
+      };
+
+/*-----------------------------------// GET ONE COMPANY //-------------------------------*/
+
+export const getACompany = async (userId: number, token: string, companyId: number) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3001/api/v1/users/${userId}/companies/${companyId}/contacts`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch company: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data; // Return the fetched data
+  } catch (error) {
+    console.error("Fetch error:", error);
+    throw error; // Propagate the error for the caller to handle
+  }
+};
+
+  
 /*-----------------------------------// GET USER //--------------------------------------*/
 
 export const getUser = async (userId: number) => {

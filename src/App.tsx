@@ -45,6 +45,7 @@ function App() {
         />
         <Route path="/companies" element={<Companies />} />
         <Route path="/companies/new" element={<NewCompany />} />
+        <Route path='/companies/:id/contacts' element={<CompanyShow />} />
         <Route path="/job_applications" element={<ApplicationsGrid/>}/>
         <Route
           path="/userInformation"

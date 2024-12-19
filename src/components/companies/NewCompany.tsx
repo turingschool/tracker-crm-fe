@@ -1,8 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createCompany} from '../../trackerApiCalls';
+import { CompanyAttributes } from '../../Interfaces';
+import { useUserLoggedContext } from '../../context/UserLoggedContext';
 
 function NewCompany() {
   const navigate = useNavigate();
+  const { token, userData} = useUserLoggedContext()
 
   const [name, setName] = useState<string>('');
   const [website, setWebsite] = useState<string>('');
@@ -11,46 +15,70 @@ function NewCompany() {
   const [state, setState] = useState<string>('');
   const [zipCode, setZipCode] = useState<string>('');
   const [notes, setNotes] = useState<string>('');
+  const [existingCompanies, setExistingCompanies] = useState<any[]>([]);
+
+  const [errors, setErrors] = useState<{ name?: string; duplicate?: string }>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const getCompanies = async () => {
+      if (token && userData?.user?.data?.id) {
+        const companies = await fetchCompanies(userData.user.data.id, token);
+        setExistingCompanies(companies || []);
+      }
+    };
+
+    getCompanies();
+  }, [token, userData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newCompany = {
+    setErrors({});
+    setSuccessMessage(null);
+
+    if (!name.trim()) {
+      setErrors({ name: 'Company name is required.' });
+      return;
+    }
+
+    const newCompany: CompanyAttributes = {
+      id: 0,
       name,
       website,
       street_address: streetAddress,
       city,
       state,
       zip_code: zipCode,
-      notes
+      notes,
     };
 
     try {
-      const token =
-        "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDY0MTg2Mn0.4GEWX2QPGGKfBJ8C0f4uqDzt3bumLAChqDPO4PkAM38";
-      const response = await fetch("http://localhost:3001/api/v1/users/2/companies", {
-        method: "POST",
-        headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newCompany),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to add the company');
-      }
-      navigate('/companies');
-    } catch (error) {
-      console.error("Error adding company:", error);
+      if (!token || !userData.user.data.id) {
+      console.error("Missing token or user ID");
+      return;
     }
-  };
+
+    setIsLoading(true);
+    await createCompany(userData.user.data.id, token, newCompany, navigate);
+    setSuccessMessage('Company added successfully!');
+  } catch (error: any) {
+    if (error.message.includes('409')) {
+      setErrors({ duplicate: 'A company with this name already exists.' });
+    } else {
+      console.error('Error adding company:', error);
+    }
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-4">Add New Company</h1>
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
         <div className="flex flex-col">
-          <label className="mb-2 text-gray-700">Company Name:</label>
+          <label className="mb-2 text-gray-700">Company Name: <span className="text-red-500">*</span></label>
           <input
             type="text"
             id="companyName"
@@ -59,6 +87,8 @@ function NewCompany() {
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
+          {errors.name && <p className="text-red-500 mt-1">{errors.name}</p>}
+          {errors.duplicate && <p className="text-red-500 mt-1">{errors.duplicate}</p>}
         </div>
         <div className="flex flex-col">
           <label className="mb-2 text-gray-700">Website:</label>
@@ -174,9 +204,12 @@ function NewCompany() {
         </div>
         <button
           type="submit"
-          className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className={`mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            isLoading ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+          disabled={isLoading}
         >
-          Save
+          {isLoading ? 'Saving...' : 'Save'}
         </button>
       </form>
     </div>

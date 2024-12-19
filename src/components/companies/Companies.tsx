@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { Company } from "../../Interfaces";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
+import { fetchCompanies } from "../../trackerApiCalls";
 
 
 function Companies() {
@@ -11,40 +12,24 @@ function Companies() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const {token, userData} = useUserLoggedContext();
-  console.log("Token", token)
-  console.log("UserData", userData)
 
   
   useEffect(() => {
-    const fetchCompanies = async () => {
+    const getCompanies = async () => {
       try {
-        // const token =
-        //   "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDY0MTg2Mn0.4GEWX2QPGGKfBJ8C0f4uqDzt3bumLAChqDPO4PkAM38";
-        const response = await fetch("http://localhost:3001/api/v1/users/2/companies", {
-          method: "GET",
-          headers: {
-            authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-        });
-        console.log(response)
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch companies: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log(data.data);
-        setCompanies(data.data as Company[]);
-        setFilteredCompanies(data.data as Company[]);
+        const companies = await fetchCompanies(userData.user.data.id, token!);
+        console.log("fetched companies", companies)
+        setCompanies(companies);
+        setFilteredCompanies(companies);
       } catch (error) {
-        console.error("Fetch error", error);
+        console.error("Error fetching companies:", error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchCompanies();
-  }, []);
+
+    getCompanies();
+  }, [token]);
 
   useEffect(() => {
     if (companies) {

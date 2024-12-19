@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { getACompany } from "../../trackerApiCalls";
+import { useUserLoggedContext } from '../../context/UserLoggedContext';
 
 interface CompanyData {
   company: {
@@ -25,40 +27,31 @@ const mockContacts = [
 ];
 
 function CompanyShow() {
-  const { id } = useParams();
-  const userId = 2;
+  const { id } = useParams<{ id: string }>();
+  const { token, userData} = useUserLoggedContext();
   const [companyData, setCompanyData] = useState<CompanyData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchCompany = async () => {
+    const fetchCompanyData = async () => {
       try {
-        const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDY0MTg2Mn0.4GEWX2QPGGKfBJ8C0f4uqDzt3bumLAChqDPO4PkAM38";
-        const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/companies/${id}/contacts`, {
-          method: "GET",
-          headers: {
-            authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch company: ${response.statusText}`);
+        if (!id) {
+          throw new Error("Company ID is missing");
         }
-
-        const data = await response.json();
+        const companyId = parseInt(id)
+        const data = await getACompany(userData.user.data.id, token!, companyId);
         setCompanyData(data);
       } catch (error) {
-        console.error("Fetch error:", error);
+        console.error("Error fetching company data:", error);
         setError(error instanceof Error ? error.message : "Unknown error occurred");
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchCompany();
-  }, [id]);
+    fetchCompanyData();
+  }, [token, userData, id]);
 
   if (isLoading) {
     return <p className="text-center mt-10">Loading company details...</p>;
