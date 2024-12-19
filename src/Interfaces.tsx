@@ -2,7 +2,7 @@ export interface UserData {
   token: string,
   user: {
     data: {
-      id: number | string | undefined,
+      id: number,
       type: string,
       attributes: {
         name: string,

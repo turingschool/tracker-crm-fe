@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchApplicationsData } from '../../apiCalls';
 import ClipLoader from "react-spinners/ClipLoader";
+import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import useSWR from 'swr';
 
 interface JobApplication {
@@ -35,12 +36,14 @@ const statusStyles: { [key: string]: string } = {
 
 const ApplicationsGrid: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const { token, userData } = useUserLoggedContext()
+  const { user } = userData;
   
-  const userId = 1;
-  const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDU2MzA1OX0.QD3gokwcsJmchM4PojZteuxuNsqZ4UZv_NotJUoiDKw';
+ 
+  
 
   const fetcher = async (): Promise<JobApplication[]> => {
-    return await fetchApplicationsData(userId, token);
+    return await fetchApplicationsData(user.data.id, token!);
   };
 
   const { data: applications, error, isLoading } = useSWR('applications', fetcher);
@@ -54,6 +57,10 @@ const ApplicationsGrid: React.FC = () => {
       ? app.company_name.toLowerCase().includes(searchTerm.toLowerCase())
       : true
   );
+
+  if (!token) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="p-6">
