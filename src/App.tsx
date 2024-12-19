@@ -1,13 +1,12 @@
-import "./App.css";
-import LoginForm from "./Login";
-import MenuBar from "./components/layout/MenuBar";
-import { useUserLoggedContext } from "./context/UserLoggedContext.tsx";
-import UserInformation from "./components/pages/userInformation";
-import { Route, Routes, Navigate } from "react-router-dom";
-import Companies from "./components/companies/Companies";
-import NewCompany from "./components/companies/NewCompany";
-import ShowContact from "./components/contacts/ShowContact.tsx";
-import ApplicationsGrid from "./components/JobApplications/JobApplications";
+import './App.css';
+import LoginForm from './Login';
+import MenuBar from './components/layout/MenuBar'
+import { useUserLoggedContext } from './context/UserLoggedContext';
+import UserInformation from './components/pages/userInformation';
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Companies from './components/companies/Companies';
+import NewCompany from './components/companies/NewCompany';
+import ApplicationsGrid from './components/JobApplications/JobApplications';
 
 function App() {
   const { isLoggedIn, clearUserLogged, userData } = useUserLoggedContext();
