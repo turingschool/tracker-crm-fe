@@ -64,7 +64,16 @@ function Contacts() {
       setContacts(allContacts)
     } else {
       const filteredContacts = allContacts.filter(contact => {
-        return contact.attributes.first_name.toLowerCase().includes(search.toLowerCase())
+        console.log(contact, "Contact")
+        const firstName = contact.attributes.first_name.toLowerCase();
+        const lastName = contact.attributes.last_name.toLowerCase();
+        const companyName = contact.attributes.company?.name?.toLowerCase() || "";
+
+        return (
+          firstName.includes(search) ||
+          lastName.includes(search) ||
+          companyName.includes(search)
+          )
       })
       setContacts(filteredContacts)
     }   
