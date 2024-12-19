@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { Company } from "../../Interfaces";
+import { useUserLoggedContext } from "../../context/UserLoggedContext";
+
 
 function Companies() {
   const [companies, setCompanies] = useState<Company[] | null>([]); 
@@ -8,12 +10,16 @@ function Companies() {
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const {token, userData} = useUserLoggedContext();
+  console.log("Token", token)
+  console.log("UserData", userData)
 
+  
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const token =
-          "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDY0MTg2Mn0.4GEWX2QPGGKfBJ8C0f4uqDzt3bumLAChqDPO4PkAM38";
+        // const token =
+        //   "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDY0MTg2Mn0.4GEWX2QPGGKfBJ8C0f4uqDzt3bumLAChqDPO4PkAM38";
         const response = await fetch("http://localhost:3001/api/v1/users/2/companies", {
           method: "GET",
           headers: {
