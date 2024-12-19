@@ -52,8 +52,8 @@ function MenuBar() {
           <ApartmentIcon fontSize="large" />
         </NavLink>
 
-        {/* Documents */}
-        <NavLink className={linkClasses} to="/documents">
+        {/* Job Apps */}
+        <NavLink className={linkClasses} to="/job_applications">
           <DescriptionIcon fontSize="large" />
         </NavLink>
 
