@@ -16,10 +16,10 @@ function NewCompany() {
   const [zipCode, setZipCode] = useState<string>('');
   const [notes, setNotes] = useState<string>('');
   const [existingCompanies, setExistingCompanies] = useState<any[]>([]);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const [errors, setErrors] = useState<{ name?: string; duplicate?: string }>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const getCompanies = async () => {
@@ -36,22 +36,22 @@ function NewCompany() {
     e.preventDefault();
     setErrors({});
     setSuccessMessage(null);
-
+  
     if (!name.trim()) {
       setErrors({ name: 'Company name is required.' });
       return;
     }
-
+  
     // Check for duplicate company name
     const isDuplicate = existingCompanies.some(
       (company) => company.attributes.name.toLowerCase() === name.trim().toLowerCase()
     );
-
+  
     if (isDuplicate) {
       setErrors({ duplicate: 'A company with this name already exists.' });
       return;
     }
-
+  
     const newCompany: CompanyAttributes = {
       id: 0,
       name,
@@ -62,16 +62,21 @@ function NewCompany() {
       zip_code: zipCode,
       notes,
     };
-
+  
     try {
       if (!token || !userData?.user?.data?.id) {
         console.error('Missing token or user ID');
         return;
       }
-
+  
       setIsLoading(true);
-      await createCompany(userData.user.data.id, token, newCompany, navigate);
+      await createCompany(userData.user.data.id, token, newCompany);
       setSuccessMessage('Company added successfully!');
+  
+      // Delay navigation to give time for success message to display
+      setTimeout(() => {
+        navigate('/companies');
+      }, 2000);
     } catch (error) {
       console.error('Error adding company:', error);
     } finally {
@@ -82,6 +87,11 @@ function NewCompany() {
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-4">Add New Company</h1>
+      {successMessage && (
+        <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
+          {successMessage}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
         <div className="flex flex-col">
           <label className="mb-2 text-gray-700">Company Name: <span className="text-red-500">*</span></label>

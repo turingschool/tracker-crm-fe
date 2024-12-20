@@ -19,7 +19,7 @@
     "strictFunctionTypes": true,
     "esModuleInterop":true,
     "allowSyntheticDefaultImports": true,
-    "allowImportingTsExtensions": true
+    // "allowImportingTsExtensions": true
   },
   "include": ["src"]
 }

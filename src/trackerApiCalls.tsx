@@ -24,25 +24,25 @@ export const fetchCompanies = async (userId: number, token: string ) => {
 
 /*-----------------------------------// CREATE A COMPANY //---------------------------------*/
 
-export const createCompany = async (userId: number, token: string, newCompany: object, navigate: Function) => {
+export const createCompany = async (userId: number, token: string, newCompany: object) => {
   try {
     const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/companies`, {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newCompany),
-          });
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newCompany),
+    });
 
-          if (!response.ok) {
-            throw new Error('Failed to add the company');
-          }
-          navigate('/companies');
-        } catch (error) {
-          console.error("Error adding company:", error);
-        }
-      };
+    if (!response.ok) {
+      throw new Error('Failed to add the company');
+    }
+  } catch (error) {
+    console.error("Error adding company:", error);
+    throw error;
+  }
+};
 
 /*-----------------------------------// GET ONE COMPANY //-------------------------------*/
 
