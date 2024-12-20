@@ -25,7 +25,9 @@ interface Company {
 }
 
 function NewJobApplication() {
+  const navigate = useNavigate();
   const { token, userData } = useUserLoggedContext();
+
   const [positionTitle, setPositionTitle] = useState('');
   const [dateApplied, setDateApplied] = useState('');
   const [status, setStatus] = useState(0);
@@ -33,10 +35,11 @@ function NewJobApplication() {
   const [jobDescription, setJobDescription] = useState('');
   const [applicationURL, setApplicationURL] = useState('');
   const [contactInformation, setContactInformation] = useState('');
-  const navigate = useNavigate();
-  // const [companies, setCompanies] = useState([]); 
   const [availableCompany, setAvailableCompany] = useState("");
   const [companies, setCompanies] = useState<Company[]>([]);
+
+  const selectedCompany = companies.find(company => company.id === availableCompany);
+
   const statusMap: { [key: number]: string } = {
     1: 'Submitted',
     2: 'Interviewing',
@@ -52,8 +55,6 @@ function NewJobApplication() {
     Rejected: 'bg-red-200 text-red-800',
     'Phone Screen': 'bg-yellow-300 text-yellow-900',
   };
-
-  // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -90,6 +91,7 @@ function NewJobApplication() {
         date_applied: dateApplied,
         status: status,
         company_id: availableCompany,
+        company_name: selectedCompany?.name || '',
         notes: notes,
         job_description: jobDescription,
         application_url: applicationURL,
@@ -98,9 +100,6 @@ function NewJobApplication() {
     };
 
     try {
-      // console.log("createJobApplication called");
-      // console.log("user id here", userData.user.data.id);
-      // console.log("token here", token);
       const response = await fetch(`http://localhost:3001/api/v1/users/${userData.user.data.id}/job_applications`, {
         method: "POST",
         headers: {
@@ -187,15 +186,8 @@ function NewJobApplication() {
                     <option key={key} value={key}>
                       {value}
                     </option>
-                  ))}                </select>
-                {/* <input
-                  type="number"
-                  value={status}
-                  onChange={(e) => setStatus(Number(e.target.value))}
-                  className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
-                  placeholder='Select status (required)'
-                  required
-                /> */}
+                  ))}                
+                  </select>
               </label>
             </div>
 
@@ -236,7 +228,6 @@ function NewJobApplication() {
                 onChange={(e) => setApplicationURL(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2 w-[90%]"
                 placeholder='www.example.com'
-
               />
             </label>
 
