@@ -19,17 +19,24 @@ import { useUserLoggedContext } from '../../context/UserLoggedContext';
 //   attributes: CompanyAttributes;
 // }
 
+interface Company {
+  id: string;
+  name: string;
+}
+
 function NewJobApplication() {
   const { token, userData } = useUserLoggedContext();
   const [positionTitle, setPositionTitle] = useState('');
   const [dateApplied, setDateApplied] = useState('');
   const [status, setStatus] = useState(0);
-  const [availableCompany, setAvailableCompany] = useState('');
   const [notes, setNotes] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [applicationURL, setApplicationURL] = useState('');
   const [contactInformation, setContactInformation] = useState('');
   const navigate = useNavigate();
+  // const [companies, setCompanies] = useState([]); 
+  const [availableCompany, setAvailableCompany] = useState(""); 
+  const [companies, setCompanies] = useState<Company[]>([]);
   // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -38,26 +45,27 @@ function NewJobApplication() {
         const response = await fetch(`http://localhost:3001/api/v1/users/${userData.user.data.id}/companies`, {
           method: "GET",
           headers: {
-            "Authorization": `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json"
-            },
+          },
         });
-        console.log(response)
 
         if (!response.ok) {
           throw new Error(`Failed to fetch companies: ${response.statusText}`);
         }
 
         const data = await response.json();
-        console.log("DATA DATA", data.data);
-        setAvailableCompany(data.data);
+        const companyList = data.data.map((company: any) => ({
+          id: company.id,
+          name: company.attributes.name,
+        }));
+        setCompanies(companyList);
       } catch (error) {
         console.error("Fetch error", error);
       }
     };
     fetchCompanies();
-  }, []);
-  // usestate(fetch request, dependancies)
+  }, [[userData.user.data.id, token]]);
 
   console.log(availableCompany)
 
@@ -112,20 +120,43 @@ function NewJobApplication() {
                 value={positionTitle}
                 onChange={(e) => setPositionTitle(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
+                placeholder='Position Title is required'
                 required
               />
             </label>
 
             {/* Company*/}
-            <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
+            {/* <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
               <span className="font-semibold">Company:</span>
               <input
                 type="string"
                 value={availableCompany}
                 onChange={(e) => setAvailableCompany(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
+                placeholder='Select Company'
+
                 // required
               />
+            </label> */}
+
+            <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
+              <span className="font-semibold">Company:</span>
+              <select
+                // type="string"
+                value={availableCompany || ""}
+                onChange={(e) => setAvailableCompany(e.target.value)}
+                className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
+                // placeholder='Select Company'
+              >
+                <option value="" className="text-gray-400">
+                  Select a company (required)
+                </option>
+                {companies.map((company) => (
+                  <option key={company.id} value={company.id}>
+                    {company.name}
+                  </option>
+                ))}
+              </select>
             </label>
 
             <div className='flex flex-row' >
@@ -148,6 +179,7 @@ function NewJobApplication() {
                   value={status}
                   onChange={(e) => setStatus(Number(e.target.value))}
                   className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
+                  placeholder='Select status (required)'
                   required
                 />
               </label>
@@ -160,6 +192,7 @@ function NewJobApplication() {
                 value={jobDescription}
                 onChange={(e) => setJobDescription(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2  m-2"
+                placeholder='Job Description is required'
                 rows={6}
                 required
               />
@@ -173,6 +206,7 @@ function NewJobApplication() {
                 value={contactInformation}
                 onChange={(e) => setContactInformation(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
+                placeholder='Contact info...'
               />
             </label>
           </div>
@@ -187,6 +221,8 @@ function NewJobApplication() {
                 value={applicationURL}
                 onChange={(e) => setApplicationURL(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2 w-[90%]"
+                placeholder='www.example.com'
+
               />
             </label>
 
@@ -198,6 +234,7 @@ function NewJobApplication() {
                 onChange={(e) => setNotes(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 w-[90%] m-2"
                 rows={15}
+                placeholder='Notes...'
               />
             </label>
           </div>
