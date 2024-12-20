@@ -1,4 +1,5 @@
 import { mockCompanies } from "../fixtures/mockCompanies.js";
+import { noCompanies } from "../fixtures/noCompanies.js";
 
 describe("Companies page after logging in", () => {
   beforeEach(() => {
@@ -11,15 +12,13 @@ describe("Companies page after logging in", () => {
     }).as("getCompanies");
     
     cy.visit("http://localhost:3000/");
-    cy.get("img[alt='Companies']").click();
-    /*
+    // cy.get("img[alt='Companies']").click();
+    
     cy.get("#email").type("danny_de@email.com")
     cy.get("#password").type("jerseyMikesRox7")
-    cy.get("button").click();
-
-    will be added when functionality for login is restored.
-    */
-  })
+    cy.get('[data-testid="login-button"]').click();
+    cy.get('[data-testid="companies-iconD"]').click();
+    })
   
   it ("Should have a header with the text 'Companies'", () => {
     cy.get("h1").should("have.text", "Companies");
@@ -57,19 +56,31 @@ describe("Companies page after logging in", () => {
     cy.get("table tbody tr").eq(1).find("td").eq(2).should("have.text", "Leading e-commerce platform.");
   });
 
+ 
+})
+describe("Companies page failure", () => {
   it("Should display 'No companies found' when no companies exist", () => {
     cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies", {
       statusCode: 200,
-      body: { data: [] },
+      body: noCompanies,
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type":"application/json"}
+        
     }).as("getEmptyCompanies");
-  
-    cy.reload(); 
+      
+    cy.visit("http://localhost:3000/");
+    // cy.get("img[alt='Companies']").click();
+    
+    cy.get("#email").type("danny_de@email.com")
+    cy.get("#password").type("jerseyMikesRox7")
+    cy.get('[data-testid="login-button"]').click();
+    cy.get('[data-testid="companies-iconD"]').click();
+
+    // cy.reload(); 
     cy.wait("@getEmptyCompanies");
   
     cy.get("[data-testid='no-companies']").should("exist").and("have.text", "No companies found");
     cy.get("table").should("not.exist");
   });
+
 })

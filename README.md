@@ -176,6 +176,9 @@ When creating tables and forms, we'll be alternating between white and grey-100 
 
 
 
+`<input className='p-[1vh] border-2 border-slate-800 rounded w-[12vw] h-full' />`
+
+
 For an example of what this might look like in practice, see below.
 
 
