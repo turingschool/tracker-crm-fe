@@ -184,6 +184,30 @@ For an example of what this might look like in practice, see below.
 
 ![alt text](exampleDesign.png)
 
+
+
+<!-- USER GLOBAL CONTEXT -->
+
+## Implementing User Context With React's Context Hook
+
+### Benefits
+
+User Context has been implemented!! The use case for the context is getting access to a specific user's information and rather that doing a nightmare of imports and notations to get the info you need; you can call one line of code and get access to the session token for fetches and the loggedIn state for rendering! It keeps the code light, DRY, and easy to develope! Currently there are six pieces of info being given by the context. should there be a need / use case for adding more things to that we can add that at a later date! Please DM Charles for now and we can come up with a plan!
+
+#### Right up front, here is a guide for implementation:
+
+<font color='red'>**PRE REQS:**</font> <font color='#db5800'>The only requirement is that your component is being proprerly rendered in 'App.tsx' so make sure to check that first.</font>
+
+1. Import useUserLoggedContext into your component page:
+> <font color='#774b94'>import</font> <font color='yellow'>{</font> <font color='#0096db'>useUserLoggedContext</font> <font color='yellow'>}</font> <font color='#774b94'>from</font> <font color='#a84100'>'./context/UserLoggedContext.tsx'</font>;
+
+2. Destructure the function call ***INSIDE*** your component declaration:
+> <font color='#2555a8'>const</font> <font color='yellow'>{</font> <font color='#0096db'>    token, roles, isLoggedIn, userLogged, clearUserLogged</font> <font color='yellow'>}</font> = <font color='#a84100'>useUserLoggedContext</font><font color='#774b94'>()</font>;
+
+3. Use the whatever part of the context you need!
+
+
+
 <!-- USAGE EXAMPLES -->
 ## Usage
 
@@ -198,9 +222,20 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
+- [ ] Feature 1 - Login
+- [ ] Feature 2 - Home
+- [ ] Feature 3 - Companies
+
+The Companies section allows users to seamlessly manage a list of their companies. 
+
+Key functionalities include:
+	•	View All Companies: Browse a comprehensive list of companies with detailed information such as company name, application status, and notes.
+	•	Create a Company: Add new companies by filling out a simple form with fields like name, website, address, and notes.
+	•	Search for a Company: Use the search bar to quickly find companies by name, enhancing efficiency and user experience.
+
+![Companies Section Demo](/tracker-crm-fe/public/assets/companies.gif)
+
+- [ ] Feature 4
     - [ ] Nested Feature
 
 See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
@@ -225,11 +260,18 @@ Don't forget to give the project a star! Thanks again!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Top contributors:
+## Core Contributors:
+<!-- 
+HEY YOU!!!! Keep it in alphabetical by last name!!!
+FORMAT: lastname, firstname 
+  - github link 
+  - linkedin link
+  -->
 
-<a href="https://github.com/github_username/repo_name/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=github_username/repo_name" alt="contrib.rocks image" />
-</a>
+**Chirchirillo, Joe**
+   - [Github](https://github.com/jchirch)
+   - [LinkedIn](https://www.linkedin.com/in/joechirchirillo/)
+
 
 
 
@@ -247,7 +289,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [Tracker](https://github.com/turingschool/tracker-crm-fe)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

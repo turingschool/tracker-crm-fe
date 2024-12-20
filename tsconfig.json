@@ -18,7 +18,7 @@
     "noUnusedParameters": true,
     "strictFunctionTypes": true,
     "esModuleInterop":true,
-    "allowSyntheticDefaultImports": true, 
+    "allowSyntheticDefaultImports": true
   },
   "include": ["src"]
 }

@@ -9,6 +9,7 @@ interface FormFieldProps {
 
 
 const FormField: React.FC<FormFieldProps> = ({ formType, name, state, onChangeHandler }) => {
+
   return (
     <div className='{formType}-input flex flex-col justify-center w-[100%] mb-[10px]'>
       <label htmlFor={formType} className='font-[Helvetica Neue] font-sans text-xl'>

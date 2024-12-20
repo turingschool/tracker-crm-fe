@@ -1,103 +1,58 @@
-// import turingLogo from './Turing-logo.png';
 import './App.css';
-import { useState } from 'react';
 import LoginForm from './Login';
-import { getUser } from './apiCalls';
 import MenuBar from './components/layout/MenuBar'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useUserLoggedContext } from './context/UserLoggedContext';
+import UserInformation from './components/pages/userInformation';
 import UserRegistration from './components/UserRegistration';
-interface UserInfo {
-  id: number,
-  username: string,
-  email: string
-}
+import { Route, Routes, Navigate } from 'react-router-dom';
+import Companies from './components/companies/Companies';
+import NewCompany from './components/companies/NewCompany';
+import ApplicationsGrid from './components/JobApplications/JobApplications';
 
-
-function App(): React.ReactElement {
-
-  const [userId, setUserId] = useState(null);
-  const [userData, setUserData] = useState<Partial<UserInfo>>({});
-  const [isLoggedIn, setIsLoggedIn] = useState(true);   // temporary until the login is fixed
-
-  const handleLogin = async (id: number) => {
-    try {
-      const loginResponse = await getUser(id);
-      if (loginResponse) {
-        setUserData({
-          id: loginResponse.data.id,
-          email: loginResponse.data.attributes.email,
-          username: loginResponse.data.attributes.username,
-        });
-        setUserId(loginResponse.data.id);
-        setIsLoggedIn(true);
-        console.log(loginResponse);
-
-      }
-    } catch (err) {
-      console.log(err);
-
-      console.error('Error fetching logged in user:', err);
-      setIsLoggedIn(false);
-      console.log(err);
-
-    }
-  };
-
-  const handleLogout = () => {
-    setUserId(null);
-    setUserData({});
-    setIsLoggedIn(false);
-  };
-
-  // const userIsLoggedIn = () => {
-  //   setIsLoggedIn(true);
-  // };
-
-  // const userLogOut = () => {
-  //   setIsLoggedIn(false);
-  //   setUserData({});
-  // };
-
-
-
-
-  console.log(`we need to have ${userId}... NOT`)
+function App() {
+  const { isLoggedIn, clearUserLogged, userData } = useUserLoggedContext()
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* Index Route */}
-        <Route
-          path="/"
-          element={
-            <div>
-              {!isLoggedIn && (
-                <>
-                  <h1>Please login</h1>
-                  <LoginForm onLogin={handleLogin} />
-                </>
-              )}
-              {isLoggedIn && (
-                <div className="flex flex-row">
-                  <MenuBar />
-                  <h1>Welcome, {userData.username}</h1>
-                  <button onClick={handleLogout}>Log Out</button>
-                </div>
-              )}
-            </div>
-          }
-        />
+    <Routes>
+      <Route // Public Route
+        path="/"
+        element={
+          isLoggedIn ? (
+            <Navigate to="/home" replace />
+          ) : (
+            <LoginForm />
+          )
+        }
+      />
 
-        {/* Register User Route */}
+      {/* Protected layout using MenuBar */}
+      <Route
+        element={
+          isLoggedIn ? (
+            <MenuBar />
+          ) : (
+            <Navigate to="/" replace />
+          )
+        }
+      >
         <Route
-          path="/UserRegistration"
+          path="/home"
           element={
             <div>
-              <UserRegistration />
+              <h1>Welcome, {userData.user.data.attributes.name}</h1>
+              <button onClick={() => clearUserLogged()}>Log Out</button>
             </div>
           }
         />
-      </Routes>
-    </BrowserRouter>
+        <Route path="/companies" element={<Companies />} />
+        <Route path="/companies/new" element={<NewCompany />} />
+        <Route path="/job_applications" element={<ApplicationsGrid/>}/>
+        <Route
+          path="/userInformation"
+          element={<UserInformation userData={userData} />}
+        />
+      </Route>
+      <Route path="/UserRegistration" element={<UserRegistration/>}/>
+    </Routes>
   );
 }
 

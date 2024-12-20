@@ -1,13 +1,17 @@
+import { useNavigate, Link } from 'react-router-dom';
 import turingLogo from './Turing-logo.png';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+// import { LoginFormProps } from './Interfaces';
+import { useUserLoggedContext } from './context/UserLoggedContext';
+import { loginUser } from './trackerApiCalls'
 
-const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
+const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-
+  const { userLogged, setUserData } = useUserLoggedContext()
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -19,31 +23,34 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
       password,
     };
 
-    try {
-      const response = await fetch('http://localhost:3001/api/v1/sessions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Login failed');
-      }
-
-      const responseData = await response.json();
-      onLogin(responseData.data.id);
-      setSuccessMessage('Login successful!');
-      console.log('Response data:', responseData);
-    } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(`Error logging in: ${error.message}`);
-      } else {
-        setErrorMessage('An unexpected error occurred');
-      }
-    }
+    loginUser(requestBody)
+      .then((loggedInUser) => {
+        console.log("logged data:", loggedInUser)
+        setUserData({
+          token: loggedInUser.token,
+          user: {
+            data: {
+              id: loggedInUser.user.data.id,
+              type: 'user',
+              attributes: {
+                email: loggedInUser.user.data.attributes.email,
+                name: loggedInUser.user.data.attributes.name,
+                companies: loggedInUser.user.data.attributes.companies
+              }
+            }
+          }
+        });
+        // setId(loggedInUser.user.data.id);
+        // setLogin(true);
+        setSuccessMessage('Login successful!');
+        userLogged(loggedInUser.token, loggedInUser.user.data.type)
+        navigate("/")
+        console.log("User updated successfully:", loggedInUser);
+      })
+      .catch((error) => {
+        console.error("Error updating user:", error);
+        setErrorMessage(`Error in Login: ${error.message}`)
+      });    
   };
 
   return (
@@ -74,8 +81,11 @@ const LoginForm = ({ onLogin }: { onLogin: (id: number) => void }) => {
               className='w-[100%] p-[8px] mt-[4px] border-4 rounded-md border-slate-600 bg-slate-200'
             />
           </div>
-          <button type="submit" className='login-btn w-[35%] h-[10%] rounded-sm bg-[#3cb6cc] font-[Helvetica Neue] font-sans text-base'>
-            Login
+          <button 
+            type="submit" 
+            className='login-btn w-[35%] h-[10%] rounded-sm bg-[#3cb6cc] font-[Helvetica Neue] font-sans text-base'
+            data-testid="login-button">
+              Login
           </button>
           <p className='no-account-message font-[Helvetica Neue] font-sans'>No Account? Click <Link to="/UserRegistration">Here</Link> To Register.</p>
 
