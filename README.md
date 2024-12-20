@@ -275,8 +275,13 @@ FORMAT: lastname, firstname
    - [Github](https://github.com/jchirch)
    - [LinkedIn](https://www.linkedin.com/in/joechirchirillo/)
 
+**Messersmith, Renee**
+   - [Github](https://github.com/reneemes)
+   - [LinkedIn](https://www.linkedin.com/in/reneehessersmith/)
 
-
+**Cirbo, Candice**
+   - [Github](https://github.com/ccirbo)
+   - [LinkedIn](https://www.linkedin.com/in/candicecirbo/)
 
 <!-- LICENSE -->
 ## License
