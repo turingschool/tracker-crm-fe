@@ -268,17 +268,27 @@ FORMAT: lastname, firstname
   - linkedin link
   -->
 
+**Cirbo, Candice**
+   - [Github](https://github.com/ccirbo)
+   - [LinkedIn](https://www.linkedin.com/in/candicecirbo/)
+
+**De La Rosa, Melchor**   
+   - [Github](https://github.com/MDelarosa1993)
+   - [LinkedIn](https://www.linkedin.com/in/melchordelarosa/)
+
 **Chirchirillo, Joe**
    - [Github](https://github.com/jchirch)
    - [LinkedIn](https://www.linkedin.com/in/joechirchirillo/)
+
+**Macur, Jim**
+   - [Github](https://github.com/jimmacur)
+   - [LinkedIn](https://www.linkedin.com/in/jimmacur/)
 
 **Messersmith, Renee**
    - [Github](https://github.com/reneemes)
    - [LinkedIn](https://www.linkedin.com/in/reneehessersmith/)
 
-**Cirbo, Candice**
-   - [Github](https://github.com/ccirbo)
-   - [LinkedIn](https://www.linkedin.com/in/candicecirbo/)
+
 
 <!-- LICENSE -->
 ## License
