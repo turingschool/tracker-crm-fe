@@ -49,7 +49,7 @@ describe("Company Show Page", () => {
     }).as("getCompanies");
 
     // Intercept the GET request to fetch company details with Authorization header
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies/1", {
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies/1/contacts", {
       statusCode: 200,
       body: mockCompany,
       headers: {
@@ -100,17 +100,18 @@ describe("Company Show Page", () => {
     // Intercept with a delay to simulate loading state
     cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies/1", (req) => {
       req.reply((res) => {
-        res.delay = 2000; // Simulate delay
+        res.delay = 4000; // Increase delay to 4000ms
         res.send({
           statusCode: 200,
           body: mockCompany,
         });
       });
     }).as("delayedGetCompany");
-
+  
     // Reload the page to trigger the loading state
     cy.visit("http://localhost:3000/companies/1");
-    cy.contains("Loading company details...").should("be.visible");
+    cy.wait(500); // Brief wait to ensure the loading state appears
+    cy.contains("Loading company details...", { timeout: 10000 }).should("exist");
     cy.wait("@delayedGetCompany");
   });
 

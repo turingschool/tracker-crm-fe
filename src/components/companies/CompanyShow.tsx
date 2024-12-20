@@ -34,6 +34,7 @@ function CompanyShow() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchCompanyData = async () => {
       try {
         if (!id) {
