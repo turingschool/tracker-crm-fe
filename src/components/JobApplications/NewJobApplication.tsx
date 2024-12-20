@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
-
+// import {statusMap, statusStyles} from '../JobApplications'
 // interface CompanyAttributes {
 //   id: number;
 //   name: string;
@@ -35,8 +35,24 @@ function NewJobApplication() {
   const [contactInformation, setContactInformation] = useState('');
   const navigate = useNavigate();
   // const [companies, setCompanies] = useState([]); 
-  const [availableCompany, setAvailableCompany] = useState(""); 
+  const [availableCompany, setAvailableCompany] = useState("");
   const [companies, setCompanies] = useState<Company[]>([]);
+  const statusMap: { [key: number]: string } = {
+    1: 'Submitted',
+    2: 'Interviewing',
+    3: 'Offer',
+    4: 'Rejected',
+    5: 'Phone Screen',
+  };
+
+  const statusStyles: { [key: string]: string } = {
+    Submitted: 'bg-yellow-200 text-yellow-800',
+    Interviewing: 'bg-green-200 text-green-800',
+    Offer: 'bg-teal-300 text-teal-900',
+    Rejected: 'bg-red-200 text-red-800',
+    'Phone Screen': 'bg-yellow-300 text-yellow-900',
+  };
+
   // const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -67,8 +83,6 @@ function NewJobApplication() {
     fetchCompanies();
   }, [[userData.user.data.id, token]]);
 
-  console.log(availableCompany)
-
   async function createJobApplication() {
     const newJobApplication = {
       job_application: {
@@ -84,9 +98,9 @@ function NewJobApplication() {
     };
 
     try {
-      console.log("createJobApplication called");
-      console.log("user id here", userData.user.data.id);
-      console.log("token here", token);
+      // console.log("createJobApplication called");
+      // console.log("user id here", userData.user.data.id);
+      // console.log("token here", token);
       const response = await fetch(`http://localhost:3001/api/v1/users/${userData.user.data.id}/job_applications`, {
         method: "POST",
         headers: {
@@ -126,27 +140,13 @@ function NewJobApplication() {
             </label>
 
             {/* Company*/}
-            {/* <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
-              <span className="font-semibold">Company:</span>
-              <input
-                type="string"
-                value={availableCompany}
-                onChange={(e) => setAvailableCompany(e.target.value)}
-                className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
-                placeholder='Select Company'
-
-                // required
-              />
-            </label> */}
 
             <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
               <span className="font-semibold">Company:</span>
               <select
-                // type="string"
                 value={availableCompany || ""}
                 onChange={(e) => setAvailableCompany(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
-                // placeholder='Select Company'
               >
                 <option value="" className="text-gray-400">
                   Select a company (required)
@@ -174,14 +174,28 @@ function NewJobApplication() {
               {/* Status */}
               <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[45%]">
                 <span className="font-semibold">Application Status:</span>
-                <input
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(Number(e.target.value))}
+                  className={`p-2 border-4 rounded-lg focus:outline-none focus:ring-2 m-2 ${statusMap[status] ? statusStyles[statusMap[status]] : ''
+                    }`}
+                  required                >
+                  <option value="" className="text-gray-400">
+                    Select Status
+                  </option>
+                  {Object.entries(statusMap).map(([key, value]) => (
+                    <option key={key} value={key}>
+                      {value}
+                    </option>
+                  ))}                </select>
+                {/* <input
                   type="number"
                   value={status}
                   onChange={(e) => setStatus(Number(e.target.value))}
                   className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
                   placeholder='Select status (required)'
                   required
-                />
+                /> */}
               </label>
             </div>
 
