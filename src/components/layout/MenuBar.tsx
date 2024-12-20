@@ -45,7 +45,7 @@ function MenuBar() {
 
         {/* Open button for Slideout Menu */}
         <button className="flex items-center justify-items-center" onClick={toggleSideMenu}>
-          <MenuIcon data-testid="menu-iconM" fontSize="large" className="m-auto text-black justify-items-center" />
+          <MenuIcon data-testid="menu-iconM" fontSize="large" className="m-auto text-white justify-items-center" />
         </button>
 
 
@@ -99,7 +99,7 @@ function MenuBar() {
         <nav className={"fixed overflow-hidden min-sm:invisible min-sm:hidden  z-10 bg-opacity-100 inset-0 transform ease-in-out flex flex-col justify-items-center duration-500 bg-[#046576] justify-evenly h-screen  sm:w-1/6 max-w-1/6 " + (sideMenuOpen ? " transition-opacity opacity-30 duration-500 -translate-x-full  " : " transition-all opacity-90 translate-x-0")}>
 
           <button className="min-sm:hidden" onClick={toggleSideMenu}>
-            <CloseIcon fontSize="large" data-testid="close-iconM" className="m-auto text-black justify-items-center" />
+            <CloseIcon fontSize="large" data-testid="close-iconM" className="m-auto text-white justify-items-center" />
           </button>
 
           {/* Logo */}
