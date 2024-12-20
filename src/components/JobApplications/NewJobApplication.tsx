@@ -1,13 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
+
+// interface CompanyAttributes {
+//   id: number;
+//   name: string;
+//   website: string;
+//   street_address: string;
+//   city: string;
+//   state: string;
+//   zip_code: string;
+//   notes: string;
+// }
+
+// interface Company {
+//   id: number;
+//   type: string;
+//   attributes: CompanyAttributes;
+// }
 
 function NewJobApplication() {
   const { token, userData } = useUserLoggedContext();
   const [positionTitle, setPositionTitle] = useState('');
   const [dateApplied, setDateApplied] = useState('');
   const [status, setStatus] = useState(0);
-  const [company, setCompany] = useState('');
+  const [availableCompany, setAvailableCompany] = useState('');
   const [notes, setNotes] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [applicationURL, setApplicationURL] = useState('');
@@ -15,13 +32,42 @@ function NewJobApplication() {
   const navigate = useNavigate();
   // const [isLoading, setIsLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchCompanies = async () => {
+      try {
+        const response = await fetch(`http://localhost:3001/api/v1/users/${userData.user.data.id}/companies`, {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+            },
+        });
+        console.log(response)
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch companies: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        console.log("DATA DATA", data.data);
+        setAvailableCompany(data.data);
+      } catch (error) {
+        console.error("Fetch error", error);
+      }
+    };
+    fetchCompanies();
+  }, []);
+  // usestate(fetch request, dependancies)
+
+  console.log(availableCompany)
+
   async function createJobApplication() {
     const newJobApplication = {
       job_application: {
         position_title: positionTitle,
         date_applied: dateApplied,
         status: status,
-        company_id: company,
+        company_id: availableCompany,
         notes: notes,
         job_description: jobDescription,
         application_url: applicationURL,
@@ -74,11 +120,11 @@ function NewJobApplication() {
             <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
               <span className="font-semibold">Company:</span>
               <input
-                type="number"
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
+                type="string"
+                value={availableCompany}
+                onChange={(e) => setAvailableCompany(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
-                required
+                // required
               />
             </label>
 
