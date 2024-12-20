@@ -194,18 +194,114 @@ For an example of what this might look like in practice, see below.
 
 User Context has been implemented!! The use case for the context is getting access to a specific user's information and rather that doing a nightmare of imports and notations to get the info you need; you can call one line of code and get access to the session token for fetches and the loggedIn state for rendering! It keeps the code light, DRY, and easy to develope! Currently there are six pieces of info being given by the context. should there be a need / use case for adding more things to that we can add that at a later date! Please DM Charles for now and we can come up with a plan!
 
-#### Right up front, here is a guide for implementation:
+### Right up front, here is a guide for implementation:
 
 <font color='red'>**PRE REQS:**</font> <font color='#db5800'>The only requirement is that your component is being proprerly rendered in 'App.tsx' so make sure to check that first.</font>
 
 1. Import useUserLoggedContext into your component page:
-> <font color='#774b94'>import</font> <font color='yellow'>{</font> <font color='#0096db'>useUserLoggedContext</font> <font color='yellow'>}</font> <font color='#774b94'>from</font> <font color='#a84100'>'./context/UserLoggedContext.tsx'</font>;
+   - <font color='#774b94'>import</font> <font color='yellow'>{</font> <font color='#0096db'>useUserLoggedContext</font> <font color='yellow'>}</font> <font color='#774b94'>from</font> <font color='#a84100'>'./context/UserLoggedContext.tsx'</font>;
 
-2. Destructure the function call ***INSIDE*** your component declaration:
-> <font color='#2555a8'>const</font> <font color='yellow'>{</font> <font color='#0096db'>    token, roles, isLoggedIn, userLogged, clearUserLogged</font> <font color='yellow'>}</font> = <font color='#a84100'>useUserLoggedContext</font><font color='#774b94'>()</font>;
+2. Destructure the function call ***INSIDE*** your component function:
+   - <font color='#2555a8'>const</font> <font color='yellow'>{</font> <font color='#0096db'>token, roles, isLoggedIn, userData, userLogged, setUserData, clearUserLogged</font> <font color='yellow'>}</font> = <font color='#a84100'>useUserLoggedContext</font><font color='#774b94'>()</font>;
 
 3. Use the whatever part of the context you need!
 
+### Additional Information
+
+&nbsp;&nbsp;&nbsp;&nbsp;*<ins>At the base level React's [createContext](https://react.dev/reference/react/createContext) function allows a component to share some kind of data with other components that are wrapped in the context.</ins>*
+
+#### Traditional Implementation
+
+&nbsp;&nbsp;&nbsp;&nbsp;Calling createContext returns a context object. **The context object itself does not hold any information;** it represents *which* context other components can read or provide. Similar to how *useState* gives you a variable and a setter function that changes that variable; createContext gives you *two* functions, a ${\color{#46fa70}\sf.Provider}$ and a **.Consumer**. The **.Consumer** function has been deemed a legacy way of consuming (using) the ${\color{#fa46b5}\sf value}$ distributed by the ${\color{#46fa70}\sf.Provider}$ function, and so is no longer recommended. Instead the components that need access to the ${\color{#fa46b5}\sf value}$ that is destributed by the context will utilize the **useContext()** function to consume (use) the ${\color{#fa46b5}\sf value}$. Below is an example of the tradional implementation:
+
+#### *<ins>AContextFile.tsx</ins>*
+
+```JavaScript
+import React, { createContext } from 'react';
+
+export const AUserContextExample = createContext(null)
+```
+^ Here we have created our Context with a default value of $\text{\color{#5792f7}null}$.
+
+#### *<ins>AnAppFile.tsx</ins>*
+
+```JavaScript
+import React, { useState, useEffect, useContext } from 'react';
+import AUserContextExample from '../contexts/AContextFile.tsx';
+
+import aUserFetchCall from '../apiCalls/ApiCalls.tsx';
+import <AnAwesomeComponent /> from '../components/AnAwesomeComponent.tsx';
+import <AnEpicComponent /> from '../components/AnEpicComponent.tsx';
+import <AnExtreameComponent /> from '../components/AnExtreameComponent.tsx';
+
+async function App () {
+  const [aUserState, setAUserState] = useState();
+
+  useEffect(() => {
+    const aFetchedUser = await aUserFetchCall();
+    setAUserState(aFetchedUser);
+  }, [])
+
+  return (
+    <aUserContextExample.Provider value={aUserState}>
+      <div>
+        <h1> Welcome To The Awesome App! </h1>
+        <AnAwesomeComponent />
+        <AnEpicComponent />
+        <AnExtreameComponent />
+      </div>
+    </aUserContextExample.Provider>
+  )
+}
+```
+^ Here we are properly importing all the necessary pieces of our example application into our App component. As App is completing the mounting phase, we are initiating a fetch call to get a user and ${\color{#7db8ff}\sf set\ state}$ on the user object that is returned by the fetch call, ${\color{yellow}\sf aFetchedUser}{\color{#d39bfa}()}$. Upon App completing the mounting phase, it renders the JSX and passes the state variable, $\text{\color{#7db8ff}\sf aUserState}$ to the context ${\color{#fa46b5}\sf value}$ in the ${\color{#46fa70}\sf aUserContextExample.Provider}$. The ${\color{#46fa70}\sf aUserContextExample.Provider}$ is now ***providing*** its ${\color{#fa46b5}\sf value(s)}$ to the components that are nested inside it.
+
+#### *<ins>AnAwesomeComponent.tsx</ins>*
+
+```JavaScript
+import React, { useContext } from 'react';
+import AUserContextExample from '../contexts/AContextFile.tsx';
+
+export Function AnAwesomeComponent () {
+  const anAwesomeUser = useContext(AUserContextExample);
+
+  return (
+    <div>
+      <h1>`Hello ${anAwesomeUser.name}! Welcome to the Awesome page!`</h1>
+      <div>
+        {
+          anAwsomeUser.someSickAttributeToMap.map((srslyCoolThing) => {
+            return (
+              <div>
+                <div>{srslyCoolThing.foReal}</div>
+                <div>{srslyCoolThing.noCap}</div>
+                <div>{srslyCoolThing.trulyGOATED}</div>
+              </div>
+            )
+          })
+        }
+      </div>
+    </div>
+  )
+}
+```
+^ Over in ${\color{#07a30e}\sf AnAwsomeComponent}$; we import the ${\color{yellow}\sf useContext}{\color{#d39bfa}()}$ function, set up a variable that equates to the ${\color{yellow}\sf useContext}{\color{#d39bfa}()}$ function and pass ${\color{#7a97f5}\sf AUserContextExample}$ to it which gives us access to the ${\color{#fa46b5}\sf value(s)}$ ***provided*** by ${\color{#46fa70}\sf aUserContextExample.Provider}$! From there we have access to the data in the $\text{\color{#7db8ff}\sf aUserState}$ variable we fetched and set back in App! With dot notation we can grab whatever pieces of data we need and call whatever methods or function we need with it here in this component.
+
+#### *<ins>AnAppFile.tsx</ins>*
+
+```JavaScript
+```
+
+
+<!--
+<font color='#00a103'> Green for Context </font>
+<font color='#708fff'> Blue for Value </font>
+<font color='#c577fc'> Purple for Provider </font>
+<font color='#fc8d38'> Orange for Children </font>
+<font color='#fcef38'> Yellow for someUser </font>
+<font color=''>  </font>
+-->
+ 
 
 
 <!-- USAGE EXAMPLES -->
