@@ -84,7 +84,11 @@ function CompanyShow() {
           <div>
             <h2 className="font-semibold text-gray-700">Website:</h2>
             <p className="text-blue-500 hover:underline">
-              <a href={companyAttributes.website} target="_blank" rel="noopener noreferrer">
+              <a
+                href={companyAttributes.website.startsWith("http") ? companyAttributes.website : `https://${companyAttributes.website}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {companyAttributes.website}
               </a>
             </p>

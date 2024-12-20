@@ -84,10 +84,30 @@ describe("Company Show Page", () => {
   it("Should display the correct company details", () => {
     cy.get("h1").should("have.text", "Company Details");
 
-    cy.get("h2").contains("Company Name:").next().should("have.text", "Google");
-    cy.get("h2").contains("Website:").next().should("have.text", "https://google.com");
-    cy.get("h2").contains("Address:").next().should("have.text", "1600 Amphitheatre Parkway Mountain View, CA 94043");
-    cy.get("h2").contains("Notes:").next().should("have.text", "Innovative tech company.");
+    cy.get("h2").contains("Company Name:")
+      .next().should("have.text", "Google");
+    
+    cy.get("h2").contains("Website:")
+      .next().should("have.text", "https://google.com");
+    
+    cy.get("h2").contains("Address:")
+      .next().should(
+        "have.text",
+        "1600 Amphitheatre Parkway Mountain View, CA 94043"
+      );
+    
+    cy.get("h2").contains("Notes:")
+      .next().should("have.text", "Innovative tech company.");
+  });
+
+  it("Should open the company website in a new tab", () => {
+    cy.get('a[href="https://google.com"]')
+      .should("have.attr", "target", "_blank")
+      .and("have.attr", "rel", "noopener noreferrer")
+      .then((link) => {
+        const url = link.prop("href").replace(/\/$/, ""); // Remove trailing slash
+        expect(url).to.equal("https://google.com");
+      });
   });
 
   it("Should display the contacts correctly", () => {
@@ -98,8 +118,24 @@ describe("Company Show Page", () => {
     cy.contains("Alice Johnson").should("have.attr", "href", "/contacts/103");
   });
 
+  it("Should navigate to the correct contact detail page when a contact is clicked", () => {
+    cy.contains("John Doe").click();
+    cy.url().should("include", "/contacts/101");
+
+    cy.go("back");
+
+    cy.contains("Jane Smith").click();
+    cy.url().should("include", "/contacts/102");
+
+    cy.go("back");
+
+    cy.contains("Alice Johnson").click();
+    cy.url().should("include", "/contacts/103");
+  });
+
   it("Should navigate back to the companies page when clicking 'Back to Companies'", () => {
     cy.contains("Back to Companies").click();
     cy.url().should("include", "/companies");
   });
 });
+
