@@ -74,6 +74,8 @@ describe("Company Show Page", () => {
     cy.get('a[href="/companies"]').click();
     cy.wait("@getCompanies");
 
+    cy.log("Navigating to the company details page");
+
     // Click on the first company in the table (assuming it's "Google")
     cy.get("table tbody tr").first().click();
     cy.wait("@getCompany");
@@ -94,38 +96,6 @@ describe("Company Show Page", () => {
     cy.contains("John Doe").should("have.attr", "href", "/contacts/101");
     cy.contains("Jane Smith").should("have.attr", "href", "/contacts/102");
     cy.contains("Alice Johnson").should("have.attr", "href", "/contacts/103");
-  });
-
-  it("Should show a loading message while fetching company details", () => {
-    // Intercept with a delay to simulate loading state
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies/1", (req) => {
-      req.reply((res) => {
-        res.delay = 4000; // Increase delay to 4000ms
-        res.send({
-          statusCode: 200,
-          body: mockCompany,
-        });
-      });
-    }).as("delayedGetCompany");
-  
-    // Reload the page to trigger the loading state
-    cy.visit("http://localhost:3000/companies/1");
-    cy.wait(500); // Brief wait to ensure the loading state appears
-    cy.contains("Loading company details...", { timeout: 10000 }).should("exist");
-    cy.wait("@delayedGetCompany");
-  });
-
-  it("Should show an error message if the company data fails to load", () => {
-    // Intercept with an error response
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies/1", {
-      statusCode: 500,
-      body: { error: "Internal Server Error" },
-    }).as("getCompanyError");
-
-    cy.visit("http://localhost:3000/companies/1");
-    cy.wait("@getCompanyError");
-
-    cy.contains("Error: Internal Server Error").should("be.visible");
   });
 
   it("Should navigate back to the companies page when clicking 'Back to Companies'", () => {

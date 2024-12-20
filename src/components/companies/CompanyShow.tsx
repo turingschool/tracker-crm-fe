@@ -34,13 +34,14 @@ function CompanyShow() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    console.log("Fetching company data...");
     setIsLoading(true);
     const fetchCompanyData = async () => {
       try {
         if (!id) {
           throw new Error("Company ID is missing");
         }
-        const companyId = parseInt(id)
+        const companyId = parseInt(id);
         const data = await getACompany(userData.user.data.id, token!, companyId);
         setCompanyData(data);
       } catch (error) {
@@ -48,9 +49,10 @@ function CompanyShow() {
         setError(error instanceof Error ? error.message : "Unknown error occurred");
       } finally {
         setIsLoading(false);
+        console.log("Loading complete");
       }
     };
-
+  
     fetchCompanyData();
   }, [token, userData, id]);
 
