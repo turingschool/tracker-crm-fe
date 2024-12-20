@@ -20,7 +20,7 @@ describe("New Contacts page after logging in", () => {
       },
     }).as('postUserInfo');
 
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/4/contacts", {
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/2/contacts`, {
       statusCode: 200,
       body: mockContactsData,
       headers: {
@@ -28,7 +28,7 @@ describe("New Contacts page after logging in", () => {
       },
     }).as("getContacts");
     
-    cy.intercept("POST", "http://localhost:3001/api/v1/users/4/contacts", {
+    cy.intercept("POST", "http://localhost:3001/api/v1/users/2/contacts", {
       statusCode: 201,
       body: {
         id: 123,
@@ -41,15 +41,7 @@ describe("New Contacts page after logging in", () => {
       },
     }).as("addContact");
 
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/4/contacts", {
-      statusCode: 200,
-      body: mockContactsData,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).as("getContacts");
-
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/4/companies", {
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies", {
       statusCode: 200,
       body: {
         data: [
@@ -129,7 +121,7 @@ describe("New Contacts page after logging in", () => {
     it("Should allow a user to select a company and submit the form with that company", () => {
       cy.intercept(
         "POST",
-        "http://localhost:3001/api/v1/users/4/companies/1/contacts",
+        "http://localhost:3001/api/v1/users/2/companies/1/contacts",
         {
           statusCode: 201,
           body: {
@@ -185,7 +177,7 @@ describe("New Contacts page after logging in", () => {
     });
 
     it("Should not allow duplicate contacts", () => {
-      cy.intercept("POST", "http://localhost:3001/api/v1/users/4/contacts", {
+      cy.intercept("POST", "http://localhost:3001/api/v1/users/2/contacts", {
         statusCode: 422,
         body: { error: "Contact already exists" },
       }).as("addDuplicateContact");
@@ -205,7 +197,7 @@ describe("New Contacts page after logging in", () => {
     });
 
     it("Should display an error message if the server fails to create a contact", () => {
-      cy.intercept("POST", "http://localhost:3001/api/v1/users/4/contacts", {
+      cy.intercept("POST", "http://localhost:3001/api/v1/users/2/contacts", {
         statusCode: 500,
         body: { error: "Server error, please try again" },
       }).as("addContactError");
@@ -222,7 +214,7 @@ describe("New Contacts page after logging in", () => {
     });
     
     it("Should validate the phone number format", () => {
-      cy.intercept("POST", "http://localhost:3001/api/v1/users/4/contacts", {
+      cy.intercept("POST", "http://localhost:3001/api/v1/users/2/contacts", {
         statusCode: 422,
         body: { error: "Phone number must be in the format '555-555-5555'" },
       }).as("addContactInvalidPhone");
@@ -243,7 +235,7 @@ describe("New Contacts page after logging in", () => {
 
       cy.get("#phoneNumber").clear().type("555-555-5555");
 
-      cy.intercept("POST", "http://localhost:3001/api/v1/users/4/contacts", {
+      cy.intercept("POST", "http://localhost:3001/api/v1/users/2/contacts", {
         statusCode: 201,
         body: {
           id: 124,

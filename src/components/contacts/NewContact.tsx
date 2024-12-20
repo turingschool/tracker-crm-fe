@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
+import { UserData } from '../../Interfaces';
 
 export interface FormData {
   firstName: string;
@@ -9,12 +10,17 @@ export interface FormData {
   phoneNumber: string;
   companyId?: number | null;
   notes: string;
-}
+};
 
-const NewContact = () => {
+interface UserInformationProps {
+  userData: UserData;
+};
+
+const NewContact = ( {userData}: UserInformationProps ) => {
   const navigate = useNavigate();
   
   const { token } = useUserLoggedContext();
+  const userId = userData.user.data.id ? Number(userData.user.data.id) : undefined
 
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
@@ -34,7 +40,7 @@ const NewContact = () => {
     const fetchCompanies = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/v1/users/4/companies",
+          `http://localhost:3001/api/v1/users/${userId}/companies`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -86,9 +92,9 @@ const NewContact = () => {
     };
 
     try {
-      let url = `http://localhost:3001/api/v1/users/4/contacts`;
+      let url = `http://localhost:3001/api/v1/users/${userId}/contacts`;
       if (formData.companyId) {
-        url = `http://localhost:3001/api/v1/users/4/companies/${formData.companyId}/contacts`;
+        url = `http://localhost:3001/api/v1/users/${userId}/companies/${formData.companyId}/contacts`;
       }
       const response = await fetch(url, {
         method: "POST",
@@ -106,7 +112,6 @@ const NewContact = () => {
       setFeedback("Contact added successfully! Redirecting...");
       setTimeout(() => navigate("/contacts"), 3000);
 
-      navigate("/contacts");
     } catch (error: any) {
       console.error("Error adding contact:", error);
       setFeedback(error.message);

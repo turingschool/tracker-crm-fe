@@ -20,7 +20,7 @@ describe("Contacts page", () => {
       },
     }).as('postUserInfo');
 
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/4/contacts", {
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts", {
       statusCode: 200,
       body: mockContactsData,
       headers: {
@@ -121,7 +121,7 @@ describe("Contacts Page - No contacts", () => {
       },
     }).as('postUserInfo');
 
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/4/contacts", {
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts", {
       statusCode: 200,
       body: { data: [] },
       headers: {
@@ -164,7 +164,7 @@ describe("Sad Paths - Contacts Page", () => {
       },
     }).as('postUserInfo');
 
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/4/contacts", {
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts", {
       statusCode: 500
     }).as("sad-contacts");
     

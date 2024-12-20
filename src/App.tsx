@@ -33,8 +33,8 @@ function App() {
         />
         <Route path="/companies" element={<Companies />} />
         <Route path="/companies/new" element={<NewCompany />} />
-        <Route path="/contacts" element={<Contacts/>} />
-        <Route path="/contacts/new" element={<NewContact/>} />
+        <Route path="/contacts" element={<Contacts userData={userData}/>} />
+        <Route path="/contacts/new" element={<NewContact userData={userData}/>} />
         <Route path="/job_applications" element={<ApplicationsGrid/>}/>
         <Route
           path="/userInformation"
