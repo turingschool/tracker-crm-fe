@@ -196,13 +196,13 @@ User Context has been implemented!! The use case for the context is getting acce
 
 ### Right up front, here is a guide for implementation:
 
-<font color='red'>**PRE REQS:**</font> <font color='#db5800'>The only requirement is that your component is being proprerly rendered in 'App.tsx' so make sure to check that first.</font>
+**$\text{\color{#f23030}PRE REQS:}$** $\text{\color{#f28730}The only requirement is that your component is being proprerly rendered in 'App.tsx' so make sure to check that first.}$
 
 1. Import useUserLoggedContext into your component page:
-   - <font color='#774b94'>import</font> <font color='yellow'>{</font> <font color='#0096db'>useUserLoggedContext</font> <font color='yellow'>}</font> <font color='#774b94'>from</font> <font color='#a84100'>'./context/UserLoggedContext.tsx'</font>;
+   - $\text{\color{#9d7af5} import}\text{\color{#f5e97a} \\{ }\text{\color{#7adef5}useUserLoggedContext}\text{\color{#f5e97a} \\}}\text{\color{#9d7af5} from}\text{\color{#fca944} './context/UserLoggedContext.tsx'}$;
 
 2. Destructure the function call ***INSIDE*** your component function:
-   - <font color='#2555a8'>const</font> <font color='yellow'>{</font> <font color='#0096db'>token, roles, isLoggedIn, userData, userLogged, setUserData, clearUserLogged</font> <font color='yellow'>}</font> = <font color='#a84100'>useUserLoggedContext</font><font color='#774b94'>()</font>;
+   - $\text{\color{#2555a8} const}\text{\color{#f5e97a} \\{ }\text{\color{#0096db}token, roles, isLoggedIn, userData, userLogged, setUserData, clearUserLogged}\text{\color{#f5e97a} \\}}=\text{\color{#fca944} useUserLoggedContext}\text{\color{#9d7af5}()}$;
 
 3. Use the whatever part of the context you need!
 
@@ -210,7 +210,7 @@ User Context has been implemented!! The use case for the context is getting acce
 
 &nbsp;&nbsp;&nbsp;&nbsp;*<ins>At the base level React's [createContext](https://react.dev/reference/react/createContext) function allows a component to share some kind of data with other components that are wrapped in the context.</ins>*
 
-#### Traditional Implementation
+### Traditional Implementation
 
 &nbsp;&nbsp;&nbsp;&nbsp;Calling createContext returns a context object. **The context object itself does not hold any information;** it represents *which* context other components can read or provide. Similar to how *useState* gives you a variable and a setter function that changes that variable; createContext gives you *two* functions, a $\text{\color{#46fa70}.Provider}$ and a **.Consumer**. The **.Consumer** function has been deemed a legacy way of consuming (using) the $\text{\color{#fa46b5} value}$ distributed by the $\text{\color{#46fa70}.Provider}$ function, and so is no longer recommended. Instead the components that need access to the $\text{\color{#fa46b5} value}$ that is destributed by the context will utilize the **useContext()** function to consume (use) the $\text{\color{#fa46b5} value}$. Below is an example of the tradional implementation:
 
@@ -285,7 +285,7 @@ export Function AnAwesomeComponent () {
   )
 }
 ```
-^ Over in $\text{\color{#07a30e} AnAwsomeComponent}$; we import the $\text{\color{yellow} useContext}{\color{#d39bfa}()}$ function, set up a variable that equates to the $\text{\color{yellow} useContext}{\color{#d39bfa}()}$ function and pass $\text{\color{#7a97f5} AUserContextExample}$ to it which gives us access to the $\text{\color{#fa46b5} value(s)}$ ***provided*** by $\text{\color{#46fa70} aUserContextExample.Provider}$! From there we have access to the data in the $\text{\color{#7db8ff} aUserState}$ variable we fetched and set back in App! With dot notation we can grab whatever pieces of data we need and call whatever methods or function we need with it here in this component.
+^ Over in $\text{\color{#07a30e}AnAwsomeComponent}$; we import the $\text{\color{yellow}useContext}{\color{#d39bfa}()}$ function, set up a variable that equates to the $\text{\color{yellow}useContext}{\color{#d39bfa}()}$ function and pass $\text{\color{#7a97f5}AUserContextExample}$ to it which gives us access to the $\text{\color{#fa46b5}value(s)}$ ***provided*** by $\text{\color{#46fa70}aUserContextExample.Provider}$! From there we have access to the data in the $\text{\color{#7db8ff}aUserState}$ variable we fetched and set back in App! With dot notation we can grab whatever pieces of data we need and call whatever methods or function we need with it here in this component.
 
 
 #### *<ins>AnAppFile.tsx</ins>*
