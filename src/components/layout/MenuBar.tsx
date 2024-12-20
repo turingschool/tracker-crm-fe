@@ -41,7 +41,7 @@ function MenuBar() {
   return (
     <div className='flex flex-row'>
       {/* // Menu */}
-      <nav className='flex flex-col   bg-[#046576] justify-evenly h-screen  md:w-1/12  ' >
+      <nav className='flex flex-col   bg-[#046576] justify-evenly h-screen  sm:w-1/12  ' >
 
         {/* Open button for Slideout Menu */}
         <button className="flex items-center justify-items-center" onClick={toggleSideMenu}>
@@ -50,7 +50,7 @@ function MenuBar() {
 
 
         {/* Desktop Menu */}
-        < nav className='flex flex-col fixed bg-[#046576] max-sm:hidden  justify-items-center h-screen md:w-1/12 ' >
+        < nav className='flex flex-col fixed bg-[#046576] max-sm:hidden  justify-items-center h-screen sm:w-1/12 ' >
 
           {/* Logo */}
           <Link className="m-auto cursor-pointer" to="/">
@@ -96,7 +96,7 @@ function MenuBar() {
         </nav >
                   {/* Slideout Menu */}
 
-        <nav className={"fixed overflow-hidden min-sm:invisible min-sm:hidden  z-10 bg-opacity-100 inset-0 transform ease-in-out flex flex-col justify-items-center duration-500 bg-[#046576] justify-evenly h-screen  md:w-1/6 max-w-1/6 " + (sideMenuOpen ? " transition-opacity opacity-30 duration-500 -translate-x-full  " : " transition-all opacity-90 translate-x-0")}>
+        <nav className={"fixed overflow-hidden min-sm:invisible min-sm:hidden  z-10 bg-opacity-100 inset-0 transform ease-in-out flex flex-col justify-items-center duration-500 bg-[#046576] justify-evenly h-screen  sm:w-1/6 max-w-1/6 " + (sideMenuOpen ? " transition-opacity opacity-30 duration-500 -translate-x-full  " : " transition-all opacity-90 translate-x-0")}>
 
           <button className="min-sm:hidden" onClick={toggleSideMenu}>
             <CloseIcon fontSize="large" data-testid="close-iconM" className="m-auto text-black justify-items-center" />
