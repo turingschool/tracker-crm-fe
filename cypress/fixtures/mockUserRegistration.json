@@ -1,0 +1,10 @@
+{
+  "data": {
+      "id": "1",
+      "type": "user",
+      "attributes": {
+          "name": "John Hill",
+          "email": "propane_accesories@example.com"
+      }
+  }
+}
