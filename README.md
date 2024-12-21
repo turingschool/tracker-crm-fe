@@ -212,20 +212,20 @@ User Context has been implemented!! The use case for the context is getting acce
 
 ### Traditional Implementation
 
-&nbsp;&nbsp;&nbsp;&nbsp;Calling createContext returns a context object. **The context object itself does not hold any information;** it represents *which* context other components can read or provide. Similar to how *useState* gives you a variable and a setter function that changes that variable; createContext gives you *two* functions, a $\text{\color{#46fa70}.Provider}$ and a **.Consumer**. The **.Consumer** function has been deemed a legacy way of consuming (using) the $\text{\color{#fa46b5} value}$ distributed by the $\text{\color{#46fa70}.Provider}$ function, and so is no longer recommended. Instead the components that need access to the $\text{\color{#fa46b5} value}$ that is destributed by the context will utilize the **useContext()** function to consume (use) the $\text{\color{#fa46b5} value}$. Below is an example of the tradional implementation:
+&nbsp;&nbsp;&nbsp;&nbsp;Calling createContext returns a context object. **The context object itself does not hold any information;** it represents *which* context other components can read or provide. Similar to how *useState* gives you a variable and a setter function that changes that variable; createContext gives you *two* functions, a $\text{\color{#7EE787}.Provider}$ and a **.Consumer**. The **.Consumer** function has been deemed a legacy way of consuming (using) the $\text{\color{#D1A7FD} value}$ distributed by the $\text{\color{#7EE787}.Provider}$ function, and so is no longer recommended. Instead the components that need access to the $\text{\color{#D1A7FD} value}$ that is destributed by the context will utilize the **useContext()** function to consume (use) the $\text{\color{#D1A7FD} value}$. Below is an example of the tradional implementation:
 
 #### *<ins>AContextFile.tsx</ins>*
 
-```JavaScript
+```coffeescript
 import React, { createContext } from 'react';
 
 export const AUserContextExample = createContext(null)
 ```
-^ Here we have created our Context with a default value of $\text{\color{#5792f7}null}$.
+^ Here we have created our Context with a default value of $\text{\color{#79C0FF}null}$.
 
 #### *<ins>AnAppFile.tsx</ins>*
 
-```JavaScript
+```coffeescript
 import React, { useState, useEffect, useContext } from 'react';
 import AUserContextExample from '../contexts/AContextFile.tsx';
 
@@ -254,11 +254,11 @@ async function App () {
   )
 }
 ```
-^ Here we are properly importing all the necessary pieces of our example application into our App component. As App is completing the mounting phase, we are initiating a fetch call to get a user and $\text{\color{#7db8ff} set\ state}$ on the user object that is returned by the fetch call, $\text{\color{yellow} aFetchedUser}{\color{#d39bfa}()}$. Upon App completing the mounting phase, it renders the JSX and passes the state variable, $\text{\color{#7db8ff} aUserState}$ to the context $\text{\color{#fa46b5} value}$ in the $\text{\color{#46fa70} aUserContextExample.Provider}$. The $\text{\color{#46fa70} aUserContextExample.Provider}$ is now ***providing*** its $\text{\color{#fa46b5} value(s)}$ to the components that are nested inside it.
+^ Here we are properly importing all the necessary pieces of our example application into our App component. As App is completing the mounting phase, we are initiating a fetch call to get a user and $\text{\color{#FFA657}set state}$ on the user object that is returned by the fetch call, $\text{\color{#D2A8FF}aUserFetchCall}{()}$. Upon App completing the mounting phase, it renders the JSX and passes the state variable, $\text{\color{#FFA657} aUserState}$ to the context $\text{\color{#D1A7FD} value}$ in the $\text{\color{#7EE787} aUserContextExample.Provider}$. The $\text{\color{#7EE787} aUserContextExample.Provider}$ is now ***providing*** its $\text{\color{#D1A7FD} value(s)}$ to the components that are nested inside it.
 
 #### *<ins>AnAwesomeComponent.tsx</ins>*
 
-```JavaScript
+```coffeescript
 import React, { useContext } from 'react';
 import AUserContextExample from '../contexts/AContextFile.tsx';
 
@@ -285,7 +285,7 @@ export Function AnAwesomeComponent () {
   )
 }
 ```
-^ Over in $\text{\color{#07a30e}AnAwsomeComponent}$; we import the $\text{\color{yellow}useContext}{\color{#d39bfa}()}$ function, set up a variable that equates to the $\text{\color{yellow}useContext}{\color{#d39bfa}()}$ function and pass $\text{\color{#7a97f5}AUserContextExample}$ to it which gives us access to the $\text{\color{#fa46b5}value(s)}$ ***provided*** by $\text{\color{#46fa70}aUserContextExample.Provider}$! From there we have access to the data in the $\text{\color{#7db8ff}aUserState}$ variable we fetched and set back in App! With dot notation we can grab whatever pieces of data we need and call whatever methods or function we need with it here in this component.
+^ Over in $\text{\color{#FFA657}AnAwsomeComponent}$; we import the $\text{\color{#D2A8FF}useContext}{()}$ function, set up a variable that equates to the $\text{\color{#D2A8FF}useContext}{()}$ function and pass $\text{\color{#FFA657}AUserContextExample}$ to it which gives us access to the $\text{\color{#D1A7FD}value(s)}$ ***provided*** by $\text{\color{#7EE787}aUserContextExample.Provider}$! From there we have access to the data in the $\text{\color{#7db8ff}aUserState}$ variable we fetched and set back in App! With dot notation we can grab whatever pieces of data we need and call whatever methods or function we need with it here in this component.
 
 
 #### *<ins>AnAppFile.tsx</ins>*
