@@ -1,4 +1,4 @@
-import { mockCompanies } from "../fixtures/mockCompanies";
+import { mockCompanies } from "../support/mockCompanies";
 
 describe("New Company page after logging in", () => {
   let uniqueCompanyName = `Test Company ${Date.now()}`;
@@ -45,14 +45,17 @@ describe("New Company page after logging in", () => {
         "Content-Type": "application/json"
       }
     }).as("getCompanies");
-        
+    
+    cy.get("img[alt='Companies']").click();
+    cy.contains("Add New").click();
+    
+    /*
     cy.get("#email").type("danny_de@email.com")
     cy.get("#password").type("jerseyMikesRox7")
-    cy.get('[data-testid="login-button"]').click();
-    
-    cy.get('[data-testid="companies-iconD"]').click();
-    cy.contains("Add New").click();
-
+    cy.get("button").click();
+`
+    will be added when functionality for login is restored.
+    */
   });
   
   it("Should display the new company form", () => {
