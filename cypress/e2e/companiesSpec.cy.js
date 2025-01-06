@@ -2,6 +2,8 @@ import { mockCompanies } from "../fixtures/mockCompanies.js";
 import { mockEmptyCompanies } from "../fixtures/emptyMockCompanies.js";
 
 describe("Companies page after logging in", () => {
+  const userId = 2;
+
   beforeEach(() => {
   // Intercept the login POST request
   cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
@@ -10,7 +12,7 @@ describe("Companies page after logging in", () => {
       token: "fake-token",
       user: {
         data: {
-          id: 2,
+          id: userId,
           type: "user",
           attributes: {
             name: "Test User",
@@ -23,13 +25,21 @@ describe("Companies page after logging in", () => {
   }).as("mockSession");
 
   // Intercept the GET request to fetch companies
-  cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies", {
+  cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/companies`, {
     statusCode: 200,
     body: mockCompanies,
     headers: {
       "Content-Type": "application/json",
     },
   }).as("getCompanies");
+
+  // Intercept the GET request to fetch job applications
+  cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/job_applications`,{
+    statusCode: 200,
+    body: {
+      data: [],
+    },
+  })
 
   // Visit the login page and perform login
   cy.visit("http://localhost:3000/");
