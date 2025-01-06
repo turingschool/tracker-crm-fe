@@ -13,9 +13,9 @@ describe('Landing page after logging in spec', () => {
     cy.get('img[alt="Logo"]').should('have.attr', 'src').should('include', 'turing-logo-gray');
 
     cy.get('[href="/home"] > .MuiSvgIcon-root').should('exist');
-    cy.get('[href="/profile"] > .MuiSvgIcon-root').should('exist');
+    cy.get('[href="/contacts"] > .MuiSvgIcon-root').should('exist');
     cy.get('[href="/companies"] > .MuiSvgIcon-root').should('exist');
-    cy.get('[href="/documents"] > .MuiSvgIcon-root').should('exist');
+    cy.get('[href="/job_applications"] > .MuiSvgIcon-root').should('exist');
     cy.get('[href="/add-new"] > .MuiSvgIcon-root').should('exist');
     cy.get('[href="/userInformation"] > .MuiSvgIcon-root').should('exist');
   });
@@ -28,8 +28,8 @@ describe('Landing page after logging in spec', () => {
     cy.get('#password').type("jerseyMikesRox7")
     cy.get('[data-testid="login-button"]').click();
 
-    cy.get('[data-testid="profile-iconD"]').click();
-    cy.url().should('include', '/profile');
+    cy.get('[data-testid="contacts-iconD"]').click();
+    cy.url().should('include', '/contacts');
     cy.visit('http://localhost:3000/');
     cy.get('#email').type("danny_de@email.com")
     cy.get('#password').type("jerseyMikesRox7")
@@ -43,7 +43,7 @@ describe('Landing page after logging in spec', () => {
     cy.get('[data-testid="login-button"]').click();
 
     cy.get('[data-testid="applications-iconD"]').click();
-    cy.url().should('include', '/documents');
+    cy.url().should('include', '/job_applications');
     cy.visit('http://localhost:3000/');
     cy.get('#email').type("danny_de@email.com")
     cy.get('#password').type("jerseyMikesRox7")
