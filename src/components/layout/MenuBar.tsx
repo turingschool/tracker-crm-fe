@@ -73,7 +73,7 @@ function MenuBar() {
           </NavLink>
 
           {/* Documents */}
-          <NavLink className={linkClasses} to="/documents">
+          <NavLink className={linkClasses} to="/job_applications">
             <DescriptionIcon data-testid="applications-iconD" fontSize="large" />
           </NavLink>
 
