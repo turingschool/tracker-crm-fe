@@ -193,7 +193,7 @@ For an example of what this might look like in practice, see below.
 ### Benefits
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Context has been implemented!! The use case for the context is getting access to a specific user's information and rather that doing a nightmare of imports and notations to get the info you need; you can call one line of code and get access to the session token for fetches and the loggedIn state for rendering! It keeps the code light, DRY, and easy to develop! 
-</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currently there are six pieces of info being given by the context. should there be a need / use case for adding more things to that; we can! Please DM Charles for now and we can come up with a plan!
+</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currently there are six pieces of info being given by the context. Should there be a need / use case for adding more things to that; we can! Please DM Charles for now and we can come up with a plan!
 
 ### Right up front, here is a guide for implementation:
 
