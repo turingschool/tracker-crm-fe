@@ -1,60 +1,35 @@
 import { useEffect, useState } from "react"
-// import MenuBar from "../layout/MenuBar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Company } from "../../Interfaces";
+import { useUserLoggedContext } from "../../context/UserLoggedContext";
+import { fetchCompanies } from "../../trackerApiCalls";
 
-interface CompanyAttributes {
-  id: number;
-  name: string;
-  website: string;
-  street_address: string;
-  city: string;
-  state: string;
-  zip_code: string;
-  notes: string;
-}
-
-interface Company {
-  id: number;
-  type: string;
-  attributes: CompanyAttributes;
-}
 
 function Companies() {
   const [companies, setCompanies] = useState<Company[] | null>([]); 
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const {token, userData} = useUserLoggedContext();
 
+  
   useEffect(() => {
-    const fetchCompanies = async () => {
+    const getCompanies = async () => {
       try {
-        const token =
-          "";
-        const response = await fetch("http://localhost:3001/api/v1/users/2/companies", {
-          method: "GET",
-          headers: {
-            authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-        });
-        console.log(response)
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch companies: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        console.log(data.data);
-        setCompanies(data.data as Company[]);
-        setFilteredCompanies(data.data as Company[]);
+        const companies = await fetchCompanies(userData.user.data.id, token!);
+        console.log("fetched companies", companies)
+        setCompanies(companies);
+        setFilteredCompanies(companies);
       } catch (error) {
-        console.error("Fetch error", error);
+        console.error("Error fetching companies:", error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchCompanies();
-  }, []);
+
+    getCompanies();
+  }, [token]);
 
   useEffect(() => {
     if (companies) {
@@ -65,8 +40,6 @@ function Companies() {
       );
     }
   }, [searchTerm, companies]);
-
-  
 
   return (
     <div className="flex min-h-screen">
@@ -106,16 +79,17 @@ function Companies() {
               </tr>
             </thead>
             <tbody>
-              {filteredCompanies.map((company) => (
-                <tr
-                  key={company.id}
-                  className="even:bg-gray-50 hover:bg-gray-100"
+            {filteredCompanies.map((company) => (
+              <tr 
+                key={company.id} 
+                className="even:bg-gray-50 hover:bg-gray-100 cursor-pointer"
+                onClick={() => navigate(`/companies/${company.id}/contacts`)}
                 >
-                  <td className="p-4 border-b">{company.attributes.name}</td>
-                  <td className="p-4 border-b">Not Applied Yet</td> {/*Change to application status */}
-                  <td className="p-4 border-b">{company.attributes.notes}</td>
-                </tr>
-              ))}
+                <td className="p-4 border-b">{company.attributes.name}</td>
+                <td className="p-4 border-b">Not Applied Yet</td>
+                <td className="p-4 border-b">{company.attributes.notes}</td>
+              </tr>
+            ))}
             </tbody>
           </table>
         ) : (

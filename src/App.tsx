@@ -10,7 +10,7 @@ import Contacts from './components/contacts/Contacts';
 import NewContact from './components/contacts/NewContact';
 import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
-
+import CompanyShow from './components/companies/CompanyShow';
 import ApplicationsGrid from './components/JobApplications/JobApplications';
 
 function App() {
@@ -49,6 +49,7 @@ function App() {
         />
         <Route path="/companies" element={<Companies />} />
         <Route path="/companies/new" element={<NewCompany />} />
+        <Route path="/companies/:id/contacts" element={<CompanyShow />} />
         <Route path="/contacts" element={<Contacts userData={userData}/>} />
         <Route path="/contacts/new" element={<NewContact userData={userData}/>} />
         <Route path="/job_applications" element={<ApplicationsGrid/>}/>
