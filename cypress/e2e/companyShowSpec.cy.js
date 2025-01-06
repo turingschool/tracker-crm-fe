@@ -71,7 +71,7 @@ describe("Company Show Page", () => {
     });
 
     // Navigate to the Companies page
-    cy.get('a[href="/companies"]').click();
+    cy.get('[data-testid="companies-iconD"]').click();
     cy.wait("@getCompanies");
 
     cy.log("Navigating to the company details page");
