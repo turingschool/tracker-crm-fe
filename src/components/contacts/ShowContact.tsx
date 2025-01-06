@@ -2,6 +2,17 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 
+interface ContactAttributes {
+  company: { name: string };
+  first_name: string;
+  last_name: string;
+}
+
+interface Contact {
+  id: string;
+  attributes: ContactAttributes;
+}
+
 interface ContactData {
   id: string;
   type: string;
@@ -31,6 +42,7 @@ function ShowContact() {
   const { contactId } = useParams<{ contactId: string }>();
   const contactIdInt = contactId ? Number(contactId) : null;
   const [contact, setContact] = useState<ContactData | null>(null);
+  const [otherContacts, setOtherContact] = useState<Contact[]>([]);
   const [fetchError, setFetchError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -52,7 +64,37 @@ function ShowContact() {
         }
         const data = await response.json();
         console.log("Contact Data: ", data);
+
         setContact(data.data);
+
+        const companyId = data.data.attributes.company.id;
+        console.log("CompanyID: ", companyId);
+
+        const companyContacts = await fetch(
+          `http://localhost:3001/api/v1/users/${userId}/companies/${companyId}/contacts`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if(companyContacts.status === 404) {
+          setOtherContact([]);
+          return;
+        }
+        if (!companyContacts.ok) {
+          throw new Error(
+            `Failed to fetch a companies contacts: ${companyContacts.statusText}`
+          );
+        }
+        const companyContactsData = await companyContacts.json();
+        console.log("Company Contacts Data: ", companyContactsData);
+
+        const contactsList = companyContactsData.contacts.data;
+        console.log(contactsList);
+        setOtherContact(contactsList);
       } catch (error) {
         setFetchError(`${(error as Error).message}. Please try again later.`);
       }
@@ -63,6 +105,10 @@ function ShowContact() {
     }
   }, [contactId, token]);
 
+  const filteredOtherContacts = otherContacts.filter(
+    (otherContact) => contact?.id && otherContact.id !== contact.id
+
+  );
   return (
     <section className="flex justify-between w-full">
       {fetchError && <p className="error">{fetchError}</p>}
@@ -94,9 +140,13 @@ function ShowContact() {
             <h2 className="text-[3vh] inset-3 font-bold text-cyan-500 mb-[2vh]">
               Other contacts at {contact.attributes.company.name}
             </h2>
-            <ul className="list-disc list-inside font-normal">
-              <li>Contact1</li>
-              <li>Contact2</li>
+            <ul className="list-disc list-inside">
+              {filteredOtherContacts.map((otherContact) => (
+                <li key={otherContact.id} className="font-normal">
+                  {otherContact.attributes.first_name}{" "}
+                  {otherContact.attributes.last_name}
+                </li>
+              ))}
             </ul>
           </div>
         </>
@@ -106,6 +156,4 @@ function ShowContact() {
     </section>
   );
 }
-// Need full name, company, email, phone, notes, edit button, and "Other contacts at `${comnpany.name}`"
 export default ShowContact;
-//  jerseyMikesRox7
