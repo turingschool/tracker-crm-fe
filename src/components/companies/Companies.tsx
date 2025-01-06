@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+// import MenuBar from "../layout/MenuBar";
 import { Link } from "react-router-dom";
 
 interface CompanyAttributes {
@@ -68,6 +69,10 @@ function Companies() {
   
 
   return (
+    <div className="flex min-h-screen">
+
+
+      {/* Main Content */}
       <main className="flex-1 p-6 bg-gray-100">
         <h1 className="text-2xl font-bold mb-4">Companies</h1>
 
@@ -117,6 +122,7 @@ function Companies() {
           <p data-testid="no-companies">No companies found</p>
         )}
       </main>
+    </div>
   );
 }
 
