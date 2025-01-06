@@ -36,7 +36,7 @@ function ShowContact() {
   useEffect(() => {
     const fetchShowContact = async () => {
       try {
-        const userId = userData.user.data.id
+        const userId = userData.user.data.id;
         const response = await fetch(
           `http://localhost:3001/api/v1/users/${userId}/contacts/${contactId}`,
           {
@@ -51,7 +51,7 @@ function ShowContact() {
           throw new Error(`Failed to fetch contact: ${response.statusText}`);
         }
         const data = await response.json();
-        console.log("Contact Data: ", data)
+        console.log("Contact Data: ", data);
         setContact(data.data);
       } catch (error) {
         setFetchError(`${(error as Error).message}. Please try again later.`);
@@ -64,25 +64,42 @@ function ShowContact() {
   }, [contactId, token]);
 
   return (
-    <section className="flex">
+    <section className="flex justify-between w-full">
       {fetchError && <p className="error">{fetchError}</p>}
       {contact ? (
-        <div>
-          <h1>
-            {contact.attributes.first_name} {contact.attributes.last_name}
-          </h1>
-          <h2>
-            {contact.attributes.company.name}
-          </h2>
-          <h2>Other contacts at {contact.attributes.company.name}
-            <ul>
-              <li></li>
+        <>
+          <div className="w-[65%] pl-[3vw] mt-[15vh]">
+            <h1 className="text-[5vh] font-bold text-cyan-600 p-0">
+              {contact.attributes.first_name} {contact.attributes.last_name}
+            </h1>
+            <h2 className="text-[3.5vh] font-bold text-cyan-500 p-0">
+              {contact.attributes.company.name}
+            </h2>
+            <div className="m-5">
+              <p>
+                <span className="text=[1vh] font-bold">Email: </span>
+                <span>{contact.attributes.email} </span>
+              </p>
+              <p>
+                <span className="text=[1vh] font-bold">Phone: </span>
+                <span>{contact.attributes.phone_number} </span>
+              </p>
+              <p>
+                <span className="text=[1vh] font-bold">Notes: </span>
+                <span>{contact.attributes.notes} </span>
+              </p>
+            </div>
+          </div>
+          <div className="w-[35%] text-left pr-[3vw] mt-[20vh]">
+            <h2 className="text-[3vh] inset-3 font-bold text-cyan-500 mb-[2vh]">
+              Other contacts at {contact.attributes.company.name}
+            </h2>
+            <ul className="list-disc list-inside font-normal">
+              <li>Contact1</li>
+              <li>Contact2</li>
             </ul>
-          </h2>
-          <p>Email: {contact.attributes.email}</p>
-          <p>Phone: {contact.attributes.phone_number}</p>
-          <p>Notes: {contact.attributes.notes}</p>
-        </div>
+          </div>
+        </>
       ) : (
         <p>Loading contact...</p>
       )}
