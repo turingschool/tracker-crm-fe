@@ -36,7 +36,7 @@ describe("Job app page after logging in", () => {
     cy.get("#email").type("danny_de@email.com")
     cy.get("#password").type("jerseyMikesRox7")
     cy.get('[data-testid="login-button"]').click();
-    cy.get('[data-testid="applications-iconD"]').click();
+    cy.get('a[href="/job_applications"]').click();
 
   });
 
