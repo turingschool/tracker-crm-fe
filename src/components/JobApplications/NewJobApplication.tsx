@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 // import {statusMap, statusStyles} from '../JobApplications'
+
 // interface CompanyAttributes {
 //   id: number;
 //   name: string;
@@ -59,7 +60,8 @@ function NewJobApplication() {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/v1/users/${userData.user.data.id}/companies`, {
+        const apiURL = process.env.REACT_APP_BACKEND_API_URL;
+        const response = await fetch(`${apiURL}/api/v1/users/${userData.user.data.id}/companies`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -82,7 +84,7 @@ function NewJobApplication() {
       }
     };
     fetchCompanies();
-  }, [[userData.user.data.id, token]]);
+  }, [userData.user.data.id, token]);
 
   async function createJobApplication() {
     const newJobApplication = {
@@ -103,7 +105,7 @@ function NewJobApplication() {
       const response = await fetch(`http://localhost:3001/api/v1/users/${userData.user.data.id}/job_applications`, {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json"
         },
         body: JSON.stringify(newJobApplication)
