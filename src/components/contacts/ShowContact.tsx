@@ -80,7 +80,7 @@ function ShowContact() {
             },
           }
         );
-        if(companyContacts.status === 404) {
+        if (companyContacts.status === 404) {
           setOtherContact([]);
           return;
         }
@@ -107,7 +107,6 @@ function ShowContact() {
 
   const filteredOtherContacts = otherContacts.filter(
     (otherContact) => contact?.id && otherContact.id !== contact.id
-
   );
   return (
     <section className="flex justify-between w-full">
@@ -130,11 +129,9 @@ function ShowContact() {
                 <span className="text=[1vh] font-bold">Phone: </span>
                 <span>{contact.attributes.phone_number} </span>
               </p>
-              <p>
-                <span className="text=[1vh] font-bold">Notes: </span>
-                <span>{contact.attributes.notes} </span>
-              </p>
             </div>
+            <h2 className="text=[4vh] font-bold text-cyan-500">Notes:</h2>
+            <p>{contact.attributes.notes} </p>
           </div>
           <div className="w-[35%] text-left pr-[3vw] mt-[20vh]">
             <h2 className="text-[3vh] inset-3 font-bold text-cyan-500 mb-[2vh]">
