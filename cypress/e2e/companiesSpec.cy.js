@@ -100,6 +100,8 @@ describe("Companies page after logging in", () => {
 });
 
 describe("Companies page with no companies", () => {
+  const userId = 2;
+  
   beforeEach(() => {
     // Intercept the login POST request
     cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
@@ -108,7 +110,7 @@ describe("Companies page with no companies", () => {
         token: "fake-token",
         user: {
           data: {
-            id: 2,
+            id: userId,
             type: "user",
             attributes: {
               name: "Test User",
@@ -121,13 +123,21 @@ describe("Companies page with no companies", () => {
     }).as("mockSession");
 
     // Intercept the GET request with empty companies
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies", {
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/companies`, {
       statusCode: 200,
       body: mockEmptyCompanies,
       headers: {
         "Content-Type": "application/json",
       }
     }).as("getEmptyCompanies");
+
+    // Intercept the GET request to fetch job applications
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/job_applications`,{
+      statusCode: 200,
+      body: {
+        data: [],
+      },
+    })
 
     // Visit the login page and perform login
     cy.visit("http://localhost:3000/");
