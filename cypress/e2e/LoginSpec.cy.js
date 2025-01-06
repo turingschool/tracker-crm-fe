@@ -5,7 +5,7 @@ describe('testing for Login page', () => {
   });
 
   it('checks for the elements on the page', () => {
-     cy.get('.turing-logo').should('be.visible')
+    cy.get('.login-form-wrap > .form-inputs > .turing-logo').should('be.visible')
     .get('.login-form-wrap > .form-inputs > form > h1').should('be.visible')
     .get('.login-form-wrap > .form-inputs > form > h1').should('contain', 'Please login')
 
