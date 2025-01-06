@@ -39,7 +39,7 @@ function NewJobApplication() {
   const [availableCompany, setAvailableCompany] = useState("");
   const [companies, setCompanies] = useState<Company[]>([]);
 
-  const selectedCompany = companies.find(company => company.id === availableCompany);
+  // const selectedCompany = companies.find(company => company.id === availableCompany);
 
   const statusMap: { [key: number]: string } = {
     1: 'Submitted',
@@ -61,7 +61,7 @@ function NewJobApplication() {
     const fetchCompanies = async () => {
       try {
         const apiURL = process.env.REACT_APP_BACKEND_API_URL;
-        const response = await fetch(`${apiURL}/api/v1/users/${userData.user.data.id}/companies`, {
+        const response = await fetch(`${apiURL}api/v1/users/${userData.user.data.id}/companies`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -92,17 +92,18 @@ function NewJobApplication() {
         position_title: positionTitle,
         date_applied: dateApplied,
         status: status,
-        company_id: availableCompany,
-        company_name: selectedCompany?.name || '',
         notes: notes,
         job_description: jobDescription,
         application_url: applicationURL,
-        contact_information: contactInformation
+        
+        company_id: availableCompany
+        // company_name: selectedCompany?.name || '',
       }
     };
 
     try {
-      const response = await fetch(`http://localhost:3001/api/v1/users/${userData.user.data.id}/job_applications`, {
+      const apiURL = process.env.REACT_APP_BACKEND_API_URL;
+      const response = await fetch(`${apiURL}api/v1/users/${userData.user.data.id}/job_applications`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -110,6 +111,7 @@ function NewJobApplication() {
         },
         body: JSON.stringify(newJobApplication)
       })
+
       if (!response.ok) {
         throw new Error('Failed to add job application');
       }
