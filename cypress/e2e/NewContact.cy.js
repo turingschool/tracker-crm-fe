@@ -57,7 +57,7 @@ describe("New Contacts page after logging in", () => {
     cy.get('.login-btn').click();
     cy.wait('@postUserInfo');
 
-    cy.get('[data-testid="PersonIcon"]').click();
+    cy.get('[data-testid="add-iconD"]').click();
     cy.url().should("include", "/contacts");
   });
 
