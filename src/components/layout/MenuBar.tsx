@@ -62,9 +62,9 @@ function MenuBar() {
             <HomeIcon data-testid="home-iconD" fontSize="large" />
           </NavLink>
 
-          {/* Profile */}
-          <NavLink className={linkClasses} to="/profile">
-            <PersonIcon data-testid="profile-iconD" fontSize="large" />
+          {/* Contacts */}
+          <NavLink className={linkClasses} to="/contacts">
+            <PersonIcon data-testid="contacts-iconD" fontSize="large" />
           </NavLink>
 
           {/* Companies */}
@@ -112,11 +112,11 @@ function MenuBar() {
           <HomeIcon data-testid="home-iconM" fontSize="large" />
           Home
           </NavLink>
-
-          {/* Profile */}
-          <NavLink className={linkClasses} to="/profile">
-          <PersonIcon data-testid="profile-iconM" fontSize="large" />
-          Profile
+          
+          {/* Contacts */}
+          <NavLink className={linkClasses} to="/contacts">
+          <PersonIcon data-testid="contacts-iconM" fontSize="large" />
+          Contacts
           </NavLink>
 
           {/* Companies */}
