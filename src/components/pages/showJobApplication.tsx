@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
- import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { showJobApp } from "../../trackerApiCalls";
+import { useUserLoggedContext } from "../../context/UserLoggedContext";
 
 interface Contact {
   id: number;
@@ -28,9 +29,10 @@ function JobApplication() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const userId = 1;
+  const {token, userData} = useUserLoggedContext()
+  const { user } = userData;
+  // const userId = 1;
   const { jobAppId } = useParams<{ jobAppId?: string }>();
-  const token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJyb2xlcyI6WyJ1c2VyIl0sImV4cCI6MTczNDc4ODMyNH0.mXYSxvpXOjPKGqygPNm1ydhkBg9H7pTP3Qwss4YV_so";
 
   const statusMap: { [key: number]: string } = {
     1: 'Submitted',
@@ -48,6 +50,9 @@ function JobApplication() {
   };
 
 
+  console.log(userData)
+  console.log(jobAppId)
+  
   useEffect(() => {
     if (jobAppId) {
       const fetchJobApplication = async () => {
@@ -57,7 +62,7 @@ function JobApplication() {
             throw new Error("Invalid jobAppId.");
           }
   
-          const data = await showJobApp(userId, id, token);
+          const data = await showJobApp(user.data.id, id, token);
           setJobApp(data.data.attributes as JobApplicationAttributes);
           console.log(jobApp)
         } catch (err) {

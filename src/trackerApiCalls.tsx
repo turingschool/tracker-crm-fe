@@ -26,7 +26,7 @@ export const getUser = async (userId: number) => {
 
 /*-----------------------------------// SHOW //--------------------------------------*/
 
-export const showJobApp = async (userId: number, jobAppId: number, token: string) => {
+export const showJobApp = async (userId: number, jobAppId: number, token: string | null) => {
   try {
     const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/job_applications/${jobAppId}`, {
       method: 'GET',
