@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import { fetchApplicationsData } from '../../apiCalls';
 import ClipLoader from "react-spinners/ClipLoader";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
@@ -37,13 +37,13 @@ const statusStyles: { [key: string]: string } = {
 const ApplicationsGrid: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const { token, userData } = useUserLoggedContext()
-  const { user } = userData;
+
   
  
   
 
   const fetcher = async (): Promise<JobApplication[]> => {
-    return await fetchApplicationsData(user.data.id, token!);
+    return await fetchApplicationsData(userData.user.data.id, token!);
   };
 
   const { data: applications, error, isLoading } = useSWR('applications', fetcher);
