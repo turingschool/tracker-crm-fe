@@ -58,6 +58,7 @@ function UserRegistration(): React.ReactElement {
       setPasswordConfirmation('');
       setErrorMessage(null);
       navigate('/');
+      console.log('loggedInUser', loggedInUser);
     } catch (error: any) {
       console.error('Error registering user: ', error);
       setErrorMessage(error.message || "Registration failed. Please try again.");
