@@ -1,24 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
-// import {statusMap, statusStyles} from '../JobApplications'
-
-// interface CompanyAttributes {
-//   id: number;
-//   name: string;
-//   website: string;
-//   street_address: string;
-//   city: string;
-//   state: string;
-//   zip_code: string;
-//   notes: string;
-// }
-
-// interface Company {
-//   id: number;
-//   type: string;
-//   attributes: CompanyAttributes;
-// }
 
 interface Company {
   id: string;
@@ -90,9 +72,10 @@ function NewJobApplication() {
     fetchCompanies();
   }, [userData.user.data.id, token]);
 
-  async function createJobApplication() {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     const newJobApplication = {
-      job_application: {
+      // job_application: {
         position_title: positionTitle,
         date_applied: dateApplied,
         status: status,
@@ -101,8 +84,7 @@ function NewJobApplication() {
         application_url: applicationURL,
         
         company_id: availableCompany
-        // company_name: selectedCompany?.name || '',
-      }
+      // }
     };
 
     try {
@@ -129,7 +111,7 @@ function NewJobApplication() {
     <div className='bg-white h-screen flex'>
       <div className='flex-1 p-5'>
         <h1 className="text-[2.5vw] font-[Helvetica Neue] font-semibold text-cyan-600">Add New Application</h1>
-        <form className="grid grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
 
           <div className='LEFT BLOCK'>
 
@@ -147,13 +129,13 @@ function NewJobApplication() {
             </label>
 
             {/* Company*/}
-
             <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
               <span className="font-semibold">Company:</span>
               <select
                 value={availableCompany || ""}
                 onChange={(e) => setAvailableCompany(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
+                required
               >
                 <option value="" className="text-gray-400">
                   Select a company (required)
@@ -165,8 +147,8 @@ function NewJobApplication() {
                 ))}
               </select>
             </label>
-
             <div className='flex flex-row' >
+
               {/* Date Applied */}
               <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[45%]">
                 <span className="font-semibold">Date Applied:</span>
@@ -175,6 +157,7 @@ function NewJobApplication() {
                   value={dateApplied}
                   onChange={(e) => setDateApplied(e.target.value)}
                   className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
+                  required
                 />
               </label>
 
@@ -251,10 +234,15 @@ function NewJobApplication() {
               />
             </label>
           </div>
-        </form>
         <div className='pt-4 pl-2'>
-          <button className="text-[1vw] font-[Helvetica Neue] text-white bg-cyan-600 pl-11 pr-11 p-3 rounded-md w-[15%] hover:bg-cyan-800" onClick={createJobApplication}>Save</button>
+          <button 
+          type="submit"
+          className="text-[1vw] font-[Helvetica Neue] text-white bg-cyan-600 pl-11 pr-11 p-3 rounded-md w-[15%] hover:bg-cyan-800" 
+          >
+            Save
+            </button>
         </div>
+      </form>
       </div>
     </div>
   )
