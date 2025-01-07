@@ -205,7 +205,7 @@ describe("View specific job app page", () => {
     cy.get("p.mb-6")
       .should("contain.text", "Status:")
       .within(() => {
-        cy.get("span").should("have.text", "Interviewing");
+        cy.get("span").should("have.text", "Interviewing");{/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
       });
   });
 

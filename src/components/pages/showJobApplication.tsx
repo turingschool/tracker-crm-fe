@@ -86,7 +86,7 @@ function JobApplication() {
                 {new Date(jobApp.date_applied).toLocaleDateString()}
               </span>
             </p>
-            <p className="mb-6">
+            <p className="mb-6">{/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
               Status:{" "}
               <span
                 className={`py-1 px-2 rounded ${statusStyles[statusMap[jobApp.status]]}`}
