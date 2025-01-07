@@ -40,9 +40,9 @@ function MenuBar() {
       : "m-auto text-gray-500 transform scale-125 transition-transform duration-150";
 
   return (
-    <div className='flex h-screen'>
+    <div className='flex h-screen pl-5'>
       {/* // Menu */}
-      <nav className='flex flex-col justify-items-center justify-evenly h-dvh w-28'>
+      <nav className='flex flex-col justify-items-center justify-evenly h-dvh'>
 
         {/* Open button for Slideout Menu */}
         <button className="flex items-center justify-items-center visible sm:invisible" onClick={toggleSideMenu}>
