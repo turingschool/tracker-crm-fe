@@ -35,7 +35,7 @@ function NewJobApplication() {
   const [notes, setNotes] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [applicationURL, setApplicationURL] = useState('');
-  const [contactInformation, setContactInformation] = useState('');
+  // const [contactInformation, setContactInformation] = useState('');
   const [availableCompany, setAvailableCompany] = useState("");
   const [companies, setCompanies] = useState<Company[]>([]);
 
@@ -213,7 +213,7 @@ function NewJobApplication() {
             </label>
 
             {/* Contact Information */}
-            <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
+            {/* <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
               <span className="font-semibold">Contact Information:</span>
               <input
                 type="text"
@@ -222,7 +222,7 @@ function NewJobApplication() {
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
                 placeholder='Contact info...'
               />
-            </label>
+            </label> */}
           </div>
 
           <div className='m-2'>
