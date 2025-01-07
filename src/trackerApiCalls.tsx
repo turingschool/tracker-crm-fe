@@ -28,7 +28,8 @@ export const getUser = async (userId: number) => {
 
 export const showJobApp = async (userId: number, jobAppId: number, token: string | null) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/job_applications/${jobAppId}`, {
+    const apiURL = process.env.REACT_APP_BACKEND_API_URL;
+    const response = await fetch(`${apiURL}api/v1/users/${userId}/job_applications/${jobAppId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
