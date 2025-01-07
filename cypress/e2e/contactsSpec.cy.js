@@ -34,7 +34,7 @@ describe("Contacts page", () => {
     cy.get('.login-btn').click();
     cy.wait('@postUserInfo');
 
-    cy.get('[data-testid="PersonIcon"]').click();
+    cy.get('[data-testid="contacts-iconD"]').click();
     cy.url().should("include", "/contacts");
   });
 
@@ -46,10 +46,10 @@ describe("Contacts page", () => {
   //   cy.get("input[type='search']").should("have.attr", "placeholder", "Search Contacts...");
   // });
 
-  // it("Should have a button with the text 'Add Contact +'", () => {
-  //   cy.contains("Add New").click();
-  //   cy.url().should("include", "/contacts/new");
-  // });
+  it("Should have a button with the text 'Add Contact +'", () => {
+    cy.get('a > .bg-cyan-600').click();
+    cy.url().should("include", "/contacts/new");
+  });
   
   // it("Should display the correct table headers", () => {
   //   cy.get("table").find("th").should("have.length", 3);
@@ -139,8 +139,8 @@ describe("Contacts page", () => {
 //     cy.get('.login-btn').click();
 //     cy.wait('@postUserInfo');
 
-//     cy.get('[data-testid="PersonIcon"]').click();
-//     cy.url().should("include", "/contacts");
+    cy.get('[data-testid="contacts-iconD"]').click();
+    cy.url().should("include", "/contacts");
   
 //     cy.get("table").find("th").should("have.length", 3);
 //     cy.get("table tbody tr").should("not.exist");
@@ -178,9 +178,9 @@ describe("Contacts page", () => {
 //     cy.get('.login-btn').click();
 //     cy.wait('@postUserInfo');
 
-//     cy.get('[data-testid="PersonIcon"]').click();
-//     cy.url().should("include", "/contacts");
-//   });
+    cy.get('[data-testid="contacts-iconD"]').click();
+    cy.url().should("include", "/contacts");
+  });
 
 //   it("Should have a header, search bar, add new button, and table header", () => {
 //     cy.get("h1").should("have.text", "Contacts");

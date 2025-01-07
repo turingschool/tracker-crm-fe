@@ -103,17 +103,13 @@ function Contacts( {userData}: UserInformationProps ) {
     const companyName = data.attributes.company?.name || "N/A";
     return (
       <tr key={data.id} className="even:bg-gray-50 hover:bg-gray-100">
-        <Link to={`/contacts/${data.id}`}>
-          <td className="p-4 border-b truncate max-w-[8vw]">
-            {data.attributes.first_name} {data.attributes.last_name}
-          </td>
-        </Link>
-        <td className="p-4 border-b truncate max-w-[8vw]">{companyName}</td>
+        <td className="p-4 border-b truncate max-w-[8vw]">{data.attributes.first_name} {data.attributes.last_name}</td>
         <td className="p-4 border-b truncate max-w-[8vw]">
-          {data.attributes.notes}
+          {companyName}
         </td>
+        <td className="p-4 border-b truncate max-w-[8vw]">{data.attributes.notes}</td>
       </tr>
-    );
+    )
   });
 
   return (
