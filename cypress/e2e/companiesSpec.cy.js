@@ -56,7 +56,7 @@ describe("Companies page after logging in", () => {
   });
 
   // Navigate to the companies page
-  cy.get('a[href="/companies"]').click();
+  cy.get('[data-testid="companies-iconD"]').click();
   cy.wait("@getCompanies");
 });
 
@@ -71,7 +71,7 @@ describe("Companies page after logging in", () => {
   });
 
   it("Should have a button with the text 'Add Company'", () => {
-    cy.contains("Add New").click();
+    cy.get('.bg-blue-500').click();
     cy.url().should("include", "/companies/new");
   });
 
@@ -154,7 +154,7 @@ describe("Companies page with no companies", () => {
     });
 
     // Navigate to the companies page
-    cy.get('a[href="/companies"]').click();
+    cy.get('[data-testid="companies-iconD"]').click();
     cy.wait("@getEmptyCompanies");
   });
 

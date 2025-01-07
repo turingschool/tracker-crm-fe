@@ -115,6 +115,37 @@ This is an example of how to list things you need to use the software and how to
   ```sh
   npm install npm@latest -g
   ```
+### Continuous Integration (CI)
+
+This project uses CircleCI for Continuous Integration (CI). To set up CircleCI for this repository:
+
+1. **Sign Up for CircleCI**:
+   - Visit [CircleCI](https://circleci.com/) and log in using your GitHub account.
+
+2. **Authorize CircleCI**:
+   - Allow CircleCI to access this repository.
+
+3. **Add the Configuration File**:
+   - Ensure the `.circleci/config.yml` file is present in the repository.
+   - The current configuration uses Cypress for testing:
+     ```yaml
+     version: 2.1
+     orbs:
+       cypress: cypress-io/cypress@3.1.1
+     workflows:
+       build:
+         jobs:
+           - cypress/run:
+               cypress-command: npx cypress run --headless
+               start-command: npm start
+     ```
+
+4. **Verify the CI Pipeline**:
+   - Push your changes to the `main` branch.
+   - Navigate to the CircleCI dashboard to confirm that tests run successfully.
+
+For more information, see the [CircleCI Documentation](https://circleci.com/docs/).
+
 
 ### Installation
 
@@ -174,6 +205,9 @@ When creating tables and forms, we'll be alternating between white and grey-100 
 
 `<input className='p-[1vh] border-2 border-slate-800 rounded w-[12vw] h-full' />`
 
+
+
+`<input className='p-[1vh] border-2 border-slate-800 rounded w-[12vw] h-full' />`
 
 
 For an example of what this might look like in practice, see below.
