@@ -114,27 +114,55 @@ function ShowContact() {
       {contact ? (
         <>
           <div className="w-[65%] pl-[3vw] mt-[1vh]">
-            <h1 data-testid="contact-name" className="text-[5vh] font-bold text-cyan-600 p-0">
+            <h1
+              data-testid="contact-name"
+              className="text-[5vh] font-bold text-cyan-600 p-0"
+            >
               {contact.attributes.first_name} {contact.attributes.last_name}
             </h1>
-            <h2 data-testid="company-name" className="text-[3.5vh] font-bold text-cyan-500 p-0">
+            <h2
+              data-testid="company-name"
+              className="text-[3.5vh] font-bold text-cyan-500 p-0"
+            >
               {contact.attributes.company.name}
             </h2>
             <div className="m-5">
               <p>
-                <span data-testid="contact-email" className="text=[1vh] font-bold">Email: </span>
-                <span data-testid="email-address">{contact.attributes.email}</span>
+                <span
+                  data-testid="contact-email"
+                  className="text=[1vh] font-bold"
+                >
+                  Email:{" "}
+                </span>
+                <span data-testid="email-address">
+                  {contact.attributes.email}
+                </span>
               </p>
               <p>
-                <span data-testid="contact-phone" className="text=[1vh] font-bold">Phone: </span>
-                <span data-testid="phone-num">{contact.attributes.phone_number}</span>
+                <span
+                  data-testid="contact-phone"
+                  className="text=[1vh] font-bold"
+                >
+                  Phone:{" "}
+                </span>
+                <span data-testid="phone-num">
+                  {contact.attributes.phone_number}
+                </span>
               </p>
             </div>
-            <h2 data-testid="notes" className="text=[4vh] font-bold text-cyan-500">Notes: </h2>
+            <h2
+              data-testid="notes"
+              className="text=[4vh] font-bold text-cyan-500"
+            >
+              Notes:{" "}
+            </h2>
             <p data-testid="note-text">{contact.attributes.notes}</p>
           </div>
           <div className="w-[35%] text-left pr-[3vw] mt-[2vh]">
-            <h2 data-testid="other-contacts" className="text-[3vh] inset-3 font-bold text-cyan-500 mb-[2vh]">
+            <h2
+              data-testid="other-contacts"
+              className="text-[3vh] inset-3 font-bold text-cyan-500 mb-[2vh]"
+            >
               Other contacts at {contact.attributes.company.name}
             </h2>
             <ul className="list-disc list-inside">

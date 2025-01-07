@@ -103,32 +103,105 @@ describe("Show a single contact page", () => {
     cy.url().should("include", "/contacts/1");
   });
 
-  // it("Should have a header of the contact's name", () => {
-  //   cy.wait("@get-contact-details");
-  //   cy.get('[data-testid="contact-name"]').should("have.text", "John Smith");
-  // });
+  it("Should have a header of the contact's name", () => {
+    cy.wait("@get-contact-details");
+    cy.get('[data-testid="contact-name"]').should("have.text", "John Smith");
+  });
 
-  // it("Should display the companies name", () => {
-  //   cy.wait("@get-contact-details");
-  //   cy.get('[data-testid="company-name"]').should("have.text", "Future Designs LLC");
-  // });
+  it("Should display the companies name", () => {
+    cy.wait("@get-contact-details");
+    cy.get('[data-testid="company-name"]').should("have.text", "Future Designs LLC");
+  });
 
-  // it("Should display the contact's email and phone number", () => {
-  //   cy.wait("@get-contact-details");
-  //   cy.get('[data-testid="contact-email"]').should("have.text", "Email: ");
-  //   cy.get('[data-testid="email-address"]').should("have.text", "123@example.com");
-  //   cy.get('[data-testid="contact-phone"]').should("have.text", "Phone: ");
-  //   cy.get('[data-testid="phone-num"]').should("have.text", "123-555-6789");
-  // });
+  it("Should display the contact's email and phone number", () => {
+    cy.wait("@get-contact-details");
+    cy.get('[data-testid="contact-email"]').should("have.text", "Email: ");
+    cy.get('[data-testid="email-address"]').should("have.text", "123@example.com");
+    cy.get('[data-testid="contact-phone"]').should("have.text", "Phone: ");
+    cy.get('[data-testid="phone-num"]').should("have.text", "123-555-6789");
+  });
 
-  // it("Should display a users notes", () => {
-  //   cy.wait("@get-contact-details");
-  //   cy.get('[data-testid="notes"]').should("have.text", "Notes: ");
-  //   cy.get('[data-testid="note-text"]').should("have.text", 'Detailed notes for John Smith');
-  // });
+  it("Should display a users notes", () => {
+    cy.wait("@get-contact-details");
+    cy.get('[data-testid="notes"]').should("have.text", "Notes: ");
+    cy.get('[data-testid="note-text"]').should("have.text", 'Detailed notes for John Smith');
+  });
 
   it("Should display other contacts that are at the same company", () => {
     cy.wait("@get-contact-details");
     cy.get('[data-testid="other-contacts"]').should("have.text", 'Other contacts at Future Designs LLC');
-  })
+  });
+});
+
+describe("Show a single contact page (Sad Path)", () => {
+  beforeEach(() => {
+    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
+      statusCode: 200,
+      body: {
+        token: "The token",
+        user: {
+          data: {
+            id: 2,
+            type: "user",
+            attributes: {
+              name: "Dolly Parton",
+              email: "dollyP@email.com",
+              companies: [],
+            },
+          },
+        },
+      },
+    }).as("postUserInfo");
+
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
+      statusCode: 500,
+      body: { message: "Internal server error" },
+      headers: {
+        Authorization: "Bearer The token",
+        "Content-Type": "application/json",
+      },
+    }).as("get-contact-details-error");
+
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts", {
+      statusCode: 200,
+      body: mockContactsData,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).as("get-contacts");
+
+    cy.intercept(
+      "GET",
+      "http://localhost:3001/api/v1/users/2/companies/1/contacts",
+      {
+        statusCode: 404,
+        body: { message: "No contacts found" },
+        headers: {
+          Authorization: "Bearer The token",
+          "Content-Type": "application/json",
+        },
+      }
+    ).as("get-company-contacts-not-found");
+
+    cy.visit("http://localhost:3000/");
+    cy.get("#email").type("dollyP@email.com");
+    cy.get("#password").type("Jolene123");
+    cy.get(".login-btn").click();
+    cy.wait("@postUserInfo");
+
+    cy.get('[data-testid="contacts-iconD"]').click();
+    cy.url().should("include", "/contacts");
+
+    cy.get("table tbody tr").first().find("a").click();
+    cy.url().should("include", "/contacts/1");
+  });
+
+  it("Should display an error message when the contact data fails to load", () => {
+    cy.wait("@get-contact-details-error");
+    cy.get(".error").should("be.visible");
+    cy.get(".error").should(
+      "have.text",
+      "Failed to fetch contact: Internal Server Error. Please try again later."
+    );
+  });
 });
