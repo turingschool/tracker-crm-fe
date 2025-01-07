@@ -1,0 +1,11 @@
+version: 2.1 # Use 2.1 to make use of orbs and other features
+orbs: # An orb is a reusable package of CircleCI configuration that you may share
+  # across projects, enabling you to create encapsulated, parameterized commands, jobs, and
+  # executors that can be used across multiple projects.
+  cypress: cypress-io/cypress@3.1.1
+workflows: # Workflows are a declarative way to orchestrate jobs and their run order.
+  build:
+    jobs:
+      - cypress/run: # Run the cypress/run job from the cypress orb
+          cypress-command: npx cypress run --headless # Run the cypress run command in headless mode
+          start-command: npm start
