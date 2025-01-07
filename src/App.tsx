@@ -1,4 +1,6 @@
 import './App.css';
+// import { useState } from 'react';
+// import { UserData } from './Interfaces'
 import LoginForm from './Login';
 import MenuBar from './components/layout/MenuBar';
 import { useUserLoggedContext } from './context/UserLoggedContext';
@@ -39,7 +41,7 @@ function App() {
         <Route
           path="/home"
           element={
-            <div>
+            <div className='flex flex-col ml-[10vw]'>
               <h1>Welcome, {userData.user.data.attributes.name}</h1>
               <button onClick={() => clearUserLogged()}>Log Out</button>
             </div>

@@ -1,4 +1,4 @@
-import { mockCompanies } from "../fixtures/mockCompanies.js";
+import { mockCompanies } from "../fixtures/mockCompanies";
 
 describe("New Company page after logging in", () => {
   let uniqueCompanyName = `Test Company ${Date.now()}`;
@@ -57,11 +57,11 @@ describe("New Company page after logging in", () => {
     cy.wait("@mockSession");
 
     // Navigate to the Companies page
-    cy.get('a[href="/companies"]').click();
+    cy.get('[data-testid="companies-iconD"]').click();
     cy.wait("@getCompanies");
 
     // Navigate to the New Company page
-    cy.contains("Add New").click();
+    cy.get('.bg-blue-500').click();
   });
 
   it("Should display the new company form", () => {

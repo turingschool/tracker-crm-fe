@@ -4,6 +4,7 @@ import { fetchCompanies, createCompany} from '../../trackerApiCalls';
 import { CompanyAttributes } from '../../Interfaces';
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 
+
 function NewCompany() {
   const navigate = useNavigate();
   const { token, userData} = useUserLoggedContext()
@@ -85,7 +86,8 @@ function NewCompany() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
+    <div className='flex flex-row'>
+    <div className="max-w-4xl w-10/12  m-auto p-12 justify-self-center bg-white border border-gray-200 rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-4">Add New Company</h1>
       {successMessage && (
         <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
@@ -228,6 +230,7 @@ function NewCompany() {
           {isLoading ? 'Saving...' : 'Save'}
         </button>
       </form>
+    </div>
     </div>
   );
 }
