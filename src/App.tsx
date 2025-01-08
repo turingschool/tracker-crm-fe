@@ -13,6 +13,8 @@ import NewCompany from './components/companies/NewCompany';
 import CompanyShow from './components/companies/CompanyShow';
 import ApplicationsGrid from './components/JobApplications/JobApplications';
 import ShowContact from './components/contacts/ShowContact';
+import JobApplication from './components/pages/showJobApplication';
+
 
 function App() {
   const { isLoggedIn, clearUserLogged, userData } = useUserLoggedContext()
@@ -40,6 +42,7 @@ function App() {
         <Route path="/contacts" element={<Contacts userData={userData}/>} />
         <Route path="/contacts/new" element={<NewContact userData={userData}/>} />
         <Route path="/job_applications" element={<ApplicationsGrid/>}/>
+        <Route path="/job_applications/:jobAppId" element={<JobApplication/>}/>
         <Route
           path="/userInformation"
           element={<UserInformation userData={userData} />}
