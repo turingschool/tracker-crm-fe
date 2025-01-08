@@ -1,7 +1,7 @@
 import { mockContactsData } from "../fixtures/mockContactsData";
 import { mockCompanies } from "../fixtures/mockCompanies";
 
-describe("Landing page after logging in spec", () => {
+describe("Menu Bar after logging in spec", () => {
   beforeEach(() => {
     cy.viewport(1280, 800);
 
@@ -49,7 +49,7 @@ describe("Landing page after logging in spec", () => {
     cy.wait("@postUserInfo");
   });
 
-  it("Should have images in the sidebar", () => {
+  it("Desktop Menu Bar(DMB) should have images in the sidebar", () => {
     cy.get('img[alt="Logo"]')
       .should("have.attr", "src")
       .should("include", "turing-logo-gray");
@@ -61,7 +61,10 @@ describe("Landing page after logging in spec", () => {
     cy.get('[href="/userInformation"] > .MuiSvgIcon-root').should("exist");
   });
 
-  it("Should have clickable links for each icon", () => {
+  it("DMB should have clickable links for each icon", () => {
+    cy.get('[data-testid="logo"]').click();
+    cy.url().should("include", "/");
+
     cy.get('[data-testid="home-iconD"]').click();
     cy.url().should("include", "/home");
 
@@ -78,41 +81,94 @@ describe("Landing page after logging in spec", () => {
     cy.url().should("include", "/userInformation");
   });
 
-  describe("DropDown Menu", () => {
+  it("DMB should toggle the desktop plus sign dropdown menu when the plus sign icon is clicked", () => {
+    cy.get('[data-testid="plus-iconD"]').click();
+    cy.get("ul.bg-cyan-600")
+      .should("have.class", "scale-100")
+      .and("be.visible");
+    cy.get('[data-testid="plus-iconD"]').click();
+    cy.get("ul.bg-cyan-600").should("have.class", "hidden");
+  });
+
+  it('DBM should close desktop plus sign dropdown after clicking a link', () => {
+   cy.get('[data-testid="plus-iconD"]').click();
+   cy.get('ul.bg-cyan-600').should('be.visible');
+
+   cy.contains('Add New Contact').click(); 
+   cy.url().should('include', '/contacts/new');
+
+   cy.get('ul.bg-cyan-600').should('not.be.visible');
+ });
+
+ it('should have the desktop dropdown closed by default', () => {
+  cy.viewport(1280, 800);
+  cy.get('ul.bg-cyan-600').should('not.be.visible'); 
+});
+
+it('should have the mobile menu hidden by default', () => {
+  cy.viewport('iphone-xr');
+  cy.get('nav.fixed').should('have.class', '-translate-x-full');
+});
+
+  describe("Mobile Slide-out Menu", () => {
     beforeEach(() => {
       cy.viewport("iphone-xr");
+      cy.get('[data-testid="menu-iconM"]').should("be.visible").click();
+      cy.get('[data-testid="slideout-menu"]').should("exist");
     });
 
-    it("has a container for dropdown elements", () => {
-      cy.get('[data-testid="menu-iconM"]').click();
-      cy.get(".bg-cyan-600").should("exist");
+    it("it should open and close the mobile slide-out menu(MSM)", () => {
+      cy.get('[data-testid="close-iconM"]').click();
+      cy.get('[data-testid="slideout-menu"]').should("not.be.visible");
     });
 
-    it("should render dropdown menu with link to add new contact", () => {
-      cy.get('[data-testid="menu-iconM"]').click();
-      cy.get(".bg-cyan-600").should("exist");
-      cy.get('[data-testid="newmenu-iconM"]').click();
+    it("MSM should have clickable links for home icon", () => {
+      cy.get('[data-testid="home-iconM"]').click();
+      cy.url().should("include", "/home");
+    });
+    it("MSM should have clickable links for contact icon", () => {
+      cy.get('[data-testid="contacts-iconM"]').click();
+      cy.url().should("include", "/contacts");
+    });
+    it("MSM should have clickable links for companies icon", () => {
+      cy.get('[data-testid="companies-iconM"]').click();
+      cy.url().should("include", "/companies");
+    });
+    it("MSM should have clickable links for job applications icon", () => {
+      cy.get('[data-testid="applications-iconM"]').click();
+      cy.url().should("include", "/job_applications");
+    });
+    it("MSM should have clickable links for user profile icon", () => {
+      cy.get('[data-testid="updateUser-iconM"]').click();
+      cy.url().should("include", "/userInformation");
+    });
+
+    it("MSM should render plus sign dropdown menu with link to add new contact", () => {
+      cy.get('[data-testid="plus-iconM"]').click();
       cy.contains("Add New Contact").should("exist");
       cy.get('[data-testid="newContactLink"]').click();
       cy.url().should("include", "/contacts/new");
     });
 
-    it("should render dropdown menu with link to add new company", () => {
-      cy.get('[data-testid="menu-iconM"]').click();
-      cy.get(".bg-cyan-600").should("exist");
-      cy.get('[data-testid="newmenu-iconM"]').click();
+    it("MSM should render plus sign dropdown menu with link to add new company", () => {
+      cy.get('[data-testid="plus-iconM"]').click();
       cy.contains("Add New Company").should("exist");
       cy.get('[data-testid="newCompanyLink"]').click();
       cy.url().should("include", "/companies/new");
     });
 
-    it("should render dropdown menu with link to add new job application", () => {
-      cy.get('[data-testid="menu-iconM"]').click();
-      cy.get(".bg-cyan-600").should("exist");
-      cy.get('[data-testid="newmenu-iconM"]').click();
+    it("MSM should render dropdown menu with link to add new job application", () => {
+      cy.get('[data-testid="plus-iconM"]').click();
       cy.contains("Add New Job Application").should("exist");
       cy.get('[data-testid="newAppLink"]').click();
       cy.url().should("include", "/jobapplications/new");
     });
+  });
+
+  it("Should have a quad-color-bar to the right of the nav bar", () => {
+    cy.get(".quad-color-bar > .bg-cyan-500").should("exist");
+    cy.get(".quad-color-bar > .bg-yellow-500").should("exist");
+    cy.get(".quad-color-bar > .bg-red-500").should("exist");
+    cy.get(".quad-color-bar > .bg-green-500").should("exist");
   });
 });
