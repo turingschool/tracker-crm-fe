@@ -1,26 +1,27 @@
 import {useUserLoggedContext} from "../../context/UserLoggedContext";
 import { fetchDashBoardData } from '../../apiCalls';
 import React, {useState,useEffect} from 'react'
-
+import {Link} from 'react-router-dom'
 export const DashBoard : React.FC = () => {
-const [dashData, setDashData] = useState([]);
+const [dashData, setDashData] = useState({});
 const {isLoggedIn, userData,token } = useUserLoggedContext()
 
 
-    useEffect(() => {
-            const dashDataFetcher = async () => {
-                try {
-                    const allData = await fetchDashBoardData(userData.user.data.id, token)
-                    setDashData(allData)
-                    return
-                } catch (error) {
-                    return error
-                }
-            };
-            dashDataFetcher()
-        }
 
-     ,[])
+    useEffect(()=>{
+        const dashDataFetcher = async () => {
+            try {
+                const allData = await fetchDashBoardData(userData.user.data.id, token)
+                return await setDashData(allData)
+
+            } catch (error) {
+                // return error
+            }
+        };
+        dashDataFetcher()
+
+    },[])
+
 
 console.log("MData",dashData)
 
@@ -35,19 +36,20 @@ console.log("MData",dashData)
                 <div className="bg-pink-500">
                     <label>Jobs</label>
                     <label>{`${dashData.job_applications.length}`}</label>
-                    <label></label>
+                    <label>Apps submitted this week</label>
                 </div>
 
                 <div className="bg-blue-700">
                     <label>Contacts</label>
-                    <label>{`${dashData.contacts.length}`}</label>
-                    <label></label>
+                    <label>{`${dashData.contacts}`}</label>
+                    <label>New connections this week</label>
                 </div>
 
                 <div className='bg-green-500'>
                     <label>Companies</label>
-                    <label>{`${dashData.companies.length}`}</label>
-                    <label></label>
+                    <label>{`${dashData.companies}`}</label>
+                    <Link to="/companies/new">Add new company</Link>
+
                 </div>
                 </div>
 
