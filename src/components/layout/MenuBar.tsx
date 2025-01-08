@@ -7,7 +7,7 @@ import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import ApartmentIcon from '@mui/icons-material/Apartment';
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+// import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -31,10 +31,12 @@ function MenuBar() {
 
   // A reusable function to create NavLink classes dynamically
  // A reusable function to create NavLink classes dynamically
-const linkClasses = ({ isActive }: { isActive: boolean }) =>
-  isActive
-    ? "m-auto text-cyan-800 mt-16 transform scale-150 transition-transform duration-150"
-    : "m-auto text-gray-500 mt-16 transform scale-125 transition-transform duration-150";
+  const linkClasses = ({ isActive }: { isActive: boolean }) =>
+    isActive
+      ? "m-auto text-cyan-800 mt-16 transform scale-150 transition-transform duration-150"
+      : "m-auto text-gray-500 mt-16 transform scale-125 transition-transform duration-150";
+
+  const hambergerClasses = "m-auto text-white"
 
   return (
     <div className="flex h-screen">
@@ -71,39 +73,38 @@ const linkClasses = ({ isActive }: { isActive: boolean }) =>
           <button className="flex items-center justify-items-center" onClick={toggleDropDown}>
             <AddCircleIcon
               fontSize="large"
-              className="m-auto text-gray-500 justify-items-center mt-20"
+              className="m-auto text-gray-500 justify-items-center mt-16"
             />
           </button>
           <ul
-            className={`bg-cyan-600 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform ${
-              isDropDownOpen ? 'scale-100 opacity-100 visible' : 'scale-95 opacity-0 invisible'
+            className={`bg-cyan-600 m-0 shadow-md rounded-md transition-all duration-700 ease-in-out transform ${
+              isDropDownOpen ? 'scale-100 opacity-100 visible' : 'hidden'
             }`}
           >
-            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
-              <Link to="/contacts/new">Create New Contact</Link>
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2">
+              <Link to="/contacts/new">Add New Contact</Link>
             </li>
-            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
-              <Link to="/companies/new">Create New Company</Link>
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2">
+              <Link to="/companies/new">Add New Company</Link>
             </li>
-            <li className="p-2 hover:bg-gray-100 rounded text-center font-[Helvetica Neue]">
-              <Link to="/jobapplications/new">Create New Job Application</Link>
+            <li className="p-2 hover:bg-gray-100 rounded text-center">
+              <Link to="/jobapplications/new">Add New Job Application</Link>
             </li>
           </ul>
+        </div>
         {/* Account */}
         <NavLink
           to="/userInformation"
           className={({ isActive }) =>
             isActive
-              ? "m-auto mb-10 rounded-full text-cyan-800 transform scale-150"
-              : "m-auto mb-10 rounded-full text-gray-500 transform scale-100"
+              ? "m-auto mt-32 rounded-full text-cyan-800 transform scale-150"
+              : "m-auto mt-32 rounded-full text-gray-500 transform scale-100"
           }
+          // className={linkClasses}
           data-testid="update-user"
         >
           <AccountCircleIcon data-testid="updateUser-iconD" fontSize="large" />
         </NavLink>
-        </div>
-
-
       </nav>
 
       {/* -- MOBILE HAMBURGER (shown on small screens only) -- */}
@@ -117,7 +118,7 @@ const linkClasses = ({ isActive }: { isActive: boolean }) =>
       {/* -- MOBILE SLIDE-OUT MENU (fixed) -- */}
       <nav
         className={
-          "fixed top-0 left-0 z-10 bg-[#046576] w-64 h-screen transition-all duration-500 " +
+          "fixed flex flex-col top-0 left-0 z-10 bg-[#046576] w-64 h-screen transition-all duration-500 " +
           (sideMenuOpen ? "-translate-x-full" : "translate-x-0")
         }
       >
@@ -126,86 +127,88 @@ const linkClasses = ({ isActive }: { isActive: boolean }) =>
         </button>
 
         {/* Logo */}
-        <Link className="block text-center my-4" to="/">
+        <Link className="block text-center my-4" to="/" onClick={toggleSideMenu}>
           <img className="mx-auto w-1/2" src={logo} alt="Logo" />
         </Link>
 
         {/* Home */}
-        <NavLink className={linkClasses} to="/home" data-testid="home-iconM">
-          <HomeIcon fontSize="large" />
-          Home
+        <NavLink className={hambergerClasses} to="/home" data-testid="home-iconM" onClick={toggleSideMenu}>
+          <HomeIcon fontSize="large"/>
+          {/* Home */}
         </NavLink>
 
         {/* Contacts */}
-        <NavLink className={linkClasses} to="/contacts" data-testid="contacts-iconM">
+        <NavLink className={hambergerClasses} to="/contacts" data-testid="contacts-iconM" onClick={toggleSideMenu}>
           <PersonIcon fontSize="large" />
-          Contacts
+          {/* Contacts */}
         </NavLink>
 
         {/* Companies */}
-        <NavLink className={linkClasses} to="/companies" data-testid="companies-iconM">
+        <NavLink className={hambergerClasses} to="/companies" data-testid="companies-iconM" onClick={toggleSideMenu}>
           <ApartmentIcon fontSize="large" />
-          Companies
+          {/* Companies */}
         </NavLink>
 
         {/* Job Applications */}
-        <NavLink className={linkClasses} to="/job_applications" data-testid="applications-iconM">
+        <NavLink className={hambergerClasses} to="/job_applications" data-testid="applications-iconM" onClick={toggleSideMenu}>
           <DescriptionIcon fontSize="large" />
-          Job Applications
-        </NavLink>
-
-        {/* Add New (Mobile) */}
-        <NavLink className={linkClasses} to="/add-new" data-testid="add-iconM">
-          <PersonAddAlt1Icon fontSize="large" />
-          Add New Contact
-        </NavLink>
-
-        {/* Account */}
-        <NavLink
-          to="/userInformation"
-          className={({ isActive }) =>
-            isActive
-              ? "m-auto rounded-full text-cyan-500 transform scale-150"
-              : "m-auto rounded-full text-white transform scale-100"
-          }
-          data-testid="update-userM"
-        >
-          <AccountCircleIcon data-testid="updateUser-iconM" fontSize="large" />
-          User Information
+          {/* Job Applications */}
         </NavLink>
 
         {/* Drop Down Shortcut Menu (Mobile) */}
         <div className="flex mt-auto flex-col items-center justify-center relative text-white">
           <button className="flex items-center justify-items-center m-4" onClick={toggleDropDown}>
             <AddCircleIcon data-testid="newmenu-iconM" fontSize="large" className="m-auto" />
-            Create New...
+            {/* Create New... */}
           </button>
           <ul
-            className={`bg-cyan-600 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform ${
+            className={`bg-cyan-500 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform ${
               isDropDownOpen ? 'scale-100 opacity-100 visible' : 'scale-95 opacity-0 invisible'
             }`}
           >
-            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 hover:text-black" onClick={() => {
+                toggleSideMenu();
+                toggleDropDown();
+              }}
+              >
               <Link data-testid="newContactLink" to="/contacts/new">Create New Contact</Link>
             </li>
-            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 hover:text-black" onClick={() => {
+                toggleSideMenu();
+                toggleDropDown();
+              }}
+              >
               <Link data-testid="newCompanyLink" to="/companies/new">Create New Company</Link>
             </li>
-            <li className="p-2 hover:bg-gray-100 rounded text-center font-[Helvetica Neue]">
+            <li className="p-2 hover:bg-gray-100 rounded text-center hover:text-black" onClick={() => {
+                toggleSideMenu();
+                toggleDropDown();
+              }}
+              >
               <Link data-testid="newAppLink" to="/jobapplications/new">Create New Job Application</Link>
             </li>
           </ul>
         </div>
 
+        {/* Account */}
+        <NavLink
+          to="/userInformation"
+          className="m-auto text-white mb-14"
+          data-testid="update-userM"
+        >
+          <AccountCircleIcon data-testid="updateUser-iconM" fontSize="large" />
+          {/* User Information */}
+        </NavLink>
+
         {/* Update Profile (Mobile) - optional if you want a second link */}
-        <Link
+        {/* <Link
           to="/userInformation"
           className="m-auto mt-[10vh] text-[2.5vw] cursor-pointer text-white rounded-full text-center block"
           data-testid="update-userM"
         >
           <AccountCircleIcon fontSize="large" className="m-auto w-1/5 rounded-full bg-cyan-500 text-white" />
           Update Profile
-        </Link>
+        </Link> */}
       </nav>
 
       {/* -- QUAD COLOR BAR, now next to the nav in the flex layout -- */}
