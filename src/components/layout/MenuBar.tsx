@@ -186,7 +186,7 @@ const linkClasses = ({ isActive }: { isActive: boolean }) =>
             }`}
           >
             <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
-              <Link data-testid="newContactLink" to="/newContact">Create New Contact</Link>
+              <Link data-testid="newContactLink" to="/contacts/new">Create New Contact</Link>
             </li>
             <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 font-[Helvetica Neue]">
               <Link data-testid="newCompanyLink" to="/companies/new">Create New Company</Link>
