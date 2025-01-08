@@ -118,6 +118,7 @@ function NewJobApplication() {
               <span className="font-semibold">Position Title:</span>
               <input
                 type="text"
+                id="positionTitle"
                 value={positionTitle}
                 onChange={(e) => setPositionTitle(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
@@ -131,6 +132,7 @@ function NewJobApplication() {
               <span className="font-semibold">Company:</span>
               <select
                 value={availableCompany || ""}
+                id="company"
                 onChange={(e) => setAvailableCompany(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
                 required
@@ -152,6 +154,7 @@ function NewJobApplication() {
                 <span className="font-semibold">Date Applied:</span>
                 <input
                   type="date"
+                  id="dateApplied"
                   value={dateApplied}
                   onChange={(e) => setDateApplied(e.target.value)}
                   className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
@@ -164,6 +167,7 @@ function NewJobApplication() {
                 <span className="font-semibold">Application Status:</span>
                 <select
                   value={status}
+                  id="appStatus"
                   onChange={(e) => setStatus(Number(e.target.value))}
                   className={`p-2 border-4 rounded-lg focus:outline-none focus:ring-2 m-2 ${statusMap[status] ? statusStyles[statusMap[status]] : ''
                     }`}
@@ -185,6 +189,7 @@ function NewJobApplication() {
               <span className="font-semibold">Job Description:</span>
               <textarea
                 value={jobDescription}
+                id="jobDescription"
                 onChange={(e) => setJobDescription(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2  m-2"
                 placeholder='Job Description is required'
@@ -213,6 +218,7 @@ function NewJobApplication() {
               <span className="font-semibold">Application URL:</span>
               <input
                 type="url"
+                id="appURL"
                 value={applicationURL}
                 onChange={(e) => setApplicationURL(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2 w-[90%]"
@@ -225,6 +231,7 @@ function NewJobApplication() {
               <span className="font-semibold">Notes:</span>
               <textarea
                 value={notes}
+                id="notes"
                 onChange={(e) => setNotes(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 w-[90%] m-2"
                 rows={15}
