@@ -115,6 +115,37 @@ This is an example of how to list things you need to use the software and how to
   ```sh
   npm install npm@latest -g
   ```
+### Continuous Integration (CI)
+
+This project uses CircleCI for Continuous Integration (CI). To set up CircleCI for this repository:
+
+1. **Sign Up for CircleCI**:
+   - Visit [CircleCI](https://circleci.com/) and log in using your GitHub account.
+
+2. **Authorize CircleCI**:
+   - Allow CircleCI to access this repository.
+
+3. **Add the Configuration File**:
+   - Ensure the `.circleci/config.yml` file is present in the repository.
+   - The current configuration uses Cypress for testing:
+     ```yaml
+     version: 2.1
+     orbs:
+       cypress: cypress-io/cypress@3.1.1
+     workflows:
+       build:
+         jobs:
+           - cypress/run:
+               cypress-command: npx cypress run --headless
+               start-command: npm start
+     ```
+
+4. **Verify the CI Pipeline**:
+   - Push your changes to the `main` branch.
+   - Navigate to the CircleCI dashboard to confirm that tests run successfully.
+
+For more information, see the [CircleCI Documentation](https://circleci.com/docs/).
+
 
 ### Installation
 
@@ -174,6 +205,9 @@ When creating tables and forms, we'll be alternating between white and grey-100 
 
 `<input className='p-[1vh] border-2 border-slate-800 rounded w-[12vw] h-full' />`
 
+
+
+`<input className='p-[1vh] border-2 border-slate-800 rounded w-[12vw] h-full' />`
 
 
 For an example of what this might look like in practice, see below.
@@ -453,23 +487,26 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1 - Login
-- [ ] Feature 2 - Home
-- [ ] Feature 3 - Companies
+### Feature 1 - Login
+### Feature 2 - Home
+
+### Feature 3 - Companies
 
 The Companies section allows users to seamlessly manage a list of their companies. 
 
-Key functionalities include:
-	•	View All Companies: Browse a comprehensive list of companies with detailed information such as company name, application status, and notes.
-	•	Create a Company: Add new companies by filling out a simple form with fields like name, website, address, and notes.
-	•	Search for a Company: Use the search bar to quickly find companies by name, enhancing efficiency and user experience.
+Key Functionalities Include:
+
+- View All Companies:
+Browse a comprehensive list of companies with detailed information such as company name, application status, and notes.
+- View Company Details:
+Click on a company to see detailed information on a dedicated page, including the company’s name, website, address, and notes. The details page also displays a list of associated contacts, making it easier to manage relationships and connections.
+- Create a Company:
+Add new companies by filling out a simple form with fields like name, website, address, and notes.
+- Search for a Company:
+Use the search bar to quickly find companies by name, enhancing efficiency and user experience.
 
 ![Companies Section Demo](/tracker-crm-fe/public/assets/companies.gif)
 
-- [ ] Feature 4
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -499,17 +536,27 @@ FORMAT: lastname, firstname
   - linkedin link
   -->
 
+**Cirbo, Candice**
+   - [Github](https://github.com/ccirbo)
+   - [LinkedIn](https://www.linkedin.com/in/candicecirbo/)
+
+**De La Rosa, Melchor**   
+   - [Github](https://github.com/MDelarosa1993)
+   - [LinkedIn](https://www.linkedin.com/in/melchordelarosa/)
+
 **Chirchirillo, Joe**
    - [Github](https://github.com/jchirch)
    - [LinkedIn](https://www.linkedin.com/in/joechirchirillo/)
+
+**Macur, Jim**
+   - [Github](https://github.com/jimmacur)
+   - [LinkedIn](https://www.linkedin.com/in/jimmacur/)
 
 **Messersmith, Renee**
    - [Github](https://github.com/reneemes)
    - [LinkedIn](https://www.linkedin.com/in/reneehessersmith/)
 
-**Cirbo, Candice**
-   - [Github](https://github.com/ccirbo)
-   - [LinkedIn](https://www.linkedin.com/in/candicecirbo/)
+
 
 <!-- LICENSE -->
 ## License
@@ -519,24 +566,8 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
-
-Project Link: [Tracker](https://github.com/turingschool/tracker-crm-fe)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
-
-* []()
-* []()
-* []()
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
