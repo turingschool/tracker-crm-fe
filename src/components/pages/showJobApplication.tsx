@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { showJobApp } from "../../trackerApiCalls";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 
@@ -34,12 +34,16 @@ function JobApplication() {
   const { jobAppId } = useParams<{ jobAppId?: string }>();
 
   const statusMap: { [key: number]: string } = {
-    1: "Submitted",
-    2: "Interviewing",
-    3: "Offer",
-    4: "Rejected",
-    5: "Phone Screen",
+    1: 'Submitted',
+    2: 'Interviewing',
+    3: 'Offer',
+    4: 'Rejected',
+    5: 'Phone Screen',
+    6: 'Code Challenge',
+    7: 'Not Yet Applied',
   };
+
+
   const statusStyles: { [key: string]: string } = {
     Submitted: "bg-yellow-200 text-yellow-800",
     Interviewing: "bg-green-200 text-green-800",
@@ -88,14 +92,14 @@ function JobApplication() {
             </p>
             <p className="mb-6">{/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
               Status:{" "}
-              <span
-                className={`py-1 px-2 rounded ${statusStyles[statusMap[jobApp.status]]}`}
-              >
+              <span className={`py-1 px-2 rounded ${statusStyles[statusMap[jobApp.status]]}`} >
                 {statusMap[jobApp.status]}
               </span>
             </p>
             <h3 className="text-cyan-600 text-2xl mb-4">Notes</h3>
-            <p className="mb-8">{jobApp.notes}</p>
+            <p className={`mb-8 ${jobApp.notes ? "" : "text-cyan-500"}`}>
+              {jobApp.notes ? jobApp.notes : "Click edit to add some notes."}
+            </p>
             <button className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded">{/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
               Edit
             </button>
@@ -129,13 +133,22 @@ function JobApplication() {
                 My Contacts at {jobApp.company_name}
               </h2>
               <ul>
-                {jobApp.contacts.map((contact) => (
-                  <li key={contact.id} className="mb-4">{/* REFACTOR AWAITING CONTACT SHOW ROUTE */}
-                    <p className="text-cyan-500 font-semibold">
-                      {contact.first_name} {contact.last_name}
-                    </p>
-                  </li>
-                ))}
+                {jobApp.contacts.length > 0 ? (
+                  jobApp.contacts.map((contact) => (
+                    <li key={contact.id} className="mb-4">{/* REFACTOR AWAITING CONTACT SHOW ROUTE */}
+                      <p className="text-cyan-500 font-semibold">
+                        {contact.first_name} {contact.last_name}
+                      </p>
+                    </li>
+                  ))
+                  ) : (
+                    <Link to="/contacts/new">
+                      <p className="text-cyan-500 underline font-semibold hover:text-cyan-600">
+                        Add a new contact
+                      </p>
+                    </Link>
+                  )
+                }
               </ul>
             </div>
           </section>
