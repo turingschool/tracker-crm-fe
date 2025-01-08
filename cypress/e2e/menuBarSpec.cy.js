@@ -65,20 +65,29 @@ describe("Menu Bar after logging in spec", () => {
     cy.get('[data-testid="logo"]').click();
     cy.url().should("include", "/");
 
-    cy.get('[data-testid="home-iconD"]').click();
+    // Home is active upon login
+    cy.get('[data-testid="home-iconD"]').should('have.class', 'text-cyan-800').click();
     cy.url().should("include", "/home");
+    cy.get('[data-testid="home-iconD"]').should('have.class', 'text-cyan-800');
 
-    cy.get('[data-testid="contacts-iconD"]').click();
+    cy.get('[data-testid="contacts-iconD"]').should('have.class', 'text-gray-500').click();
     cy.url().should("include", "/contacts");
+    cy.get('[data-testid="contacts-iconD"]').should('have.class', 'text-cyan-800')
 
-    cy.get('[data-testid="companies-iconD"]').click();
+    // Home is active upon login
+    cy.get('[data-testid="home-iconD"]').should('have.class', 'text-gray-500');
+
+    cy.get('[data-testid="companies-iconD"]').should('have.class', 'text-gray-500').click();
     cy.url().should("include", "/companies");
+    cy.get('[data-testid="companies-iconD"]').should('have.class', 'text-cyan-800')
 
-    cy.get('[data-testid="applications-iconD"]').click();
+    cy.get('[data-testid="applications-iconD"]').should('have.class', 'text-gray-500').click();
     cy.url().should("include", "/job_applications");
-
-    cy.get('[data-testid="updateUser-iconD"]').click();
+    cy.get('[data-testid="applications-iconD"]').should('have.class', 'text-cyan-800')
+    
+    cy.get('[data-testid="update-user"]').should('have.class', 'text-gray-500').click();
     cy.url().should("include", "/userInformation");
+    cy.get('[data-testid="update-user"]').should('have.class', 'text-cyan-800')
   });
 
   it("DMB should toggle the desktop plus sign dropdown menu when the plus sign icon is clicked", () => {
