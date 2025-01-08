@@ -2,6 +2,7 @@ import { mockCompanies } from "../fixtures/mockCompanies";
 
 describe("New Company page after logging in", () => {
   let uniqueCompanyName = `Test Company ${Date.now()}`;
+  const userId = 2;
 
   beforeEach(() => {
     // Intercept the login POST request
@@ -11,7 +12,7 @@ describe("New Company page after logging in", () => {
         token: "fake-token",
         user: {
           data: {
-            id: 2,
+            id: userId,
             type: "user",
             attributes: {
               name: "Test User",
@@ -24,13 +25,21 @@ describe("New Company page after logging in", () => {
     }).as("mockSession");
 
     // Intercept the GET request to fetch companies
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies", {
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/companies`, {
       statusCode: 200,
       body: mockCompanies,
     }).as("getCompanies");
 
+    // Intercept the GET request to fetch job applications
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/job_applications`,{
+      statusCode: 200,
+      body: {
+        data: [],
+      },
+    });
+
     // Intercept the POST request to create a new company
-    cy.intercept("POST", "http://localhost:3001/api/v1/users/2/companies", {
+    cy.intercept("POST", `http://localhost:3001/api/v1/users/${userId}/companies`, {
       statusCode: 201,
       body: {
         data: {
@@ -79,6 +88,15 @@ describe("New Company page after logging in", () => {
     cy.get("label").contains("Notes:").should("exist");
   });
 
+  it("Should display correct placeholder text in all input fields", () => {
+    cy.get("#companyName").should("have.attr", "placeholder", "Company Name");
+    cy.get("#website").should("have.attr", "placeholder", "https://example.com");
+    cy.get("#streetAddress").should("have.attr", "placeholder", "123 Main St");
+    cy.get("#city").should("have.attr", "placeholder", "City");
+    cy.get("#zipCode").should("have.attr", "placeholder", "12345");
+    cy.get("textarea").should("have.attr", "placeholder", "Notes about the company");
+  });
+
   it("Should allow input in all form fields", () => {
     cy.get("#companyName").type(uniqueCompanyName).should("have.value", uniqueCompanyName);
     cy.get("#website").type("www.testcompany.com").should("have.value", "www.testcompany.com");
@@ -92,10 +110,15 @@ describe("New Company page after logging in", () => {
   it("Should require mandatory fields", () => {
     cy.get('button[type="submit"]').click();
     cy.get("#companyName:invalid").should("exist");
-    cy.get("#streetAddress:invalid").should("exist");
-    cy.get("#city:invalid").should("exist");
-    cy.get("select:invalid").should("exist");
-    cy.get("#zipCode:invalid").should("exist");
+  });
+
+  it("should allow submission with only the company name filled in", () => {
+    cy.get("#companyName").type(uniqueCompanyName);
+    cy.get('button[type="submit"]').click();
+
+    cy.wait("@addCompany");
+    cy.get(".bg-green-100").should("contain.text", "Company added successfully!");
+    cy.url().should("include", "/companies");
   });
 
   it("Should show error for duplicate company name", () => {

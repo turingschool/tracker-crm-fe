@@ -4,7 +4,6 @@ import { Company } from "../../Interfaces";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { fetchCompanies } from "../../trackerApiCalls";
 
-
 function Companies() {
   const [companies, setCompanies] = useState<Company[] | null>([]); 
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,7 +17,6 @@ function Companies() {
     const getCompanies = async () => {
       try {
         const companies = await fetchCompanies(userData.user.data.id, token!);
-        console.log("fetched companies", companies)
         setCompanies(companies);
         setFilteredCompanies(companies);
       } catch (error) {
@@ -74,7 +72,6 @@ function Companies() {
             <thead className="bg-gray-200">
               <tr>
                 <th className="text-left p-4 border-b">Company Name</th>
-                <th className="text-left p-4 border-b">Application Status</th>
                 <th className="text-left p-4 border-b">Notes</th>
               </tr>
             </thead>
@@ -86,7 +83,6 @@ function Companies() {
                 onClick={() => navigate(`/companies/${company.id}/contacts`)}
                 >
                 <td className="p-4 border-b">{company.attributes.name}</td>
-                <td className="p-4 border-b">Not Applied Yet</td>
                 <td className="p-4 border-b">{company.attributes.notes}</td>
               </tr>
             ))}

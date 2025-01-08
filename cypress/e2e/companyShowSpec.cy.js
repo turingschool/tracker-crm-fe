@@ -1,6 +1,8 @@
 import { mockCompanies } from "../fixtures/mockCompanies.js";
 
 describe("Company Show Page", () => {
+  const userId = 2;
+  
   beforeEach(() => {
     // Intercept the login POST request
     cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
@@ -9,7 +11,7 @@ describe("Company Show Page", () => {
         token: "fake-token",
         user: {
           data: {
-            id: 2,
+            id: userId,
             type: "user",
             attributes: {
               name: "Test User",
@@ -36,10 +38,38 @@ describe("Company Show Page", () => {
           },
         },
       },
+      contacts: {
+        data: [
+          {
+            id: "101", // Change to string to match interface
+            type: "contact", // Add type field
+            attributes: {
+              first_name: "John",
+              last_name: "Doe",
+              email: "johndoe@example.com",
+              phone_number: "555-1234", // Changed from phone to phone_number
+              notes: "",
+              user_id: userId
+            },
+          },
+          {
+            id: "102",
+            type: "contact",
+            attributes: {
+              first_name: "Jane",
+              last_name: "Smith",
+              email: "janesmith@example.com",
+              phone_number: "555-5678",
+              notes: "",
+              user_id: userId
+            },
+          },
+        ],
+      },
     };
 
     // Intercept the GET request to fetch companies list
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies", {
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/companies`, {
       statusCode: 200,
       body: mockCompanies,
       headers: {
@@ -48,35 +78,28 @@ describe("Company Show Page", () => {
       },
     }).as("getCompanies");
 
+    // Intercept the GET request to fetch job applications
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/job_applications`,{
+      statusCode: 200,
+      body: {
+        data: [],
+      },
+    })
+
     // Intercept the GET request to fetch company details with Authorization header
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies/1/contacts", {
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/companies/1/contacts`, {
       statusCode: 200,
       body: mockCompany,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer fake-token",
-      },
     }).as("getCompany");
 
     // Visit the login page and perform login
-    cy.visit("http://localhost:3000/");
+    cy.visit("/");
     cy.get("#email").type("danny_de@email.com");
     cy.get("#password").type("jerseyMikesRox7");
     cy.get('[data-testid="login-button"]').click();
     cy.wait("@mockSession");
-
-    // Store the token in localStorage
-    cy.window().then((win) => {
-      win.localStorage.setItem("token", "fake-token");
-    });
-
-    // Navigate to the Companies page
-    cy.get('[data-testid="companies-iconD"]').click();
+    cy.get('a[href="/companies"]').first().click();
     cy.wait("@getCompanies");
-
-    cy.log("Navigating to the company details page");
-
-    // Click on the first company in the table (assuming it's "Google")
     cy.get("table tbody tr").first().click();
     cy.wait("@getCompany");
   });
@@ -110,12 +133,17 @@ describe("Company Show Page", () => {
       });
   });
 
-  it("Should display the contacts correctly", () => {
-    cy.get("h2").contains("Contacts").should("exist");
+  it("Should display the dynamic contacts correctly", () => {
+    cy.contains("Contacts").should("exist");
 
-    cy.contains("John Doe").should("have.attr", "href", "/contacts/101");
-    cy.contains("Jane Smith").should("have.attr", "href", "/contacts/102");
-    cy.contains("Alice Johnson").should("have.attr", "href", "/contacts/103");
+    const contacts = [
+      { name: "John Doe", link: "/contacts/101" },
+      { name: "Jane Smith", link: "/contacts/102" },
+    ];
+
+    contacts.forEach((contact) => {
+      cy.contains(contact.name).should("have.attr", "href", contact.link);
+    });
   });
 
   it("Should navigate to the correct contact detail page when a contact is clicked", () => {
@@ -126,11 +154,6 @@ describe("Company Show Page", () => {
 
     cy.contains("Jane Smith").click();
     cy.url().should("include", "/contacts/102");
-
-    cy.go("back");
-
-    cy.contains("Alice Johnson").click();
-    cy.url().should("include", "/contacts/103");
   });
 
   it("Should navigate back to the companies page when clicking 'Back to Companies'", () => {

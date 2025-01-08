@@ -43,7 +43,6 @@ function NewCompany() {
       return;
     }
   
-    // Check for duplicate company name
     const isDuplicate = existingCompanies.some(
       (company) => company.attributes.name.toLowerCase() === name.trim().toLowerCase()
     );
@@ -101,6 +100,7 @@ function NewCompany() {
             type="text"
             id="companyName"
             value={name}
+            placeholder="Company Name"
             onChange={(e) => setName(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
@@ -114,6 +114,7 @@ function NewCompany() {
             type="text"
             id="website"
             value={website}
+            placeholder="https://example.com"
             onChange={(e) => setWebsite(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -124,9 +125,9 @@ function NewCompany() {
             type="text"
             id="streetAddress"
             value={streetAddress}
+            placeholder="123 Main St"
             onChange={(e) => setStreetAddress(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
           />
         </div>
         <div className="flex flex-col">
@@ -135,9 +136,9 @@ function NewCompany() {
             type="text"
             id="city"
             value={city}
+            placeholder="City"
             onChange={(e) => setCity(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
           />
         </div>
         <div className="flex flex-col">
@@ -146,7 +147,6 @@ function NewCompany() {
             value={state}
             onChange={(e) => setState(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
           >
             <option value="">Select State</option>
             <option value="AL">Alabama</option>
@@ -207,15 +207,16 @@ function NewCompany() {
             type="text"
             id="zipCode"
             value={zipCode}
+            placeholder="12345"
             onChange={(e) => setZipCode(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            required
           />
         </div>
         <div className="flex flex-col">
           <label className="mb-2 text-gray-700">Notes:</label>
           <textarea
             value={notes}
+            placeholder='Notes about the company'
             onChange={(e) => setNotes(e.target.value)}
             className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
