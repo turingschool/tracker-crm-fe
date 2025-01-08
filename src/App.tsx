@@ -5,6 +5,7 @@ import LoginForm from './Login';
 import MenuBar from './components/layout/MenuBar';
 import { useUserLoggedContext } from './context/UserLoggedContext';
 import UserInformation from './components/pages/userInformation';
+import UserRegistration from './components/UserRegistration';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Contacts from './components/contacts/Contacts';
 import NewContact from './components/contacts/NewContact';
@@ -12,6 +13,7 @@ import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
 import CompanyShow from './components/companies/CompanyShow';
 import ApplicationsGrid from './components/JobApplications/JobApplications';
+import JobApplication from './components/pages/showJobApplication';
 
 function App() {
   const { isLoggedIn, clearUserLogged, userData } = useUserLoggedContext()
@@ -53,11 +55,13 @@ function App() {
         <Route path="/contacts" element={<Contacts userData={userData}/>} />
         <Route path="/contacts/new" element={<NewContact userData={userData}/>} />
         <Route path="/job_applications" element={<ApplicationsGrid/>}/>
+        <Route path="/job_applications/:jobAppId" element={<JobApplication/>}/>
         <Route
           path="/userInformation"
           element={<UserInformation userData={userData} />}
         />
       </Route>
+      <Route path="/UserRegistration" element={<UserRegistration/>}/>
     </Routes>
   );
 }
