@@ -34,7 +34,7 @@ describe("Contacts page", () => {
     cy.get('.login-btn').click();
     cy.wait('@postUserInfo');
 
-    cy.get('[data-testid="PersonIcon"]').click();
+    cy.get('[data-testid="contacts-iconD"]').click();
     cy.url().should("include", "/contacts");
   });
 
@@ -47,7 +47,7 @@ describe("Contacts page", () => {
   });
 
   it("Should have a button with the text 'Add Contact +'", () => {
-    cy.contains("Add New").click();
+    cy.get('a > .bg-cyan-600').click();
     cy.url().should("include", "/contacts/new");
   });
   
@@ -135,7 +135,7 @@ describe("Contacts Page - No contacts", () => {
     cy.get('.login-btn').click();
     cy.wait('@postUserInfo');
 
-    cy.get('[data-testid="PersonIcon"]').click();
+    cy.get('[data-testid="contacts-iconD"]').click();
     cy.url().should("include", "/contacts");
   
     cy.get("table").find("th").should("have.length", 3);
@@ -174,7 +174,7 @@ describe("Sad Paths - Contacts Page", () => {
     cy.get('.login-btn').click();
     cy.wait('@postUserInfo');
 
-    cy.get('[data-testid="PersonIcon"]').click();
+    cy.get('[data-testid="contacts-iconD"]').click();
     cy.url().should("include", "/contacts");
   });
 

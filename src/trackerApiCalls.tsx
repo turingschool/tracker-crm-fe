@@ -1,3 +1,77 @@
+/*----------------------------------// FETCH Companies //--------------------------------*/
+
+export const fetchCompanies = async (userId: number, token: string ) => {
+  try {
+    const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/companies`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch companies: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    console.log(data.data);
+    return data.data
+  } catch (error) {
+    console.error("Fetch error", error);
+  }
+};
+
+/*-----------------------------------// CREATE A COMPANY //---------------------------------*/
+
+export const createCompany = async (userId: number, token: string, newCompany: object) => {
+  try {
+    const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/companies`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newCompany),
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to add the company');
+    }
+  } catch (error) {
+    console.error("Error adding company:", error);
+    throw error;
+  }
+};
+
+/*-----------------------------------// GET ONE COMPANY //-------------------------------*/
+
+export const getACompany = async (userId: number, token: string, companyId: number) => {
+  try {
+    const response = await fetch(
+      `http://localhost:3001/api/v1/users/${userId}/companies/${companyId}/contacts`,
+      {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch company: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data; // Return the fetched data
+  } catch (error) {
+    console.error("Fetch error:", error);
+    throw error; // Propagate the error for the caller to handle
+  }
+};
+
+  
 /*-----------------------------------// GET USER //--------------------------------------*/
 
 export const getUser = async (userId: number) => {
@@ -20,6 +94,33 @@ export const getUser = async (userId: number) => {
   } catch (err) {
     
     console.error('Error in getUser:', err);
+    throw err;
+  }
+};
+
+/*-----------------------------------// SHOW //--------------------------------------*/
+
+export const showJobApp = async (userId: number, jobAppId: number, token: string | null) => {
+  try {
+    const apiURL = process.env.REACT_APP_BACKEND_API_URL;
+    const response = await fetch(`${apiURL}api/v1/users/${userId}/job_applications/${jobAppId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log(response);
+
+      throw new Error(`Failed to fetch job application data: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (err) {
+    
+    console.error('Error in showJobApp:', err);
     throw err;
   }
 };

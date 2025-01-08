@@ -3,20 +3,8 @@ import { Link } from 'react-router-dom';
 import { fetchApplicationsData } from '../../apiCalls';
 import ClipLoader from "react-spinners/ClipLoader";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
+import { JobApplication } from '../../Interfaces';
 import useSWR from 'swr';
-
-interface JobApplication {
-  id: string;
-  position_title: string;
-  date_applied: string;
-  status: number;
-  notes: string;
-  job_description: string;
-  application_url: string;
-  contact_information: string;
-  company_id: number;
-  company_name?: string;
-}
 
 const statusMap: { [key: number]: string } = {
   1: 'Submitted',
