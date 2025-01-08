@@ -94,9 +94,14 @@ export const dashBoardData = async (userParams: Record<string, any> ) => {
       throw new Error(`Failed to update user data: ${response.status}`);
     }
 
-    return await response.json();
-  } catch (err) {
-    console.error('Error in updateUser:', err);
-    throw err;
+    const result = await response.json();
+
+    const formattedData = result.data.attributes.dashboard.weekly_summary
+    console.log("formattedData",formattedData)
+
+    return formattedData;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
   }
 };
