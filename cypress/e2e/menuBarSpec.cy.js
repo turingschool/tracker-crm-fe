@@ -3,6 +3,8 @@ import { mockCompanies } from "../fixtures/mockCompanies";
 
 describe("Landing page after logging in spec", () => {
   beforeEach(() => {
+    cy.viewport(1280, 800);
+
     cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
       statusCode: 200,
       body: {
@@ -86,29 +88,29 @@ describe("Landing page after logging in spec", () => {
       cy.get(".bg-cyan-600").should("exist");
     });
 
-    it("should render dropdown menu with link to create new contact", () => {
+    it("should render dropdown menu with link to add new contact", () => {
       cy.get('[data-testid="menu-iconM"]').click();
       cy.get(".bg-cyan-600").should("exist");
       cy.get('[data-testid="newmenu-iconM"]').click();
-      cy.contains("Create New Contact").should("exist");
+      cy.contains("Add New Contact").should("exist");
       cy.get('[data-testid="newContactLink"]').click();
       cy.url().should("include", "/contacts/new");
     });
 
-    it("should render dropdown menu with link to create new company", () => {
+    it("should render dropdown menu with link to add new company", () => {
       cy.get('[data-testid="menu-iconM"]').click();
       cy.get(".bg-cyan-600").should("exist");
       cy.get('[data-testid="newmenu-iconM"]').click();
-      cy.contains("Create New Company").should("exist");
+      cy.contains("Add New Company").should("exist");
       cy.get('[data-testid="newCompanyLink"]').click();
       cy.url().should("include", "/companies/new");
     });
 
-    it("should render dropdown menu with link to create new job application", () => {
+    it("should render dropdown menu with link to add new job application", () => {
       cy.get('[data-testid="menu-iconM"]').click();
       cy.get(".bg-cyan-600").should("exist");
       cy.get('[data-testid="newmenu-iconM"]').click();
-      cy.contains("Create New Job Application").should("exist");
+      cy.contains("Add New Job Application").should("exist");
       cy.get('[data-testid="newAppLink"]').click();
       cy.url().should("include", "/jobapplications/new");
     });
