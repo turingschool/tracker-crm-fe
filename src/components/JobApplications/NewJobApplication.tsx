@@ -75,7 +75,6 @@ function NewJobApplication() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newJobApplication = {
-      // job_application: {
         position_title: positionTitle,
         date_applied: dateApplied,
         status: status,
@@ -84,7 +83,6 @@ function NewJobApplication() {
         application_url: applicationURL,
         
         company_id: availableCompany
-      // }
     };
 
     try {

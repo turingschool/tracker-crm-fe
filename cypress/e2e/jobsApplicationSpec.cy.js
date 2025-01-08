@@ -1,4 +1,3 @@
-
 describe("Job app page after logging in", () => {
   beforeEach(() => {
     cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
