@@ -40,7 +40,7 @@ describe('Create New Job Application page after logging in', () => {
       });
       req.reply({
         statusCode: 200,
-        fixture: "mockJobApps",
+        fixture: "mockJobApplicationData",
         headers: {
           "Content-Type": "application/json",
         },
@@ -54,16 +54,23 @@ describe('Create New Job Application page after logging in', () => {
     cy.wait('@postUserInfo');
     // cy.get('[data-testid="update-user"]').click();
     cy.get('a[href="/job_applications"]').click();
-
+    cy.wait('@getJobApplications')
+    cy.get('.bg-teal-500').click();
   })
 
 
-  it('accesses the create app page', () => {
+  it('accesses the add new application page and its content', () => {
     // cy.wait("@getJobApplications");
+    cy.get('.flex-row.h-screen').should("be.visible");
+    cy.get('.grid').should("be.visible");
+    cy.get('.LEFT').should("be.visible");
+    cy.get('div.m-2 > :nth-child(2)').should("be.visible");
+    cy.get("h1").should("have.text", "Add New Application");
 
-    cy.visit('http://localhost:3000/jobapplications/new');
+
+    // cy.visit('http://localhost:3000/jobapplications/new');
     // cy.wait('@getCompanies');
-    cy.get('form').should('exist');
+    // cy.get('form').should('exist');
     // cy.get('select').within(() => {
     //   cy.get('option').should('have.length', 3)
     //   cy.get('option').eq(1).should('have.text', 'Company A')

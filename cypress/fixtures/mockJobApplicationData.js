@@ -1,5 +1,0 @@
-const mockJobApplicationData {
-
-}
-
-export {mockJobApplicationData};

@@ -235,7 +235,7 @@ function NewJobApplication() {
         <div className='pt-4 pl-2'>
           <button 
           type="submit"
-          className="text-[1vw] font-[Helvetica Neue] text-white bg-cyan-600 pl-11 pr-11 p-3 rounded-md w-[15%] hover:bg-cyan-800" 
+          className="text-[1vw] font-[Helvetica Neue] text-white bg-cyan-600 pl-11 pr-11 p-3 rounded-md w-[25%] hover:bg-cyan-800" 
           >
             Save
             </button>
