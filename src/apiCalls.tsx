@@ -89,10 +89,9 @@ export const fetchDashBoardData = async (userId: number, token: string) => {
     }
 
     const result = await response.json();
-    const formattedData = result.data.map((item: any) => ({
-      id: item.id,
-      ...item.attributes,
-    }));
+
+    const formattedData = result.data.attributes.dashboard.weekly_summary
+    console.log("formattedData",formattedData)
 
     return formattedData;
   } catch (error) {
