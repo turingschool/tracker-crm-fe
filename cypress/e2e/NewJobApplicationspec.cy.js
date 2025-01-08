@@ -64,7 +64,7 @@ describe('Create New Job Application page after logging in', () => {
     cy.get('#password').type('Jolene123');
     cy.get('.login-btn').click();
     cy.wait('@postUserInfo');
-    cy.get('a[href="/job_applications"]').click();
+    cy.get('a[href="/job_applications"]').first().click();
     cy.wait('@getJobApplications')
     cy.get('.bg-teal-500').click();
   })
