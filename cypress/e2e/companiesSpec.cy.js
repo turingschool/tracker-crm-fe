@@ -61,7 +61,6 @@ describe("Companies page after logging in", () => {
 });
 
   it("Should have a header with the text 'Companies'", () => {
-    cy.wait("@getCompanies");
     cy.get("h1").should("have.text", "Companies");
   });
 
@@ -76,19 +75,16 @@ describe("Companies page after logging in", () => {
   });
 
   it("Should display the correct table headers", () => {
-    cy.wait("@getCompanies");
     cy.get("table").find("th").should("have.length", 2);
     cy.get("table").find("th").eq(0).should("have.text", "Company Name");
     cy.get("table").find("th").eq(1).should("have.text", "Notes");
   });
 
   it("Should display the correct number of companies", () => {
-    cy.wait("@getCompanies");
     cy.get("table").find("tr").should("have.length", 3);
   });
 
   it("Should display the correct company information", () => {
-    cy.wait("@getCompanies");
     cy.get("table tbody tr").eq(0).find("td").eq(0).should("have.text", "Google");
     cy.get("table tbody tr").eq(0).find("td").eq(1).should("have.text", "Innovative tech company.");
     cy.get("table tbody tr").eq(1).find("td").eq(0).should("have.text", "Amazon");
