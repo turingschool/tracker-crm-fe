@@ -1,21 +1,11 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
-import { Company, JobApplication } from "../../Interfaces";
+import { Company } from "../../Interfaces";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { fetchCompanies } from "../../trackerApiCalls";
-import { fetchApplicationsData } from "../../apiCalls";
-
-const statusMap: { [key: number]: string } = {
-  1: "Submitted",
-  2: "Interviewing",
-  3: "Offer",
-  4: "Rejected",
-  5: "Phone Screen",
-};
 
 function Companies() {
   const [companies, setCompanies] = useState<Company[] | null>([]); 
-  const [applications, setApplications] = useState<Record<number, number>>({});
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,14 +17,7 @@ function Companies() {
     const getCompanies = async () => {
       try {
         const companies = await fetchCompanies(userData.user.data.id, token!);
-        const fetchedApplications = await fetchApplicationsData(userData.user.data.id, token!);
-        
-        const applicationStatusMap: Record<number, number> = {};
-        fetchedApplications.forEach((app: JobApplication) => {
-          applicationStatusMap[app.company_id] = app.status;
-        });
         setCompanies(companies);
-        setApplications(applicationStatusMap);
         setFilteredCompanies(companies);
       } catch (error) {
         console.error("Error fetching companies:", error);
@@ -89,7 +72,6 @@ function Companies() {
             <thead className="bg-gray-200">
               <tr>
                 <th className="text-left p-4 border-b">Company Name</th>
-                <th className="text-left p-4 border-b">Application Status</th>
                 <th className="text-left p-4 border-b">Notes</th>
               </tr>
             </thead>
@@ -101,11 +83,6 @@ function Companies() {
                 onClick={() => navigate(`/companies/${company.id}/contacts`)}
                 >
                 <td className="p-4 border-b">{company.attributes.name}</td>
-                <td className="p-4 border-b">
-                  {applications[company.id]
-                    ? statusMap[applications[company.id]]
-                    : "Not Applied Yet"}
-                </td>
                 <td className="p-4 border-b">{company.attributes.notes}</td>
               </tr>
             ))}
