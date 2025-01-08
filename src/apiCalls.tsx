@@ -88,7 +88,7 @@ interface UserData {
 
 export const registerUser = async (userData: UserData): Promise<void> => {
   try {
-    const response = await fetch(`${backendURL}/users`, {
+    const response = await fetch(`${backendURL}users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -98,6 +98,7 @@ export const registerUser = async (userData: UserData): Promise<void> => {
 
     if (!response.ok) {
       const error = await response.json();
+      console.log('error', error);
       console.log('Error: ', error)
       throw new Error(error.message);
     }

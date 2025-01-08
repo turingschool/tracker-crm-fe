@@ -1,6 +1,19 @@
 describe('User Registration Form - Create New User', () => {
   beforeEach(() => {
     cy.visit('/UserRegistration');
+
+      cy.intercept('POST', 'http://localhost:3001/api/v1/users', (req) => {
+      req.on('response', (res) => {
+        res.setDelay(2000);
+      });
+      req.reply({
+        statusCode: 201,
+        fixture: 'mockUserRegistration',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }).as('getUserRegistration');
   });
 
   it('displays the Turing Logo', () => {
@@ -27,7 +40,7 @@ describe('User Registration Form - Create New User', () => {
 
   it('navigates to Login page via link', () => {
     cy.get('a.link-to-login').click();
-    cy.url().should('eq', 'http://localhost:3000/login');
+    cy.url().should('eq', 'http://localhost:3000/');
   });
 
   it('can register a new User', () => {
@@ -50,6 +63,17 @@ describe('User Registration Form - Create New User', () => {
     }).as('getUserRegistration');
 
     cy.get('button[type="submit"]').click();
+
+    cy.intercept('POST', 'http://localhost:3001/api/v1/sessions', (req) => {
+      
+      req.reply({
+        statusCode: 201,
+        fixture: 'mockUserSession',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }).as('userSession');
 
     cy.url().should('eq', 'http://localhost:3000/home');
     cy.contains('John Hill').should('be.visible');
@@ -103,9 +127,21 @@ describe('User Registration Form - Create New User', () => {
     cy.get('input').eq(2).type('PropaneAccessories2024');
     cy.get('input').eq(3).type('PropaneAccessories2024');
 
+    
+    cy.intercept('POST', 'http://localhost:3001/api/v1/users', (req) => {
+      req.reply({
+        statusCode: 400,
+        fixture: 'mockUserAlreadyTakenError',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }).as('userAlreadyExists');
+    
     cy.get('button[type="submit"]').click();
 
     cy.get('p.error-message').should('contain', 'Email has already been taken');
+
     cy.url().should('not.eq', 'http://localhost:3000/home');
     cy.url().should('eq', 'http://localhost:3000/UserRegistration');
   });

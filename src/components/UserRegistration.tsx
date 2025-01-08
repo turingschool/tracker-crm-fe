@@ -128,7 +128,8 @@ function UserRegistration(): React.ReactElement {
                 <p className="login-link text-gray-500 text-xl font-extralight block mt-4 text-center">
                   Already have an account?
                   <br />
-                  <Link to="/login" className="link-to-login hover:underline">
+                  <Link to="/" className="link-to-login hover:underline">
+                  {/* Is this the correct endpoint for the login page? */}
                     Click here to login.
                   </Link>
                 </p>
