@@ -227,7 +227,7 @@ For an example of what this might look like in practice, see below.
 ### Benefits
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Context has been implemented!! The use case for the context is getting access to a specific user's information and rather that doing a nightmare of imports and notations to get the info you need; you can call one line of code and get access to the session token for fetches and the loggedIn state for rendering! It keeps the code light, DRY, and easy to develop! 
-</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currently there are six pieces of info being given by the context. should there be a need / use case for adding more things to that; we can!
+</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currently there are six pieces of info being given by the context. Should there be a need / use case for adding more things to that; we can!
 
 ### Right up front, here is a guide for implementation:
 
@@ -320,7 +320,7 @@ export Function AnAwesomeComponent () {
   )
 }
 ```
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^ Over in $\text{\color{#FFA657}AnAwsomeComponent}$; we import the $\text{\color{#D2A8FF}useContext}{()}$ function, set up a variable that equates to the $\text{\color{#D2A8FF}useContext}{()}$ function and pass $\text{\color{#FFA657}AUserContextExample}$ to it which gives us access to the $\text{\color{#D1A7FD}value(s)}$ ***provided*** by $\text{\color{#7EE787}aUserContextExample.Provider}$! From there we have access to the data in the $\text{\color{#FFA657}aUserState}$ variable we fetched and set back in App! With dot notation we can grab whatever pieces of data we need and run our code in this component.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^ Over in $\text{\color{#7EE787}AnAwsomeComponent}$; we import the $\text{\color{#D2A8FF}useContext}{()}$ function, set up a variable that equates to the $\text{\color{#D2A8FF}useContext}{()}$ function and pass $\text{\color{#FFA657}AUserContextExample}$ to it which gives us access to the $\text{\color{#D1A7FD}value(s)}$ ***provided*** by $\text{\color{#7EE787}aUserContextExample.Provider}$! From there we have access to the data in the $\text{\color{#FFA657}aUserState}$ variable we fetched and set back in App! With dot notation we can grab whatever pieces of data we need and run our code in this component.
 </br>
 </br>
 ### Tracker-CRM Implementation
@@ -438,11 +438,11 @@ export const useUserLoggedContext = () => {
 }
 ```
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^ We've created a $\text{\color{#D2A8FF}useUserLoggedContext}$ function (I know, I know we're using the same words alot here, the key point in this one is the word 'use' at the start there); and this is where the main bit of magic is. We've set up a functionally scoped $\text{\color{#FFA657}context}$ variable that equates to the $\text{\color{#D2A8FF}useContext}$() function from react and we've set the default value of this $\text{\color{#D2A8FF}useContext}$ to $\text{\color{#FFA657}userLoggedContext}$ which is the **original context we declared back up there above the** $\text{\color{#D2A8FF}UserLoggedContextProvider}$ component.
-</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Then we have an if statement checking the $\text{\color{#FFA657}context}$ variable for a falsey value meaning that if $\text{\color{#FFA657}context}$ equates to $\text{\color{#79C0FF}null}$ an error is thrown; other wise it returns $\text{\color{#FFA657}context}$ which ultimately returns the $\text{\color{#FFA657}values}$ from the $\text{\color{#D2A8FF}UserLoggedContextProvider}$ function.
+</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Then we have an if statement checking the $\text{\color{#FFA657}context}$ variable for a falsey value meaning that if $\text{\color{#FFA657}context}$ equates to $\text{\color{#79C0FF}null}$ an error is thrown; otherwise it returns $\text{\color{#FFA657}context}$ which ultimately returns the $\text{\color{#FFA657}values}$ from the $\text{\color{#D2A8FF}UserLoggedContextProvider}$ function.
 
 $\text{\color{#d14141}In other words, if a user is not logged in the context will be empty!}$
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now I bet you are wondering where we're using the $\text{\color{#D2A8FF}UserLoggedContextProvider}$ component... well even if you weren't I'll tell you any way.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now I bet you are wondering where we're using the $\text{\color{#7EE787}UserLoggedContextProvider}$ component... well even if you weren't I'll tell you any way.
 
 ### *<ins>index.js</ins>*
 
@@ -466,7 +466,7 @@ root.render(
   </BrowserRouter>
 );
 ```
-^ By wrapping the whole $\text{\color{#7EE787}<App />}$ component in the $\text{\color{#D2A8FF}UserLoggedContextProvider}$ component we can utilizing the context in anything that App returns.
+^ By wrapping the whole $\text{\color{#7EE787}App}$ component in the $\text{\color{#7EE787}UserLoggedContextProvider}$ component we can utilize the context in anything that App returns.
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All this, heady theory stuff aside, structuring our context this way is what allows us to do one import and one line of code to get access to the user data and the session token. Please, if this has not cleared things up or if it could be explained better feel free to edit this README as necessary!
 </br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also if you have read this whole explaination; you're a beast!
