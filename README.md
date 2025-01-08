@@ -226,7 +226,7 @@ For an example of what this might look like in practice, see below.
 
 ### Benefits
 
-User Context has been implemented!! The use case for the context is getting access to a specific user's information and rather that doing a nightmare of imports and notations to get the info you need; you can call one line of code and get access to the session token for fetches and the loggedIn state for rendering! It keeps the code light, DRY, and easy to develope! Currently there are six pieces of info being given by the context. should there be a need / use case for adding more things to that we can add that at a later date! Please DM Charles for now and we can come up with a plan!
+User Context has been implemented!! The use case for the context is getting access to a specific user's information and rather than doing a nightmare of imports and notations to get the info you need; you can call one line of code and get access to the session token for fetches and the loggedIn state for rendering! It keeps the code light, DRY, and easy to develope! Currently there are six pieces of info being given by the context. should there be a need / use case for adding more things to that we can add that at a later date! Please DM Charles for now and we can come up with a plan!
 
 #### Right up front, here is a guide for implementation:
 
@@ -256,10 +256,20 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-### Feature 1 - Login
-### Feature 2 - Home
+### Feature 1 - Registration
 
-### Feature 3 - Companies
+Users must register their account to utilize this application.
+
+The User Registration section allows new users to create an account by filling out all necessary fields with the requried information. Empty fields or invalid information throws specific errors instructing users to correct their mistake in order to proceed.
+
+Existing users may click the 'login' link to directly navigate to the Login page.
+
+![User Registration Demo](src/assets/user_registration_demo.gif)
+
+### Feature 2 - Login
+### Feature 3 - Home
+
+### Feature 4 - Companies
 
 The Companies section allows users to seamlessly manage a list of their companies. 
 
@@ -309,6 +319,10 @@ FORMAT: lastname, firstname
    - [Github](https://github.com/ccirbo)
    - [LinkedIn](https://www.linkedin.com/in/candicecirbo/)
 
+**Croy, Lito**
+   - [Github](https://github.com/litobot)
+   - [LinkedIn](https://www.linkedin.com/in/litocroy/)
+
 **De La Rosa, Melchor**   
    - [Github](https://github.com/MDelarosa1993)
    - [LinkedIn](https://www.linkedin.com/in/melchordelarosa/)
@@ -324,7 +338,6 @@ FORMAT: lastname, firstname
 **Messersmith, Renee**
    - [Github](https://github.com/reneemes)
    - [LinkedIn](https://www.linkedin.com/in/reneehessersmith/)
-
 
 
 <!-- LICENSE -->
