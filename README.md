@@ -505,8 +505,24 @@ Add new companies by filling out a simple form with fields like name, website, a
 - Search for a Company:
 Use the search bar to quickly find companies by name, enhancing efficiency and user experience.
 
-![Companies Section Demo](/tracker-crm-fe/public/assets/companies.gif)
+![Companies Section Demo](public/assets/companies.gif)
 
+### Feature 4 - Contacts
+
+The Contacts section allows users to navigate their contacts.
+
+Key Functionalities Include:
+
+- View All Contacts:
+Browse a comprehensive list of contacts with info like their name, company, and notes. Includes a search bar and ability to create a new contact.
+- View a Contact:
+Click on  a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company.
+- Add a new Contact
+Click on the Add New + button to navigate to a form where a user inputs a new contact and their associated information.
+- Search for a Contact
+Use the search bar to quickly find a contact by name, enhancing efficiency and user experience.
+
+![Contacts Section Demo](public/assets/contacts.gif)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
