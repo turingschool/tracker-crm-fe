@@ -163,19 +163,250 @@ For an example of what this might look like in practice, see below.
 
 ### Benefits
 
-User Context has been implemented!! The use case for the context is getting access to a specific user's information and rather that doing a nightmare of imports and notations to get the info you need; you can call one line of code and get access to the session token for fetches and the loggedIn state for rendering! It keeps the code light, DRY, and easy to develope! Currently there are six pieces of info being given by the context. should there be a need / use case for adding more things to that we can add that at a later date! Please DM Charles for now and we can come up with a plan!
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Context has been implemented!! The use case for the context is getting access to a specific user's information and rather that doing a nightmare of imports and notations to get the info you need; you can call one line of code and get access to the session token for fetches and the loggedIn state for rendering! It keeps the code light, DRY, and easy to develop! 
+</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Currently there are six pieces of info being given by the context. Should there be a need / use case for adding more things to that; we can!
 
-#### Right up front, here is a guide for implementation:
+### Right up front, here is a guide for implementation:
 
-<font color='red'>**PRE REQS:**</font> <font color='#db5800'>The only requirement is that your component is being proprerly rendered in 'App.tsx' so make sure to check that first.</font>
+**$\text{\color{#f23030}PRE REQS:}$** $\text{\color{#f28730}The only requirement is that your component is being proprerly rendered in 'App.tsx' so make sure to check that first.}$
 
 1. Import useUserLoggedContext into your component page:
-> <font color='#774b94'>import</font> <font color='yellow'>{</font> <font color='#0096db'>useUserLoggedContext</font> <font color='yellow'>}</font> <font color='#774b94'>from</font> <font color='#a84100'>'./context/UserLoggedContext.tsx'</font>;
+   - $\text{\color{#9d7af5} import}\text{\color{#f5e97a} \\{ }\text{\color{#7adef5}useUserLoggedContext}\text{\color{#f5e97a} \\}}\text{\color{#9d7af5} from}\text{\color{#fca944} './context/UserLoggedContext.tsx'}$;
 
-2. Destructure the function call ***INSIDE*** your component declaration:
-> <font color='#2555a8'>const</font> <font color='yellow'>{</font> <font color='#0096db'>    token, roles, isLoggedIn, userLogged, clearUserLogged</font> <font color='yellow'>}</font> = <font color='#a84100'>useUserLoggedContext</font><font color='#774b94'>()</font>;
+2. Destructure the function call ***INSIDE*** your component function:
+   - $\text{\color{#2555a8} const}\text{\color{#f5e97a} \\{ }\text{\color{#0096db}token, roles, isLoggedIn, userData, userLogged, setUserData, clearUserLogged}\text{\color{#f5e97a} \\}}=\text{\color{#fca944} useUserLoggedContext}\text{\color{#9d7af5}()}$;
 
-3. Use the whatever part of the context you need!
+3. Use whatever part of the context you need!
+
+### Additional Information
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<ins>At a base level React's [createContext](https://react.dev/reference/react/createContext) function allows a component to share some kind of data with other components that are wrapped in the context.</ins>*
+
+### Traditional Implementation
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Calling createContext returns a context object. **The context object itself does not hold any information;** it represents *which* part of the context other components can read or use to provide something to other components. Similar to how *useState* gives you a variable and a setter function that changes that variable; createContext gives you *two* functions, a $\text{\color{#7EE787}.Provider}$ and a **.Consumer**. The **.Consumer** function has been deemed a legacy way of consuming (using) the $\text{\color{#D1A7FD}value}$ distributed by the $\text{\color{#7EE787}.Provider}$ function, and so is no longer recommended. Instead the components that need access to the $\text{\color{#D1A7FD}value}$ that is destributed by the context will utilize the **useContext()** function to consume (use) the $\text{\color{#D1A7FD}value}$. Below is an example of the tradional implementation:
+
+#### *<ins>AContextFile.tsx</ins>*
+
+```coffeescript
+import React, { createContext } from 'react';
+
+export const AUserContextExample = createContext(null)
+```
+^ Here we have created our Context with a default value of $\text{\color{#79C0FF}null}$.
+
+#### *<ins>AnAppFile.tsx</ins>*
+
+```coffeescript
+import React, { useState, useEffect, useContext } from 'react';
+import AUserContextExample from '../contexts/AContextFile.tsx';
+
+import aUserFetchCall from '../apiCalls/ApiCalls.tsx';
+import <AnAwesomeComponent /> from '../components/AnAwesomeComponent.tsx';
+import <AnEpicComponent /> from '../components/AnEpicComponent.tsx';
+import <AnExtreameComponent /> from '../components/AnExtreameComponent.tsx';
+
+async function App () {
+  const [aUserState, setAUserState] = useState();
+
+  useEffect(() => {
+    const aFetchedUser = await aUserFetchCall();
+    setAUserState(aFetchedUser);
+  }, [])
+
+  return (
+    <aUserContextExample.Provider value={aUserState}>
+      <div>
+        <h1> Welcome To The Awesome App! </h1>
+        <AnAwesomeComponent />
+        <AnEpicComponent />
+        <AnExtreameComponent />
+      </div>
+    </aUserContextExample.Provider>
+  )
+}
+```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^ Here we are properly importing all the necessary pieces of our example application into our App component. As App is completing the mounting phase, we are initiating a fetch call to get a user and $\text{\color{#FFA657}set state}$ on the user object that is returned by the fetch call, $\text{\color{#D2A8FF}aUserFetchCall}{()}$. Upon App completing the mounting phase, it renders the JSX and passes the state variable, $\text{\color{#FFA657} aUserState}$ to the context $\text{\color{#D1A7FD} value}$ in the $\text{\color{#7EE787} aUserContextExample.Provider}$. The $\text{\color{#7EE787} aUserContextExample.Provider}$ is now ***providing*** its $\text{\color{#D1A7FD} value(s)}$ to the components that are nested inside it.
+
+#### *<ins>AnAwesomeComponent.tsx</ins>*
+
+```coffeescript
+import React, { useContext } from 'react';
+import AUserContextExample from '../contexts/AContextFile.tsx';
+
+export Function AnAwesomeComponent () {
+  const anAwesomeUser = useContext(AUserContextExample);
+
+  return (
+    <div>
+      <h1>`Hello ${anAwesomeUser.name}! Welcome to the Awesome page!`</h1>
+      <div>
+        {
+          anAwsomeUser.someSickAttributeToMap.map((srslyCoolThing) => {
+            return (
+              <div>
+                <div>{srslyCoolThing.foReal}</div>
+                <div>{srslyCoolThing.noCap}</div>
+                <div>{srslyCoolThing.trulyGOATED}</div>
+              </div>
+            )
+          })
+        }
+      </div>
+    </div>
+  )
+}
+```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^ Over in $\text{\color{#7EE787}AnAwsomeComponent}$; we import the $\text{\color{#D2A8FF}useContext}{()}$ function, set up a variable that equates to the $\text{\color{#D2A8FF}useContext}{()}$ function and pass $\text{\color{#FFA657}AUserContextExample}$ to it which gives us access to the $\text{\color{#D1A7FD}value(s)}$ ***provided*** by $\text{\color{#7EE787}aUserContextExample.Provider}$! From there we have access to the data in the $\text{\color{#FFA657}aUserState}$ variable we fetched and set back in App! With dot notation we can grab whatever pieces of data we need and run our code in this component.
+</br>
+</br>
+### Tracker-CRM Implementation
+
+### *<ins>TrackerContextFile.tsx</ins>*
+
+```coffeescript
+import React, { createContext, useState, useContext } from 'react';
+import { UserData } from '../Interfaces';
+
+interface Value {
+  token: string | null,
+  roles: string[] | null,
+  isLoggedIn: boolean,
+  userData: UserData,
+  userLogged: Function,
+  setUserData: Function,
+  clearUserLogged: Function
+}
+
+const UserLoggedContext = createContext<null | Value>(null);
+
+export function UserLoggedContextProvider({ children }: React.PropsWithChildren) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState<null | string>(null);
+  const [roles, setRoles] = useState<[] | string[]>([]);
+  const [userData, setUserData] = useState<UserData>({
+    token: '',
+    user: {
+      data: {
+        id: 0,
+        type: 'user',
+        attributes: {
+          name: '',
+          email: '',
+          companies: []
+        }
+      }
+    }
+  });
+
+  # Function to set the logged-in state
+  const userLogged = (newToken: string, userRoles: string[]) => {
+    setIsLoggedIn(true);
+    setToken(newToken);
+    setRoles(userRoles);
+    console.log(userData, '<-- USER DATA SHOULD SET');
+  };
+
+  # Function to clear the logged-in state
+  const clearUserLogged = () => {
+    setIsLoggedIn(false)
+    setToken(null);
+    setRoles([]);
+    setUserData({
+      token: '',
+      user: {(...)}
+    });
+    console.log(userData, '<-- USER DATA SHOULD CLEAR');
+  };
+
+  # Context value
+  const value = {
+    token,
+    roles,
+    isLoggedIn,
+    userData,
+    userLogged,
+    setUserData,
+    clearUserLogged,
+  };
+
+  return (
+    <UserLoggedContext.Provider value={value}>
+      {children}
+    </UserLoggedContext.Provider>
+  )
+}
+
+export const useUserLoggedContext = () => {
+  const context = useContext(UserLoggedContext);
+  if (!context) {
+    throw new Error('useUserLogged must be used within a UserLoggedProvider');
+  }
+  return context;
+}
+```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^ In our Tracker-CRM project; we've executed the $\text{\color{#FFA657}userLoggedContext}$ in a slightly different way. Instead of importing the $\text{\color{#FFA657}userLoggedContext}$ ***directly*** into App.tsx in order to get access to the $\text{\color{#7EE787}.Provider}$ piece of the context; we have created a $\text{\color{#D2A8FF}UserLoggedContextProvider Component}$ that we can $\text{\color{#FFA657}export}$ and $\text{\color{#EE746C}import}$ like any other component.
+
+$\text{\color{#d14141}Now here's where it gets dicey.}$
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Instead of having App.tsx hold the $\text{\color{#FFA657}userData}$ state and pass it to every other component as props and pass a $\text{\color{#D2A8FF}handleUserLogin}$ function to the login component and pass the $\text{\color{#FFA657}session token}$; we've set up all (or at least most) of the $\text{\color{#FFA657}state data}$ we need ***inside*** this $\text{\color{#D2A8FF}UserLoggedContextProvider Component}$.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We've created a $\text{\color{#FFA657}value}$ variable that holds our various $\text{\color{#FFA657}state data}$, login ($\text{\color{#D2A8FF}userLogged}$) and logout ($\text{\color{#D2A8FF}clearUserLogged}$) functions, and the $\text{\color{#FFA657}session token}$. 
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;We then pass that $\text{\color{#FFA657}value}$ variable into the $\text{\color{#D2A8FF}value}$ property of the $\text{\color{#7EE787}UserLoggedContext.Provider}$.
+
+Wait, if we aren't setting up the $\text{\color{#7EE787}.Provider}$ in App, how are we able to utilize the $\text{\color{#D2A8FF}value}$ property in our other components, you ask? 
+
+*Think of the children!?*
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In React, children are a special type of prop that allows components to recieve and render other components or elements. The `props.children` property **gives access to the content between the opening and closing tags of a parent component.** As you can see we have destructured the children property as the parameter for the $\text{\color{#D2A8FF}UserLoggedContextProvider}$ component, and then rendered the children in the return statement of $\text{\color{#D2A8FF}UserLoggedContextProvider}$ ***directly between*** the $\text{\color{#7EE787}UserLoggedContext.Provider}$. This is how we are able to give our components access to the context $\text{\color{#D2A8FF}values}$.
+
+$\text{\color{#d14141}But we took it one step further.}$
+
+You'll notice this bit of code underneath the $\text{\color{#D2A8FF}UserLoggedContextProvider}$ component:
+
+```coffeescript
+export const useUserLoggedContext = () => {
+  const context = useContext(UserLoggedContext);
+  if (!context) {
+    throw new Error('useUserLogged must be used within a UserLoggedProvider');
+  }
+  return context;
+}
+```
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^ We've created a $\text{\color{#D2A8FF}useUserLoggedContext}$ function (I know, I know we're using the same words alot here, the key point in this one is the word 'use' at the start there); and this is where the main bit of magic is. We've set up a functionally scoped $\text{\color{#FFA657}context}$ variable that equates to the $\text{\color{#D2A8FF}useContext}$() function from react and we've set the default value of this $\text{\color{#D2A8FF}useContext}$ to $\text{\color{#FFA657}userLoggedContext}$ which is the **original context we declared back up there above the** $\text{\color{#D2A8FF}UserLoggedContextProvider}$ component.
+</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Then we have an if statement checking the $\text{\color{#FFA657}context}$ variable for a falsey value meaning that if $\text{\color{#FFA657}context}$ equates to $\text{\color{#79C0FF}null}$ an error is thrown; otherwise it returns $\text{\color{#FFA657}context}$ which ultimately returns the $\text{\color{#FFA657}values}$ from the $\text{\color{#D2A8FF}UserLoggedContextProvider}$ function.
+
+$\text{\color{#d14141}In other words, if a user is not logged in the context will be empty!}$
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Now I bet you are wondering where we're using the $\text{\color{#7EE787}UserLoggedContextProvider}$ component... well even if you weren't I'll tell you any way.
+
+### *<ins>index.js</ins>*
+
+```coffeescript
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.tsx';
+import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import { UserLoggedContextProvider } from './context/UserLoggedContext';
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <BrowserRouter>
+    <React.StrictMode>
+
+      <UserLoggedContextProvider>
+        <App />
+      </UserLoggedContextProvider>
+
+    </React.StrictMode>
+  </BrowserRouter>
+);
+```
+^ By wrapping the whole $\text{\color{#7EE787}App}$ component in the $\text{\color{#7EE787}UserLoggedContextProvider}$ component we can utilize the context in anything that App returns.
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All this, heady theory stuff aside, structuring our context this way is what allows us to do one import and one line of code to get access to the user data and the session token. Please, if this has not cleared things up or if it could be explained better feel free to edit this README as necessary!
+</br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Also if you have read this whole explaination; you're a beast!
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -291,3 +522,4 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [Cypress-url]: https://www.cypress.io/
 [CircleCI]: https://img.shields.io/badge/CircleCI-343434?style=for-the-badge&logo=circleci&logoColor=white
 [CircleCI-url]: https://circleci.com/
+
