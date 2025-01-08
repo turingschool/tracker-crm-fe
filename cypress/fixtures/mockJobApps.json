@@ -1,34 +1,34 @@
 {
   "data": [
-      {
-          "id": "1",
-          "type": "job_application",
-          "attributes": {
-              "position_title": "Jr. CTO",
-              "date_applied": "2024-10-31",
-              "status": 1,
-              "notes": "Fingers crossed!",
-              "job_description": "Looking for Turing grad/jr dev to be CTO",
-              "application_url": "www.example.com",
-              "contact_information": "boss@example.com",
-              "company_id": 1,
-              "company_name": "Tech Innovators"
-          }
-      },
-      {
-          "id": "3",
-          "type": "job_application",
-          "attributes": {
-              "position_title": "Backend Developer",
-              "date_applied": "2024-08-20",
-              "status": 2,
-              "notes": "Had a technical interview, awaiting decision.",
-              "job_description": "Developing RESTful APIs and optimizing server performance.",
-              "application_url": "https://creativesolutions.com/careers/backend-developer",
-              "contact_information": "techlead@creativesolutions.com",
-              "company_id": 3,
-              "company_name": "Creative Solutions Inc."
-          }
+    {
+      "id": "1",
+      "type": "job_application",
+      "attributes": {
+        "position_title": "Jr. CTO",
+        "date_applied": "2024-10-31",
+        "status": 1,
+        "notes": "Fingers crossed!",
+        "job_description": "Looking for Turing grad/jr dev to be CTO",
+        "application_url": "www.example.com",
+        "contact_information": "boss@example.com",
+        "company_id": 1,
+        "company_name": "Tech Innovators"
       }
+    },
+    {
+      "id": "3",
+      "type": "job_application",
+      "attributes": {
+        "position_title": "Backend Developer",
+        "date_applied": "2024-08-20",
+        "status": 2,
+        "notes": "Had a technical interview, awaiting decision.",
+        "job_description": "Developing RESTful APIs and optimizing server performance.",
+        "application_url": "https://creativesolutions.com/careers/backend-developer",
+        "contact_information": "techlead@creativesolutions.com",
+        "company_id": 3,
+        "company_name": "Creative Solutions Inc."
+      }
+    }
   ]
 }

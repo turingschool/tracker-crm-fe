@@ -70,7 +70,7 @@ describe('Create New Job Application page after logging in', () => {
   })
 
   describe("Happy Paths", () => {
-    xit('accesses the add new application page and its contents', () => {
+    it('accesses the add new application page and its contents', () => {
       cy.url().should("include", "/jobapplications/new")
       cy.get('h1').should('have.text', 'Add New Application');
       cy.get('label').contains('Position Title:').should('exist');
@@ -82,7 +82,7 @@ describe('Create New Job Application page after logging in', () => {
       cy.get('label').contains('Notes:').should('exist');
     })
   
-    xit('allows input into form fields', () => {
+    it('allows input into form fields', () => {
       cy.get('#positionTitle').type('Test Position').should('have.value', 'Test Position');
       cy.get('#company').select('Company A').should('have.value', '1');
       cy.get('#dateApplied').type('2025-01-01').should('have.value', '2025-01-01');
@@ -156,7 +156,43 @@ describe('Create New Job Application page after logging in', () => {
       cy.get(':nth-child(3) > :nth-child(2) > a').should('contain', 'Test Position');
       cy.get(':nth-child(3) > :nth-child(3) > a > .py-1').should('contain', 'Offer');
     });
-  
   })
 
+  describe('Sad Path', () => {
+    it('Should require position title, company, date, status, and job description', () => {
+      cy.get('button[type="submit"]').click();
+      cy.get("#positionTitle:invalid").should("exist");
+      cy.get("#company:invalid").should("exist"); 
+      cy.get("#dateApplied:invalid").should("exist");
+      cy.get("#appStatus:invalid").should("exist");
+      cy.get("#jobDescription:invalid").should("exist");
+    })
+
+    it('Should handle server errors gracefully when the server is down', () => {
+      let exampleURL = 'https://www.google.com/search?q=cypress+test&sca_esv=cf26ac7335e7e159&authuser=0&sxsrf=ADLYWILdV1NUNvEKwobgdpQOx8-tQlRK9A%3A1736359537693&source=hp&ei=cb5-Z4DuJrTAkPIP8eLg2Q0&iflsig=AL9hbdgAAAAAZ37MgTznyKwySqjXpzMI1EENsrF6l5-1&oq=cypress&gs_lp=Egdnd3Mtd2l6IgdjeXByZXNzKgIIAzIEECMYJzIEECMYJzIEECMYJzIKEAAYgAQYQxiKBTIOEAAYgAQYkQIYsQMYigUyCxAAGIAEGJECGIoFMhEQLhiABBixAxiDARjHARivATILEAAYgAQYkQIYigUyCxAAGIAEGJECGIoFMg0QLhiABBixAxgUGIcCSIgvUPoOWIMYcAF4AJABAJgBrAGgAZMHqgEDMC43uAEByAEA-AEBmAIIoAKoB6gCCsICBxAjGCcY6gLCAgoQIxiABBgnGIoFwgIKEC4YgAQYQxiKBcICCBAAGIAEGLEDwgILEAAYgAQYsQMYgwHCAhAQLhiABBgUGIcCGMcBGK8BwgIIEC4YgAQYsQOYAwbxBc2Ws1JZ-CXTkgcDMS43oAfZZQ&sclient=gws-wiz'
+      
+      cy.intercept('POST', 'http://localhost:3001/api/v1/users/2/job_applications', {
+        statusCode: 500, 
+        body: {
+          error: "Internal Server Error",
+        },
+      }).as('addJobApplicationFailure');
+      
+      cy.get('#positionTitle').type('Test Position');
+      cy.get('#company').select('Company A');
+      cy.get('#dateApplied').type('2025-01-01');
+      cy.get('#appStatus').select('Offer');
+      cy.get('#jobDescription').type('Test Description');
+      cy.get('#appURL').type(exampleURL);
+      cy.get('#notes').type('Test Notes');
+    
+      cy.get('button[type="submit"]').click();
+    
+      cy.wait('@addJobApplicationFailure').then((interception) => {
+        expect(interception.response.statusCode).to.equal(500);
+      }); 
+    
+      cy.url().should('include', '/jobapplications/new');
+    });
+  })
 })
