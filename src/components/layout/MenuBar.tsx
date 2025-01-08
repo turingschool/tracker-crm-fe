@@ -46,48 +46,26 @@ function MenuBar() {
           <HomeIcon fontSize="large" />
         </NavLink>
         {/* Contacts */}
-        <NavLink
-          className={linkClasses}
-          to="/contacts"
-          data-testid="contacts-iconD"
-        >
+        <NavLink className={linkClasses} to="/contacts" data-testid="contacts-iconD">
           <PersonIcon fontSize="large" />
         </NavLink>
         {/* Companies */}
-        <NavLink
-          className={linkClasses}
-          to="/companies"
-          data-testid="companies-iconD"
-        >
+        <NavLink className={linkClasses} to="/companies" data-testid="companies-iconD">
           <ApartmentIcon fontSize="large" />
         </NavLink>
-        {/* Documents / Job Applications */}
-        <NavLink
-          className={linkClasses}
-          to="/job_applications"
-          data-testid="applications-iconD"
-        >
+        {/* Job Applications */}
+        <NavLink className={linkClasses} to="/job_applications" data-testid="applications-iconD">
           <DescriptionIcon fontSize="large" />
         </NavLink>
 
         {/* Drop Down Shortcut Menu */}
         <div className="flex flex-col items-center justify-center relative">
-          <button
-            className={`flex items-center justify-items-center 
-            ${isDropDownOpen ? "text-cyan-800" : "text-gray-500"}`}
-            onClick={toggleDropDown}
-            data-testid="plus-iconD"
-          >
-            <AddCircleIcon
-              fontSize="large"
-              className="m-auto justify-items-center mt-[6vh]"
-            />
+          <button className={`flex items-center justify-items-center ${isDropDownOpen ? "text-cyan-800" : "text-gray-500"}`}
+            onClick={toggleDropDown} data-testid="plus-iconD">
+            <AddCircleIcon fontSize="large" className="m-auto justify-items-center mt-[6vh]" />
           </button>
-          <ul
-            className={`absolute top-full left-0 bg-cyan-600 shadow-md rounded-md transition-all duration-700 ease-in-out
-            ${isDropDownOpen ? "scale-100 opacity-100 visible" : "hidden"}`}
-            style={{ zIndex: 10 }}
-          >
+          <ul className={`absolute top-full left-0 bg-cyan-600 shadow-md rounded-md transition-all duration-700 ease-in-out
+            ${isDropDownOpen ? "scale-100 opacity-100 visible" : "hidden"}`} style={{ zIndex: 10 }}>
             <li className="p-2 hover:bg-gray-100 rounded text-center mb-2">
               <Link to="/contacts/new" onClick={toggleDropDown}>
                 Add New Contact
@@ -114,8 +92,7 @@ function MenuBar() {
               ? "m-auto mt-[20vh] rounded-full text-cyan-800 transform scale-150 transition-transform duration-150"
               : "m-auto mt-[20vh] rounded-full text-gray-500 transform scale-125 transition-transform duration-150"
           }
-          data-testid="update-user"
-        >
+          data-testid="update-user">
           <AccountCircleIcon data-testid="updateUser-iconD" fontSize="large" />
         </NavLink>
       </nav>
