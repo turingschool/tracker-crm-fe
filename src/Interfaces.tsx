@@ -33,3 +33,16 @@ export interface Company {
   type: string;
   attributes: CompanyAttributes;
 }
+
+export interface JobApplication {
+  id: string;
+  position_title: string;
+  date_applied: string;
+  status: number;
+  notes: string;
+  job_description: string;
+  application_url: string;
+  contact_information: string;
+  company_id: number;
+  company_name?: string;
+}
