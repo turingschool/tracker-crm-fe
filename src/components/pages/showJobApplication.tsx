@@ -87,7 +87,8 @@ function JobApplication() {
             <p className="font-medium mb-4">{/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
               Applied On:{" "}
               <span className="font-semibold">
-                {new Date(jobApp.date_applied).toLocaleDateString()}
+                {/* {new Date(jobApp.date_applied).toLocaleDateString()} */}
+                {`${jobApp.date_applied}`}
               </span>
             </p>
             <p className="mb-6">{/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
