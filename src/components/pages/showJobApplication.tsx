@@ -27,11 +27,17 @@ interface JobApplicationAttributes {
 function JobApplication() {
   const [jobApp, setJobApp] = useState<JobApplicationAttributes | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModelOpen, setIsEditModelOpen] = useState(false)
   const [error, setError] = useState<string | null>(null);
 
   const { token, userData } = useUserLoggedContext();
   const { user } = userData;
   const { jobAppId } = useParams<{ jobAppId?: string }>();
+  const [status, setStatus] = useState(0)
+  const [positionTitle, setPositionTitle] = useState('');
+  const [notes, setNotes] = useState('');
+  const [jobDescription, setJobDescription] = useState('');
+  const [applicationURL, setApplicationURL] = useState('');
 
   const statusMap: { [key: number]: string } = {
     1: 'Submitted',
@@ -60,6 +66,12 @@ function JobApplication() {
           if (isNaN(id)) throw new Error("Invalid jobAppId.");
           const data = await showJobApp(user.data.id, id, token);
           setJobApp(data.data.attributes as JobApplicationAttributes);
+          setPositionTitle(data.data.attributes.position_title)
+          setStatus(data.data.attributes.status)
+          setNotes(data.data.attributes.notes)
+          setJobDescription(data.data.attributes.job_description)
+          setApplicationURL(data.data.attributes.application_url)
+
         } catch (err) {
           console.error("Failed to fetch job application:", err);
           setError("Unable to fetch job application data.");
@@ -71,6 +83,13 @@ function JobApplication() {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const openEdit = () => setIsEditModelOpen(true);
+  const closeEdit = () => setIsEditModelOpen(false);
+
+  const updateEdit = () => {
+    closeEdit()
+  }
 
   return (
     <div className="min-h-screen p-4 sm:p-8 pt-8 sm:pt-36">
@@ -101,7 +120,8 @@ function JobApplication() {
             <p className={`mb-8 ${jobApp.notes ? "" : "text-cyan-500"}`}>
               {jobApp.notes ? jobApp.notes : "Click edit to add some notes."}
             </p>
-            <button className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded">{/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
+            <button className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded"
+              onClick={openEdit}>
               Edit
             </button>
           </section>
@@ -167,6 +187,82 @@ function JobApplication() {
                 >
                   Close
                 </button>
+              </div>
+            </div>
+          )}
+          {isEditModelOpen && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white rounded p-6 w-3/4 max-w-lg max-h-[80vh] overflow-y-auto">
+              <h2 className="text-cyan-600 text-xl font-bold mb-4">
+                Update Job Description
+              </h2>
+              <form onSubmit={updateEdit} className="grid grid-cols-2 gap-4">  
+                <label>Position Title:</label>
+                <input
+                  type="text"
+                  id="positionTitle"
+                  value={positionTitle}
+                  onChange={(e) => setPositionTitle(e.target.value)}
+                  className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
+                  placeholder="Position Title"
+                />
+                <label>Status:</label>
+                <select
+                  value={status}
+                  id="appStatus"
+                  onChange={(e) => setStatus(Number(e.target.value))}
+                  className={`p-2 border-2 rounded-lg focus:outline-none focus:ring-2 m-2 ${statusMap[status] ? statusStyles[statusMap[status]] : ''
+                    }`}             
+                >
+                  <option value="" className="text-gray-400">
+                    Select Status
+                  </option>
+                  {Object.entries(statusMap).map(([key, value]) => (
+                    <option key={key} value={key}>
+                      {value}
+                    </option>
+                  ))}                
+                </select>
+                <label>Job Description:</label>
+                <textarea
+                  value={jobDescription}
+                  id="jobDescription"
+                  onChange={(e) => setJobDescription(e.target.value)}
+                  className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2  m-2"
+                  placeholder='Job Description'
+                  rows={6}
+                />
+                <label>URL:</label>
+                <input
+                type="url"
+                id="appURL"
+                value={applicationURL}
+                onChange={(e) => setApplicationURL(e.target.value)}
+                className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2 w-[90%]"
+                placeholder='www.example.com'
+                />
+                <label>Notes: </label>
+                <textarea
+                value={notes}
+                id="notes"
+                onChange={(e) => setNotes(e.target.value)}
+                className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 w-[90%] m-2"
+                rows={6}
+                placeholder='Notes...'
+                />
+                <button
+                  onClick={closeEdit}
+                  className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-800"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-800"
+                >
+                  Update Info
+                </button>
+              </form>
               </div>
             </div>
           )}
