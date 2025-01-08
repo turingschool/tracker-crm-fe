@@ -7,10 +7,10 @@ import { UserLoggedContextProvider } from './context/UserLoggedContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <React.StrictMode>
+    {/* <React.StrictMode> */}
       <UserLoggedContextProvider>
         <App />
       </UserLoggedContextProvider>
-    </React.StrictMode>
+    {/* </React.StrictMode> */}
   </BrowserRouter>
 );

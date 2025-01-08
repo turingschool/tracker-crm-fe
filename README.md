@@ -484,13 +484,13 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/litobot)
 - [LinkedIn](https://www.linkedin.com/in/litocroy/)
 
-**De La Rosa, Melchor**   
-- [Github](https://github.com/MDelarosa1993)
-- [LinkedIn](https://www.linkedin.com/in/melchordelarosa/)
-
 **Delaney, Kyle**
 - [Github](https://gist.github.com/kylomite)
 - [LinkedIn](https://www.linkedin.com/in/kylehamptondelaney/)
+
+**De La Rosa, Melchor**   
+- [Github](https://github.com/MDelarosa1993)
+- [LinkedIn](https://www.linkedin.com/in/melchordelarosa/)
 
 **Galvin, Shane**
 - [Github](https://github.com/sgalvin36)
@@ -521,6 +521,7 @@ FORMAT: lastname, firstname
 - [LinkedIn](https://www.linkedin.com/in/erin-pintozzi/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 <!-- LICENSE -->
 ## License
