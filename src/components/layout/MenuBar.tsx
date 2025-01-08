@@ -98,130 +98,56 @@ function MenuBar() {
       </nav>
 
       {/* -- MOBILE HAMBURGER, shown on small screens only -- */}
-      <button
-        className="flex items-center justify-items-center visible sm:hidden p-2"
-        onClick={toggleSideMenu}
-      >
-        <MenuIcon
-          data-testid="menu-iconM"
-          fontSize="large"
-          className="m-auto justify-items-center"
-        />
+      <button className="flex items-center justify-items-center visible sm:hidden p-2" onClick={toggleSideMenu}>
+        <MenuIcon data-testid="menu-iconM" fontSize="large" className="m-auto justify-items-center"/>
       </button>
 
       {/* -- MOBILE SLIDE-OUT MENU, shown on small screens only -- */}
-      <nav
-        className={
-          "fixed flex flex-col top-0 left-0 z-10 bg-[#046576] w-64 h-screen transition-all duration-500 " +
-          (sideMenuOpen ? "-translate-x-full" : "translate-x-0")
-        }
-        data-testid="slideout-menu"
-      >
-        <button
-          className="min-sm:hidden m-4 text-white"
-          onClick={toggleSideMenu}
-        >
-          <CloseIcon
-            fontSize="large"
-            data-testid="close-iconM"
-            className="m-auto text-white"
-          />
+      <nav className={"fixed flex flex-col top-0 left-0 z-10 bg-[#046576] w-64 h-screen transition-all duration-500 " +
+        (sideMenuOpen ? "-translate-x-full" : "translate-x-0")} data-testid="slideout-menu">
+        <button className="min-sm:hidden m-4 text-white" onClick={toggleSideMenu}>
+          <CloseIcon fontSize="large" data-testid="close-iconM" className="m-auto text-white"/>
         </button>
 
         {/* Logo */}
-        <Link
-          className="block text-center my-4"
-          to="/"
-          onClick={toggleSideMenu}
-        >
+        <Link className="block text-center my-4" to="/" onClick={toggleSideMenu}>
           <img className="mx-auto w-1/2" src={logo} alt="Logo" />
         </Link>
         {/* Home */}
-        <NavLink
-          className="m-auto text-white"
-          to="/home"
-          data-testid="home-iconM"
-          onClick={toggleSideMenu}
-        >
+        <NavLink className="m-auto text-white" to="/home" data-testid="home-iconM" onClick={toggleSideMenu}>
           <HomeIcon fontSize="large" />
         </NavLink>
         {/* Contacts */}
-        <NavLink
-          className="m-auto text-white"
-          to="/contacts"
-          data-testid="contacts-iconM"
-          onClick={toggleSideMenu}
-        >
+        <NavLink className="m-auto text-white" to="/contacts" data-testid="contacts-iconM" onClick={toggleSideMenu}>
           <PersonIcon fontSize="large" />
         </NavLink>
         {/* Companies */}
-        <NavLink
-          className="m-auto text-white"
-          to="/companies"
-          data-testid="companies-iconM"
-          onClick={toggleSideMenu}
-        >
+        <NavLink className="m-auto text-white" to="/companies" data-testid="companies-iconM" onClick={toggleSideMenu}>
           <ApartmentIcon fontSize="large" />
         </NavLink>
         {/* Job Applications */}
-        <NavLink
-          className="m-auto text-white"
-          to="/job_applications"
-          data-testid="applications-iconM"
-          onClick={toggleSideMenu}
-        >
+        <NavLink className="m-auto text-white" to="/job_applications" data-testid="applications-iconM" onClick={toggleSideMenu}>
           <DescriptionIcon fontSize="large" />
         </NavLink>
 
         {/* Drop Down Shortcut Menu (Mobile) */}
         <div className="flex mt-auto flex-col items-center justify-center relative text-white">
-          <button
-            className="flex items-center justify-items-center m-4"
-            onClick={toggleDropDown}
-          >
-            <AddCircleIcon
-              data-testid="plus-iconM"
-              fontSize="large"
-              className="m-auto"
-            />
+          <button className="flex items-center justify-items-center m-4" onClick={toggleDropDown}>
+            <AddCircleIcon data-testid="plus-iconM" fontSize="large" className="m-auto"/>
           </button>
-          <ul
-            className={`bg-cyan-500 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform
-            ${
-              isDropDownOpen
-                ? "scale-100 opacity-100 visible"
-                : "scale-95 opacity-0 invisible"
-            }`}
-          >
-            <li
-              className="p-2 hover:bg-gray-100 rounded text-center mb-2 hover:text-black"
-              onClick={() => {
-                toggleSideMenu();
-                toggleDropDown();
-              }}
-            >
+          <ul className={`bg-cyan-500 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform
+            ${ isDropDownOpen ? "scale-100 opacity-100 visible" : "scale-95 opacity-0 invisible"}`}>
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 hover:text-black" onClick={() => {toggleSideMenu(); toggleDropDown();}}>
               <Link data-testid="newContactLink" to="/contacts/new">
                 Add New Contact
               </Link>
             </li>
-            <li
-              className="p-2 hover:bg-gray-100 rounded text-center mb-2 hover:text-black"
-              onClick={() => {
-                toggleSideMenu();
-                toggleDropDown();
-              }}
-            >
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 hover:text-black" onClick={() => {toggleSideMenu(); toggleDropDown();}}>
               <Link data-testid="newCompanyLink" to="/companies/new">
                 Add New Company
               </Link>
             </li>
-            <li
-              className="p-2 hover:bg-gray-100 rounded text-center hover:text-black"
-              onClick={() => {
-                toggleSideMenu();
-                toggleDropDown();
-              }}
-            >
+            <li className="p-2 hover:bg-gray-100 rounded text-center hover:text-black" onClick={() => {toggleSideMenu(); toggleDropDown();}}>
               <Link data-testid="newAppLink" to="/jobapplications/new">
                 Add New Job Application
               </Link>
@@ -230,11 +156,7 @@ function MenuBar() {
         </div>
 
         {/* Account */}
-        <NavLink
-          to="/userInformation"
-          className="m-auto text-white mb-14"
-          data-testid="update-userM"
-        >
+        <NavLink to="/userInformation" className="m-auto text-white mb-14" data-testid="update-userM">
           <AccountCircleIcon data-testid="updateUser-iconM" fontSize="large" />
         </NavLink>
       </nav>
