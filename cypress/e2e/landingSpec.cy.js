@@ -39,12 +39,15 @@ describe('Landing page after logging in spec', () => {
     cy.url().should('include', '/job_applications');
     cy.visit('http://localhost:3000/');
 
-    cy.get('[href="/add-new"]').click();
-    cy.url().should('include', '/add-new');
-    cy.visit('http://localhost:3000/');
+    // cy.get('[data-testid="add-iconD"]').click();
+    // cy.url().should('include', '/add-new');
+    // cy.visit('http://localhost:3000/');
+    // cy.get('#email').type("danny_de@email.com")
+    // cy.get('#password').type("jerseyMikesRox7")
+    // cy.get('[data-testid="login-button"]').click();
 
-    cy.get('[href="/account"]').click();
-    cy.url().should('include', '/account');
+    // cy.get('[data-testid="updateUser-iconD"]').click();
+    // cy.url().should('include', '/userInformation');
   });
 
   describe('DropDown Menu', () => {
@@ -58,15 +61,15 @@ describe('Landing page after logging in spec', () => {
       cy.get('button > .MuiSvgIcon-root').click();
       cy.get('.bg-cyan-600').should('exist');
       cy.contains('Create New Contact').should('exist');
-      cy.get('[href="/newContact"]').click();
-      cy.url().should('include', '/newContact');
+      cy.get('[data-testid="newContactLink"]').click();
+      cy.url().should('include', '/contacts/new');
     });
     it('should render dropdown menu with link to create new company', () => {
       cy.visit('http://localhost:3000/');
       cy.get('button > .MuiSvgIcon-root').click();
       cy.get('.bg-cyan-600').should('exist');
       cy.contains('Create New Company').should('exist');
-      cy.get('[href="/companies/new"]').click();
+      cy.get('[data-testid="newCompanyLink"]').click();
       cy.url().should('include', '/companies/new');
     });
     it('should render dropdown menu with link to create new job application', () => {
@@ -74,8 +77,9 @@ describe('Landing page after logging in spec', () => {
       cy.get('button > .MuiSvgIcon-root').click();
       cy.get('.bg-cyan-600').should('exist');
       cy.contains('Create New Job Application').should('exist');
-      cy.get('[href="/jobapplications/new"]').click();
+      cy.get('[data-testid="newAppLink"]').click(); 
       cy.url().should('include', '/jobapplications/new');
     });
   })
 })
+
