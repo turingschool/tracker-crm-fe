@@ -98,7 +98,7 @@ describe("Company Show Page", () => {
     cy.get("#password").type("jerseyMikesRox7");
     cy.get('[data-testid="login-button"]').click();
     cy.wait("@mockSession");
-    cy.get('a[href="/companies"]').click();
+    cy.get('a[href="/companies"]').first().click();
     cy.wait("@getCompanies");
     cy.get("table tbody tr").first().click();
     cy.wait("@getCompany");
