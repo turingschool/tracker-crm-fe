@@ -2,6 +2,8 @@ import { mockCompanies } from "../fixtures/mockCompanies.js";
 import { mockEmptyCompanies } from "../fixtures/emptyMockCompanies.js";
 
 describe("Companies page after logging in", () => {
+  const userId = 2;
+
   beforeEach(() => {
   // Intercept the login POST request
   cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
@@ -10,7 +12,7 @@ describe("Companies page after logging in", () => {
       token: "fake-token",
       user: {
         data: {
-          id: 2,
+          id: userId,
           type: "user",
           attributes: {
             name: "Test User",
@@ -23,13 +25,21 @@ describe("Companies page after logging in", () => {
   }).as("mockSession");
 
   // Intercept the GET request to fetch companies
-  cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies", {
+  cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/companies`, {
     statusCode: 200,
     body: mockCompanies,
     headers: {
       "Content-Type": "application/json",
     },
   }).as("getCompanies");
+
+  // Intercept the GET request to fetch job applications
+  cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/job_applications`,{
+    statusCode: 200,
+    body: {
+      data: [],
+    },
+  })
 
   // Visit the login page and perform login
   cy.visit("http://localhost:3000/");
@@ -67,10 +77,9 @@ describe("Companies page after logging in", () => {
 
   it("Should display the correct table headers", () => {
     cy.wait("@getCompanies");
-    cy.get("table").find("th").should("have.length", 3);
+    cy.get("table").find("th").should("have.length", 2);
     cy.get("table").find("th").eq(0).should("have.text", "Company Name");
-    cy.get("table").find("th").eq(1).should("have.text", "Application Status");
-    cy.get("table").find("th").eq(2).should("have.text", "Notes");
+    cy.get("table").find("th").eq(1).should("have.text", "Notes");
   });
 
   it("Should display the correct number of companies", () => {
@@ -81,15 +90,15 @@ describe("Companies page after logging in", () => {
   it("Should display the correct company information", () => {
     cy.wait("@getCompanies");
     cy.get("table tbody tr").eq(0).find("td").eq(0).should("have.text", "Google");
-    cy.get("table tbody tr").eq(0).find("td").eq(1).should("have.text", "Not Applied Yet");
-    cy.get("table tbody tr").eq(0).find("td").eq(2).should("have.text", "Innovative tech company.");
+    cy.get("table tbody tr").eq(0).find("td").eq(1).should("have.text", "Innovative tech company.");
     cy.get("table tbody tr").eq(1).find("td").eq(0).should("have.text", "Amazon");
-    cy.get("table tbody tr").eq(1).find("td").eq(1).should("have.text", "Not Applied Yet");
-    cy.get("table tbody tr").eq(1).find("td").eq(2).should("have.text", "Leading e-commerce platform.");
+    cy.get("table tbody tr").eq(1).find("td").eq(1).should("have.text", "Leading e-commerce platform.");
   });
 });
 
 describe("Companies page with no companies", () => {
+  const userId = 2;
+  
   beforeEach(() => {
     // Intercept the login POST request
     cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
@@ -98,7 +107,7 @@ describe("Companies page with no companies", () => {
         token: "fake-token",
         user: {
           data: {
-            id: 2,
+            id: userId,
             type: "user",
             attributes: {
               name: "Test User",
@@ -111,13 +120,21 @@ describe("Companies page with no companies", () => {
     }).as("mockSession");
 
     // Intercept the GET request with empty companies
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies", {
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/companies`, {
       statusCode: 200,
       body: mockEmptyCompanies,
       headers: {
         "Content-Type": "application/json",
       }
     }).as("getEmptyCompanies");
+
+    // Intercept the GET request to fetch job applications
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/job_applications`,{
+      statusCode: 200,
+      body: {
+        data: [],
+      },
+    })
 
     // Visit the login page and perform login
     cy.visit("http://localhost:3000/");
