@@ -18,6 +18,7 @@
     "react-router-dom": "^6.28.0",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.15.0",
+    "spinners": "^1.2.2",
     "swr": "^2.2.5",
     "web-vitals": "^2.1.4"
   },
@@ -26,6 +27,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "cypress": "cypress open",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
