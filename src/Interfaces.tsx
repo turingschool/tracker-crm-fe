@@ -46,3 +46,57 @@ export interface JobApplication {
   company_id: number;
   company_name?: string;
 }
+
+
+
+
+
+  export interface DashBoardDattaI{
+          job_applications: [ null |
+              {
+                  id: number;
+                  position_title: string;
+                  date_applied: string;
+                  status: number;
+                  notes: string;
+                  job_description: string;
+                  application_url: string;
+                  created_at: string;
+                  updated_at: string;
+                  company_id: number;
+                  user_id: number;
+              }
+          ],
+          contacts: [ null |
+
+              {
+                  id: number;
+                  first_name: string;
+                  last_name: string;
+                  email: string;
+                  phone_number: string;
+                  notes: string;
+                  created_at: string;
+                  updated_at: string;
+                  user_id: number;
+                  company_id: number;
+              }
+          ],
+          companies: [ null |
+
+              {
+                  id: number;
+                  user_id: number;
+                  name: string;
+                  website: string;
+                  street_address: string;
+                  city: string;
+                  state: string;
+                  zip_code: string;
+                  notes: string;
+                  created_at: string;
+                  updated_at: string ;
+              }
+          ]
+
+  }
