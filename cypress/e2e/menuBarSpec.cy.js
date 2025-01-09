@@ -65,7 +65,7 @@ describe("Menu Bar after logging in spec", () => {
     cy.get('[data-testid="logo"]').click();
     cy.url().should("include", "/");
 
-    // Home is active upon login
+    // Home is active/cyan upon login
     cy.get('[data-testid="home-iconD"]').should('have.class', 'text-cyan-800').click();
     cy.url().should("include", "/home");
     cy.get('[data-testid="home-iconD"]').should('have.class', 'text-cyan-800');
@@ -74,7 +74,7 @@ describe("Menu Bar after logging in spec", () => {
     cy.url().should("include", "/contacts");
     cy.get('[data-testid="contacts-iconD"]').should('have.class', 'text-cyan-800')
 
-    // Home is active upon login
+    // Home is now inactive/gray upon selecting Contacts
     cy.get('[data-testid="home-iconD"]').should('have.class', 'text-gray-500');
 
     cy.get('[data-testid="companies-iconD"]').should('have.class', 'text-gray-500').click();
