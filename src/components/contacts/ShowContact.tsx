@@ -71,8 +71,15 @@ function ShowContact() {
 
         setContact(data.data);
 
-        const companyId = data.data.attributes.company.id;
+        const companyId = data.data.attributes.company?.id;
         console.log("CompanyID: ", companyId);
+
+
+        if(!companyId) {
+          console.log("No company for this contact");
+          setOtherContact([]);
+          return
+        }
 
 
         const companyContacts = await fetch(
@@ -98,7 +105,7 @@ function ShowContact() {
         console.log("Company Contacts Data: ", companyContactsData);
 
         const contactsList = companyContactsData.contacts.data;
-        console.log(contactsList);
+        console.log("Contacts List:", contactsList);
         setOtherContact(contactsList);
       } catch (error) {
         setFetchError(`${(error as Error).message}. Please try again later.`);
@@ -110,9 +117,9 @@ function ShowContact() {
     }
   }, [contactId, token]);
 
-  const filteredOtherContacts = otherContacts.filter(
-    (otherContact) => contact?.id && otherContact.id !== contact.id
-  );
+  const filteredOtherContacts = contact?.id ? otherContacts.filter(
+    (otherContact) => contact?.id && otherContact.id !== contact.id)
+    : [];
   return (
     <section className="flex justify-between w-full">
       {fetchError && <p className="error">{fetchError}</p>}
@@ -129,11 +136,13 @@ function ShowContact() {
               data-testid="company-name"
               className="text-[3.5vh] font-bold text-cyan-500 p-0"
             >
-              {contact.attributes.company.name}
+              {contact.attributes.company
+                ? contact.attributes.company.name
+                : "No Affiliated Companies" }
             </h2>
             <div className="m-5">
               <p>
-                <span
+                <span 
                   data-testid="contact-email"
                   className="text=[1vh] font-bold"
                 >
@@ -168,7 +177,10 @@ function ShowContact() {
               data-testid="other-contacts"
               className="text-[3vh] inset-3 font-bold text-cyan-500 mb-[2vh]"
             >
-              Other contacts at {contact.attributes.company.name}
+              {contact.attributes.company 
+              ? `Other contacts at ${contact.attributes.company.name}`
+              : "No Contacts"}
+              {/* Hi from the past! Here you can refactor to link to a new route... like create a new contact */}
             </h2>
             <ul className="list-disc list-inside">
               {filteredOtherContacts.map((otherContact) => (

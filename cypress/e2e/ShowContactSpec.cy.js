@@ -1,4 +1,5 @@
 import { mockContactsData } from "../fixtures/mockContactsData";
+import { mockDashboard } from "../fixtures/mockDashBoard.json"
 
 describe("Show a single contact page", () => {
   beforeEach(() => {
@@ -90,6 +91,12 @@ describe("Show a single contact page", () => {
       }
     ).as("get-company-contacts");
 
+    cy.intercept(
+      'GET',
+      'http://localhost:3001/api/v1/users/2/dashboard',
+      { statusCode: 200, fixture: 'mockDashBoard' }
+    );
+
     cy.visit("http://localhost:3000/");
     cy.get("#email").type("dollyP@email.com");
     cy.get("#password").type("Jolene123");
@@ -131,6 +138,40 @@ describe("Show a single contact page", () => {
     cy.wait("@get-contact-details");
     cy.get('[data-testid="other-contacts"]').should("have.text", 'Other contacts at Future Designs LLC');
   });
+
+  it("Should display no companies and associated contacts correctly if contact has no company", () => {
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
+      statusCode: 200,
+      body: {
+        data: {
+          id: "1",
+          type: "contacts",
+          attributes: {
+            first_name: "John",
+            last_name: "Smith",
+            company_id: null,
+            email: "123@example.com",
+            phone_number: "123-555-6789",
+            notes: "Detailed notes for John Smith",
+            user_id: 2,
+            company: null,
+          },
+        },
+      },
+      headers: {
+        Authorization: "Bearer The token",
+        "Content-Type": "application/json",
+      },
+    }).as("get-contact-details-no-comp");
+
+    cy.get('[data-testid="contacts-iconD"]').click();
+    cy.get("table tbody tr").first().find("a").click();
+
+    cy.wait("@get-contact-details-no-comp");
+    cy.get('[data-testid="other-contacts"]').should("have.text", 'No Contacts');
+    cy.get('[data-testid="company-name"]').should("have.text", "No Affiliated Companies");
+
+  })
 });
 
 describe("Show a single contact page (Sad Path)", () => {
@@ -169,19 +210,6 @@ describe("Show a single contact page (Sad Path)", () => {
         "Content-Type": "application/json",
       },
     }).as("get-contacts");
-
-    cy.intercept(
-      "GET",
-      "http://localhost:3001/api/v1/users/2/companies/1/contacts",
-      {
-        statusCode: 404,
-        body: { message: "No contacts found" },
-        headers: {
-          Authorization: "Bearer The token",
-          "Content-Type": "application/json",
-        },
-      }
-    ).as("get-company-contacts-not-found");
 
     cy.visit("http://localhost:3000/");
     cy.get("#email").type("dollyP@email.com");
