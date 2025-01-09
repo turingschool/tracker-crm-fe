@@ -423,6 +423,9 @@ Existing users may click the 'login' link to directly navigate to the Login page
 ### Feature 2 - Login
 ### Feature 3 - Home
 
+![Menu Bar Navigation](public/assets/menu-bar.gif)
+![Menu Bar Navigation](public/assets/mobile-menu-bar.gif)
+
 ### Feature 4 - Companies
 
 The Companies section allows users to seamlessly manage a list of their companies. 
@@ -456,7 +459,7 @@ Click on the Add New + button to navigate to a form where a user inputs a new co
 - Search for a Contact
 Use the search bar to quickly find a contact by name, enhancing efficiency and user experience.
 
-![Contacts Section Demo](public/assets/contacts.gif)
+![Contacts Section Demo](public/assets/contacts1.gif)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
