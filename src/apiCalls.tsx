@@ -121,6 +121,7 @@ export const fetchDashBoardData = async (userId: number, token: string | null) =
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
+
     });
 
     if (!response.ok) {
@@ -130,11 +131,13 @@ export const fetchDashBoardData = async (userId: number, token: string | null) =
     const result = await response.json();
 
     const formattedData = result.data.attributes.dashboard.weekly_summary
-    console.log("formattedData",formattedData)
 
     return formattedData;
+
   } catch (error) {
-    console.error('Error fetching data:', error);
+
     throw error;
+
   }
+
 }
