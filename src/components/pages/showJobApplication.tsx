@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { showJobApp, updateJobApplication } from "../../trackerApiCalls";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
+import { statusMap, statusStyles} from "../JobApplicationUtilities";
 
 interface Contact {
   id: number;
@@ -45,25 +46,6 @@ function JobApplication() {
   const [notes, setNotes] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [applicationURL, setApplicationURL] = useState('');
-
-  const statusMap: { [key: number]: string } = {
-    1: 'Submitted',
-    2: 'Interviewing',
-    3: 'Offer',
-    4: 'Rejected',
-    5: 'Phone Screen',
-    6: 'Code Challenge',
-    7: 'Not Yet Applied',
-  };
-
-
-  const statusStyles: { [key: string]: string } = {
-    Submitted: "bg-yellow-200 text-yellow-800",
-    Interviewing: "bg-green-200 text-green-800",
-    Offer: "bg-teal-300 text-teal-900",
-    Rejected: "bg-red-200 text-red-800",
-    "Phone Screen": "bg-yellow-300 text-yellow-900",
-  };
 
   useEffect(() => {
     if (jobAppId) {
