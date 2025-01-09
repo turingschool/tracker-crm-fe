@@ -21,11 +21,12 @@ describe('testing for Login page', () => {
 
     .get('.login-form-wrap > .form-inputs > form > .login-btn').should('be.visible')
     .get('.login-form-wrap > .form-inputs > form > .login-btn').should('contain', 'Login')
-    .get('.login-form-wrap > .form-inputs > form > .no-account-message').should('be.visible')
-    .get('.login-form-wrap > .form-inputs > form > .no-account-message').should('contain', 'No Account? Click Here To Register.')
+  
+    .get('.no-account-message').should('be.visible')
+    .get('.no-account-message').should('contain', 'No Account? Click Here To Register.')
 
-    .get('.login-form-wrap > .form-inputs > form > .no-account-message > button').should('be.visible')
-    .get('.login-form-wrap > .form-inputs > form > .no-account-message > button').should('contain', 'Here')
+    .get('a').should('be.visible')
+    .get('a').should('contain', 'Here')
 
     .get('.login-form-wrap > .quad-color-bar').should('be.visible')
     .get('.login-form-wrap > .quad-color-bar > .cyan-bar').should('be.visible')
