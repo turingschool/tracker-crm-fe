@@ -178,7 +178,7 @@ export const updateJobApplication = async (userParams: Record<string, any> ) => 
   try {
     const apiURL = process.env.REACT_APP_BACKEND_API_URL;
     const response = await fetch(`${apiURL}/api/v1/users/${userParams.userId}/job_applications/${userParams.id}`, {
-      method: 'PUT',
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${userParams.token}`

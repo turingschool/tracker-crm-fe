@@ -100,38 +100,41 @@ function JobApplication() {
       });
     closeEdit()
   }
-  console.log(jobApp, "<---- Job APP")
+
   return (
     <div className="min-h-screen p-4 sm:p-8 pt-8 sm:pt-36">
       {error && <p className="text-red-600 text-center">{error}</p>}
       {jobApp ? (
         <main className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-8">
           <section>
-            <h1 className="text-cyan-600 text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">
+            <h1 className="text-cyan-600 text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4"
+            data-testid="job-Title">
               {jobApp.position_title}
             </h1>
-            <h2 className="text-cyan-600 text-2xl sm:text-3xl mb-6">{/* REFACTOR AWAITING SHOW COMPANY ROUTE */}
+            <h2 className="text-cyan-600 text-2xl sm:text-3xl mb-6"
+            data-testid="job-companyName">
               {jobApp.company_name}
             </h2>
-            <p className="font-medium mb-4">{/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
+            <p className="font-medium mb-4">
               Applied On:{" "}
               <span className="font-semibold">
-                {/* {new Date(jobApp.date_applied).toLocaleDateString()} */}
                 {`${jobApp.date_applied}`}
               </span>
             </p>
-            <p className="mb-6">{/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
+            <p className="mb-6">
               Status:{" "}
-              <span className={`py-1 px-2 rounded ${statusStyles[statusMap[jobApp.status]]}`} >
+              <span className={`py-1 px-2 rounded ${statusStyles[statusMap[jobApp.status]]}`} data-testid="job-status">
                 {statusMap[jobApp.status]}
               </span>
             </p>
             <h3 className="text-cyan-600 text-2xl mb-4">Notes</h3>
-            <p className={`mb-8 ${jobApp.notes ? "" : "text-cyan-500"}`}>
+            <p className={`mb-8 ${jobApp.notes ? "" : "text-cyan-500"}`} data-testid="job-notes">
               {jobApp.notes ? jobApp.notes : "Click edit to add some notes."}
             </p>
             <button className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded"
-              onClick={openEdit}>
+              onClick={openEdit}
+              data-testid="edit-button"
+              >
               Edit
             </button>
             <Link className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded inline-block text-center ml-2"
@@ -150,10 +153,12 @@ function JobApplication() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-cyan-500 underline hover:text-cyan-700"
+                data-testid="job-URL"
               >
                 {jobApp.application_url}
               </a>
-              <p className="mt-4 text-sm sm:text-base">
+              <p className="mt-4 text-sm sm:text-base"
+              data-testid="job-description">
                 {jobApp.job_description.slice(0, 300)}...
               </p>
               <button
@@ -163,11 +168,11 @@ function JobApplication() {
                 Read More...
               </button>
             </div>
-            <div>
+            {/* <div>
               <h2 className="text-cyan-600 text-xl sm:text-2xl font-bold mb-4">
                 My Contacts at {jobApp.company_name}
               </h2>
-              {/* <ul>
+              <ul>
                 {jobApp.contacts.length > 0 ? (
                   jobApp.contacts.map((contact) => (
                     <li key={contact.id} className="mb-4">
@@ -184,8 +189,8 @@ function JobApplication() {
                     </Link>
                   )
                 }
-              </ul> */}
-            </div>
+              </ul>
+            </div> */}
           </section>
 
           {isModalOpen && (
@@ -206,12 +211,18 @@ function JobApplication() {
           )}
 
           {isEditModelOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            data-testid="edit-modal">
             <div className="bg-white rounded p-6 w-3/4 max-w-lg max-h-[80vh] overflow-y-auto">
-              <h2 className="text-cyan-600 text-xl font-bold mb-4">
+              <h2 className="text-cyan-600 text-xl font-bold mb-4"
+              data-testid="edit-modal-title">
                 Update Job Description
               </h2>
-              <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">  
+              <form 
+                onSubmit={handleSubmit} 
+                className="grid grid-cols-2 gap-4"
+                data-testid="edit-modal-form"
+                >  
                 <label>Position Title:</label>
                 <input
                   type="text"
@@ -220,12 +231,16 @@ function JobApplication() {
                   onChange={(e) => setPositionTitle(e.target.value)}
                   className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
                   placeholder="Position Title"
+                  data-testid="edit-modal-form-title"
+                  required
                 />
                 <label>Status:</label>
                 <select
                   value={status}
                   id="appStatus"
                   onChange={(e) => setStatus(Number(e.target.value))}
+                  data-testid="edit-modal-form-status"
+                  required
                   className={`p-2 border-2 rounded-lg focus:outline-none focus:ring-2 m-2 ${statusMap[status] ? statusStyles[statusMap[status]] : ''
                     }`}             
                 >
@@ -245,6 +260,7 @@ function JobApplication() {
                   onChange={(e) => setJobDescription(e.target.value)}
                   className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2  m-2"
                   placeholder='Job Description'
+                  data-testid="edit-modal-form-description"
                   rows={6}
                 />
                 <label>URL:</label>
@@ -255,6 +271,8 @@ function JobApplication() {
                 onChange={(e) => setApplicationURL(e.target.value)}
                 className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2 w-[90%]"
                 placeholder='www.example.com'
+                required
+                data-testid="edit-modal-form-url"
                 />
                 <label>Notes: </label>
                 <textarea
@@ -264,16 +282,19 @@ function JobApplication() {
                 className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 w-[90%] m-2"
                 rows={6}
                 placeholder='Notes...'
+                data-testid="edit-modal-form-notes"
                 />
                 <button
                   onClick={closeEdit}
                   className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-800"
+                  data-testid="edit-modal-form-cancel-button"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-800"
+                  data-testid="edit-modal-form-submit-button"
                 >
                   Update Info
                 </button>
