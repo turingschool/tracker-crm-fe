@@ -1,8 +1,10 @@
 /*----------------------------------// FETCH Companies //--------------------------------*/
+const apiURL = process.env.REACT_APP_BACKEND_API_URL
+const backendURL = `${apiURL}api/v1/`
 
 export const fetchCompanies = async (userId: number, token: string ) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/companies`, {
+    const response = await fetch(`${backendURL}users/${userId}/companies`, {
       method: "GET",
       headers: {
         authorization: `Bearer ${token}`,
@@ -26,7 +28,7 @@ export const fetchCompanies = async (userId: number, token: string ) => {
 
 export const createCompany = async (userId: number, token: string, newCompany: object) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/companies`, {
+    const response = await fetch(`${backendURL}users/${userId}/companies`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -49,7 +51,7 @@ export const createCompany = async (userId: number, token: string, newCompany: o
 export const getACompany = async (userId: number, token: string, companyId: number) => {
   try {
     const response = await fetch(
-      `http://localhost:3001/api/v1/users/${userId}/companies/${companyId}/contacts`,
+      `${backendURL}users/${userId}/companies/${companyId}/contacts`,
       {
         method: "GET",
         headers: {
@@ -76,7 +78,7 @@ export const getACompany = async (userId: number, token: string, companyId: numb
 
 export const getUser = async (userId: number) => {
   try {
-    const apiURL = process.env.BACKEND_APP_API_URL
+    const apiURL = process.env.REACT_APP_BACKEND_API_URL
     const response = await fetch(`${apiURL}${userId}`, {
       method: 'GET',
       headers: {
