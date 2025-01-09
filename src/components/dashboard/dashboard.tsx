@@ -32,7 +32,7 @@ export const DashBoard : React.FC = () => {
         return (
             <>
                 <div className="fixed top-[15vh] left-[25vh] right-0 font-bold font-size-[4vh] text-5xl text-cyan-600">
-                    <h1>Welcome,{userData.user.data.attributes.name}</h1>
+                    <h1>Welcome, {userData.user.data.attributes.name}</h1>
                 </div>
                 <div className="ml-2 fixed top-[20vh] left-[25vh]">
 
