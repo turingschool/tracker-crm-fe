@@ -422,6 +422,9 @@ Existing users may click the 'login' link to directly navigate to the Login page
 
 ### Feature 2 - Login
 ### Feature 3 - Home
+![MenuBar Section Demo](public/assets/menu-bar.gif)
+<img src="public/assets/mobile-menu.gif" height="500">
+
 
 ### Feature 4 - Companies
 
@@ -456,7 +459,7 @@ Click on the Add New + button to navigate to a form where a user inputs a new co
 - Search for a Contact
 Use the search bar to quickly find a contact by name, enhancing efficiency and user experience.
 
-![Contacts Section Demo](public/assets/contacts.gif)
+![Contacts Section Demo](public/assets/faster-contacts.gif)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
