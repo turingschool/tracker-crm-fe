@@ -49,13 +49,13 @@ export const DashBoard : React.FC = () => {
 
                     <div className="bg-blue-700">
                         <label>Contacts</label>
-                        <label>{`${dashData.contacts}`}</label>
+                        <label>{`${dashData.contacts.length}`}</label>
                         <label>New connections this week</label>
                     </div>
 
                     <div className='bg-green-500'>
                         <label>Companies</label>
-                        <label>{`${dashData.companies}`}</label>
+                        <label>{`${dashData.companies.length}`}</label>
                         <Link to="/companies/new">Add new company</Link>
 
                     </div>
