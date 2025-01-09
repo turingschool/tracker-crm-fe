@@ -423,6 +423,16 @@ Existing users may click the 'login' link to directly navigate to the Login page
 ### Feature 2 - Login
 ### Feature 3 - Home
 
+The home page/dash is where a user can see there weekly report.
+
+Functionalities Include:
+
+- User can see the job applications, contacts, and companies they have made for the week.
+- as well as having a simple button to port you to add a new company 
+
+![Dashboard Section Demo](public/assets/dashboard.gif)
+
+
 ### Feature 4 - Companies
 
 The Companies section allows users to seamlessly manage a list of their companies. 
