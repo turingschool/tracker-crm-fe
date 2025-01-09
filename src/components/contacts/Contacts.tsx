@@ -42,7 +42,9 @@ function Contacts( {userData}: UserInformationProps ) {
   useEffect(() => {
     const fetchContacts = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/contacts`, {
+        const apiURL = process.env.REACT_APP_BACKEND_API_URL
+        const backendURL = `${apiURL}api/v1/`
+        const response = await fetch(`${backendURL}users/${userId}/contacts`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${token}`,

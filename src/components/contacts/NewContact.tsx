@@ -39,8 +39,10 @@ const NewContact = ( {userData}: UserInformationProps ) => {
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
+        const apiURL = process.env.REACT_APP_BACKEND_API_URL
+        const backendURL = `${apiURL}api/v1/`
         const response = await fetch(
-          `http://localhost:3001/api/v1/users/${userId}/companies`,
+          `${backendURL}users/${userId}/companies`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -92,9 +94,11 @@ const NewContact = ( {userData}: UserInformationProps ) => {
     };
 
     try {
-      let url = `http://localhost:3001/api/v1/users/${userId}/contacts`;
+      const apiURL = process.env.REACT_APP_BACKEND_API_URL
+      const backendURL = `${apiURL}api/v1/`
+      let url = `${backendURL}users/${userId}/contacts`;
       if (formData.companyId) {
-        url = `http://localhost:3001/api/v1/users/${userId}/companies/${formData.companyId}/contacts`;
+        url = `${backendURL}users/${userId}/companies/${formData.companyId}/contacts`;
       }
       const response = await fetch(url, {
         method: "POST",
