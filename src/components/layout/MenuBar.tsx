@@ -75,7 +75,7 @@ function MenuBar() {
               <AddCircleIcon aria-label="Add New"  fontSize="large" className="m-auto justify-items-center mt-[6vh]" />
               <span hidden>Add New...</span>
             </button>
-            <ul className={`absolute top-full left-0 bg-cyan-600 shadow-md rounded-md transition-all duration-700 ease-in-out
+            <ul className={`absolute top-full left-0 bg-cyan-800 shadow-md rounded-md transition-all text-white duration-700 ease-in-out
             ${isDropDownOpen ? 'scale-100 opacity-100 visible' : 'hidden'}`} style={{ zIndex: 10 }}>
               <li className="p-2 hover:bg-gray-100 rounded text-center mb-2">
                 <Link to="/contacts/new" onClick={toggleDropDown}>Add New Contact</Link>
@@ -134,8 +134,8 @@ function MenuBar() {
             <span aria-hidden="true" aria-label="Companies">&emsp; Companies</span>
           </NavLink>
           {/* Job Applications */}
-          <NavLink aria-hidden="true" className={mobileClasses} to="/job_applications">
-            <DescriptionIcon data-testid="applications-iconM" fontSize="large" onClick={toggleSideMenu} />
+          <NavLink aria-hidden="true" className={mobileClasses} to="/job_applications" onClick={toggleSideMenu}>
+            <DescriptionIcon data-testid="applications-iconM" fontSize="large"  />
             <span aria-hidden="true" aria-label="Job Applications">&emsp; Job Applications</span>
           </NavLink>
           {/* Drop Down Shortcut Menu */}
@@ -164,7 +164,7 @@ function MenuBar() {
             className="m-auto ml-[15vw] cursor-pointer text-white rounded-full"
             data-testid="update-userM" onClick={toggleSideMenu}>
             <AccountCircleIcon data-testid="updateUser-iconM" fontSize="large" className="m-auto rounded-full bg-cyan-500 text-white"  />
-            <span aria-hidden="true" aria-label="Update User Profile">Update Profile</span>
+            <span aria-hidden="true" aria-label="Update User Profile">&emsp;Update Profile</span>
           </NavLink>
           <div className="m-auto h-auto"></div>
         </nav >
