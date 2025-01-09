@@ -45,8 +45,8 @@ function MenuBar() {
         {/* Desktop Menu */}
         < nav className='flex flex-col fixed max-sm:hidden  justify-items-center h-screen sm:w-1/12 ' >
           {/* Logo */}
-          <Link className="m-auto cursor-pointer mt-[2vh]" to="/">
-            <img aria-label="Turing Logo" className="m-auto cursor-pointer" src={logo}/>
+          <Link className="m-auto cursor-pointer mt-[2vh]" data-testid="logo" to="/">
+            <img aria-label="logo" className="m-auto cursor-pointer" src={logo}/>
           </Link>
           {/* Home */}
           <NavLink className={linkClasses} to="/home" data-testid="home-iconD">
@@ -71,7 +71,7 @@ function MenuBar() {
           {/* Drop Down Shortcut Menu */}
           <div className="flex flex-col items-center justify-center relative">
             <button className={`flex items-center justify-items-center aria-haspopup="true"
-            ${isDropDownOpen ? "text-cyan-800" : "text-gray-500"}`} onClick={toggleDropDown}>
+            ${isDropDownOpen ? "text-cyan-800" : "text-gray-500"}`} data-testid="newmenu-iconD" onClick={toggleDropDown}>
               <AddCircleIcon aria-label="Add New"  fontSize="large" className="m-auto justify-items-center mt-[6vh]" />
               <span hidden>Add New...</span>
             </button>
@@ -105,41 +105,41 @@ function MenuBar() {
         </nav>
 
         {/* -- MOBILE HAMBURGER, shown on small screens only -- */}
-        <button aria-hidden="true" className="flex items-center justify-items-center visible sm:hidden p-2" onClick={toggleSideMenu}>
+        <button aria-hidden="false" className="flex items-center justify-items-center visible sm:hidden p-2" onClick={toggleSideMenu}>
           <MenuIcon data-testid="menu-iconM" fontSize="large" className="m-auto justify-items-center" />
           <span hidden>SideBar</span>
         </button>
-        <nav className={"fixed overflow-hidden min-sm:invisible min-sm:hidden  z-10 bg-opacity-100 inset-0 transform ease-in-out flex flex-col justify-items-center duration-500 bg-[#046576] justify-evenly h-screen  sm:w-1/6 max-w-1/6 " + (sideMenuOpen ? " transition-opacity opacity-80 duration-500 -translate-x-full  " : " transition-all opacity-100 -translate-x-0")}>
-          <button aria-hidden="true" className="min-sm:hidden" onClick={toggleSideMenu}>
+        <nav data-testid="slideout-menu" className={"fixed overflow-hidden min-sm:invisible min-sm:hidden  z-10 bg-opacity-100 inset-0 transform ease-in-out flex flex-col justify-items-center duration-500 bg-[#046576] justify-evenly h-screen  sm:w-1/6 max-w-1/6 " + (sideMenuOpen ? " transition-opacity opacity-80 duration-500 -translate-x-full  " : " transition-all opacity-100 translate-x-0")}>
+          <button aria-hidden="false" className="min-sm:hidden" onClick={toggleSideMenu}>
             <CloseIcon fontSize="large" data-testid="close-iconM" className="m-auto text-white justify-items-center" />
             <span aria-hidden="true" hidden>&emsp; Close Sidebar</span>
           </button>
           {/* Logo */}
-          <Link aria-hidden="true" className="m-auto cursor-pointer" to="/">
+          <Link aria-hidden="false" className="m-auto cursor-pointer" to="/">
             <img className="m-auto w-1/2 cursor-pointerM" src={logo} alt="Logo" />
           </Link>
           {/* Home */}
-          <NavLink aria-hidden="true" className={mobileClasses} data-testid="home-iconM" to="/home" onClick={toggleSideMenu}>
+          <NavLink aria-hidden="false" className={mobileClasses} data-testid="home-iconM" to="/home" onClick={toggleSideMenu}>
             <HomeIcon fontSize="large" />
             <span aria-hidden="true" aria-label="Home">&emsp; Home</span>
           </NavLink>
           {/* Contacts */}
-          <NavLink aria-hidden="true" className={mobileClasses} to="/contacts" data-testid="contacts-iconM" onClick={toggleSideMenu}>
-            <PersonIcon data-testid="contacts-iconM" fontSize="large" />
+          <NavLink aria-hidden="false" className={mobileClasses} to="/contacts" data-testid="contacts-iconM" onClick={toggleSideMenu}>
+            <PersonIcon fontSize="large" />
             <span aria-hidden="true" aria-label="Contacts">&emsp; Contacts</span>
           </NavLink>
           {/* Companies */}
-          <NavLink aria-hidden="true" className={mobileClasses} to="/companies" data-testid="companies-iconM" onClick={toggleSideMenu}>
+          <NavLink aria-hidden="false" className={mobileClasses} to="/companies" data-testid="companies-iconM" onClick={toggleSideMenu}>
             <ApartmentIcon fontSize="large" />
             <span aria-hidden="true" aria-label="Companies">&emsp; Companies</span>
           </NavLink>
           {/* Job Applications */}
-          <NavLink aria-hidden="true" className={mobileClasses} to="/job_applications" onClick={toggleSideMenu}>
+          <NavLink aria-hidden="false" className={mobileClasses} to="/job_applications" onClick={toggleSideMenu}>
             <DescriptionIcon data-testid="applications-iconM" fontSize="large"  />
             <span aria-hidden="true" aria-label="Job Applications">&emsp; Job Applications</span>
           </NavLink>
           {/* Drop Down Shortcut Menu */}
-          <div aria-hidden="true" className="flex ml-[15vw] mt-4 flex-col items-start justify-start relative">
+          <div aria-hidden="false" className="flex ml-[15vw] mt-4 flex-col items-start justify-start relative">
             <button aria-label="Add New" aria-haspopup="true" className="flex items-center justify-items-center text-white" onClick={toggleDropDown}>
               <AddCircleIcon aria-label="Add New"  data-testid="newmenu-iconM" fontSize="large" className="m-auto text-white justify-items-center" />
               <span aria-hidden="true" >&emsp; Add New...</span>
@@ -160,7 +160,7 @@ function MenuBar() {
             </ul>
           </div>
           {/* Account */}
-          <NavLink aria-hidden="true" to="/userInformation"
+          <NavLink aria-hidden="false" to="/userInformation"
             className="m-auto ml-[15vw] cursor-pointer text-white rounded-full"
             data-testid="update-userM" onClick={toggleSideMenu}>
             <AccountCircleIcon data-testid="updateUser-iconM" fontSize="large" className="m-auto rounded-full bg-cyan-500 text-white"  />
