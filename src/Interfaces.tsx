@@ -45,6 +45,7 @@ export interface JobApplication {
   contact_information: string;
   company_id: number;
   company_name?: string;
+  updated_at: string;
 }
 
 

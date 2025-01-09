@@ -512,6 +512,10 @@ Choose a company that exists under your profile.
 
 ![Add New Job Application Page Demo](./src/assets/newJobAppPage.png)
 
+- Edit A Job Application:
+Edit several of the fields of an application that has already been input into the system to stay up to date on where in the process the application is at.
+
+![Edit Job Application Page](./src/assets/EditJobApp.png)
 <!-- CONTRIBUTING -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

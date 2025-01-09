@@ -6,6 +6,7 @@ describe("Companies page after logging in", () => {
 
   beforeEach(() => {
   // Intercept the login POST request
+
   cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
     statusCode: 200,
     body: {
