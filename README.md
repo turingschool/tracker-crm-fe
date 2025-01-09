@@ -459,7 +459,7 @@ Click on the Add New + button to navigate to a form where a user inputs a new co
 - Search for a Contact
 Use the search bar to quickly find a contact by name, enhancing efficiency and user experience.
 
-![Contacts Section Demo](public/assets/faster-contacts.gif)
+![Contacts Section Demo](public/assets/contacts.gif)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
