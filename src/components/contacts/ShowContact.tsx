@@ -46,11 +46,15 @@ function ShowContact() {
   const [fetchError, setFetchError] = useState<string | null>(null);
 
   useEffect(() => {
+
     const fetchShowContact = async () => {
+
       try {
+        const apiURL = process.env.REACT_APP_BACKEND_API_URL
+        const backendURL = `${apiURL}api/v1/`
         const userId = userData.user.data.id;
         const response = await fetch(
-          `http://localhost:3001/api/v1/users/${userId}/contacts/${contactId}`,
+          `${backendURL}users/${userId}/contacts/${contactId}`,
           {
             method: "GET",
             headers: {
@@ -70,8 +74,9 @@ function ShowContact() {
         const companyId = data.data.attributes.company.id;
         console.log("CompanyID: ", companyId);
 
+
         const companyContacts = await fetch(
-          `http://localhost:3001/api/v1/users/${userId}/companies/${companyId}/contacts`,
+          `${backendURL}users/${userId}/companies/${companyId}/contacts`,
           {
             method: "GET",
             headers: {

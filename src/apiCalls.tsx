@@ -1,6 +1,8 @@
-/*-----------------------------------// GET //--------------------------------------*/
+
 const apiURL = process.env.REACT_APP_BACKEND_API_URL
 const backendURL = `${apiURL}api/v1/`
+/*-----------------------------------// GET //--------------------------------------*/
+
 
 export const getUser = async (userId: number) => {
   console.log(userId, '---> HIT GET USER')
@@ -95,7 +97,7 @@ export const registerUser = async (userData: UserData): Promise<void> => {
 /*-----------------------------------// DashBoard //--------------------------------------*/
 export const fetchDashBoardData = async (userId: number, token: string | null) => {
   try {
-    const response = await fetch(`http://localHost:3001/api/v1/users/${userId}/dashboard`, {
+    const response = await fetch(`${backendURL}users/${userId}/dashboard`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
