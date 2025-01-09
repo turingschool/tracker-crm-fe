@@ -1,4 +1,5 @@
 import { mockContactsData } from "../fixtures/mockContactsData";
+import { mockDashboard } from "../fixtures/mockDashBoard.json"
 
 describe("Show a single contact page", () => {
   beforeEach(() => {
@@ -89,6 +90,12 @@ describe("Show a single contact page", () => {
         },
       }
     ).as("get-company-contacts");
+
+    cy.intercept(
+      'GET',
+      'http://localhost:3001/api/v1/users/2/dashboard',
+      { statusCode: 200, fixture: 'mockDashBoard' }
+    );
 
     cy.visit("http://localhost:3000/");
     cy.get("#email").type("dollyP@email.com");

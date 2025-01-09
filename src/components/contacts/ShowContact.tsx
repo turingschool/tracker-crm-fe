@@ -174,6 +174,7 @@ function ShowContact() {
               {contact.attributes.company 
               ? `Other contacts at ${contact.attributes.company.name}`
               : "No Contacts"}
+              {/* Hi from the past! Here you can refactor to link to a new route... like create a new contact */}
             </h2>
             <ul className="list-disc list-inside">
               {filteredOtherContacts.map((otherContact) => (
