@@ -111,7 +111,7 @@ function JobApplication() {
     updateJobApplication(compileData)
       .then((updatedApplication) => {
         console.log("Application updated successfully:", updatedApplication);
-        setJobApp(updatedApplication.data.attributes as JobApplicationAttributes);
+        setJobApp(updatedApplication.data.attributes)
       })
       .catch((error) => {
         console.error("Error updating user:", error);
@@ -185,10 +185,10 @@ function JobApplication() {
               <h2 className="text-cyan-600 text-xl sm:text-2xl font-bold mb-4">
                 My Contacts at {jobApp.company_name}
               </h2>
-              <ul>
+              {/* <ul>
                 {jobApp.contacts.length > 0 ? (
                   jobApp.contacts.map((contact) => (
-                    <li key={contact.id} className="mb-4">{/* REFACTOR AWAITING CONTACT SHOW ROUTE */}
+                    <li key={contact.id} className="mb-4">
                       <p className="text-cyan-500 font-semibold">
                         {contact.first_name} {contact.last_name}
                       </p>
@@ -202,7 +202,7 @@ function JobApplication() {
                     </Link>
                   )
                 }
-              </ul>
+              </ul> */}
             </div>
           </section>
 
@@ -222,6 +222,7 @@ function JobApplication() {
               </div>
             </div>
           )}
+
           {isEditModelOpen && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white rounded p-6 w-3/4 max-w-lg max-h-[80vh] overflow-y-auto">
