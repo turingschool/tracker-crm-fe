@@ -119,6 +119,13 @@ it('should have the mobile menu hidden by default', () => {
   cy.get('nav.fixed').should('have.class', '-translate-x-full');
 });
 
+it(" if plus icon is clicked multiple times, still behaves correctly", () => {
+  cy.get('[data-testid="plus-iconD"]').click();
+  cy.get('ul.bg-cyan-600').should('be.visible');
+  cy.get('[data-testid="plus-iconD"]').click().click().click();
+  cy.get('ul.bg-cyan-600').should('not.be.visible');
+});
+
   describe("Mobile Slide-out Menu", () => {
     beforeEach(() => {
       cy.viewport("iphone-xr");
@@ -135,18 +142,22 @@ it('should have the mobile menu hidden by default', () => {
       cy.get('[data-testid="home-iconM"]').click();
       cy.url().should("include", "/home");
     });
+
     it("MSM should have clickable links for contact icon", () => {
       cy.get('[data-testid="contacts-iconM"]').click();
       cy.url().should("include", "/contacts");
     });
+
     it("MSM should have clickable links for companies icon", () => {
       cy.get('[data-testid="companies-iconM"]').click();
       cy.url().should("include", "/companies");
     });
+
     it("MSM should have clickable links for job applications icon", () => {
       cy.get('[data-testid="applications-iconM"]').click();
       cy.url().should("include", "/job_applications");
     });
+
     it("MSM should have clickable links for user profile icon", () => {
       cy.get('[data-testid="updateUser-iconM"]').click();
       cy.url().should("include", "/userInformation");
@@ -172,6 +183,12 @@ it('should have the mobile menu hidden by default', () => {
       cy.get('[data-testid="newAppLink"]').click();
       cy.url().should("include", "/jobapplications/new");
     });
+
+    it("if hamburger icon is clicked again while open, still behaves correctly", () => {
+      cy.get('[data-testid="slideout-menu"]').should("have.class", "translate-x-0");
+      cy.get('[data-testid="menu-iconM"]').click().click();
+      cy.get('[data-testid="slideout-menu"]').should("not.be.visible");
+    });
   });
 
   it("Should have a quad-color-bar to the right of the nav bar", () => {
@@ -181,3 +198,54 @@ it('should have the mobile menu hidden by default', () => {
     cy.get(".quad-color-bar > .bg-green-500").should("exist");
   });
 });
+
+describe("Sad Path: Unauthorized contacts", () => {
+  beforeEach(() => {
+    cy.viewport(1280, 800);
+
+    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
+      statusCode: 200,
+      body: {
+        token: "The token",
+        user: {
+          data: {
+            id: 2,
+            type: "user",
+            attributes: {
+              name: "Dolly Parton",
+              email: "dolly@example.com",
+              companies: [],
+            },
+          },
+        },
+      },
+    }).as("postUserInfo");
+
+    cy.intercept("GET", "**/users/2/contacts", {
+      statusCode: 401,
+      body: { error: "Unauthorized" },
+    }).as("getContactsFail");
+
+    cy.intercept("GET", "**/users/2/companies", {
+      statusCode: 200,
+      body: [],
+    }).as("getCompanies");
+    cy.intercept("GET", "**/users/2/job_applications", {
+      statusCode: 200,
+      body: [],
+    }).as("getApplications");
+
+    cy.visit("http://localhost:3000/");
+    cy.get("#email").type("dolly@example.com");
+    cy.get("#password").type("Jolene123");
+    cy.get(".login-btn").click();
+    cy.wait("@postUserInfo");
+  });
+
+  it("Displays an error if contacts API call fails", () => {
+    cy.get('[data-testid="contacts-iconD"]').click();
+    cy.wait("@getContactsFail"); 
+    cy.contains("Unauthorized").should("exist");
+  });
+});
+
