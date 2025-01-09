@@ -423,6 +423,7 @@ Existing users may click the 'login' link to directly navigate to the Login page
 ### Feature 2 - Login
 ### Feature 3 - Home
 
+
 The MenuBar component provides a responsive navigation interface for your application, designed for both desktop and mobile users. Here’s an overview of its functionality:
 
 #### Desktop
@@ -451,6 +452,15 @@ The MenuBar component provides a responsive navigation interface for your applic
 
 ![MenuBar Section Demo](public/assets/menu-bar.gif)
 <img src="public/assets/mobile-menu.gif" height="500">
+
+The home page/dash is where a user can see there weekly report.
+
+Functionalities Include:
+
+- User can see the job applications, contacts, and companies they have made for the week.
+- as well as having a simple button to port you to add a new company 
+
+![Dashboard Section Demo](public/assets/dashboard.gif)
 
 
 ### Feature 4 - Companies
