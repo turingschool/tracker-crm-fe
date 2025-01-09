@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { showJobApp } from "../../trackerApiCalls";
+import { showJobApp, updateJobApplication } from "../../trackerApiCalls";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 
 interface Contact {
@@ -22,6 +22,13 @@ interface JobApplicationAttributes {
   contacts: Contact[];
   company_id: number;
   company_name: string;
+}
+
+interface DataCompile {
+  token?: string;
+  userId?: number;
+  id?: string;
+  [key: string]: any;  
 }
 
 function JobApplication() {
@@ -77,7 +84,7 @@ function JobApplication() {
           setError("Unable to fetch job application data.");
         }
       };
-      fetchJobApplication();
+      fetchJobApplication()
     }
   }, [jobAppId]);
 
@@ -87,10 +94,31 @@ function JobApplication() {
   const openEdit = () => setIsEditModelOpen(true);
   const closeEdit = () => setIsEditModelOpen(false);
 
-  const updateEdit = () => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const compileData: DataCompile = {
+      userId: userData.user.data.id ? Number(userData.user.data.id) : undefined,
+      token: userData.token,
+      id: jobAppId,
+      position_title: positionTitle,
+      status: status,
+      notes: notes,
+      job_description: jobDescription,
+      application_url: applicationURL
+    }
+    console.log(compileData)
+    updateJobApplication(compileData)
+      .then((updatedApplication) => {
+        console.log("Application updated successfully:", updatedApplication);
+        setJobApp(updatedApplication.data.attributes as JobApplicationAttributes);
+      })
+      .catch((error) => {
+        console.error("Error updating user:", error);
+      });
     closeEdit()
   }
-
+  console.log(jobApp, "<---- Job APP")
   return (
     <div className="min-h-screen p-4 sm:p-8 pt-8 sm:pt-36">
       {error && <p className="text-red-600 text-center">{error}</p>}
@@ -196,7 +224,7 @@ function JobApplication() {
               <h2 className="text-cyan-600 text-xl font-bold mb-4">
                 Update Job Description
               </h2>
-              <form onSubmit={updateEdit} className="grid grid-cols-2 gap-4">  
+              <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">  
                 <label>Position Title:</label>
                 <input
                   type="text"
