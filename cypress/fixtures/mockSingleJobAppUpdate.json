@@ -1,0 +1,26 @@
+{
+  "data": {
+    "id": "3",
+    "type": "job_application",
+    "attributes": {
+      "position_title": "Frontend Developer",
+      "date_applied": "2024-08-20",
+      "status": 3,
+      "notes": "Talked with recruiter, sounds like a great opportunity to learn new things",
+      "job_description": "Frontend Developer of React only with no CSS",
+      "application_url": "https://example.com",
+      "company_id": 3,
+      "company_name": "Creative Solutions Inc.",
+      "contacts": [
+        {
+          "id": 3,
+          "first_name": "Michael",
+          "last_name": "Johnson",
+          "email": "michael.johnson@example.com",
+          "phone_number": "123-555-9012",
+          "notes": "Hiring manager at Creative Solutions Inc."
+        }
+      ]
+    }
+  }
+}

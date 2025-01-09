@@ -172,3 +172,27 @@ export const loginUser = async (userParams: Record<string, any> ) => {
     throw err;
   }
 };
+
+/*-----------------------------------// UPDATE JOB APPLICATION//--------------------------------------*/
+export const updateJobApplication = async (userParams: Record<string, any> ) => {
+  try {
+    const apiURL = process.env.REACT_APP_BACKEND_API_URL;
+    const response = await fetch(`${apiURL}/api/v1/users/${userParams.userId}/job_applications/${userParams.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userParams.token}`
+      },
+      body: JSON.stringify(userParams),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to update user data: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (err) {
+    console.error('Error in updateUser:', err);
+    throw err;
+  }
+};
