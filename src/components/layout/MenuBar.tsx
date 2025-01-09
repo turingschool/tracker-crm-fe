@@ -156,7 +156,7 @@ function MenuBar() {
         </div>
 
         {/* Account */}
-        <NavLink to="/userInformation" className="m-auto text-white mb-[20vh]" data-testid="update-userM" onClick={toggleSideMenu}>
+        <NavLink to="/userInformation" className="m-auto text-white" data-testid="update-userM" onClick={toggleSideMenu}>
           <AccountCircleIcon data-testid="updateUser-iconM" fontSize="large" />
         </NavLink>
       </nav>
