@@ -93,7 +93,7 @@ function ShowContact() {
         console.log("Company Contacts Data: ", companyContactsData);
 
         const contactsList = companyContactsData.contacts.data;
-        console.log(contactsList);
+        console.log("Contacts List:", contactsList);
         setOtherContact(contactsList);
       } catch (error) {
         setFetchError(`${(error as Error).message}. Please try again later.`);
@@ -124,11 +124,13 @@ function ShowContact() {
               data-testid="company-name"
               className="text-[3.5vh] font-bold text-cyan-500 p-0"
             >
-              {contact.attributes.company.name}
+              {contact.attributes.company
+                ? contact.attributes.company.name
+                : "No Affiliated Companies" }
             </h2>
             <div className="m-5">
               <p>
-                <span
+                <span 
                   data-testid="contact-email"
                   className="text=[1vh] font-bold"
                 >
