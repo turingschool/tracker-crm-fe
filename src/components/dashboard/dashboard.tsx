@@ -36,27 +36,27 @@ export const DashBoard : React.FC = () => {
     if(token && isLoggedIn){
         return (
             <>
-                <div>
+                <div className="fixed top-[15vh] left-[25vh] right-0 font-bold font-size-[4vh] text-5xl text-cyan-600">
                     <h1>Welcome, {userData.user.data.attributes.name}</h1>
                 </div>
-                <div className="inline-block">
+                <div className="ml-2 fixed top-[20vh] left-[25vh]">
 
-                    <div className="bg-pink-500">
-                        <label>Jobs</label>
-                        <label>{`${dashData.job_applications.length }`}</label>
-                        <label>Apps submitted this week</label>
+                    <div className="bg-white w-[20vw] h-[17vh] inline-block rounded-[20px] shadow-black shadow-xl">
+                        <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Jobs</label>
+                        <label className='text-center block mt-1 font-bold text-[50px] text-cyan-600'>{`${dashData.job_applications.length }`}</label>
+                        <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Apps submitted this week</label>
                     </div>
 
-                    <div className="bg-blue-700">
-                        <label>Contacts</label>
-                        <label>{`${dashData.contacts.length}`}</label>
-                        <label>New connections this week</label>
+                    <div className="bg-white w-[20vw] h-[17vh] inline-block m-24 rounded-[20px] shadow-black shadow-xl">
+                        <label className='text-center block text-[20px] font-bold text-cyan-600 mt-2'>Contacts</label>
+                        <label className='text-center block mt-1 font-bold text-[50px] text-cyan-600'>{`${dashData.contacts.length}`}</label>
+                        <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>New connections this week</label>
                     </div>
 
-                    <div className='bg-green-500'>
-                        <label>Companies</label>
-                        <label>{`${dashData.companies.length}`}</label>
-                        <Link to="/companies/new">Add new company</Link>
+                    <div className='bg-white w-[20vw] h-[17vh] inline-block rounded-[20px] shadow-black shadow-xl'>
+                        <label className='text-center block text-[20px] font-bold text-cyan-600 mt-2'>Companies</label>
+                        <label className='text-center block mt-1 font-bold text-[50px] text-cyan-600'>{`${dashData.companies.length}`}</label>
+                        <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to="/companies/new">Add new company</Link>
 
                     </div>
                 </div>
