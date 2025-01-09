@@ -111,3 +111,33 @@ export const registerUser = async (userData: UserData): Promise<void> => {
     throw error;
   }
 };
+
+/*-----------------------------------// DashBoard //--------------------------------------*/
+export const fetchDashBoardData = async (userId: number, token: string | null) => {
+  try {
+    const response = await fetch(`http://localHost:3001/api/v1/users/${userId}/dashboard`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch applications: ${response.statusText}`);
+    }
+
+    const result = await response.json();
+
+    const formattedData = result.data.attributes.dashboard.weekly_summary
+
+    return formattedData;
+
+  } catch (error) {
+
+    throw error;
+
+  }
+
+}

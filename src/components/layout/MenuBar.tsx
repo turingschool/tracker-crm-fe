@@ -1,17 +1,17 @@
-import logo from '../../turing-logo-gray.png';
-import { useParams, NavLink, Link, Outlet } from 'react-router-dom';
-import { useState } from 'react';
-import { useUserLoggedContext } from '../../context/UserLoggedContext';
+import logo from "../../turing-logo-gray.png";
+import { useParams, NavLink, Link, Outlet } from "react-router-dom";
+import { useState } from "react";
+import { useUserLoggedContext } from "../../context/UserLoggedContext";
 
 // MUI Icons
-import HomeIcon from '@mui/icons-material/Home';
-import PersonIcon from '@mui/icons-material/Person';
-import ApartmentIcon from '@mui/icons-material/Apartment';
-import DescriptionIcon from '@mui/icons-material/Description';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HomeIcon from "@mui/icons-material/Home";
+import PersonIcon from "@mui/icons-material/Person";
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import DescriptionIcon from "@mui/icons-material/Description";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 function MenuBar() {
   const [sideMenuOpen, setSideMenuOpen] = useState(true);
@@ -28,7 +28,6 @@ function MenuBar() {
   let { userId = userData.user.data.id } = useParams();
   console.log(userId);
 
-  // A reusable function to create NavLink classes dynamically
   const linkClasses = ({ isActive }: { isActive: boolean }) =>
     isActive
       ? "m-auto text-cyan-800 mt-[5vh] transform scale-125 transition-transform duration-150"
