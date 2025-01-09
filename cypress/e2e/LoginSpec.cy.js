@@ -43,7 +43,15 @@ describe('testing for Login page', () => {
     .get('.login-form-wrap > .title-wrap > .app-tagline').should('contain', 'Job hunting made easier')
   });
 
-  it('tests login page funtionality', () => { // not working at the moment. will need to refactor tests TBD.
+  it('tests login page funtionality', () => {
+    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
+      statusCode: 401,
+      body: {
+        "message": "Error in Login: Invalid login credentials",
+        "status": 401
+      }
+    }).as("postUserInfo");
+
     cy.get('.login-form-wrap > .form-inputs > form > .login-btn').click()
     .get('.login-form-wrap > .form-inputs > form > .email-input > #email').then(($input) => {
       expect($input[0].validationMessage).to.eq('Please fill out this field.')
