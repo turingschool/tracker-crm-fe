@@ -67,8 +67,14 @@ function ShowContact() {
 
         setContact(data.data);
 
-        const companyId = data.data.attributes.company.id;
+        const companyId = data.data.attributes.company?.id;
         console.log("CompanyID: ", companyId);
+
+        if(!companyId) {
+          console.log("No company for this contact");
+          setOtherContact([]);
+          return
+        }
 
         const companyContacts = await fetch(
           `http://localhost:3001/api/v1/users/${userId}/companies/${companyId}/contacts`,
@@ -105,9 +111,9 @@ function ShowContact() {
     }
   }, [contactId, token]);
 
-  const filteredOtherContacts = otherContacts.filter(
-    (otherContact) => contact?.id && otherContact.id !== contact.id
-  );
+  const filteredOtherContacts = contact?.id ? otherContacts.filter(
+    (otherContact) => contact?.id && otherContact.id !== contact.id)
+    : [];
   return (
     <section className="flex justify-between w-full">
       {fetchError && <p className="error">{fetchError}</p>}
@@ -165,7 +171,9 @@ function ShowContact() {
               data-testid="other-contacts"
               className="text-[3vh] inset-3 font-bold text-cyan-500 mb-[2vh]"
             >
-              Other contacts at {contact.attributes.company.name}
+              {contact.attributes.company 
+              ? `Other contacts at ${contact.attributes.company.name}`
+              : "No Contacts"}
             </h2>
             <ul className="list-disc list-inside">
               {filteredOtherContacts.map((otherContact) => (
