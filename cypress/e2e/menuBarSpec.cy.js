@@ -180,4 +180,15 @@ it('should have the mobile menu hidden by default', () => {
     cy.get(".quad-color-bar > .bg-red-500").should("exist");
     cy.get(".quad-color-bar > .bg-green-500").should("exist");
   });
+
+  describe("Menu Bar with no user data", () => {
+    beforeEach(() => {
+      cy.intercept("POST", "**/sessions", { statusCode: 200, body: {} });
+      cy.visit("http://localhost:3000/"); 
+    });
+  
+    it("Should not crash if userData is missing", () => {
+      cy.get(".quad-color-bar").should("exist");
+    });
+  });
 });
