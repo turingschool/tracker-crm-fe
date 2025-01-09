@@ -152,6 +152,10 @@ function JobApplication() {
               onClick={openEdit}>
               Edit
             </button>
+            <Link className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded inline-block text-center ml-2"
+              to="/job_applications">
+              Back
+            </Link>
           </section>
 
           <section className="mt-8 lg:mt-0">
