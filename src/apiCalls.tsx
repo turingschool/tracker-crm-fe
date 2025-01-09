@@ -78,20 +78,18 @@ export const updateUser = async (userParams: Record<string, any> ) => {
 };
 
 /*-----------------------------------// DashBoard //--------------------------------------*/
-
-export const dashBoardData = async (userParams: Record<string, any> ) => {
+export const fetchDashBoardData = async (userId: number, token: string) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/v1/users/${userParams['id']}`, {
-      method: 'PUT',
+    const response = await fetch(`http://localHost:3001/api/v1/users/${userId}/dashboard`, {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${userParams.token}`
+        'Authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify(userParams),
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to update user data: ${response.status}`);
+      throw new Error(`Failed to fetch applications: ${response.statusText}`);
     }
 
     const result = await response.json();
@@ -104,4 +102,4 @@ export const dashBoardData = async (userParams: Record<string, any> ) => {
     console.error('Error fetching data:', error);
     throw error;
   }
-};
+}
