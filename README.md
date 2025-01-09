@@ -423,8 +423,6 @@ Existing users may click the 'login' link to directly navigate to the Login page
 ### Feature 2 - Login
 ### Feature 3 - Home
 
-![Menu Bar Navigation](public/assets/menu-bar.gif)
-![Menu Bar Navigation](public/assets/mobile-menu-bar.gif)
 
 ### Feature 4 - Companies
 
