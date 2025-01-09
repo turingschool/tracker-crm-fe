@@ -73,12 +73,12 @@ describe('testing for Login page', () => {
       statusCode: 200,
       body: {
         "data": {
-          "id": "5",
+          "id": "21",
           "type": "dashboard",
           "attributes": {
-              "id": 5,
-              "name": "Danny DeVito",
-              "email": "danny_de@email.com",
+              "id": 21,
+              "name": "Cotton Eyed Joe",
+              "email": "IdveBeenMarried@ALongTimeAgo.com",
               "dashboard": {
                   "weekly_summary": {
                       "job_applications": [
