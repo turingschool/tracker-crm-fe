@@ -12,9 +12,6 @@ const ApplicationsGrid: React.FC = () => {
   const { token, userData } = useUserLoggedContext()
   const { user } = userData;
   
- 
-  
-
   const fetcher = async (): Promise<JobApplication[]> => {
     return await fetchApplicationsData(user.data.id, token!);
   };
