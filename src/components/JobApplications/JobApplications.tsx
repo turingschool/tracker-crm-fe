@@ -4,32 +4,14 @@ import { fetchApplicationsData } from '../../apiCalls';
 import ClipLoader from "react-spinners/ClipLoader";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import { JobApplication } from '../../Interfaces';
+import { statusMap, statusStyles} from "../JobApplicationUtilities";
 import useSWR from 'swr';
-
-const statusMap: { [key: number]: string } = {
-  1: 'Submitted',
-  2: 'Interviewing',
-  3: 'Offer',
-  4: 'Rejected',
-  5: 'Phone Screen',
-};
-
-const statusStyles: { [key: string]: string } = {
-  Submitted: 'bg-yellow-200 text-yellow-800',
-  Interviewing: 'bg-green-200 text-green-800',
-  Offer: 'bg-teal-300 text-teal-900',
-  Rejected: 'bg-red-200 text-red-800',
-  'Phone Screen': 'bg-yellow-300 text-yellow-900',
-};
 
 const ApplicationsGrid: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const { token, userData } = useUserLoggedContext()
   const { user } = userData;
   
- 
-  
-
   const fetcher = async (): Promise<JobApplication[]> => {
     return await fetchApplicationsData(user.data.id, token!);
   };
@@ -89,6 +71,7 @@ const ApplicationsGrid: React.FC = () => {
                   <th className="p-4 font-semibold text-gray-600">Company</th>
                   <th className="p-4 font-semibold text-gray-600">Title</th>
                   <th className="p-4 font-semibold text-gray-600">Status</th>
+                  <th className="p-4 font-semibold text-gray-600">Last Updated</th>
                 </tr>
               </thead>
               <tbody>
@@ -114,6 +97,11 @@ const ApplicationsGrid: React.FC = () => {
                         >
                           {statusMap[app.status]}
                         </span>
+                      </Link>
+                    </td>
+                    <td className="p-4 text-gray-700">
+                      <Link to={`/job_applications/${app.id}`}>
+                        {app.updated_at}
                       </Link>
                     </td>
                   </tr>

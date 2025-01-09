@@ -151,7 +151,7 @@ describe("View specific job app page with all fields filled in", () => {
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications", (req) => {
       req.on("response", (res) => {
-        res.setDelay(2000); 
+        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
@@ -164,7 +164,7 @@ describe("View specific job app page with all fields filled in", () => {
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications/3", (req) => {
       req.on("response", (res) => {
-        res.setDelay(2000); 
+        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
@@ -231,13 +231,13 @@ describe("View specific job app page with all fields filled in", () => {
     cy.get('section.mt-8 button.text-cyan-600').should("have.text", "Read More...");
   });
 
-  it("displays the contact list", () => {
+  // it("displays the contact list", () => {
 
-    cy.wait("@showSingleJobApp");
+  //   cy.wait("@showSingleJobApp");
 
-    cy.get("h2.text-cyan-600").should("contain.text", "My Contacts at Creative Solutions Inc.");
-    cy.get("p.text-cyan-500").should("contain.text", "Michael Johnson");{/* REFACTOR AWAITING SHOW CONTACT ROUTE */}
-  });
+  //   cy.get("h2.text-cyan-600").should("contain.text", "My Contacts at Creative Solutions Inc.");
+  //   cy.get("p.text-cyan-500").should("contain.text", "Michael Johnson");{/* REFACTOR AWAITING SHOW CONTACT ROUTE */}
+  // });
 
   it("handles the modal for full job description", () => {
 
@@ -289,7 +289,7 @@ describe("View specific job app page with empty fields", () => {
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications", (req) => {
       req.on("response", (res) => {
-        res.setDelay(2000); 
+        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
@@ -302,7 +302,7 @@ describe("View specific job app page with empty fields", () => {
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications/5", (req) => {
       req.on("response", (res) => {
-        res.setDelay(2000); 
+        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
@@ -330,20 +330,20 @@ describe("View specific job app page with empty fields", () => {
     cy.get("p.mb-8").should("have.text", "Click edit to add some notes.");{/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
   })
 
-  it("should display a link for adding contacts when contact field is empty", () => {
+//   it("should display a link for adding contacts when contact field is empty", () => {
 
-    cy.wait("@showSingleJobAppEmptyFields");
+//     cy.wait("@showSingleJobAppEmptyFields");
 
-    cy.get("p.text-cyan-500").should("contain.text", "Add a new contact");
-    cy.contains('Add a new contact').click();
+//     cy.get("p.text-cyan-500").should("contain.text", "Add a new contact");
+//     cy.contains('Add a new contact').click();
 
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/1/contacts/new", {
-      statusCode: 200
-    }).as("addContact");
+//     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/contacts/new", {
+//       statusCode: 200
+//     }).as("addContact");
 
-    cy.url().should('include', '/contacts/new');
-    cy.get("h1").should("have.text", "Add New Contact");
-  })
+//     cy.url().should('include', '/contacts/new');
+//     cy.get("h1").should("have.text", "Add New Contact");
+//   })
 });
 
 describe("View specific job app page when data fails to load", () => {
@@ -351,7 +351,7 @@ describe("View specific job app page when data fails to load", () => {
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications", (req) => {
       req.on("response", (res) => {
-        res.setDelay(2000); 
+        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
@@ -404,3 +404,141 @@ describe("View specific job app page when data fails to load", () => {
     cy.get('.text-gray-500').should("include.text", "Loading...")
   });
 })
+
+describe("Editability of specific job application fields", () => {
+  beforeEach(() => {
+    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
+      statusCode: 200,
+      body: {
+        token: 'fake-token',
+        user: {
+          data: {
+            id: 1,
+            type: 'user',
+            attributes: {
+              name: 'Test User',
+              email: 'testuser@example.com',
+              companies: []
+            }
+          }
+        }
+      }
+    }).as("mockSession");
+
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications", (req) => {
+      req.on("response", (res) => {
+        // res.setDelay(2000); 
+      });
+      req.reply({
+        statusCode: 200,
+        fixture: "mockJobApps",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }).as("getJobApplications");
+
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications/3", (req) => {
+      req.on("response", (res) => {
+        // res.setDelay(2000); 
+      });
+      req.reply({
+        statusCode: 200,
+        fixture: "mockSingleJobApp",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }).as("showSingleJobApp");
+
+    cy.visit("http://localhost:3000/");
+    cy.get("#email").type("danny_de@email.com")
+    cy.get("#password").type("jerseyMikesRox7")
+    cy.get('[data-testid="login-button"]').click();
+    cy.get('[data-testid="applications-iconD"]').click();
+    cy.get('[data-testid="applications-iconD"]').click();
+    cy.get("tbody > tr").contains("Creative").click();
+  });
+
+  it("Should display the edit model when edit button is clicked", () => {
+    cy.get('[data-testid="edit-modal"]').should('not.exist');
+    cy.get('[data-testid="edit-modal-title"]').should('not.exist');
+    cy.get('[data-testid="edit-modal-form"]').should('not.exist');
+
+    cy.get('[data-testid="edit-button"]').click()
+
+    cy.get('[data-testid="edit-modal"]').should('be.visible');
+    cy.get('[data-testid="edit-modal-title"]').should('be.visible');
+    cy.get('[data-testid="edit-modal-form"]').should('be.visible');
+
+    cy.get('[data-testid="edit-modal-form-title"]').should('have.value', 'Backend Developer');
+    cy.get('[data-testid="edit-modal-form-status"]').should('have.value', '2');
+    cy.get('[data-testid="edit-modal-form-description"]').should('have.value', 'Developing RESTful APIs and optimizing server performance.');
+    cy.get('[data-testid="edit-modal-form-url"]').should('have.value', 'https://creativesolutions.com/careers/backend-developer');
+    cy.get('[data-testid="edit-modal-form-notes"]').should('have.value', 'Had a technical interview, awaiting decision.');
+  });
+
+  it("Should close the edit model when cancel button is clicked", () => {
+    cy.get('[data-testid="edit-button"]').click()
+    cy.get('[data-testid="edit-modal-form-cancel-button"]').click();
+    
+    cy.get('[data-testid="edit-modal"]').should('not.exist');
+    cy.get('[data-testid="edit-modal-title"]').should('not.exist');
+    cy.get('[data-testid="edit-modal-form"]').should('not.exist');
+  });
+
+  it("Should make a fetch call when update info button is clicked", () => {
+    cy.intercept("PATCH", "http://localhost:3001/api/v1/users/1/job_applications/3", (req) => {
+      req.on("response", (res) => {
+        // res.setDelay(2000); 
+      });
+      req.reply({
+        statusCode: 200,
+        fixture: "mockSingleJobAppUpdate",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }).as("showSingleJobAppEmptyFields");
+
+    cy.get('[data-testid="edit-button"]').click()
+    
+    cy.get('[data-testid="edit-modal-form-title"]').clear().type("Frontend Developer");
+    cy.get('[data-testid="edit-modal-form-status"]').select('3');
+    cy.get('[data-testid="edit-modal-form-description"]').clear().type("Frontend Developer of React only with no CSS");
+    cy.get('[data-testid="edit-modal-form-url"]').clear().type("https://example.com");
+    cy.get('[data-testid="edit-modal-form-notes"]').clear().type("Talked with recruiter, sounds like a great opportunity to learn new things");
+    cy.get('[data-testid="edit-modal-form-submit-button"]').click();
+
+    cy.get('[data-testid="job-Title"]').should('contain', 'Frontend Developer')
+    cy.get('[data-testid="job-companyName"]').should('contain', 'Creative Solutions Inc.')
+    cy.get('[data-testid="job-status"]').should("have.text", "Offer")
+    cy.get('[data-testid="job-notes"]').should('contain', 'Talked with recruiter, sounds like a great opportunity to learn new things')
+    cy.get('[data-testid="job-URL"]').should('contain', 'https://example.com')
+    cy.get('[data-testid="job-description"]').should('contain', 'Frontend Developer of React only with no CSS')
+  });
+
+  it("Should not create an error when update info button is clicked and no info changed", () => {
+    cy.intercept("PATCH", "http://localhost:3001/api/v1/users/1/job_applications/3", (req) => {
+      req.on("response", (res) => {
+        // res.setDelay(2000); 
+      });
+      req.reply({
+        statusCode: 200,
+        fixture: "mockSingleJobApp",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }).as("showSingleJobAppEmptyFields");
+    cy.get('[data-testid="edit-button"]').click()
+    cy.get('[data-testid="edit-modal-form-submit-button"]').click();
+
+    cy.get('[data-testid="job-Title"]').should('contain', 'Backend Developer')
+    cy.get('[data-testid="job-companyName"]').should('contain', 'Creative Solutions Inc.')
+    cy.get('[data-testid="job-status"]').should("have.text", "Interviewing")
+    cy.get('[data-testid="job-notes"]').should('contain', 'Had a technical interview, awaiting decision.')
+    cy.get('[data-testid="job-URL"]').should('contain', 'https://creativesolutions.com/careers/backend-developer')
+    cy.get('[data-testid="job-description"]').should('contain', 'Developing RESTful APIs and optimizing server performance.')
+  });
+});

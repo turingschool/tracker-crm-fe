@@ -1,6 +1,8 @@
+
+const apiURL = process.env.REACT_APP_BACKEND_API_URL
+const backendURL = `${apiURL}api/v1/`
 /*-----------------------------------// GET //--------------------------------------*/
 
-const backendURL = 'http://localhost:3001/api/v1/'
 
 export const getUser = async (userId: number) => {
   console.log(userId, '---> HIT GET USER')
@@ -29,7 +31,8 @@ export const getUser = async (userId: number) => {
 /*-----------------------------------// Index - Job Apps //--------------------------------------*/
 export const fetchApplicationsData = async (userId: number, token: string) => {
   try {
-    const response = await fetch(`http://localhost:3001/api/v1/users/${userId}/job_applications`, {
+
+    const response = await fetch(`${backendURL}users/${userId}/job_applications`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -54,28 +57,6 @@ export const fetchApplicationsData = async (userId: number, token: string) => {
   }
 };
 
-/*-----------------------------------// UPDATE //--------------------------------------*/
-export const updateUser = async (userParams: Record<string, any> ) => {
-  try {
-    const response = await fetch(`http://localhost:3001/api/v1/users/${userParams['id']}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${userParams.token}`
-      },
-      body: JSON.stringify(userParams),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to update user data: ${response.status}`);
-    }
-
-    return await response.json();
-  } catch (err) {
-    console.error('Error in updateUser:', err);
-    throw err;
-  }
-};
 
 /*-----------------------------------// POST - Register New User //--------------------------------------*/
 
@@ -88,6 +69,7 @@ interface UserData {
 
 export const registerUser = async (userData: UserData): Promise<void> => {
   try {
+    console.log(`backend ${backendURL}`)
     const response = await fetch(`${backendURL}users`, {
       method: 'POST',
       headers: {
@@ -115,7 +97,7 @@ export const registerUser = async (userData: UserData): Promise<void> => {
 /*-----------------------------------// DashBoard //--------------------------------------*/
 export const fetchDashBoardData = async (userId: number, token: string | null) => {
   try {
-    const response = await fetch(`http://localHost:3001/api/v1/users/${userId}/dashboard`, {
+    const response = await fetch(`${backendURL}users/${userId}/dashboard`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
