@@ -11,14 +11,16 @@ import Contacts from './components/contacts/Contacts';
 import NewContact from './components/contacts/NewContact';
 import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
+import NewJobApplication from './components/JobApplications/NewJobApplication';
 import CompanyShow from './components/companies/CompanyShow';
 import ApplicationsGrid from './components/JobApplications/JobApplications';
 import ShowContact from './components/contacts/ShowContact';
 import JobApplication from './components/pages/showJobApplication';
+import DashBoard from "./components/dashboard/dashboard";
 
 
 function App() {
-  const { isLoggedIn, clearUserLogged, userData } = useUserLoggedContext()
+  const { isLoggedIn,  userData } = useUserLoggedContext()
   return (
     <Routes>
       <Route // Public Route
@@ -31,12 +33,10 @@ function App() {
         <Route
           path="/home"
           element={
-            <div className='flex flex-col ml-[10vw]'>
-              <h1>Welcome, {userData.user.data.attributes.name}</h1>
-              <button onClick={() => clearUserLogged()}>Log Out</button>
-            </div>
+            <DashBoard/>
           }
         />
+        <Route path="/jobapplications/new" element={<NewJobApplication />} />
         <Route path="/companies" element={<Companies />} />
         <Route path="/companies/new" element={<NewCompany />} />
         <Route path="/companies/:id/contacts" element={<CompanyShow />} />

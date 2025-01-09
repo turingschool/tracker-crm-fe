@@ -423,6 +423,46 @@ Existing users may click the 'login' link to directly navigate to the Login page
 ### Feature 2 - Login
 ### Feature 3 - Home
 
+
+The MenuBar component provides a responsive navigation interface for your application, designed for both desktop and mobile users. Here’s an overview of its functionality:
+
+#### Desktop
+* **Fixed Vertical Menu:** A static vertical navigation bar located on the left side of the screen, hidden on smaller screens.
+* **Logo:** Clicking the logo redirects users to the home page.
+* **Navigation Links:** Includes icons for navigating to key sections:
+  * Home
+  * Contacts
+  * Companies
+  * Job Applications
+  * Account
+* **Drop-Down Shortcut Menu:** Provides quick access to add new items:
+  * Add New Contact
+  * Add New Company
+  * Add New Job Application
+
+#### Mobile
+* **Hamburger Menu:** A collapsible menu for smaller screens.
+* **Slide-Out Menu:** A sidebar that slides in from the left when opened.
+* **Close Button:** Closes the slide-out menu.
+* **Navigation Links:** Similar to the desktop navigation, but tailored for mobile interaction.
+* **Drop-Down Shortcut Menu:** A simplified version of the desktop drop-down, allowing quick actions for adding new contacts, companies, or job applications.
+
+#### Additional UI Enhancements
+* **Quad Color Bar:** A decorative vertical bar split into four colors, enhancing the visual design.
+
+![MenuBar Section Demo](public/assets/menu-bar.gif)
+<img src="public/assets/mobile-menu.gif" height="500">
+
+The home page/dash is where a user can see there weekly report.
+
+Functionalities Include:
+
+- User can see the job applications, contacts, and companies they have made for the week.
+- as well as having a simple button to port you to add a new company 
+
+![Dashboard Section Demo](public/assets/dashboard.gif)
+
+
 ### Feature 4 - Companies
 
 The Companies section allows users to seamlessly manage a list of their companies. 
@@ -459,6 +499,18 @@ Use the search bar to quickly find a contact by name, enhancing efficiency and u
 ![Contacts Section Demo](public/assets/contacts.gif)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Feature 5 - Job Applications
+
+- View All Job Applications:
+
+- View A Job Application:
+
+- Create A Job Application:
+Add a new job application by filling out a form with fields for Position Title, Company, Date Applied, Application Status, Job Description, Application URL, and Notes.
+Choose a company that exists under your profile.
+
+![Add New Job Application Page Demo](./src/assets/newJobAppPage.png)
 
 <!-- CONTRIBUTING -->
 
