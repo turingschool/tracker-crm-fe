@@ -4,7 +4,6 @@ import { mockCompanies } from "../fixtures/mockCompanies";
 describe("Menu Bar after logging in spec", () => {
   beforeEach(() => {
     cy.viewport(1280, 800);
-
     cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
       statusCode: 200,
       body: {
