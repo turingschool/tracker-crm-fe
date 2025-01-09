@@ -64,7 +64,7 @@ describe("New Contacts page after logging in", () => {
   describe("Happy Path", () => {
     it("Should navigate to the new contact form and display fields", () => {
       cy.get("a > .bg-cyan-600").click();
-      cy.contains("Create New Contact");
+      cy.contains("Add New Contact");
 
       cy.url().should("include", "/contacts/new");
 
@@ -96,7 +96,7 @@ describe("New Contacts page after logging in", () => {
 
     it("Should allow submission with only required fields", () => {
       cy.get("a > .bg-cyan-600").click();
-      cy.contains("Create New Contact");
+      cy.contains("Add New Contact");
 
       cy.get("#firstName").type("Jane");
       cy.get("#lastName").type("Smith");
@@ -158,7 +158,7 @@ describe("New Contacts page after logging in", () => {
   describe("Sad Path and Edge Cases", () => {
     it("Should require First Name and Last Name", () => {
       cy.get("a > .bg-cyan-600").click();
-      cy.contains("Create New Contact");
+      cy.contains("Add New Contact");
 
       cy.get('button[type="submit"]').click();
       cy.get("#firstName:invalid").should("exist");
@@ -167,7 +167,7 @@ describe("New Contacts page after logging in", () => {
 
     it("Should validate the email address format", () => {
       cy.get("a > .bg-cyan-600").click();
-      cy.contains("Create New Contact");
+      cy.contains("Add New Contact");
       cy.get("#firstName").type("John");
       cy.get("#lastName").type("Smith");
       cy.get("#email").type("invalid-email");
@@ -183,7 +183,7 @@ describe("New Contacts page after logging in", () => {
       }).as("addDuplicateContact");
 
       cy.get("a > .bg-cyan-600").click();
-      cy.contains("Create New Contact");
+      cy.contains("Add New Contact");
 
       cy.get("#firstName").type("John");
       cy.get("#lastName").type("Smith");
@@ -203,7 +203,7 @@ describe("New Contacts page after logging in", () => {
       }).as("addContactError");
 
       cy.get("a > .bg-cyan-600").click();
-      cy.contains("Create New Contact");
+      cy.contains("Add New Contact");
 
       cy.get("#firstName").type("John");
       cy.get("#lastName").type("Smith");
@@ -220,7 +220,7 @@ describe("New Contacts page after logging in", () => {
       }).as("addContactInvalidPhone");
 
       cy.get("a > .bg-cyan-600").click();
-      cy.contains("Create New Contact");
+      cy.contains("Add New Contact");
 
       cy.get("#firstName").type("John");
       cy.get("#lastName").type("Smith");

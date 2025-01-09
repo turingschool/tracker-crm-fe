@@ -1,0 +1,97 @@
+{
+  "data": {
+    "id": "1",
+    "type": "dashboard",
+    "attributes": {
+      "id": 1,
+      "name": "Danny DeVito",
+      "email": "danny_de@email.com",
+      "dashboard": {
+        "weekly_summary": {
+          "job_applications": [
+            {
+              "id": 1,
+              "position_title": "Jr. CTO",
+              "date_applied": "2024-10-31",
+              "status": 1,
+              "notes": "Fingers crossed!",
+              "job_description": "Looking for Turing grad/jr dev to be CTO",
+              "application_url": "www.example.com",
+              "created_at": "2024-12-16T21:16:09.601Z",
+              "updated_at": "2024-12-16T21:16:09.601Z",
+              "company_id": 1,
+              "user_id": 1
+            },
+            {
+              "id": 3,
+              "position_title": "Backend Developer",
+              "date_applied": "2024-08-20",
+              "status": 2,
+              "notes": "Had a technical interview, awaiting decision.",
+              "job_description": "Developing RESTful APIs and optimizing server performance.",
+              "application_url": "https://creativesolutions.com/careers/backend-developer",
+              "created_at": "2024-12-16T21:16:09.610Z",
+              "updated_at": "2024-12-16T21:16:09.610Z",
+              "company_id": 3,
+              "user_id": 1
+            }
+          ],
+          "contacts": [
+            {
+              "id": 1,
+              "first_name": "John",
+              "last_name": "Doe",
+              "email": "john.doe@example.com",
+              "phone_number": "123-555-1234",
+              "notes": "Recruiter at Tech Innovators",
+              "created_at": "2025-01-06T21:50:20.656Z",
+              "updated_at": "2025-01-06T21:50:20.656Z",
+              "user_id": 1,
+              "company_id": 1
+            },
+            {
+              "id": 3,
+              "first_name": "Michael",
+              "last_name": "Johnson",
+              "email": "michael.johnson@example.com",
+              "phone_number": "123-555-9012",
+              "notes": "Hiring manager at Creative Solutions Inc.",
+              "created_at": "2025-01-06T21:50:20.665Z",
+              "updated_at": "2025-01-06T21:50:20.665Z",
+              "user_id": 1,
+              "company_id": 3
+            }
+          ],
+          "companies": [
+            {
+              "id": 3,
+              "user_id": 1,
+              "name": "Creative Solutions Inc.",
+              "website": "https://creativesolutions.com",
+              "street_address": "789 Creative Street",
+              "city": "Seattle",
+              "state": "WA",
+              "zip_code": "98101",
+              "notes": "Follow up scheduled for next week.",
+              "created_at": "2024-12-16T21:16:09.586Z",
+              "updated_at": "2024-12-16T21:16:09.586Z"
+            },
+            {
+              "id": 1,
+              "user_id": 1,
+              "name": "Tech Innovators",
+              "website": "https://techinnovators.com",
+              "street_address": "123 Innovation Way",
+              "city": "San Francisco",
+              "state": "CA",
+              "zip_code": "94107",
+              "notes": "Reached out on LinkedIn, awaiting response.",
+              "created_at": "2024-12-16T21:16:09.579Z",
+              "updated_at": "2024-12-16T21:16:09.579Z"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
