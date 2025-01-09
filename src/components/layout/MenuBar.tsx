@@ -142,7 +142,7 @@ function MenuBar() {
           <div aria-hidden="false" className="flex ml-[15vw] mt-4 flex-col items-start justify-start relative">
             <button aria-label="Add New" aria-haspopup="true" className="flex items-center justify-items-center text-white" onClick={toggleDropDown}>
               <AddCircleIcon aria-label="Add New"  data-testid="newmenu-iconM" fontSize="large" className="m-auto text-white justify-items-center" />
-              <span aria-hidden="true" >&emsp; Add New...</span>
+              <span aria-hidden="true"> &emsp; Add New...</span>
             </button>
             <ul className={`bg-cyan-500 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform
             ${isDropDownOpen ? 'scale-100 opacity-100 visible' : 'scale-95 opacity-0 invisible'}`}>
