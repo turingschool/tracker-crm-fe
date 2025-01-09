@@ -114,19 +114,19 @@ function MenuBar() {
           <img className="mx-auto w-1/2" src={logo} alt="Logo" />
         </Link>
         {/* Home */}
-        <NavLink className="m-auto text-white" to="/home" data-testid="home-iconM" onClick={toggleSideMenu}>
+        <NavLink className="m-auto mt-[1vh] text-white" to="/home" data-testid="home-iconM" onClick={toggleSideMenu}>
           <HomeIcon fontSize="large" />
         </NavLink>
         {/* Contacts */}
-        <NavLink className="m-auto text-white" to="/contacts" data-testid="contacts-iconM" onClick={toggleSideMenu}>
+        <NavLink className="m-auto mt-[1vh] text-white" to="/contacts" data-testid="contacts-iconM" onClick={toggleSideMenu}>
           <PersonIcon fontSize="large" />
         </NavLink>
         {/* Companies */}
-        <NavLink className="m-auto text-white" to="/companies" data-testid="companies-iconM" onClick={toggleSideMenu}>
+        <NavLink className="m-auto mt-[1vh] text-white" to="/companies" data-testid="companies-iconM" onClick={toggleSideMenu}>
           <ApartmentIcon fontSize="large" />
         </NavLink>
         {/* Job Applications */}
-        <NavLink className="m-auto text-white" to="/job_applications" data-testid="applications-iconM" onClick={toggleSideMenu}>
+        <NavLink className="m-auto mt-[1vh] text-white" to="/job_applications" data-testid="applications-iconM" onClick={toggleSideMenu}>
           <DescriptionIcon fontSize="large" />
         </NavLink>
 
@@ -156,7 +156,7 @@ function MenuBar() {
         </div>
 
         {/* Account */}
-        <NavLink to="/userInformation" className="m-auto text-white mb-14" data-testid="update-userM">
+        <NavLink to="/userInformation" className="m-auto text-white mb-[20vh]" data-testid="update-userM" onClick={toggleSideMenu}>
           <AccountCircleIcon data-testid="updateUser-iconM" fontSize="large" />
         </NavLink>
       </nav>
