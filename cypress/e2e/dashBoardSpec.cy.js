@@ -32,7 +32,7 @@ describe('Dash Board after loggging in', () => {
   })
 
   it("Should have a header with the users name once data is loaded", () => {
-    cy.get("h1").should("have.text", "Welcome,Danny DeVito");
+    cy.get("h1").should("have.text", "Welcome, Danny DeVito");
   });
 
   it("Should show how many job applications where submitted in the week", () => {
