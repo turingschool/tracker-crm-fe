@@ -460,6 +460,18 @@ Use the search bar to quickly find a contact by name, enhancing efficiency and u
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Feature 5 - Job Applications
+
+- View All Job Applications:
+
+- View A Job Application:
+
+- Create A Job Application:
+Add a new job application by filling out a form with fields for Position Title, Company, Date Applied, Application Status, Job Description, Application URL, and Notes.
+Choose a company that exists under your profile.
+
+![Add New Job Application Page Demo](./src/assets/newJobAppPage.png)
+
 <!-- CONTRIBUTING -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
