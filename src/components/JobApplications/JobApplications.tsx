@@ -89,6 +89,7 @@ const ApplicationsGrid: React.FC = () => {
                   <th className="p-4 font-semibold text-gray-600">Company</th>
                   <th className="p-4 font-semibold text-gray-600">Title</th>
                   <th className="p-4 font-semibold text-gray-600">Status</th>
+                  <th className="p-4 font-semibold text-gray-600">Last Updated</th>
                 </tr>
               </thead>
               <tbody>
@@ -114,6 +115,11 @@ const ApplicationsGrid: React.FC = () => {
                         >
                           {statusMap[app.status]}
                         </span>
+                      </Link>
+                    </td>
+                    <td className="p-4 text-gray-700">
+                      <Link to={`/job_applications/${app.id}`}>
+                        {app.updated_at}
                       </Link>
                     </td>
                   </tr>
