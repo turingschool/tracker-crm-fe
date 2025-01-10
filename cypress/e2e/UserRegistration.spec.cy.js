@@ -115,6 +115,7 @@ describe('User Registration Form - Create New User', () => {
       });
     }).as('userSession');
 
+    cy.get('span').should('not.exist');
     cy.url().should('eq', 'http://localhost:3000/home');
     cy.contains('John Hill').should('be.visible');
   });
