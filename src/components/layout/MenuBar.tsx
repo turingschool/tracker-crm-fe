@@ -112,7 +112,7 @@ function MenuBar() {
         {/* -- MOBILE SLIDE-OUT MENU, shown on small screens only -- */}
 
         <nav data-testid="slideout-menu" className={"fixed flex flex-col top-0 left-0 z-10 bg-[#046576] w-64  h-screen transition-all duration-500 " + 
-          (sideMenuOpen ? "ease-in-out -translate-x-full" : "translate-x-0")}>
+          (sideMenuOpen ? " hidden ease-in-out -translate-x-full" : "ease-in-out translate-x-0")}>
           <button aria-hidden="false" className="min-sm:hidden m-4 text-white" onClick={toggleSideMenu}>
             <CloseIcon fontSize="large" data-testid="close-iconM" className="m-auto text-white justify-items-center" />
             <span aria-hidden="true" hidden>&emsp; Close Sidebar</span>
