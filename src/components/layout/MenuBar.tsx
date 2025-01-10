@@ -41,7 +41,7 @@ function MenuBar() {
   return (
     <div className='flex h-screen'>
       {/* // Menu */}
-      <nav className='hidden sm:flex flex-col  bg-slate-100 justify-items-center justify-evenly h-screen ml-5 mr-4 w-28'>
+      <nav className='hidden sm:flex flex-col justify-items-center justify-evenly h-screen ml-5 mr-4 w-28'>
         {/* Desktop Menu
         < nav className='flex flex-col fixed max-sm:hidden  justify-items-center h-screen sm:w-1/12 ' > */}
           {/* Logo */}
