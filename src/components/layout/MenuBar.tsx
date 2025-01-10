@@ -34,8 +34,8 @@ function MenuBar() {
       : "m-auto text-gray-500 mt-[5vh] transform scale-100 transition-transform duration-150";
   const mobileClasses = ({ isActive }: { isActive: boolean }) =>
     isActive
-      ? "ml-[15vw] mt-4 text-cyan-300 transform translate-x-20 scale-125 transition-transform duration-150"
-      : "ml-[15vw] mt-4 text-white transform scale-100 transition-transform duration-150";
+      ? "mt-4 text-cyan-300 transform translate-x-20 scale-125 transition-transform duration-150"
+      : "ml-[5vw] mt-4 text-white transform scale-100 transition-transform duration-150";
 
 
   return (
@@ -111,8 +111,8 @@ function MenuBar() {
       </button>
         {/* -- MOBILE SLIDE-OUT MENU, shown on small screens only -- */}
 
-        <nav data-testid="slideout-menu" className={"fixed flex flex-col top-0 left-0 z-10 bg-[#046576] w-64 ease-in-out h-screen transition-all duration-500 " + 
-          (sideMenuOpen ? "ease-in-out -translate-x-full " : "translate-x-0")}>
+        <nav data-testid="slideout-menu" className={"fixed flex flex-col top-0 left-0 z-10 bg-[#046576] w-64  h-screen transition-all duration-500 " + 
+          (sideMenuOpen ? "ease-in-out -translate-x-full" : "translate-x-0")}>
           <button aria-hidden="false" className="min-sm:hidden m-4 text-white" onClick={toggleSideMenu}>
             <CloseIcon fontSize="large" data-testid="close-iconM" className="m-auto text-white justify-items-center" />
             <span aria-hidden="true" hidden>&emsp; Close Sidebar</span>
@@ -142,7 +142,7 @@ function MenuBar() {
             <span aria-hidden="true" aria-label="Job Applications">&emsp; Job Applications</span>
           </NavLink>
           {/* Drop Down Shortcut Menu */}
-          <div aria-hidden="false" className="flex ml-[15vw] mt-4 flex-col items-start justify-start relative">
+          <div aria-hidden="false" className="flex ml-[5vw] mt-4 flex-col items-start justify-start relative">
             <button aria-label="Add New" aria-haspopup="true" className="flex items-center justify-items-center text-white" onClick={toggleDropDown}>
               <AddCircleIcon aria-label="Add New" data-testid="newmenu-iconM" fontSize="large" className="m-auto text-white justify-items-center" />
               <span aria-hidden="true"> &emsp; Add New...</span>
@@ -164,7 +164,7 @@ function MenuBar() {
           </div>
           {/* Account */}
           <NavLink aria-hidden="false" to="/userInformation"
-            className="m-auto ml-[15vw] cursor-pointer text-white rounded-full"
+            className="m-auto ml-[5vw] cursor-pointer text-white rounded-full"
             data-testid="update-userM" onClick={toggleSideMenu}>
             <AccountCircleIcon data-testid="updateUser-iconM" fontSize="large" className="m-auto rounded-full bg-cyan-500 text-white" />
             <span aria-hidden="true" aria-label="Update User Profile">&emsp;Update Profile</span>
