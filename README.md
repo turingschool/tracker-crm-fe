@@ -37,7 +37,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-![Product Name Screen Shot](/tracker-crm-fe/public/assets/Screenshot%202025-01-07%20at%201.37.15 PM.png)
+![Tracker Screen Shot](public/assets/tracker.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
