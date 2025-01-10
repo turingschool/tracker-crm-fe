@@ -34,8 +34,8 @@ function MenuBar() {
       : "m-auto text-gray-500 mt-[5vh] transform scale-100 transition-transform duration-150";
   const mobileClasses = ({ isActive }: { isActive: boolean }) =>
     isActive
-      ? "mt-4 text-cyan-300 transform translate-x-20 scale-125 transition-transform duration-150"
-      : "ml-[5vw] mt-4 text-white transform scale-100 transition-transform duration-150";
+      ? "ml-[5vw] mt-4 text-cyan-300  "
+      : "ml-[5vw] mt-4 text-white transform scale-100 ";
 
 
   return (
