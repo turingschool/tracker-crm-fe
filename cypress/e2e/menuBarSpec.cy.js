@@ -90,27 +90,27 @@ describe("Menu Bar after logging in spec", () => {
   });
 
   it("DMB should toggle the desktop plus sign dropdown menu when the plus sign icon is clicked", () => {
-    cy.get('[data-testid="newmenu-iconD"]').click();
-    cy.get("ul.bg-cyan-800")
+    cy.get('[data-testid="plus-iconD"]').click();
+    cy.get("ul.bg-cyan-600")
       .should("have.class", "scale-100")
       .and("be.visible");
-    cy.get('[data-testid="newmenu-iconD"]').click();
-    cy.get("ul.bg-cyan-800").should("have.class", "hidden");
+    cy.get('[data-testid="plus-iconD"]').click();
+    cy.get("ul.bg-cyan-600").should("have.class", "hidden");
   });
 
   it('DBM should close desktop plus sign dropdown after clicking a link', () => {
-   cy.get('[data-testid="newmenu-iconD"]').click();
-   cy.get('ul.bg-cyan-800').should('be.visible');
+   cy.get('[data-testid="plus-iconD"]').click();
+   cy.get('ul.bg-cyan-600').should('be.visible');
 
    cy.contains('Add New Contact').click(); 
    cy.url().should('include', '/contacts/new');
 
-   cy.get('ul.bg-cyan-800').should('not.be.visible');
+   cy.get('ul.bg-cyan-600').should('not.be.visible');
  });
 
  it('should have the desktop dropdown closed by default', () => {
   cy.viewport(1280, 800);
-  cy.get('ul.bg-cyan-800').should('not.be.visible'); 
+  cy.get('ul.bg-cyan-600').should('not.be.visible'); 
 });
 
 it('should have the mobile menu hidden by default', () => {
@@ -119,10 +119,10 @@ it('should have the mobile menu hidden by default', () => {
 });
 
 it(" if plus icon is clicked multiple times, still behaves correctly", () => {
-  cy.get('[data-testid="newmenu-iconD"]').click();
-  cy.get('ul.bg-cyan-800').should('be.visible');
-  cy.get('[data-testid="newmenu-iconD"]').click().click().click();
-  cy.get('ul.bg-cyan-800').should('not.be.visible');
+  cy.get('[data-testid="plus-iconD"]').click();
+  cy.get('ul.bg-cyan-600').should('be.visible');
+  cy.get('[data-testid="plus-iconD"]').click().click().click();
+  cy.get('ul.bg-cyan-600').should('not.be.visible');
 });
 
   describe("Mobile Slide-out Menu", () => {
@@ -163,21 +163,21 @@ it(" if plus icon is clicked multiple times, still behaves correctly", () => {
     });
 
     it("MSM should render plus sign dropdown menu with link to add new contact", () => {
-      cy.get('[data-testid="newmenu-iconM"]').click();
+      cy.get('[data-testid="plus-iconM"]').click();
       cy.contains("Add New Contact").should("exist");
       cy.get('[data-testid="newContactLink"]').click();
       cy.url().should("include", "/contacts/new");
     });
 
     it("MSM should render plus sign dropdown menu with link to add new company", () => {
-      cy.get('[data-testid="newmenu-iconM"]').click();
+      cy.get('[data-testid="plus-iconM"]').click();
       cy.contains("Add New Company").should("exist");
       cy.get('[data-testid="newCompanyLink"]').click();
       cy.url().should("include", "/companies/new");
     });
 
     it("MSM should render dropdown menu with link to add new job application", () => {
-      cy.get('[data-testid="newmenu-iconM"]').click();
+      cy.get('[data-testid="plus-iconM"]').click();
       cy.contains("Add New Job Application").should("exist");
       cy.get('[data-testid="newAppLink"]').click();
       cy.url().should("include", "/jobapplications/new");
