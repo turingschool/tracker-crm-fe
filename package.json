@@ -18,17 +18,19 @@
     "react-router-dom": "^6.28.0",
     "react-scripts": "5.0.1",
     "react-spinners": "^0.15.0",
+    "serve": "^14.2.4",
     "spinners": "^1.2.2",
     "swr": "^2.2.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "cy:open": "cypress open",
-    "start": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "cypress": "cypress open",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-postbuild": "npm run build"
   },
   "eslintConfig": {
     "extends": [
