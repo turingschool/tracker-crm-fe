@@ -25,7 +25,8 @@
   },
   "scripts": {
     "cy:open": "cypress open",
-    "start": "serve -s build",
+    "start-prod": "serve -s build",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "cypress": "cypress open",
