@@ -121,5 +121,28 @@ export const fetchDashBoardData = async (userId: number, token: string | null) =
     throw error;
 
   }
-
 }
+
+/*-----------------------------------// Index - Contacts //--------------------------------------*/
+
+  export const fetchContacts = async (userId: number, token: string | null) => {
+    try {
+      const apiURL = process.env.REACT_APP_BACKEND_API_URL
+      const backendURL = `${apiURL}api/v1/`
+      const response = await fetch(`${backendURL}users/${userId}/contacts`, {
+        method: "GET",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`Failed to fetch contacts: ${response.statusText}`);
+      }
+      const result = await response.json();
+      const formattedData = result.data 
+      return formattedData;
+    } catch (error) {
+      throw error;
+    }
+  }
