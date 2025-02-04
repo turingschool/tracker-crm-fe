@@ -584,6 +584,10 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/epintozzi)
 - [LinkedIn](https://www.linkedin.com/in/erin-pintozzi/)
 
+**Salazar, Kaelin**
+- [Github](https://github.com/kaelinpsalazar)
+- [LinkedIn](https://www.linkedin.com/in/kaelin-salazar/)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
