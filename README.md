@@ -9,7 +9,7 @@
 
 
 <!-- TABLE OF CONTENTS -->
-<details>
+<details>      
   <summary>Table of Contents</summary>
   <ol>
     <li>
@@ -527,6 +527,10 @@ FORMAT: lastname, firstname
   - github link 
   - linkedin link
   -->
+
+**Wallace, Wally**
+- [Github](https://github.com/wally-yawn)
+- [LinkedIn](https://www.https://www.linkedin.com/in/wally-wallace-719b0875/)
 
 **Banks, Charles**
 - [Github](https://github.com/DRIF7ER)
