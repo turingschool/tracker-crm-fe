@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
-import { UserData } from '../../Interfaces';
+import { UserData } from "../../Interfaces";
+import CompanyModal from "./CompanyModal";
 
 export interface FormData {
   firstName: string;
@@ -10,17 +11,19 @@ export interface FormData {
   phoneNumber: string;
   companyId?: number | null;
   notes: string;
-};
+}
 
 interface UserInformationProps {
   userData: UserData;
-};
+}
 
-const NewContact = ( {userData}: UserInformationProps ) => {
+const NewContact = ({ userData }: UserInformationProps) => {
   const navigate = useNavigate();
-  
+
   const { token } = useUserLoggedContext();
-  const userId = userData.user.data.id ? Number(userData.user.data.id) : undefined
+  const userId = userData.user.data.id
+    ? Number(userData.user.data.id)
+    : undefined;
 
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
@@ -35,21 +38,19 @@ const NewContact = ( {userData}: UserInformationProps ) => {
   const [companies, setCompanies] = useState<{ id: number; name: string }[]>(
     []
   );
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchCompanies = async () => {
       try {
-        const apiURL = process.env.REACT_APP_BACKEND_API_URL
-        const backendURL = `${apiURL}api/v1/`
-        const response = await fetch(
-          `${backendURL}users/${userId}/companies`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const apiURL = process.env.REACT_APP_BACKEND_API_URL;
+        const backendURL = `${apiURL}api/v1/`;
+        const response = await fetch(`${backendURL}users/${userId}/companies`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
 
         if (!response.ok) {
           throw new Error("Failed to fetch companies");
@@ -94,8 +95,8 @@ const NewContact = ( {userData}: UserInformationProps ) => {
     };
 
     try {
-      const apiURL = process.env.REACT_APP_BACKEND_API_URL
-      const backendURL = `${apiURL}api/v1/`
+      const apiURL = process.env.REACT_APP_BACKEND_API_URL;
+      const backendURL = `${apiURL}api/v1/`;
       let url = `${backendURL}users/${userId}/contacts`;
       if (formData.companyId) {
         url = `${backendURL}users/${userId}/companies/${formData.companyId}/contacts`;
@@ -115,7 +116,6 @@ const NewContact = ( {userData}: UserInformationProps ) => {
       }
       setFeedback("Contact added successfully! Redirecting...");
       setTimeout(() => navigate("/contacts"), 3000);
-
     } catch (error: any) {
       console.error("Error adding contact:", error);
       setFeedback(error.message);
@@ -263,6 +263,11 @@ const NewContact = ( {userData}: UserInformationProps ) => {
               value={formData.notes}
               onChange={handleInputChange}
             />
+          </div>
+
+          <div>
+            <button onClick={() => setIsOpen(true)}>Add new company</button>
+            <CompanyModal open={isOpen}></CompanyModal>
           </div>
 
           <div className="text-left">
