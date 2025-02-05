@@ -146,3 +146,59 @@ export const fetchDashBoardData = async (userId: number, token: string | null) =
       throw error;
     }
   }
+
+  /*-----------------------------------// Index - Companies //--------------------------------------*/
+  export const fetchCompanies = async (userId: number, token: string | null) => {
+    try {
+      const apiURL = process.env.REACT_APP_BACKEND_API_URL
+      const backendURL = `${apiURL}api/v1/`
+      const response = await fetch(`${backendURL}users/${userId}/companies`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch companies");
+      }
+
+      const result = await response.json();
+      const companyList = result.data.map((company: any) => ({
+        id: company.id,
+        name: company.attributes.name,
+      }));
+      return companyList
+    } catch (error: any) {
+      console.error("Error fetching companies:", error.message);
+      throw error;
+    }
+  }
+
+
+    /*-----------------------------------// Post- Contact //--------------------------------------*/
+    export const fetchNewContact = async (userId: number, token: string | null, formData: any, newContact: any) => {
+      try {
+        let url = `${backendURL}users/${userId}/contacts`;
+          if (formData.companyId) {
+            url = `${backendURL}users/${userId}/companies/${formData.companyId}/contacts`;
+          }
+          const response = await fetch(url, {
+            method: "POST",
+            headers: {
+              authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newContact),
+          });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Failed to add the contact");
+      }
+    } catch (error: any) {
+      console.error("Error adding contact:", error);
+      throw (error);
+    }
+    }

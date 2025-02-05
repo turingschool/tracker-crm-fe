@@ -2,6 +2,9 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { UserData } from '../../Interfaces';
+// import { fetchCompanies } from "../../apiCalls";
+import { fetchNewContact } from "../../apiCalls";
+
 
 export interface FormData {
   firstName: string;
@@ -35,6 +38,22 @@ const NewContact = ( {userData}: UserInformationProps ) => {
   const [companies, setCompanies] = useState<{ id: number; name: string }[]>(
     []
   );
+
+  // useEffect(() => {
+  //   const companiesFetcher = async () => {
+
+  //     try {
+  //       const allData = await fetchCompanies(userData.user.data.id, token)
+  //       return setCompanies(allData);
+  //     } catch (error: any) {
+  //       console.error("Error fetching companies:", error.message);
+  //     }
+  //   };
+
+  //   companiesFetcher();
+  // }, []);
+
+
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -93,33 +112,15 @@ const NewContact = ( {userData}: UserInformationProps ) => {
       notes: formData.notes,
     };
 
-    try {
-      const apiURL = process.env.REACT_APP_BACKEND_API_URL
-      const backendURL = `${apiURL}api/v1/`
-      let url = `${backendURL}users/${userId}/contacts`;
-      if (formData.companyId) {
-        url = `${backendURL}users/${userId}/companies/${formData.companyId}/contacts`;
-      }
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newContact),
-      });
+      try {
+        await fetchNewContact(userData.user.data.id, token, formData, newContact)
+        setFeedback("Contact added successfully! Redirecting...");
+        setTimeout(() => navigate("/contacts"), 3000);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to add the contact");
+      } catch (error: any) {
+        console.error("Error adding contact:", error);
+        setFeedback(error.message);
       }
-      setFeedback("Contact added successfully! Redirecting...");
-      setTimeout(() => navigate("/contacts"), 3000);
-
-    } catch (error: any) {
-      console.error("Error adding contact:", error);
-      setFeedback(error.message);
-    }
   };
 
   return (
