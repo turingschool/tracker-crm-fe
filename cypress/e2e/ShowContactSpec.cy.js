@@ -115,7 +115,7 @@ describe("Show a single contact page", () => {
     cy.get('[data-testid="contact-name"]').should("have.text", "John Smith");
   });
 
-  it("Should display the companies name", () => {
+  it("Should display the company's name", () => {
     cy.wait("@get-contact-details");
     cy.get('[data-testid="company-name"]').should("have.text", "Future Designs LLC");
   });
@@ -314,6 +314,17 @@ describe ("Additional contacts link navigates to contact", () => {
                   notes: "Works with Future Designs LLC",
                 },
               },
+              {
+                id: "4",
+                type: "contact",
+                attributes: {
+                  first_name: "Bill",
+                  last_name: "Nye",
+                  email: "scienceguy@example.com",
+                  phone_number: "234-555-6789",
+                  notes: "Works at Future Designs LLC",
+                },
+              },
             ],
           },
         },
@@ -330,6 +341,39 @@ describe ("Additional contacts link navigates to contact", () => {
       { statusCode: 200, fixture: 'mockDashBoard' }
     );
 
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/4", {
+      statusCode: 200,
+      body: {
+        data: {
+          id: "1",
+          type: "contacts",
+          attributes: {
+            first_name: "Bill",
+            last_name: "Nye",
+            company_id: 1,
+            email: "scienceguy@example.com",
+            phone_number: "234-555-6789",
+            notes: "Detailed notes for Bill Nye",
+            user_id: 2,
+            company: {
+              id: 1,
+              name: "Future Designs LLC",
+              website: "https://futuredesigns.com",
+              street_address: "456 Future Blvd",
+              city: "Austin",
+              state: "TX",
+              zip_code: "73301",
+              notes: "Great partner for UI projects.",
+            },
+          },
+        },
+      },
+      headers: {
+        Authorization: "Bearer The token",
+        "Content-Type": "application/json",
+      },
+    }).as("get-contact-details");
+
     cy.visit("http://localhost:3000/");
     cy.get("#email").type("dollyP@email.com");
     cy.get("#password").type("Jolene123");
@@ -344,6 +388,9 @@ describe ("Additional contacts link navigates to contact", () => {
   });
   
   it ("should navigate to the contact page after clicking a contact in the additional contacts list", () => {
-    cy.get("list-disc list-inside").first().find("a").click()
+    cy.get('[data-testid="other-contacts"]').closest('section').find('li').first().find('a').click();
+    cy.url().should("include", "/contacts/4");
+    cy.wait("@get-contact-details");
+    cy.get('[data-testid="contact-name"]').should("have.text", "Bill Nye");
   });
 });
