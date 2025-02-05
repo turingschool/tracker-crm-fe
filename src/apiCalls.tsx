@@ -148,7 +148,7 @@ export const fetchDashBoardData = async (userId: number, token: string | null) =
   }
 
   /*-----------------------------------// Index - Companies //--------------------------------------*/
-  export const fetchCompanies = async (userId: number, token: string | null) => {
+  export const fetchCompanies = async (userId: any, token: any) => {
     try {
       const apiURL = process.env.REACT_APP_BACKEND_API_URL
       const backendURL = `${apiURL}api/v1/`
@@ -178,7 +178,7 @@ export const fetchDashBoardData = async (userId: number, token: string | null) =
 
 
     /*-----------------------------------// Post- Contact //--------------------------------------*/
-    export const fetchNewContact = async (userId: number, token: string | null, formData: any, newContact: any) => {
+    export const fetchNewContact = async (userId: any, token: string | null, formData: any, newContact: any) => {
       try {
         let url = `${backendURL}users/${userId}/contacts`;
           if (formData.companyId) {

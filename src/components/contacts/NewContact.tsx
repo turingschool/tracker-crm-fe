@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { UserData } from '../../Interfaces';
-// import { fetchCompanies } from "../../apiCalls";
+import { fetchCompanies } from "../../apiCalls";
 import { fetchNewContact } from "../../apiCalls";
 
 
@@ -39,54 +39,18 @@ const NewContact = ( {userData}: UserInformationProps ) => {
     []
   );
 
-  // useEffect(() => {
-  //   const companiesFetcher = async () => {
-
-  //     try {
-  //       const allData = await fetchCompanies(userData.user.data.id, token)
-  //       return setCompanies(allData);
-  //     } catch (error: any) {
-  //       console.error("Error fetching companies:", error.message);
-  //     }
-  //   };
-
-  //   companiesFetcher();
-  // }, []);
-
-
-
   useEffect(() => {
-    const fetchCompanies = async () => {
+    const companiesFetcher = async () => {
+
       try {
-        const apiURL = process.env.REACT_APP_BACKEND_API_URL
-        const backendURL = `${apiURL}api/v1/`
-        const response = await fetch(
-          `${backendURL}users/${userId}/companies`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch companies");
-        }
-
-        const data = await response.json();
-        const companyList = data.data.map((company: any) => ({
-          id: company.id,
-          name: company.attributes.name,
-        }));
-
-        setCompanies(companyList);
+        const allData = await fetchCompanies(userId, token)
+        return setCompanies(allData);
       } catch (error: any) {
         console.error("Error fetching companies:", error.message);
       }
     };
 
-    fetchCompanies();
+    companiesFetcher();
   }, []);
 
   const handleInputChange = (
@@ -113,7 +77,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
     };
 
       try {
-        await fetchNewContact(userData.user.data.id, token, formData, newContact)
+        await fetchNewContact(userId, token, formData, newContact)
         setFeedback("Contact added successfully! Redirecting...");
         setTimeout(() => navigate("/contacts"), 3000);
 
