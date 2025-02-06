@@ -46,6 +46,7 @@ function JobApplication() {
   const [notes, setNotes] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [applicationURL, setApplicationURL] = useState('');
+  const [companyId, setCompanyId] = useState('');
 
   useEffect(() => {
     if (jobAppId) {
@@ -60,6 +61,7 @@ function JobApplication() {
           setNotes(data.data.attributes.notes)
           setJobDescription(data.data.attributes.job_description)
           setApplicationURL(data.data.attributes.application_url)
+          setCompanyId(data.data.attributes.company_id)
 
         } catch (err) {
           console.error("Failed to fetch job application:", err);
@@ -111,10 +113,13 @@ function JobApplication() {
             data-testid="job-Title">
               {jobApp.position_title}
             </h1>
-            <h2 className="text-cyan-600 text-2xl sm:text-3xl mb-6"
+            <Link className="bg-transparent text-cyan-600 px-4 py-2 rounded inline-block text-center ml-2 hover:underline"
+              to={`/companies/${companyId}/contacts`}>
+              <h2 className="text-cyan-600 text-2xl sm:text-3xl mb-6"
             data-testid="job-companyName">
               {jobApp.company_name}
             </h2>
+            </Link>
             <p className="font-medium mb-4">
               Applied On:{" "}
               <span className="font-semibold">
@@ -168,6 +173,7 @@ function JobApplication() {
                 Read More...
               </button>
             </div>
+            //**WORKING CODE CAN BE USED TO RESOLVE ISSUE 93**
             {/* <div>
               <h2 className="text-cyan-600 text-xl sm:text-2xl font-bold mb-4">
                 My Contacts at {jobApp.company_name}
