@@ -1,5 +1,5 @@
-
 import { FormInputData } from "./components/contacts/NewContact"
+import { NewContact } from "./components/contacts/NewContact"
 const apiURL = process.env.REACT_APP_BACKEND_API_URL
 const backendURL = `${apiURL}api/v1/`
 /*-----------------------------------// GET //--------------------------------------*/
@@ -179,7 +179,7 @@ export const fetchDashBoardData = async (userId: number, token: string | null) =
 
 
     /*-----------------------------------// Post- Contact //--------------------------------------*/
-    export const fetchNewContact = async (userId: number | undefined, token: string | null, formInputData: FormInputData, newContact: any) => {
+    export const fetchNewContact = async (userId: number | undefined, token: string | null, formInputData: FormInputData, newContact: NewContact) => {
       try {
         let url = `${backendURL}users/${userId}/contacts`;
           if (formInputData.companyId) {

@@ -15,6 +15,14 @@ export interface FormInputData {
   notes: string;
 };
 
+export interface NewContact {
+  first_name: string,
+  last_name: string,
+  email: string,
+  phone_number: string,
+  notes: string,
+}
+
 interface UserInformationProps {
   userData: UserData;
 };
