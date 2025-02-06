@@ -270,7 +270,7 @@ const NewContact = ({ userData }: UserInformationProps) => {
 
           <div>
             <button onClick={() => setIsOpen(true)}>Add new company</button>
-            <CompanyModal open={isOpen}></CompanyModal>
+            <CompanyModal open={isOpen} setIsOpen={setIsOpen}></CompanyModal>
           </div>
 
           <div className="text-left">
