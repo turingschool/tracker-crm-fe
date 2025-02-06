@@ -87,7 +87,6 @@ function NewCompany() {
       setIsLoading(false);
     }
   };
-
   return (
     <div className="flex flex-row">
       <div className="max-w-4xl w-10/12  m-auto p-12 justify-self-center bg-white border border-gray-200 rounded-lg shadow-lg">
@@ -244,5 +243,4 @@ function NewCompany() {
     </div>
   );
 }
-
 export default NewCompany;

@@ -230,13 +230,10 @@ const NewContact = ({ userData }: UserInformationProps) => {
               id="companyId"
               name="companyId"
               value={formData.companyId || ""}
+              onFocus={() => fetchCompanies()}
               onChange={handleInputChange}
             >
-              <option
-                value=""
-                onFocus={() => fetchCompanies()}
-                className="text-gray-400"
-              >
+              <option value="" className="text-gray-400">
                 Leave blank or select a company
               </option>
 
