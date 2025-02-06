@@ -584,13 +584,13 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/epintozzi)
 - [LinkedIn](https://www.linkedin.com/in/erin-pintozzi/)
 
-**Wallace, Wally**
-- [Github](https://github.com/wally-yawn)
-- [LinkedIn](https://www.https://www.linkedin.com/in/wally-wallace-719b0875/)
-
 **Riley, Alora**
 - [Github](https://github.com/aloraalee)
 - [LinkedIn](https://www.linkedin.com/in/alorariley/)
+
+**Wallace, Wally**
+- [Github](https://github.com/wally-yawn)
+- [LinkedIn](https://www.https://www.linkedin.com/in/wally-wallace-719b0875/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
