@@ -8,6 +8,12 @@ interface Company {
   name: string;
 }
 
+interface Contact {
+  id: string;
+  first_name: string;
+  last_name: string;
+}
+
 function NewJobApplication() {
   const navigate = useNavigate();
   const { token, userData } = useUserLoggedContext();
@@ -18,11 +24,44 @@ function NewJobApplication() {
   const [notes, setNotes] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [applicationURL, setApplicationURL] = useState('');
-  // const [contactInformation, setContactInformation] = useState('');
+  const [contactInformation, setContactInformation] = useState('');
   const [availableCompany, setAvailableCompany] = useState("");
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [contacts, setContacts] = useState<Contact[]>([]);
 
   // const selectedCompany = companies.find(company => company.id === availableCompany);
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const apiURL = process.env.REACT_APP_BACKEND_API_URL;
+        const response = await fetch(`${apiURL}api/v1/users/${userData.user.data.id}/contacts`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Failed to fetch contacts: ${response.statusText}`);
+        }
+  
+        const data = await response.json();
+        const contactList = data.data.map((contact: any) => ({
+          id: contact.id,
+          first_name: contact.attributes.first_name,
+          last_name: contact.attributes.last_name,
+        }));
+  
+        setContacts(contactList);
+      } catch (error) {
+        console.error("Fetch error", error);
+      }
+    };
+  
+    fetchContacts();
+  }, [userData.user.data.id, token]);
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -63,7 +102,8 @@ function NewJobApplication() {
         job_description: jobDescription,
         application_url: applicationURL,
         
-        company_id: availableCompany
+        company_id: availableCompany,
+        contact_id: contactInformation
     };
 
     try {
@@ -180,16 +220,24 @@ function NewJobApplication() {
             </label>
 
             {/* Contact Information */}
-            {/* <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
+           <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
               <span className="font-semibold">Contact Information:</span>
-              <input
-                type="text"
+              <select
                 value={contactInformation}
                 onChange={(e) => setContactInformation(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
-                placeholder='Contact info...'
-              />
-            </label> */}
+              >
+               <option value="" className="text-gray-400">
+                  Select a contact
+                </option>
+                {contacts.map((contact) => (
+                  <option key={contact.id} value={contact.id}>
+                    {contact.first_name}
+                    {contact.last_name}
+                    </option>
+                ))}
+              </select>
+            </label>
           </div>
 
           <div className='m-2'>
