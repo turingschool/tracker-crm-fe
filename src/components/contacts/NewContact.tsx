@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { UserData } from "../../Interfaces";
@@ -40,36 +40,38 @@ const NewContact = ({ userData }: UserInformationProps) => {
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    const fetchCompanies = async () => {
-      try {
-        const apiURL = process.env.REACT_APP_BACKEND_API_URL;
-        const backendURL = `${apiURL}api/v1/`;
-        const response = await fetch(`${backendURL}users/${userId}/companies`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+  // useEffect(() => {
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch companies");
-        }
+  //   fetchCompanies();
+  // }, []);
 
-        const data = await response.json();
-        const companyList = data.data.map((company: any) => ({
-          id: company.id,
-          name: company.attributes.name,
-        }));
+  const fetchCompanies = async () => {
+    console.log("fetching comps");
+    try {
+      const apiURL = process.env.REACT_APP_BACKEND_API_URL;
+      const backendURL = `${apiURL}api/v1/`;
+      const response = await fetch(`${backendURL}users/${userId}/companies`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
-        setCompanies(companyList);
-      } catch (error: any) {
-        console.error("Error fetching companies:", error.message);
+      if (!response.ok) {
+        throw new Error("Failed to fetch companies");
       }
-    };
 
-    fetchCompanies();
-  }, []);
+      const data = await response.json();
+      const companyList = data.data.map((company: any) => ({
+        id: company.id,
+        name: company.attributes.name,
+      }));
+
+      setCompanies(companyList);
+    } catch (error: any) {
+      console.error("Error fetching companies:", error.message);
+    }
+  };
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -230,7 +232,11 @@ const NewContact = ({ userData }: UserInformationProps) => {
               value={formData.companyId || ""}
               onChange={handleInputChange}
             >
-              <option value="" className="text-gray-400">
+              <option
+                value=""
+                onFocus={() => fetchCompanies()}
+                className="text-gray-400"
+              >
                 Leave blank or select a company
               </option>
 

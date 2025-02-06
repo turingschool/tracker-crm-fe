@@ -1,4 +1,5 @@
 import React from "react";
+import NewCompany from "../companies/NewCompany";
 
 type CompanyModalProps = {
   open: boolean;
@@ -7,7 +8,7 @@ type CompanyModalProps = {
 const CompanyModal: React.FC<CompanyModalProps> = ({ open }) => {
   if (!open) return null;
 
-  return <div>Test</div>;
+  return <NewCompany></NewCompany>;
 };
 
 export default CompanyModal;
