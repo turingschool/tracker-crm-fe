@@ -6,7 +6,7 @@ import { fetchCompanies } from "../../apiCalls";
 import { fetchNewContact } from "../../apiCalls";
 
 
-export interface FormData {
+export interface FormInputData {
   firstName: string;
   lastName: string;
   email: string;
@@ -25,7 +25,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
   const { token } = useUserLoggedContext();
   const userId = userData.user.data.id ? Number(userData.user.data.id) : undefined
 
-  const [formData, setFormData] = useState<FormData>({
+  const [formInputData, setFormInputData] = useState<FormInputData>({
     firstName: "",
     lastName: "",
     email: "",
@@ -60,7 +60,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
   ) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
+    setFormInputData((prev) => ({
       ...prev,
       [name]: value === " " ? null : value,
     }));
@@ -69,15 +69,15 @@ const NewContact = ( {userData}: UserInformationProps ) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newContact = {
-      first_name: formData.firstName,
-      last_name: formData.lastName,
-      email: formData.email,
-      phone_number: formData.phoneNumber,
-      notes: formData.notes,
+      first_name: formInputData.firstName,
+      last_name: formInputData.lastName,
+      email: formInputData.email,
+      phone_number: formInputData.phoneNumber,
+      notes: formInputData.notes,
     };
 
       try {
-        await fetchNewContact(userId, token, formData, newContact)
+        await fetchNewContact(userId, token, formInputData, newContact)
         setFeedback("Contact added successfully! Redirecting...");
         setTimeout(() => navigate("/contacts"), 3000);
 
@@ -120,7 +120,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
                 id="firstName"
                 name="firstName"
                 placeholder="First Name is required"
-                value={formData.firstName}
+                value={formInputData.firstName}
                 onChange={handleInputChange}
                 required
               />
@@ -138,7 +138,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
                 id="lastName"
                 name="lastName"
                 placeholder="Last Name is required"
-                value={formData.lastName}
+                value={formInputData.lastName}
                 onChange={handleInputChange}
                 required
               />
@@ -157,7 +157,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
               id="email"
               name="email"
               placeholder="example@gmail.com"
-              value={formData.email}
+              value={formInputData.email}
               onChange={handleInputChange}
             />
           </div>
@@ -175,7 +175,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
               id="phoneNumber"
               name="phoneNumber"
               placeholder="555-555-5555"
-              value={formData.phoneNumber}
+              value={formInputData.phoneNumber}
               onChange={handleInputChange}
             />
           </div>
@@ -188,11 +188,11 @@ const NewContact = ( {userData}: UserInformationProps ) => {
             </label>
             <select
               className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 ${
-                !formData.companyId ? "text-gray-400" : "text-black"
+                !formInputData.companyId ? "text-gray-400" : "text-black"
               }`}
               id="companyId"
               name="companyId"
-              value={formData.companyId || ""}
+              value={formInputData.companyId || ""}
               onChange={handleInputChange}
             >
               <option value="" className="text-gray-400">
@@ -225,7 +225,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
               placeholder="Add notes here"
               rows={5}
               cols={50}
-              value={formData.notes}
+              value={formInputData.notes}
               onChange={handleInputChange}
             />
           </div>

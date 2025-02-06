@@ -1,4 +1,5 @@
 
+import { FormInputData } from "./components/contacts/NewContact"
 const apiURL = process.env.REACT_APP_BACKEND_API_URL
 const backendURL = `${apiURL}api/v1/`
 /*-----------------------------------// GET //--------------------------------------*/
@@ -148,7 +149,7 @@ export const fetchDashBoardData = async (userId: number, token: string | null) =
   }
 
   /*-----------------------------------// Index - Companies //--------------------------------------*/
-  export const fetchCompanies = async (userId: any, token: any) => {
+  export const fetchCompanies = async (userId: number | undefined, token: string | null) => {
     try {
       const apiURL = process.env.REACT_APP_BACKEND_API_URL
       const backendURL = `${apiURL}api/v1/`
@@ -178,11 +179,11 @@ export const fetchDashBoardData = async (userId: number, token: string | null) =
 
 
     /*-----------------------------------// Post- Contact //--------------------------------------*/
-    export const fetchNewContact = async (userId: any, token: string | null, formData: any, newContact: any) => {
+    export const fetchNewContact = async (userId: number | undefined, token: string | null, formInputData: FormInputData, newContact: any) => {
       try {
         let url = `${backendURL}users/${userId}/contacts`;
-          if (formData.companyId) {
-            url = `${backendURL}users/${userId}/companies/${formData.companyId}/contacts`;
+          if (formInputData.companyId) {
+            url = `${backendURL}users/${userId}/companies/${formInputData.companyId}/contacts`;
           }
           const response = await fetch(url, {
             method: "POST",
