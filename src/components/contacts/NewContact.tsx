@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { UserData } from '../../Interfaces';
+import { fetchCompanies } from "../../apiCalls";
+import { fetchNewContact } from "../../apiCalls";
 
-export interface FormData {
+
+export interface FormInputData {
   firstName: string;
   lastName: string;
   email: string;
@@ -11,6 +14,14 @@ export interface FormData {
   companyId?: number | null;
   notes: string;
 };
+
+export interface NewContact {
+  first_name: string,
+  last_name: string,
+  email: string,
+  phone_number: string,
+  notes: string,
+}
 
 interface UserInformationProps {
   userData: UserData;
@@ -22,7 +33,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
   const { token } = useUserLoggedContext();
   const userId = userData.user.data.id ? Number(userData.user.data.id) : undefined
 
-  const [formData, setFormData] = useState<FormData>({
+  const [formInputData, setFormInputData] = useState<FormInputData>({
     firstName: "",
     lastName: "",
     email: "",
@@ -37,37 +48,17 @@ const NewContact = ( {userData}: UserInformationProps ) => {
   );
 
   useEffect(() => {
-    const fetchCompanies = async () => {
+    const companiesFetcher = async () => {
+
       try {
-        const apiURL = process.env.REACT_APP_BACKEND_API_URL
-        const backendURL = `${apiURL}api/v1/`
-        const response = await fetch(
-          `${backendURL}users/${userId}/companies`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch companies");
-        }
-
-        const data = await response.json();
-        const companyList = data.data.map((company: any) => ({
-          id: company.id,
-          name: company.attributes.name,
-        }));
-
-        setCompanies(companyList);
+        const allData = await fetchCompanies(userId, token)
+        return setCompanies(allData);
       } catch (error: any) {
         console.error("Error fetching companies:", error.message);
       }
     };
 
-    fetchCompanies();
+    companiesFetcher();
   }, []);
 
   const handleInputChange = (
@@ -77,7 +68,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
   ) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
+    setFormInputData((prev) => ({
       ...prev,
       [name]: value === " " ? null : value,
     }));
@@ -86,40 +77,22 @@ const NewContact = ( {userData}: UserInformationProps ) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newContact = {
-      first_name: formData.firstName,
-      last_name: formData.lastName,
-      email: formData.email,
-      phone_number: formData.phoneNumber,
-      notes: formData.notes,
+      first_name: formInputData.firstName,
+      last_name: formInputData.lastName,
+      email: formInputData.email,
+      phone_number: formInputData.phoneNumber,
+      notes: formInputData.notes,
     };
 
-    try {
-      const apiURL = process.env.REACT_APP_BACKEND_API_URL
-      const backendURL = `${apiURL}api/v1/`
-      let url = `${backendURL}users/${userId}/contacts`;
-      if (formData.companyId) {
-        url = `${backendURL}users/${userId}/companies/${formData.companyId}/contacts`;
-      }
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newContact),
-      });
+      try {
+        await fetchNewContact(userId, token, formInputData, newContact)
+        setFeedback("Contact added successfully! Redirecting...");
+        setTimeout(() => navigate("/contacts"), 3000);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to add the contact");
+      } catch (error: any) {
+        console.error("Error adding contact:", error);
+        setFeedback(error.message);
       }
-      setFeedback("Contact added successfully! Redirecting...");
-      setTimeout(() => navigate("/contacts"), 3000);
-
-    } catch (error: any) {
-      console.error("Error adding contact:", error);
-      setFeedback(error.message);
-    }
   };
 
   return (
@@ -155,7 +128,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
                 id="firstName"
                 name="firstName"
                 placeholder="First Name is required"
-                value={formData.firstName}
+                value={formInputData.firstName}
                 onChange={handleInputChange}
                 required
               />
@@ -173,7 +146,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
                 id="lastName"
                 name="lastName"
                 placeholder="Last Name is required"
-                value={formData.lastName}
+                value={formInputData.lastName}
                 onChange={handleInputChange}
                 required
               />
@@ -192,7 +165,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
               id="email"
               name="email"
               placeholder="example@gmail.com"
-              value={formData.email}
+              value={formInputData.email}
               onChange={handleInputChange}
             />
           </div>
@@ -210,7 +183,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
               id="phoneNumber"
               name="phoneNumber"
               placeholder="555-555-5555"
-              value={formData.phoneNumber}
+              value={formInputData.phoneNumber}
               onChange={handleInputChange}
             />
           </div>
@@ -223,11 +196,11 @@ const NewContact = ( {userData}: UserInformationProps ) => {
             </label>
             <select
               className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 ${
-                !formData.companyId ? "text-gray-400" : "text-black"
+                !formInputData.companyId ? "text-gray-400" : "text-black"
               }`}
               id="companyId"
               name="companyId"
-              value={formData.companyId || ""}
+              value={formInputData.companyId || ""}
               onChange={handleInputChange}
             >
               <option value="" className="text-gray-400">
@@ -260,7 +233,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
               placeholder="Add notes here"
               rows={5}
               cols={50}
-              value={formData.notes}
+              value={formInputData.notes}
               onChange={handleInputChange}
             />
           </div>
