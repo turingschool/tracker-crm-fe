@@ -585,8 +585,8 @@ FORMAT: lastname, firstname
 - [LinkedIn](https://www.linkedin.com/in/erin-pintozzi/)
 
 **Riley, Alora**
--[Github](https://github.com/aloraalee)
--[LinkedIn](https://www.linkedin.com/in/alorariley/)
+- [Github](https://github.com/aloraalee)
+- [LinkedIn](https://www.linkedin.com/in/alorariley/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
