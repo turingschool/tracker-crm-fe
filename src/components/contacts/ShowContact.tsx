@@ -150,7 +150,9 @@ function ShowContact() {
                   Email:{" "}
                 </span>
                 <span data-testid="email-address">
-                  {contact.attributes.email}
+                  {/* href mailto: */}
+                  {/* {contact.attributes.email} */}
+                  <a href={`mailto:${contact.attributes.email}`} >{contact.attributes.email}</a>
                 </span>
               </p>
               <p>
