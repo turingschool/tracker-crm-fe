@@ -490,7 +490,7 @@ Key Functionalities Include:
 - View All Contacts:
 Browse a comprehensive list of contacts with info like their name, company, and notes. Includes a search bar and ability to create a new contact.
 - View a Contact:
-Click on  a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company.
+Click on  a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page.
 - Add a new Contact
 Click on the Add New + button to navigate to a form where a user inputs a new contact and their associated information.
 - Search for a Contact
@@ -583,6 +583,10 @@ FORMAT: lastname, firstname
 **Pintozzi, Erin - (Project Manager)**
 - [Github](https://github.com/epintozzi)
 - [LinkedIn](https://www.linkedin.com/in/erin-pintozzi/)
+
+**Wallace, Wally**
+- [Github](https://github.com/wally-yawn)
+- [LinkedIn](https://www.https://www.linkedin.com/in/wally-wallace-719b0875/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
