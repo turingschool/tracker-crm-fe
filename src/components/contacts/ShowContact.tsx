@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
+import { Link } from "react-router-dom";
 
 interface ContactAttributes {
   company: { name: string };
@@ -185,8 +186,12 @@ function ShowContact() {
             <ul className="list-disc list-inside">
               {filteredOtherContacts.map((otherContact) => (
                 <li key={otherContact.id} className="font-normal">
-                  {otherContact.attributes.first_name}{" "}
-                  {otherContact.attributes.last_name}
+                  <Link to={`/contacts/${otherContact.id}`}>
+                    <td className="p-4 border-b truncate max-w-[8vw]">
+                    {otherContact.attributes.first_name}{" "}
+                    {otherContact.attributes.last_name}
+                    </td>
+                  </Link>
                 </li>
               ))}
             </ul>
