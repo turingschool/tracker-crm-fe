@@ -247,6 +247,15 @@ const NewContact = ({ userData }: UserInformationProps) => {
                 </option>
               ))}
             </select>
+            <div>
+              <button
+                className="bg-cyan-600 text-white px-[.5vw] py-[1vh] rounded w-[18vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2"
+                onClick={() => setIsOpen(true)}
+              >
+                Add new company
+              </button>
+              <CompanyModal open={isOpen} setIsOpen={setIsOpen}></CompanyModal>
+            </div>
           </div>
 
           <div>
@@ -266,11 +275,6 @@ const NewContact = ({ userData }: UserInformationProps) => {
               value={formData.notes}
               onChange={handleInputChange}
             />
-          </div>
-
-          <div>
-            <button onClick={() => setIsOpen(true)}>Add new company</button>
-            <CompanyModal open={isOpen} setIsOpen={setIsOpen}></CompanyModal>
           </div>
 
           <div className="text-left">
