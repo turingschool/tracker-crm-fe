@@ -173,8 +173,9 @@ function JobApplication() {
                 Read More...
               </button>
             </div>
-            //**WORKING CODE CAN BE USED TO RESOLVE ISSUE 93**
-            {/* <div>
+            {
+            /**WORKING CODE CAN BE USED TO RESOLVE ISSUE 93**
+            /* <div>
               <h2 className="text-cyan-600 text-xl sm:text-2xl font-bold mb-4">
                 My Contacts at {jobApp.company_name}
               </h2>
