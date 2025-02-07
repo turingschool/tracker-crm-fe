@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { UserData } from "../../Interfaces";
+import { fetchContacts } from '../../apiCalls';
+
 
 interface ContactData {
   id: string;
@@ -36,37 +38,22 @@ function Contacts({ userData }: UserInformationProps) {
   const [allContacts, setAllContacts] = useState<ContactData[] | []>([]);
   const [contactSearch, setContactSearch] = useState<string>("");
   const [fetchError, setFetchError] = useState<string | null>(null);
-
   const { token } = useUserLoggedContext();
-  const userId = userData.user.data.id
-    ? Number(userData.user.data.id)
-    : undefined;
 
-  useEffect(() => {
-    const fetchContacts = async () => {
-      try {
-        const apiURL = process.env.REACT_APP_BACKEND_API_URL
-        const backendURL = `${apiURL}api/v1/`
-        const response = await fetch(`${backendURL}users/${userId}/contacts`, {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-        });
-        if (!response.ok) {
-          throw new Error(`Failed to fetch contacts: ${response.statusText}`);
+    useEffect(() => {
+      const contactFetcher = async () =>{
+        try {
+          const allData = await fetchContacts(userData.user.data.id, token)
+
+          setContacts(allData as ContactData[]);
+          setAllContacts(allData as ContactData[]);
+        } catch (error) {
+          setFetchError(`${(error as Error).message}. Please try again later.`);
+          console.error("Fetch error", error);
         }
-        const data = await response.json();
-        setContacts(data.data as ContactData[]);
-        setAllContacts(data.data as ContactData[]);
-      } catch (error) {
-        setFetchError(`${(error as Error).message}. Please try again later.`);
-        console.error("Fetch error", error);
-      }
-    };
-    fetchContacts();
-  }, []);
+        }
+      contactFetcher();
+    }, []);
 
   function searchContactList(event: React.ChangeEvent<HTMLInputElement>) {
     const search = event.target.value;

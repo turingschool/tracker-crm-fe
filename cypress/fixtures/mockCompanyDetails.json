@@ -1,0 +1,34 @@
+{
+  "company": {
+    "data": {
+      "id": "3",
+      "type": "company",
+      "attributes": {
+        "name": "Creative Solutions Inc.",
+        "website": "https://creativesolutions.com",
+        "street_address": "789 Creative Street",
+        "city": "Seattle",
+        "state": "WA",
+        "zip_code": "98101",
+        "notes": "Follow up scheduled for next week."
+      }
+    }
+  },
+  "contacts": {
+    "data": [
+      {
+        "id": "3",
+        "type": "contacts",
+        "attributes": {
+          "first_name": "Michael",
+          "last_name": "Johnson",
+          "company_id": 3,
+          "email": "michael.johnson@example.com",
+          "phone_number": "123-555-9012",
+          "notes": "Hiring manager at Creative Solutions Inc.",
+          "user_id": 1
+        }
+      }
+    ]
+  }
+}

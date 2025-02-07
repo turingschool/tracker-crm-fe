@@ -151,7 +151,6 @@ describe("View specific job app page with all fields filled in", () => {
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications", (req) => {
       req.on("response", (res) => {
-        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
@@ -164,7 +163,6 @@ describe("View specific job app page with all fields filled in", () => {
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications/3", (req) => {
       req.on("response", (res) => {
-        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
@@ -174,6 +172,17 @@ describe("View specific job app page with all fields filled in", () => {
         },
       });
     }).as("showSingleJobApp");
+
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/1/companies/3/contacts", (req) => {
+      req.headers["Authorization"] = "Bearer fake-token"
+      req.reply({
+        statusCode: 200,
+      fixture: "mockCompanyDetails",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+    }).as("getCompanyDetails")
     
     cy.visit("http://localhost:3000/");
     cy.get("#email").type("danny_de@email.com")
@@ -181,7 +190,7 @@ describe("View specific job app page with all fields filled in", () => {
     cy.get('[data-testid="login-button"]').click();
     cy.get('[data-testid="applications-iconD"]').click();
     cy.get('[data-testid="applications-iconD"]').click();
-    cy.get("tbody > tr").contains("Creative").click();
+    cy.get("tbody > tr").contains("Creative Solutions Inc.").click();
   });
 
   it("displays the position title and company name", () => {
@@ -189,8 +198,43 @@ describe("View specific job app page with all fields filled in", () => {
     cy.wait("@showSingleJobApp");
 
     cy.get('h1.text-cyan-600').should("have.text", "Backend Developer");
-    cy.get('.flex > :nth-child(1) > .sm\\:text-3xl').should("contain.text", "Creative Solutions Inc.");{/* REFACTOR AWAITING SHOW COMPANY ROUTE */}
+    cy.get('h2.text-cyan-600').first().should("have.text", "Creative Solutions Inc.");
   });
+  
+  it("navigates to the company details page", () => {
+    cy.wait("@showSingleJobApp");
+    cy.get('h2.text-cyan-600').first().click()
+    cy.wait("@getCompanyDetails")
+
+    cy.location('pathname').should('match', /\/companies\/3\/contacts$/)
+  })
+
+  it("displays the correct company details", () => {
+    cy.wait("@showSingleJobApp");
+    cy.get('h2.text-cyan-600').first().click()
+    cy.wait("@getCompanyDetails")
+    cy.get("h1").should("have.text", "Company Details");
+
+    cy.get("h2").contains("Company Name:")
+      .next().should("have.text", "Creative Solutions Inc.");
+    
+    cy.get("h2").contains("Website:")
+      .next().should("have.text", "https://creativesolutions.com");
+    
+    cy.get("h2").contains("Address:")
+      .next().should(
+        "have.text",
+        "789 Creative Street Seattle, WA 98101"
+      );
+    
+    cy.get("h2").contains("Notes:")
+      .next().should("have.text", "Follow up scheduled for next week.");
+    cy.get("h2").contains("Contacts")
+      .next().should("have.text", "Michael Johnson")
+    cy.get("h2").contains("Contacts").next().within(() => {
+      cy.get("a").should("have.length.greaterThan", 0)
+    })
+  })
 
   it("displays application details", () => {
 
@@ -289,7 +333,6 @@ describe("View specific job app page with empty fields", () => {
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications", (req) => {
       req.on("response", (res) => {
-        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
@@ -302,7 +345,6 @@ describe("View specific job app page with empty fields", () => {
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications/5", (req) => {
       req.on("response", (res) => {
-        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
@@ -351,7 +393,6 @@ describe("View specific job app page when data fails to load", () => {
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications", (req) => {
       req.on("response", (res) => {
-        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
@@ -427,7 +468,6 @@ describe("Editability of specific job application fields", () => {
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications", (req) => {
       req.on("response", (res) => {
-        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
@@ -440,7 +480,6 @@ describe("Editability of specific job application fields", () => {
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/job_applications/3", (req) => {
       req.on("response", (res) => {
-        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
@@ -490,7 +529,6 @@ describe("Editability of specific job application fields", () => {
   it("Should make a fetch call when update info button is clicked", () => {
     cy.intercept("PATCH", "http://localhost:3001/api/v1/users/1/job_applications/3", (req) => {
       req.on("response", (res) => {
-        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
@@ -521,7 +559,6 @@ describe("Editability of specific job application fields", () => {
   it("Should not create an error when update info button is clicked and no info changed", () => {
     cy.intercept("PATCH", "http://localhost:3001/api/v1/users/1/job_applications/3", (req) => {
       req.on("response", (res) => {
-        // res.setDelay(2000); 
       });
       req.reply({
         statusCode: 200,
