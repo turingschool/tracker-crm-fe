@@ -149,7 +149,9 @@ function ShowContact() {
                 >
                   Email:{" "}
                 </span>
-                <a data-testid="email-address" href={`mailto:${contact.attributes.email}`} >{contact.attributes.email}</a>
+                <a 
+                  className="text-cyan-500 underline hover:text-cyan-700"
+                  data-testid="email-address" href={`mailto:${contact.attributes.email}`} >{contact.attributes.email}</a>
               </p>
               <p>
                 <span
@@ -184,7 +186,7 @@ function ShowContact() {
             <ul className="list-disc list-inside">
               {filteredOtherContacts.map((otherContact) => (
                 <li key={otherContact.id} className="font-normal">
-                  <Link to={`/contacts/${otherContact.id}`}>
+                  <Link className="text-cyan-500 underline hover:text-cyan-700" to={`/contacts/${otherContact.id}`}>
                     <td className="p-4 border-b truncate max-w-[8vw]">
                     {otherContact.attributes.first_name}{" "}
                     {otherContact.attributes.last_name}
