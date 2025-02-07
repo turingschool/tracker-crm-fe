@@ -253,6 +253,15 @@ describe("View specific job app page with all fields filled in", () => {
       });
   });
 
+  it("edits an application date", () => {
+    cy.wait("@showSingleJobApp");
+    cy.get("p.font-medium").
+      within(() => {
+        cy.get("span.font-semibold").click()
+      })
+    cy.get("#dateApplied").type('2025-01-01').should('have.value', '2025-01-01')
+  })
+
   it("displays notes and edit button", () => {
 
     cy.wait("@showSingleJobApp");
