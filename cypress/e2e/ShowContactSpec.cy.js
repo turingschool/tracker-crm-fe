@@ -124,6 +124,7 @@ describe("Show a single contact page", () => {
     cy.wait("@get-contact-details");
     cy.get('[data-testid="contact-email"]').should("have.text", "Email: ");
     cy.get('[data-testid="email-address"]').should("have.text", "123@example.com");
+    cy.get('[data-testid="email-address"]').should("have.text", "123@example.com");
     cy.get('[data-testid="contact-phone"]').should("have.text", "Phone: ");
     cy.get('[data-testid="phone-num"]').should("have.text", "123-555-6789");
   });
