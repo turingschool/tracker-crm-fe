@@ -536,6 +536,10 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/stefanjbloom)
 - [LinkedIn](https://www.linkedin.com/in/stefanjbloom/)
 
+**Cardona, Danielle**
+- [Github](https://github.com/dcardona23)
+- [LinkedIn](https://github.com/dcardona23)
+
 **Chirchirillo, Joe**
 - [Github](https://github.com/jchirch)
 - [LinkedIn](https://www.linkedin.com/in/joechirchirillo/)

@@ -47,6 +47,8 @@ function JobApplication() {
   const [jobDescription, setJobDescription] = useState('');
   const [applicationURL, setApplicationURL] = useState('');
   const [companyId, setCompanyId] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedDate, setEditedDate] = useState(jobApp ? jobApp.date_applied : '')
 
   useEffect(() => {
     if (jobAppId) {
@@ -62,6 +64,7 @@ function JobApplication() {
           setJobDescription(data.data.attributes.job_description)
           setApplicationURL(data.data.attributes.application_url)
           setCompanyId(data.data.attributes.company_id)
+          setEditedDate(data.data.attributes.date_applied ? data.data.attributes.date_applied.toString() : '')
 
         } catch (err) {
           console.error("Failed to fetch job application:", err);
@@ -71,6 +74,11 @@ function JobApplication() {
       fetchJobApplication()
     }
   }, [jobAppId]);
+
+  const handleSave = () => {
+    setIsEditing(false)
+    setEditedDate(editedDate)
+  }
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -91,7 +99,7 @@ function JobApplication() {
       job_description: jobDescription,
       application_url: applicationURL
     }
-    console.log(compileData)
+
     updateJobApplication(compileData)
       .then((updatedApplication) => {
         console.log("Application updated successfully:", updatedApplication);
@@ -122,9 +130,25 @@ function JobApplication() {
             </Link>
             <p className="font-medium mb-4">
               Applied On:{" "}
-              <span className="font-semibold">
-                {`${jobApp.date_applied}`}
-              </span>
+              {isEditing ? (
+                <input
+                  type="date"
+                  id="dateApplied"
+                  value={editedDate instanceof Date ? editedDate.toString().split('T')[0] : editedDate}
+                  onChange={(e) => setEditedDate(e.target.value)}
+                  className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 ease-in-out"
+                  onBlur={handleSave}
+                  required
+              />
+              ) : (
+                <span 
+                className="font-semibold cursor-pointer underline underline-dashed hover:text-blue-500 transition-all duration-150 ease-in-out"
+                onClick={() => setIsEditing(true)}
+                >
+                  {editedDate instanceof Date ? editedDate.toString().split('T')[0] : editedDate}
+                </span>
+              )}
+              
             </p>
             <p className="mb-6">
               Status:{" "}
