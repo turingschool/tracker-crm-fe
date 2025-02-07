@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { UserData } from "../../Interfaces";
@@ -58,6 +58,10 @@ const NewContact = ({ userData }: UserInformationProps) => {
       console.error("Error fetching companies:", error.message);
     }
   };
+
+  useEffect(() => {
+    companiesFetcher(); // Runs on mount
+  }, []);
 
   const handleInputChange = (
     e: React.ChangeEvent<

@@ -2,10 +2,10 @@ import { mockContactsData } from "../fixtures/mockContactsData";
 
 describe("New Contacts page after logging in", () => {
   beforeEach(() => {
-    cy.intercept('POST', 'http://localhost:3001/api/v1/sessions', {
+    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
       statusCode: 200,
-      body: 
-        {token: "The token",
+      body: {
+        token: "The token",
         user: {
           data: {
             id: 2,
@@ -13,12 +13,12 @@ describe("New Contacts page after logging in", () => {
             attributes: {
               name: "Dolly Parton",
               email: "dollyP@email.com",
-              companies: []
-            }
-          }
-        }
+              companies: [],
+            },
+          },
+        },
       },
-    }).as('postUserInfo');
+    }).as("postUserInfo");
 
     cy.intercept("GET", `http://localhost:3001/api/v1/users/2/contacts`, {
       statusCode: 200,
@@ -27,7 +27,7 @@ describe("New Contacts page after logging in", () => {
         "Content-Type": "application/json",
       },
     }).as("getContacts");
-    
+
     cy.intercept("POST", "http://localhost:3001/api/v1/users/2/contacts", {
       statusCode: 201,
       body: {
@@ -51,11 +51,31 @@ describe("New Contacts page after logging in", () => {
       },
     }).as("getCompanies");
 
+    // Intercept the POST request to create a new company
+    cy.intercept("POST", `http://localhost:3001/api/v1/users/2/companies`, {
+      statusCode: 201,
+      body: {
+        data: {
+          id: 123,
+          type: "company",
+          attributes: {
+            name: "CompanyTestName",
+            website: "www.testcompany.com",
+            street_address: "123 Test St",
+            city: "Test City",
+            state: "CO",
+            zip_code: "12345",
+            notes: "Test notes",
+          },
+        },
+      },
+    }).as("addCompany");
+
     cy.visit("http://localhost:3000/contacts");
-    cy.get('#email').type('dollyP@email.com');
-    cy.get('#password').type('Jolene123');
-    cy.get('.login-btn').click();
-    cy.wait('@postUserInfo');
+    cy.get("#email").type("dollyP@email.com");
+    cy.get("#password").type("Jolene123");
+    cy.get(".login-btn").click();
+    cy.wait("@postUserInfo");
 
     cy.get('[data-testid="contacts-iconD"]').click();
     cy.url().should("include", "/contacts");
@@ -153,6 +173,32 @@ describe("New Contacts page after logging in", () => {
       cy.contains("Alice Green").should("exist");
       cy.contains("Company A").should("exist");
     });
+
+    it("Should be able to add new company and create new contact", () => {
+      cy.get("a > .bg-cyan-600").click();
+      cy.contains("button", "Add new company").click();
+      cy.get("label").contains("Company Name:").should("exist");
+      cy.get("label").contains("Website:").should("exist");
+      cy.get("label").contains("Street Address:").should("exist");
+      cy.get("label").contains("City:").should("exist");
+      cy.get("label").contains("State:").should("exist");
+      cy.get("label").contains("Zip Code:").should("exist");
+      cy.get("label").contains("Notes:").should("exist");
+
+      cy.get("#companyName").type("CompanyTestName");
+      cy.get(".max-w-4xl")
+        .find("button[type='submit']")
+        .scrollIntoView()
+        .should("be.visible")
+        .click();
+      cy.wait("@addCompany");
+      cy.get(".bg-green-100").should(
+        "contain.text",
+        "Company added successfully!"
+      );
+
+      cy.contains("button", "X").scrollIntoView().click();
+    });
   });
 
   describe("Sad Path and Edge Cases", () => {
@@ -212,7 +258,7 @@ describe("New Contacts page after logging in", () => {
       cy.wait("@addContactError");
       cy.contains("Server error, please try again").should("exist");
     });
-    
+
     it("Should validate the phone number format", () => {
       cy.intercept("POST", "http://localhost:3001/api/v1/users/2/contacts", {
         statusCode: 422,
