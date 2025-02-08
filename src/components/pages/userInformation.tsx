@@ -1,15 +1,8 @@
 import { useState } from 'react';
-import { UserInformationProps } from '../../Interfaces'
+import { UserInformationProps, DataCompile } from '../../Interfaces'
 import { updateUser } from '../../trackerApiCalls'
 
 function UserInformation({userData}: UserInformationProps) {
-  interface DataCompile {
-    token?: string;
-    id?: number;
-    name?: string;
-    email?: string;
-    [key: string]: any;  
-  }
   const [name, setName] = useState(userData.user.data.attributes.name);
   const [email, setEmail] = useState(userData.user.data.attributes.email);
   const [password, setPassword] = useState('');
@@ -19,7 +12,6 @@ function UserInformation({userData}: UserInformationProps) {
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const compileData: DataCompile = {
-      // id: userData.user.data.id,
       id: userData.user.data.id ? Number(userData.user.data.id) : undefined,
       token: userData.token,
       name: name,
