@@ -2,41 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { Link } from "react-router-dom";
-
-interface ContactAttributes {
-  company: { name: string };
-  first_name: string;
-  last_name: string;
-}
-
-interface Contact {
-  id: string;
-  attributes: ContactAttributes;
-}
-
-interface ContactData {
-  id: string;
-  type: string;
-  attributes: {
-    first_name: string;
-    last_name: string;
-    company_id: number;
-    email: string;
-    phone_number: string;
-    notes: string;
-    user_id: number;
-    company: {
-      id: number;
-      name: string;
-      website: string;
-      street_address: string;
-      city: string;
-      state: string;
-      zip_code: string;
-      notes: string;
-    };
-  };
-}
+import { Contact, ContactData } from "../../Interfaces"
 
 function ShowContact() {
   const { token, userData } = useUserLoggedContext();

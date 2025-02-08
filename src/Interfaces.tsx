@@ -101,3 +101,38 @@ export interface JobApplication {
           ]
 
   }
+
+  export interface ContactAttributes {
+    company: { name: string };
+    first_name: string;
+    last_name: string;
+  }
+
+  export interface Contact {
+    id: string;
+    attributes: ContactAttributes;
+  }
+
+  export interface ContactData {
+    id: string;
+    type: string;
+    attributes: {
+      first_name: string;
+      last_name: string;
+      company_id: number;
+      email: string;
+      phone_number: string;
+      notes: string;
+      user_id: number;
+      company: {
+        id: number;
+        name: string;
+        website: string;
+        street_address: string;
+        city: string;
+        state: string;
+        zip_code: string;
+        notes: string;
+      };
+    };
+  }
