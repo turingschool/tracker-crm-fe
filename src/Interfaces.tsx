@@ -154,3 +154,10 @@ export interface DashBoardDattaI{
     email?: string;
     [key: string]: any;  
   }
+
+  export interface UserRegistrationData {
+    name: string,
+    email: string,
+    password: string,
+    passwordConfirmation: string
+  }
