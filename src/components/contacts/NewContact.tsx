@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
-import { UserData } from '../../Interfaces';
+import { UserInformationProps } from '../../Interfaces';
 import { fetchCompanies } from "../../apiCalls";
 import { fetchNewContact } from "../../apiCalls";
 
@@ -22,10 +22,6 @@ export interface NewContact {
   phone_number: string,
   notes: string,
 }
-
-interface UserInformationProps {
-  userData: UserData;
-};
 
 const NewContact = ( {userData}: UserInformationProps ) => {
   const navigate = useNavigate();

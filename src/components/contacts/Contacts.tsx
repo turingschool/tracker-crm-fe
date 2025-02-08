@@ -1,37 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
-import { UserData } from "../../Interfaces";
+import { ContactData, UserInformationProps } from "../../Interfaces";
 import { fetchContacts } from '../../apiCalls';
-
-
-interface ContactData {
-  id: string;
-  type: string;
-  attributes: {
-    first_name: string;
-    last_name: string;
-    company_id: number;
-    email: string;
-    phone_number: string;
-    notes: string;
-    user_id: number;
-    company: {
-      id: number;
-      name: string;
-      website: string;
-      street_address: string;
-      city: string;
-      state: string;
-      zip_code: string;
-      notes: string;
-    };
-  };
-}
-
-interface UserInformationProps {
-  userData: UserData;
-}
 
 function Contacts({ userData }: UserInformationProps) {
   const [contacts, setContacts] = useState<ContactData[] | []>([]);

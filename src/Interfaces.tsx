@@ -14,7 +14,7 @@ export interface UserData {
 }
 
 export interface UserInformationProps {
-  userData?: Partial<UserData>;
+  userData: UserData;
 }
 
 export interface CompanyAttributes {

@@ -1,10 +1,6 @@
 import { useState } from 'react';
-import { UserData } from '../../Interfaces'
+import { UserInformationProps } from '../../Interfaces'
 import { updateUser } from '../../trackerApiCalls'
-
-interface UserInformationProps {
-  userData: UserData;
-}
 
 function UserInformation({userData}: UserInformationProps) {
   interface DataCompile {
