@@ -1,27 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
-import { UserInformationProps } from '../../Interfaces';
+import { UserInformationProps, FormInputData } from '../../Interfaces';
 import { fetchCompanies } from "../../apiCalls";
 import { fetchNewContact } from "../../apiCalls";
-
-
-export interface FormInputData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  companyId?: number | null;
-  notes: string;
-};
-
-export interface NewContact {
-  first_name: string,
-  last_name: string,
-  email: string,
-  phone_number: string,
-  notes: string,
-}
 
 const NewContact = ( {userData}: UserInformationProps ) => {
   const navigate = useNavigate();
