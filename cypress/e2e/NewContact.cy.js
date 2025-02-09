@@ -59,12 +59,12 @@ describe("New Contacts page after logging in", () => {
           id: 123,
           type: "company",
           attributes: {
-            name: "CompanyTestName",
+            name: "Company C",
             website: "www.testcompany.com",
             street_address: "123 Test St",
             city: "Test City",
             state: "CO",
-            zip_code: "12345",
+            zip_code: "80237",
             notes: "Test notes",
           },
         },
@@ -175,6 +175,34 @@ describe("New Contacts page after logging in", () => {
     });
 
     it("Should be able to add new company and create new contact", () => {
+      cy.intercept(
+        "POST",
+        "http://localhost:3001/api/v1/users/2/companies/3/contacts",
+        {
+          statusCode: 201,
+          body: {
+            id: 125,
+            first_name: "Emma",
+            last_name: "Boots",
+            email: "emmaboots@example.com",
+            phone_number: "777-777-7777",
+            current_company: "Company C",
+            notes: "Note about Emma",
+          },
+        }
+      ).as("addContactWithUpdatedCompany");
+
+      cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies", {
+        statusCode: 200,
+        body: {
+          data: [
+            { id: 1, attributes: { name: "Company A" } },
+            { id: 2, attributes: { name: "Company B" } },
+            { id: 3, attributes: { name: "Company C" } },
+          ],
+        },
+      }).as("getUpdatedCompanies");
+
       cy.get("a > .bg-cyan-600").click();
       cy.contains("button", "Add new company").click();
       cy.get("label").contains("Company Name:").should("exist");
@@ -196,8 +224,23 @@ describe("New Contacts page after logging in", () => {
         "contain.text",
         "Company added successfully!"
       );
-
       cy.contains("button", "X").scrollIntoView().click();
+
+      cy.wait("@getUpdatedCompanies");
+
+      cy.get("#firstName").type("Emma");
+      cy.get("#lastName").type("Boots");
+      cy.get("#companyId").select("Company C");
+
+      cy.get('button[type="submit"]').click();
+
+      cy.wait("@addContactWithUpdatedCompany").then((interception) => {
+        expect(interception.response.statusCode).to.equal(201);
+      });
+
+      cy.url().should("include", "/contacts");
+      cy.contains("Emma Boots").should("exist");
+      cy.contains("Company C").should("exist");
     });
   });
 
