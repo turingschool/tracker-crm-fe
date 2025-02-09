@@ -344,5 +344,28 @@ describe("New Contacts page after logging in", () => {
         "not.exist"
       );
     });
+
+    it("Should not be able to create a new company with the same name", () => {
+      cy.intercept("POST", "http://localhost:3001/api/v1/users/2/companies", {
+        statusCode: 422,
+        body: {
+          error: "A company with this name already exists.",
+        },
+      }).as("duplicateCompany");
+
+      cy.get("a > .bg-cyan-600").click();
+      cy.contains("button", "Add new company").click();
+
+      cy.get("#companyName").type("Company A");
+      cy.get(".max-w-4xl")
+        .find("button[type='submit']")
+        .scrollIntoView()
+        .click();
+      cy.get(".text-red-500").should(
+        "contain.text",
+        "A company with this name already exists."
+      );
+      cy.contains("button", "X").scrollIntoView().click();
+    });
   });
 });
