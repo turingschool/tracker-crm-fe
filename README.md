@@ -494,7 +494,7 @@ Key Functionalities Include:
 
 ![Companies Section Demo](public/assets/companies.gif)
 
-### Feature 4 - Contacts
+### Feature 5 - Contacts
 
 The Contacts section allows users to navigate their contacts.
 
@@ -503,7 +503,7 @@ Key Functionalities Include:
 - View All Contacts:
   Browse a comprehensive list of contacts with info like their name, company, and notes. Includes a search bar and ability to create a new contact.
 - View a Contact:
-  Click on a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page.
+  Click on a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page. Click the contact's email address to open their mail client with an email to the contact.
 - Add a new Contact
   Click on the Add New + button to navigate to a form where a user inputs a new contact and their associated information. A user can create a new company on this page as well.
 - Search for a Contact
@@ -513,7 +513,7 @@ Key Functionalities Include:
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Feature 5 - Job Applications
+### Feature 6 - Job Applications
 
 - View All Job Applications:
 
