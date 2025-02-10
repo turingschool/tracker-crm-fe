@@ -167,7 +167,7 @@ User Context has been implemented!! The use case for the context is getting acce
 
 ### Right up front, here is a guide for implementation:
 
-**$\text{\color{#f23030}PRE REQS:}$** $\text{\color{#f28730}The only requirement is that your component is being proprerly rendered in 'App.tsx' so make sure to check that first.}$
+**$\text{\color{#f23030}PRE REQS:}$** $\text{\color{#f28730}The only requirement is that your component is being properly rendered in 'App.tsx' so make sure to check that first.}$
 
 1. Import useUserLoggedContext into your component page:
    - $\text{\color{#9d7af5} import}\text{\color{#f5e97a} \\{ }\text{\color{#7adef5}useUserLoggedContext}\text{\color{#f5e97a} \\}}\text{\color{#9d7af5} from}\text{\color{#fca944} './context/UserLoggedContext.tsx'}$;
@@ -481,7 +481,7 @@ Use the search bar to quickly find companies by name, enhancing efficiency and u
 ![Companies Section Demo](public/assets/companies.gif)
 
 
-### Feature 4 - Contacts
+### Feature 5 - Contacts
 
 The Contacts section allows users to navigate their contacts.
 
@@ -490,7 +490,7 @@ Key Functionalities Include:
 - View All Contacts:
 Browse a comprehensive list of contacts with info like their name, company, and notes. Includes a search bar and ability to create a new contact.
 - View a Contact:
-Click on  a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page.
+Click on  a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page. Click the contact's email address to open their mail client with an email to the contact.
 - Add a new Contact
 Click on the Add New + button to navigate to a form where a user inputs a new contact and their associated information.
 - Search for a Contact
@@ -500,7 +500,7 @@ Use the search bar to quickly find a contact by name, enhancing efficiency and u
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Feature 5 - Job Applications
+### Feature 6 - Job Applications
 
 - View All Job Applications:
 
