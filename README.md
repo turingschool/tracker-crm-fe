@@ -169,7 +169,7 @@ User Context has been implemented!! The use case for the context is getting acce
 
 ### Right up front, here is a guide for implementation:
 
-**$\text{\color{#f23030}PRE REQS:}$** $\text{\color{#f28730}The only requirement is that your component is being proprerly rendered in 'App.tsx' so make sure to check that first.}$
+**$\text{\color{#f23030}PRE REQS:}$** $\text{\color{#f28730}The only requirement is that your component is being properly rendered in 'App.tsx' so make sure to check that first.}$
 
 1. Import useUserLoggedContext into your component page:
 
@@ -505,7 +505,7 @@ Key Functionalities Include:
 - View a Contact:
   Click on a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page. Click the contact's email address to open their mail client with an email to the contact.
 - Add a new Contact
-  Click on the Add New + button to navigate to a form where a user inputs a new contact and their associated information. A user can create a new company on this page as well.
+  Click on the Add New + button to navigate to a form where a user inputs a new contact and their associated information. The user has the ability to add a new company here as well.
 - Search for a Contact
   Use the search bar to quickly find a contact by name, enhancing efficiency and user experience.
 
