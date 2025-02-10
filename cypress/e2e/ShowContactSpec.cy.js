@@ -68,6 +68,19 @@ describe("Show a single contact page", () => {
       {
         statusCode: 200,
         body: {
+          company: {
+            data: {
+              attributes: {
+                name: "Google",
+                website: "https://google.com",
+                street_address: "1600 Amphitheatre Parkway",
+                city: "Mountain View",
+                state: "CA",
+                zip_code: "94043",
+                notes: "Innovative tech company.",
+              },
+            },
+          },
           contacts: {
             data: [
               {
@@ -115,9 +128,13 @@ describe("Show a single contact page", () => {
     cy.get('[data-testid="contact-name"]').should("have.text", "John Smith");
   });
 
-  it("Should display the company's name", () => {
+  it("Should display the company's name and navigate to the company on click", () => {
     cy.wait("@get-contact-details");
-    cy.get('[data-testid="company-name"]').should("have.text", "Future Designs LLC");
+    cy.get('[data-testid="company-name"]').should('have.text', 'Future Designs LLC');
+    cy.get('[data-testid="company-link"]').click();
+    cy.get("h2").contains("Company Name:")
+      .next().should("have.text", "Google");
+    cy.url().should('include', '/companies/1/contacts');
   });
 
   it("Should display the contact's email and phone number", () => {

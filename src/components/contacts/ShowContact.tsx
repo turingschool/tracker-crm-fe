@@ -135,11 +135,11 @@ function ShowContact() {
             </h1>
             <h2
               data-testid="company-name"
-              className="text-[3.5vh] font-bold text-cyan-800 p-0 underline"
+              className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline"
             >
               {contact.attributes.company
                 ? 
-                <Link  to={`/companies/${contact.attributes.company_id}/contacts`}> {contact.attributes.company.name} </Link>
+                <Link data-testid="company-link" to={`/companies/${contact.attributes.company_id}/contacts`}>{contact.attributes.company.name}</Link>
                 : "No Affiliated Companies" }
             </h2>
             <div className="m-5">
