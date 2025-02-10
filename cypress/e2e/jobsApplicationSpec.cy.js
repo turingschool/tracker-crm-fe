@@ -553,6 +553,7 @@ describe("Editability of specific job application fields", () => {
     cy.get('[data-testid="job-status"]').should("have.text", "Offer")
     cy.get('[data-testid="job-notes"]').should('contain', 'Talked with recruiter, sounds like a great opportunity to learn new things')
     cy.get('[data-testid="job-URL"]').should('contain', 'https://example.com')
+    cy.get('[data-testid="job-URL"]').should('have.attr', 'href').and('include', 'https://example.com')
     cy.get('[data-testid="job-description"]').should('contain', 'Frontend Developer of React only with no CSS')
   });
 
@@ -576,6 +577,7 @@ describe("Editability of specific job application fields", () => {
     cy.get('[data-testid="job-status"]').should("have.text", "Interviewing")
     cy.get('[data-testid="job-notes"]').should('contain', 'Had a technical interview, awaiting decision.')
     cy.get('[data-testid="job-URL"]').should('contain', 'https://creativesolutions.com/careers/backend-developer')
+    cy.get('[data-testid="job-URL"]').should('have.attr', 'href').and('include', 'https://creativesolutions.com/careers/backend-developer')
     cy.get('[data-testid="job-description"]').should('contain', 'Developing RESTful APIs and optimizing server performance.')
   });
 });
