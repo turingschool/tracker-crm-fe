@@ -3,7 +3,7 @@ import NewCompany from "../companies/NewCompany";
 
 type CompanyModalProps = {
   open: boolean;
-  setIsOpen: any;
+  setIsOpen: (value: boolean) => void;
 };
 
 const CompanyModal: React.FC<CompanyModalProps> = ({ open, setIsOpen }) => {

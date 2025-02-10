@@ -51,7 +51,6 @@ describe("New Contacts page after logging in", () => {
       },
     }).as("getCompanies");
 
-    // Intercept the POST request to create a new company
     cy.intercept("POST", `http://localhost:3001/api/v1/users/2/companies`, {
       statusCode: 201,
       body: {
