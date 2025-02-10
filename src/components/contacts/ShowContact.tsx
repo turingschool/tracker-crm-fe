@@ -135,7 +135,7 @@ function ShowContact() {
             </h1>
             <h2
               data-testid="company-name"
-              className="text-[3.5vh] font-bold text-cyan-800 p-0"
+              className="text-[3.5vh] font-bold text-cyan-800 p-0 underline"
             >
               {contact.attributes.company
                 ? 
