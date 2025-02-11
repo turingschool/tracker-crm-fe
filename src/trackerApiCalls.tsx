@@ -216,15 +216,16 @@ export const updateJobApplication = async (userParams: Record<string, any>) => {
   }
 };
 
-/*-----------------------------------// DELETE CONTACT //--------------------------------------*/
-export const deleteContact = async (
+/*-----------------------------------// DELETE Item //--------------------------------------*/
+export const deleteItem = async (
   userId: number,
-  contactId: string,
+  itemType: string,
+  itemId: string,
   token: string
 ) => {
   try {
     const response = await fetch(
-      `${backendURL}users/${userId}/contacts/${contactId}`,
+      `${backendURL}users/${userId}/${itemType}s/${itemId}`,
       {
         method: "DELETE",
         headers: {
@@ -235,12 +236,12 @@ export const deleteContact = async (
     );
 
     if (!response.ok) {
-      throw new Error(`Failed to delete contact: ${response.status}`);
+      throw new Error(`Failed to delete {itemType}: ${response.status}`);
     }
 
     return true;
   } catch (error) {
-    console.error("Error deleting contact:", error);
+    console.error(`Error deleting ${itemType}:`, error);
     return false;
   }
 };
