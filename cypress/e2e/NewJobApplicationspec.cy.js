@@ -31,6 +31,7 @@ describe('Create New Job Application page after logging in', () => {
       },
     }).as("getCompanies");
 
+
     cy.intercept("GET", "http://localhost:3001/api/v1/users/2/job_applications", (req) => {
       req.on("response", (res) => {
         res.setDelay(2000); 
@@ -55,9 +56,44 @@ describe('Create New Job Application page after logging in', () => {
         status: 'Offer',
         job_description: 'Test Description',
         application_url: 'www.example.com',
-        notes: 'Test Notes'
+        notes: 'Test Notes',
       }
     }).as('addJobApplication');
+
+      cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts", {
+        statusCode: 200,
+        body: {
+            "data": [
+                {
+                    "id": "2",
+                    "type": "contacts",
+                    "attributes": {
+                        "first_name": "Jane",
+                        "last_name": "Smith",
+                        "company_id": 2,
+                        "email": "jane.smith@example.com",
+                        "phone_number": "123-555-5678",
+                        "notes": "HR contact at Future Designs LLC",
+                        "user_id": 2,
+                        "company": {
+                            "id": 2,
+                            "name": "Future Designs LLC",
+                            "website": "https://futuredesigns.com",
+                            "street_address": "456 Future Blvd",
+                            "city": "Austin",
+                            "state": "TX",
+                            "zip_code": "73301",
+                            "notes": "Submitted application for the UI Designer role."
+                        }
+                    }
+                }
+            ]
+        },
+        headers: {
+          Authorization: "Bearer The token",
+          "Content-Type": "application/json",
+        },
+      }).as("get-contact-details-no-comp");
 
     cy.visit("http://localhost:3000/");
     cy.get('#email').type('dollyP@email.com');
@@ -78,6 +114,7 @@ describe('Create New Job Application page after logging in', () => {
       cy.get('label').contains('Date Applied:').should('exist');
       cy.get('label').contains('Application Status:').should('exist');
       cy.get('label').contains('Job Description:').should('exist');
+      cy.get('label').contains('Contact Information:').should('exist');
       cy.get('label').contains('Application URL:').should('exist');
       cy.get('label').contains('Notes:').should('exist');
     })
@@ -88,6 +125,7 @@ describe('Create New Job Application page after logging in', () => {
       cy.get('#dateApplied').type('2025-01-01').should('have.value', '2025-01-01');
       cy.get('#appStatus').select('Offer').should('have.value', '3');
       cy.get('#jobDescription').type('Test Description').should('have.value', 'Test Description');
+      cy.get('#appContact').select('JaneSmith').should('have.value', '2');
       cy.get('#appURL').type('www.example.com').should('have.value', 'www.example.com');
       cy.get('#notes').type('Test Notes').should('have.value', 'Test Notes');
     })

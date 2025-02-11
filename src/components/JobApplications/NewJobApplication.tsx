@@ -94,17 +94,17 @@ function NewJobApplication() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newJobApplication = {
+    const newJobApplication: any = {
         position_title: positionTitle,
         date_applied: dateApplied,
         status: status,
         notes: notes,
         job_description: jobDescription,
         application_url: applicationURL,
-        
         company_id: availableCompany,
-        contact_id: contactInformation
+        contact_id: contactInformation || null,
     };
+
 
     try {
       const apiURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -224,6 +224,7 @@ function NewJobApplication() {
               <span className="font-semibold">Contact Information:</span>
               <select
                 value={contactInformation}
+                id="appContact"
                 onChange={(e) => setContactInformation(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
               >
