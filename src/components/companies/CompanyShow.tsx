@@ -41,6 +41,7 @@ function CompanyShow() {
   const [companyData, setCompanyData] = useState<CompanyData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
     console.log("Fetching company data...");
@@ -137,9 +138,41 @@ function CompanyShow() {
         </div>
       </div>
 
-      <Link to="/companies" className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-6 inline-block">
-        Back to Companies
-      </Link>
+      {/* Edit Button */}
+      <div className="mt-6">
+        <button
+          className="border border-cyan-600 text-cyan-600 bg-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-gray-100"
+          onClick={() => setIsEditModalOpen(true)}
+        >
+          Edit
+        </button>
+      </div>
+
+      {isEditModalOpen && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[50vw]">
+            <h2 className="text-xl font-bold mb-4">Edit Company</h2>
+            
+            <input className="w-full px-[1vh] py-[1vh] border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500" defaultValue={companyAttributes.name} />
+            <input className="w-full px-[1vh] py-[1vh] border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500 mt-4" defaultValue={companyAttributes.website} />
+            
+
+            <div className="flex justify-end space-x-2 mt-4">
+              <button 
+                className="border border-cyan-600 text-cyan-600 bg-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-gray-100"
+                onClick={() => setIsEditModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button 
+                className="bg-cyan-600 text-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
