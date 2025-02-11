@@ -9,6 +9,10 @@ type CompanyModalProps = {
 const CompanyModal: React.FC<CompanyModalProps> = ({ open, setIsOpen }) => {
   if (!open) return null;
 
+  const handleNewCompany = () => {
+    setIsOpen(false);
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-[50vw] max-h-[80vh] overflow-y-auto relative">
@@ -18,7 +22,7 @@ const CompanyModal: React.FC<CompanyModalProps> = ({ open, setIsOpen }) => {
         >
           X
         </button>
-        <NewCompany />
+        <NewCompany isModal={true} onSuccess={handleNewCompany} />
       </div>
     </div>
   );

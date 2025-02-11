@@ -4,7 +4,12 @@ import { fetchCompanies, createCompany } from "../../trackerApiCalls";
 import { CompanyAttributes } from "../../Interfaces";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 
-function NewCompany() {
+interface NewCompanyProps {
+  isModal?: boolean;
+  onSuccess?: () => void;
+}
+
+function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
   const navigate = useNavigate();
   const { token, userData } = useUserLoggedContext();
 
@@ -75,8 +80,9 @@ function NewCompany() {
       await createCompany(userData.user.data.id, token, newCompany);
       setSuccessMessage("Company added successfully!");
 
-      // Delay navigation to give time for success message to display
-      if (window.location.href.includes("companies")) {
+      if (isModal && onSuccess) {
+        onSuccess();
+      } else if (window.location.href.includes("companies")) {
         setTimeout(() => {
           navigate("/companies");
         }, 2000);
