@@ -1,6 +1,5 @@
 import { useState } from "react";
 
-//props for interface
 interface DeleteItemProps {
   userId: number;
   itemId: string | number;
@@ -14,12 +13,6 @@ interface DeleteItemProps {
   token: string;
   onDeleteSuccess: () => void;
 }
-// userId
-// itemId
-// itemType
-// deleteAction
-// token
-// onDeleteSuccess
 
 const DeleteItem = ({
   userId,
@@ -34,7 +27,7 @@ const DeleteItem = ({
 
   const handleDelete = async () => {
     setDeleting(true);
-    const success = await deleteAction(userId, itemType, itemId, token);
+    const success = await deleteAction(userId, itemType, String(itemId), token || "");
     setDeleting(false);
     setDeleteModalOpen(false);
 
@@ -56,16 +49,27 @@ const DeleteItem = ({
       </button>
 
       {deleteModalOpen && (
-        <>
-          <button onClick={() => setDeleteModalOpen(false)}>x</button>
-          <p>
-            Are you sure you want to delete this? <br /> This action is permanent.
-          </p>
-          <button onClick={handleDelete} disabled={deleting}>
-            {deleting ? "Deleting ..." : "Ok"}
-          </button>
-          <button onClick={() => setDeleteModalOpen(false)}>Cancel</button>
-        </>
+        <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-75">
+          <div className="border border-black p-6 rounded shadow-lg text-black text-center">
+            <p className="mb-6">
+              Are you sure you want to delete this? <br /> This action is
+              permanent.
+            </p>
+            <button
+              onClick={handleDelete}
+              className="bg-gray-200 text-red-600 px-4 py-2 rounded border border-black mr-2"
+              disabled={deleting}
+            >
+              {deleting ? "Deleting ..." : "Ok"}
+            </button>
+            <button
+              onClick={() => setDeleteModalOpen(false)}
+              className="bg-gray-200 text-red-600 px-4 py-2 rounded border border-black"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
       )}
     </>
   );
