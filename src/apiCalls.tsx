@@ -152,11 +152,9 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
       name: company.attributes.name,
     }));
     return companyList
-  } catch (error: unknown) {
-    if (error instanceof Error) {
+  } catch (error: any) {
     console.error("Error fetching companies:", error.message);
     throw error;
-  } 
   }
 }
 
@@ -177,19 +175,15 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
           body: JSON.stringify(newContact),
         });
 
-        if (!response.ok) {
-          throw new Error("Failed to add the contact.");
-        }
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.error("Error adding contact:", error.message);
-          throw error; 
-        } else {
-          console.error("An unexpected error occurred:", error);
-          throw new Error("An unexpected error occurred while adding the contact.");
-        }
-      }
-    };
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || "Failed to add the contact");
+    }
+  } catch (error: any) {
+    console.error("Error adding contact:", error);
+    throw (error);
+  }
+}
 
   /*-----------------------------------// Show - Contact //--------------------------------------*/
 export const fetchShowContact = async (userId: number | undefined, token: string | null, contactId: string | undefined) => {
@@ -209,14 +203,9 @@ export const fetchShowContact = async (userId: number | undefined, token: string
     }
     const result = await response.json();
     return result
-  } catch (error: unknown) {
-    if (error instanceof Error) {
+  } catch (error: any) {
     console.error("Error fetching contact:", error.message);
     throw error;
-  } else {
-    console.error("An unexpected error occurred:", error);
-    throw new Error("An unexpected error occurred while retrieving the contact.");
-  }
   }
 }
 
@@ -234,18 +223,15 @@ export const fetchCompanyContact = async (userId: number | undefined, token: str
       }
     );
     if (!response.ok) {
-      throw new Error(`Failed to fetch the company contacts: ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch a companies contacts: ${response.statusText}`
+      );
     }
     const result = await response.json();  
     const contactsList = result.contacts.data;
     return contactsList
-  } catch (error: unknown) {
-    if (error instanceof Error) {
+  } catch (error: any) {
     console.error("Please try again later", error.message);
     throw error;
-  } else {
-    console.error("An unexpected error occurred:", error);
-    throw new Error("An unexpected error occurred while retreiving the company contacts.");
-  }
   }
 }
