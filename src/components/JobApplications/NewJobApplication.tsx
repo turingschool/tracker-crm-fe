@@ -233,8 +233,7 @@ function NewJobApplication() {
                 </option>
                 {contacts.map((contact) => (
                   <option key={contact.id} value={contact.id}>
-                    {contact.first_name}
-                    {contact.last_name}
+                    {contact.first_name} {contact.last_name}
                     </option>
                 ))}
               </select>

@@ -125,7 +125,7 @@ describe('Create New Job Application page after logging in', () => {
       cy.get('#dateApplied').type('2025-01-01').should('have.value', '2025-01-01');
       cy.get('#appStatus').select('Offer').should('have.value', '3');
       cy.get('#jobDescription').type('Test Description').should('have.value', 'Test Description');
-      cy.get('#appContact').select('JaneSmith').should('have.value', '2');
+      cy.get('#appContact').select('Jane Smith').should('have.value', '2');
       cy.get('#appURL').type('www.example.com').should('have.value', 'www.example.com');
       cy.get('#notes').type('Test Notes').should('have.value', 'Test Notes');
     })
