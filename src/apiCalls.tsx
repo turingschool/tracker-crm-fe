@@ -180,7 +180,7 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
       throw new Error(errorData.error || "Failed to add the contact");
     }
   } catch (error: any) {
-    console.error("Error adding contact:", error);
+    console.error("Error adding contact:", error.message);
     throw (error);
   }
 }
