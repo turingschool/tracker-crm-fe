@@ -1,4 +1,4 @@
-import { UserRegistrationData, FormInputData, NewContact } from "./Interfaces"
+import { UserRegistrationData, FormInputData, NewContact, Company } from "./Interfaces"
 const apiURL = process.env.REACT_APP_BACKEND_API_URL
 const backendURL = `${apiURL}api/v1/`
 /*-----------------------------------// GET //--------------------------------------*/
@@ -147,14 +147,16 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
     }
 
     const result = await response.json();
-    const companyList = result.data.map((company: any) => ({
+    const companyList = result.data.map((company: Company) => ({
       id: company.id,
       name: company.attributes.name,
     }));
     return companyList
-  } catch (error: any) {
+  } catch (error: unknown) {
+    if (error instanceof Error) {
     console.error("Error fetching companies:", error.message);
     throw error;
+  } 
   }
 }
 
@@ -175,15 +177,19 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
           body: JSON.stringify(newContact),
         });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || "Failed to add the contact");
-    }
-  } catch (error: any) {
-    console.error("Error adding contact:", error);
-    throw (error);
-  }
-}
+        if (!response.ok) {
+          throw new Error("Failed to add the contact.");
+        }
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          console.error("Error adding contact:", error.message);
+          throw error; 
+        } else {
+          console.error("An unexpected error occurred:", error);
+          throw new Error("An unexpected error occurred while adding the contact.");
+        }
+      }
+    };
 
   /*-----------------------------------// Show - Contact //--------------------------------------*/
 export const fetchShowContact = async (userId: number | undefined, token: string | null, contactId: string | undefined) => {
@@ -203,9 +209,14 @@ export const fetchShowContact = async (userId: number | undefined, token: string
     }
     const result = await response.json();
     return result
-  } catch (error: any) {
+  } catch (error: unknown) {
+    if (error instanceof Error) {
     console.error("Error fetching contact:", error.message);
     throw error;
+  } else {
+    console.error("An unexpected error occurred:", error);
+    throw new Error("An unexpected error occurred while retrieving the contact.");
+  }
   }
 }
 
@@ -223,15 +234,18 @@ export const fetchCompanyContact = async (userId: number | undefined, token: str
       }
     );
     if (!response.ok) {
-      throw new Error(
-        `Failed to fetch a companies contacts: ${response.statusText}`
-      );
+      throw new Error(`Failed to fetch the company contacts: ${response.statusText}`);
     }
     const result = await response.json();  
     const contactsList = result.contacts.data;
     return contactsList
-  } catch (error: any) {
+  } catch (error: unknown) {
+    if (error instanceof Error) {
     console.error("Please try again later", error.message);
     throw error;
+  } else {
+    console.error("An unexpected error occurred:", error);
+    throw new Error("An unexpected error occurred while retreiving the company contacts.");
+  }
   }
 }
