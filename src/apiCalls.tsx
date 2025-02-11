@@ -177,7 +177,8 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error || "Failed to add the contact");
+        console.log('response', errorData)
+      throw new Error(errorData.message || "Failed to add the contact");
     }
   } catch (error: any) {
     console.error("Error adding contact:", error.message);
