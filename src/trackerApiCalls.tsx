@@ -220,7 +220,7 @@ export const updateJobApplication = async (userParams: Record<string, any>) => {
 export const deleteItem = async (
   userId: number,
   itemType: string,
-  itemId: string,
+  itemId: string | number,
   token: string
 ) => {
   try {
@@ -236,7 +236,7 @@ export const deleteItem = async (
     );
 
     if (!response.ok) {
-      throw new Error(`Failed to delete {itemType}: ${response.status}`);
+      throw new Error(`Failed to delete ${itemType}: ${response.status}`);
     }
 
     return true;
