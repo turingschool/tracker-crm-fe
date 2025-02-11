@@ -76,6 +76,20 @@ const NewContact = ({ userData }: UserInformationProps) => {
     }));
   };
 
+  const handleCompanyCreated = (
+    newCompanyId: number,
+    newCompanyName: string
+  ) => {
+    setCompanies((prevCompanies) => [
+      ...prevCompanies,
+      { id: newCompanyId, name: newCompanyName },
+    ]);
+    setFormInputData((prev) => ({
+      ...prev,
+      companyId: newCompanyId,
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newContact = {
@@ -226,7 +240,11 @@ const NewContact = ({ userData }: UserInformationProps) => {
               >
                 Add new company
               </button>
-              <CompanyModal open={isOpen} setIsOpen={setIsOpen}></CompanyModal>
+              <CompanyModal
+                open={isOpen}
+                setIsOpen={setIsOpen}
+                onCompanyCreated={handleCompanyCreated}
+              ></CompanyModal>
             </div>
           </div>
 

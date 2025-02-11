@@ -4,12 +4,20 @@ import NewCompany from "../companies/NewCompany";
 type CompanyModalProps = {
   open: boolean;
   setIsOpen: (value: boolean) => void;
+  onCompanyCreated: (companyId: number, companyName: string) => void;
 };
 
-const CompanyModal: React.FC<CompanyModalProps> = ({ open, setIsOpen }) => {
+const CompanyModal: React.FC<CompanyModalProps> = ({
+  open,
+  setIsOpen,
+  onCompanyCreated,
+}) => {
   if (!open) return null;
 
-  const handleNewCompany = () => {
+  const handleNewCompany = (newCompanyId: number, newCompanyName: string) => {
+    if (onCompanyCreated) {
+      onCompanyCreated(newCompanyId, newCompanyName);
+    }
     setIsOpen(false);
   };
 

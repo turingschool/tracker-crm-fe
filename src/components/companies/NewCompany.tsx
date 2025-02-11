@@ -6,7 +6,7 @@ import { useUserLoggedContext } from "../../context/UserLoggedContext";
 
 interface NewCompanyProps {
   isModal?: boolean;
-  onSuccess?: () => void;
+  onSuccess?: (newCompanyId: number, newCompanyName: string) => void;
 }
 
 function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
@@ -77,11 +77,15 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
       }
 
       setIsLoading(true);
-      await createCompany(userData.user.data.id, token, newCompany);
+      const response = await createCompany(
+        userData.user.data.id,
+        token,
+        newCompany
+      );
       setSuccessMessage("Company added successfully!");
 
       if (isModal && onSuccess) {
-        onSuccess();
+        onSuccess(response.data.id, response.data.attributes.name);
       } else if (window.location.href.includes("companies")) {
         setTimeout(() => {
           navigate("/companies");
