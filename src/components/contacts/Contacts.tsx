@@ -80,10 +80,10 @@ function Contacts({ userData }: UserInformationProps) {
   const searchBar = (
     <form onSubmit={(event) => event.preventDefault()}>
       <input
-        className="p-[1vh] border-2 border-slate-800 rounded w-[200px] h-full"
+        className="py-2 px-4 rounded w-[22vw] min-w-min border-2 border-slate-800"
         type="search"
         id="contacts-search"
-        placeholder="Search Contacts..."
+        placeholder="🔍 Search Contacts"
         value={contactSearch}
         onChange={searchContactList}
       />
@@ -93,14 +93,14 @@ function Contacts({ userData }: UserInformationProps) {
   const contactData = contacts.map((data) => {
     const companyName = data.attributes.company?.name || "N/A";
     return (
-      <tr key={data.id} className="even:bg-gray-50 hover:bg-gray-100">
+      <tr key={data.id} className="border-b hover:bg-gray-100">
         <Link to={`/contacts/${data.id}`}>
-          <td className="p-4 border-b truncate max-w-[8vw]">
+          <td className="p-4 text-gray-700">
             {data.attributes.first_name} {data.attributes.last_name}
           </td>
         </Link>
-        <td className="p-4 border-b truncate max-w-[8vw]">{companyName}</td>
-        <td className="p-4 border-b truncate max-w-[8vw]">
+        <td className="p-4 truncate max-w-[8vw]">{companyName}</td>
+        <td className="p-4 truncate max-w-[8vw]">
           {data.attributes.notes}
         </td>
       </tr>
@@ -109,14 +109,14 @@ function Contacts({ userData }: UserInformationProps) {
 
   return (
     <section className="flex">
-      <div className="w-[70vw] pl-[4vw]">
-        <h1 className="text-[5vh] font-bold text-cyan-600 my-[5vh]">
+      <div className="w-[76vw] pl-[6vw]">
+        <h1 className="text-[5.5vh] font-bold text-cyan-600 tracking-wide mb-[2vh] mt-[8vh] ">
           Contacts
         </h1>
         <div className="flex justify-between items-center">
-          {searchBar}
+          <div>{searchBar}</div>
           <Link to="/contacts/new">
-            <button className="bg-cyan-600 text-white p-[1vh] rounded w-[10vw]">
+            <button className="bg-cyan-600 hover:bg-cyan-500 text-white tracking-wide py-2 px-4 rounded max-w-max">
               Add New +
             </button>
           </Link>
@@ -130,7 +130,7 @@ function Contacts({ userData }: UserInformationProps) {
           </p>
         ) : null}
         <table className="w-[70vw] mt-[1.5vh]">
-          <thead className="border-t bg-gray-200">
+          <thead className="border-t">
             <tr>
               <th className="text-left p-4 border-b">Name</th>
               <th className="text-left p-4 border-b">Company</th>
