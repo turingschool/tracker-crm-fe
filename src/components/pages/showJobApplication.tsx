@@ -75,10 +75,6 @@ function JobApplication() {
     }
   }, [jobAppId]);
 
-  const handleSave = () => {
-    setIsEditing(false)
-    setEditedDate(editedDate)
-  }
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -86,8 +82,8 @@ function JobApplication() {
   const openEdit = () => setIsEditModelOpen(true);
   const closeEdit = () => setIsEditModelOpen(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = () => {
+    setIsEditing(false)
 
     const compileData: DataCompile = {
       userId: userData.user.data.id ? Number(userData.user.data.id) : undefined,
@@ -97,7 +93,8 @@ function JobApplication() {
       status: status,
       notes: notes,
       job_description: jobDescription,
-      application_url: applicationURL
+      application_url: applicationURL, 
+      date_applied: editedDate
     }
 
     updateJobApplication(compileData)
@@ -137,7 +134,7 @@ function JobApplication() {
                   value={editedDate instanceof Date ? editedDate.toString().split('T')[0] : editedDate}
                   onChange={(e) => setEditedDate(e.target.value)}
                   className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 ease-in-out"
-                  onBlur={handleSave}
+                  onBlur={handleSubmit}
                   required
               />
               ) : (
