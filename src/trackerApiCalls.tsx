@@ -198,3 +198,23 @@ export const updateJobApplication = async (userParams: Record<string, any> ) => 
     throw err;
   }
 };
+
+/*-----------------------------------// Delete A Company//--------------------------------------*/
+export const deleteCompany = async (userId: number, companyId: number, token: string) => {
+  try {
+    const response = await fetch(`${backendURL}users/${userId}/companies/${companyId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to delete the company");
+    }
+  } catch (error) {
+    console.error("Error deleting company:", error);
+    throw error;
+  }
+};
