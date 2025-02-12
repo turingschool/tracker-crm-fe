@@ -14,6 +14,7 @@ export const DashBoard : React.FC = () => {
     const {isLoggedIn, userData,token } = useUserLoggedContext()
     const jobApplicationsCount: number = dashData.job_applications.length
     const contactsCount: number = dashData.contacts.length
+    const companiesCount: number = dashData.companies.length
 
     useEffect(()=>{
 
@@ -36,7 +37,7 @@ export const DashBoard : React.FC = () => {
         <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Apps submitted this week</label></>
     }
     return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${jobApplicationsCount}`}</label>
-        <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to="jobapplications/new">Add new job application</Link></>
+        <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to="/jobapplications/new">Add new job application</Link></>
     }
 
     function RenderContacts(): any {
@@ -45,7 +46,16 @@ export const DashBoard : React.FC = () => {
             <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Apps submitted this week</label></>
         }
         return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${contactsCount}`}</label>
-            <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to="contacts/new">Add new contact</Link></>
+            <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to="/contacts/new">Add new contact</Link></>
+        }
+
+    function RenderCompanies(): any {
+        if (contactsCount >= 1) {
+            return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${companiesCount}`}</label>
+            <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Apps submitted this week</label></>
+        }
+        return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${companiesCount}`}</label>
+            <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to="/companies/new">Add new company</Link></>
         }
 
 
@@ -69,9 +79,7 @@ export const DashBoard : React.FC = () => {
 
                     <div className='bg-white w-[20vw] h-[17vh] inline-block rounded-[20px] shadow-black shadow-xl'>
                         <label className='text-center block text-[20px] font-bold text-cyan-600 mt-2'>Companies</label>
-                        <label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashCompNum">{`${dashData.companies.length}`}</label>
-                        <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to="/companies/new">Add new company</Link>
-
+                        <RenderCompanies />
                     </div>
                 </div>
 
