@@ -37,6 +37,7 @@ interface CompanyData {
 
 function CompanyShow() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { token, userData} = useUserLoggedContext();
   const [companyData, setCompanyData] = useState<CompanyData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -137,9 +138,21 @@ function CompanyShow() {
         </div>
       </div>
 
-      <Link to="/companies" className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-6 inline-block">
-        Back to Companies
-      </Link>
+      <div className="mt-6 flex flex-col items-start space-y-2">
+        <Link to="/companies" className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-6 inline-block">
+          Back to Companies
+        </Link>
+
+        {/* Delete Button */}
+        <DeleteItem
+          userId={userData.user.data.id}
+          itemId={id!}
+          itemType="company"
+          deleteAction={deleteItem}
+          token={token!}
+          onDeleteSuccess={() => navigate("/companies")}
+        />
+      </div>
     </div>
   );
 }
