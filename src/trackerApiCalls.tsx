@@ -223,9 +223,10 @@ export const deleteItem = async (
   itemId: string | number,
   token: string
 ) => {
+  const resource = itemType === "company" ? "companies" : `${itemType}s`
   try {
     const response = await fetch(
-      `${backendURL}users/${userId}/${itemType}s/${itemId}`,
+      `${backendURL}users/${userId}/${resource}/${itemId}`,
       {
         method: "DELETE",
         headers: {
