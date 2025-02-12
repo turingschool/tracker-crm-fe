@@ -60,14 +60,20 @@ function JobApplication() {
   const [date, setDate] = useState<Date | null>(null)
 
   useEffect(() => {
+    if (jobApp && jobApp.date_applied) {
+      const dateApplied = new Date(jobApp.date_applied);  
+      setDate(dateApplied);  
+    }
+  }, [jobApp])
+
+  useEffect(() => {
     if (jobAppId) {
       const fetchJobApplication = async () => {
         try {
           const id = parseInt(jobAppId, 10);
           if (isNaN(id)) throw new Error("Invalid jobAppId.");
           const data = await showJobApp(user.data.id, id, token);
-          const dateApplied = new Date(data.data.attributes.date_applied)
-
+          
           setJobApp(data.data.attributes as JobApplicationAttributes);
           setPositionTitle(data.data.attributes.position_title)
           setStatus(data.data.attributes.status)
@@ -75,7 +81,7 @@ function JobApplication() {
           setJobDescription(data.data.attributes.job_description)
           setApplicationURL(data.data.attributes.application_url)
           setCompanyId(data.data.attributes.company_id)
-          setEditedDate(dateApplied instanceof Date && !isNaN(dateApplied.getTime()) ? dateApplied : new Date()) 
+          setEditedDate(new Date(data.data.attributes.date_applied).toISOString())
 
         } catch (err) {
           console.error("Failed to fetch job application:", err);
