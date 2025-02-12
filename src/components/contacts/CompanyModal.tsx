@@ -27,7 +27,7 @@ const CompanyModal: React.FC<CompanyModalProps> = ({
       onClick={() => setIsOpen(false)}
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-lg w-[50vw] max-h-[80vh] overflow-y-auto relative"
+        className="bg-white p-6 rounded-lg shadow-lg w-[50vw] max-h-[100vh] overflow-y-auto relative"
         onClick={(e) => e.stopPropagation()}
       >
         <button
