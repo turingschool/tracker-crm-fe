@@ -220,7 +220,7 @@ export const updateJobApplication = async (userParams: Record<string, any>) => {
 export const deleteItem = async (
   userId: number,
   itemType: string,
-  itemId: string,
+  itemId: string | number,
   token: string
 ) => {
   try {
