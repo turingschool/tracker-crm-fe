@@ -508,10 +508,10 @@ describe("Editability of specific job application fields", () => {
 
     cy.wait("@showSingleJobApp");
     cy.get('[data-testid="application-date"]').click()
-    cy.get('[aria-label="Choose Wednesday, January 29th, 2025"]').click()
-    cy.get('[data-testid="application-date"]').should('have.text', 'January 29, 2025')
+    cy.get('[aria-label="Choose Thursday, August 1st, 2024"]').click()
+    cy.get('[data-testid="application-date"]').should('have.text', 'August 1, 2024')
     cy.wait("@updateJobAppDate")
-    cy.get('[data-testid="application-date"]').should('have.text', 'January 29, 2025')
+    cy.get('[data-testid="application-date"]').should('have.text', 'August 1, 2024')
   })
 
   it("Should display the edit model when edit button is clicked", () => {
