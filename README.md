@@ -538,7 +538,7 @@ FORMAT: lastname, firstname
 
 **Cardona, Danielle**
 - [Github](https://github.com/dcardona23)
-- [LinkedIn](https://github.com/dcardona23)
+- [LinkedIn](www.linkedin.com/in/danielle-cardona-se)
 
 **Chirchirillo, Joe**
 - [Github](https://github.com/jchirch)
