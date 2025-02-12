@@ -70,13 +70,13 @@ describe('Create New Job Application page after logging in', () => {
                     "attributes": {
                         "first_name": "Jane",
                         "last_name": "Smith",
-                        "company_id": 2,
+                        "company_id": 1,
                         "email": "jane.smith@example.com",
                         "phone_number": "123-555-5678",
                         "notes": "HR contact at Future Designs LLC",
                         "user_id": 2,
                         "company": {
-                            "id": 2,
+                            "id": 1,
                             "name": "Future Designs LLC",
                             "website": "https://futuredesigns.com",
                             "street_address": "456 Future Blvd",

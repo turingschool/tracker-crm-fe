@@ -12,6 +12,7 @@ interface Contact {
   id: string;
   first_name: string;
   last_name: string;
+  company_id: string;
 }
 
 function NewJobApplication() {
@@ -52,6 +53,7 @@ function NewJobApplication() {
           id: contact.id,
           first_name: contact.attributes.first_name,
           last_name: contact.attributes.last_name,
+          company_id: contact.attributes.company_id
         }));
   
         setContacts(contactList);
@@ -62,6 +64,11 @@ function NewJobApplication() {
   
     fetchContacts();
   }, [userData.user.data.id, token]);
+
+  const filteredContacts = contacts.filter(contact => {
+    
+    return String(contact.company_id) === availableCompany;
+  });
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -154,7 +161,10 @@ function NewJobApplication() {
               <select
                 value={availableCompany || ""}
                 id="company"
-                onChange={(e) => setAvailableCompany(e.target.value)}
+                onChange={(e) => {
+                  console.log('Selected Company ID:', e.target.value);  // Log the selected company ID
+                  setAvailableCompany(e.target.value);
+                }}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
                 required
               >
@@ -231,7 +241,7 @@ function NewJobApplication() {
                <option value="" className="text-gray-400">
                   Select a contact
                 </option>
-                {contacts.map((contact) => (
+                {filteredContacts.map((contact) => (
                   <option key={contact.id} value={contact.id}>
                     {contact.first_name} {contact.last_name}
                     </option>
