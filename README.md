@@ -490,7 +490,7 @@ Key Functionalities Include:
 - View All Contacts:
 Browse a comprehensive list of contacts with info like their name, company, and notes. Includes a search bar and ability to create a new contact.
 - View a Contact:
-Click on  a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page. Click the contact's email address to open their mail client with an email to the contact.
+Click on  a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page. Click the contact's email address to open their mail client with an email to the contact. Click on delete to remove a contact from the contact page, with a modal to verify the decision.
 - Add a new Contact
 Click on the Add New + button to navigate to a form where a user inputs a new contact and their associated information.
 - Search for a Contact
@@ -587,6 +587,10 @@ FORMAT: lastname, firstname
 **Riley, Alora**
 - [Github](https://github.com/aloraalee)
 - [LinkedIn](https://www.linkedin.com/in/alorariley/)
+
+**Verrill, Seth**
+- [Github](https://github.com/sethverrill)
+- [LinkedIn](https://www.linkedin.com/in/sethverrill/)
 
 **Wallace, Wally**
 - [Github](https://github.com/wally-yawn)
