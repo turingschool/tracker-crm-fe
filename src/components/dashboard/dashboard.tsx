@@ -2,7 +2,7 @@ import {useUserLoggedContext} from "../../context/UserLoggedContext";
 import { fetchDashBoardData } from '../../apiCalls';
 import React, {useState,useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {DashBoardDattaI} from "../../Interfaces";
+import {DashBoardDattaI, CountProps} from "../../Interfaces";
 
 export const DashBoard : React.FC = () => {
     const [dashData, setDashData] = useState<DashBoardDattaI>(
@@ -15,12 +15,6 @@ export const DashBoard : React.FC = () => {
     const jobApplicationsCount: number = dashData.job_applications.length
     const contactsCount: number = dashData.contacts.length
     const companiesCount: number = dashData.companies.length
-
-    interface CountProps {
-        section: string;
-        sectionCount: number;
-        sectionUrl: string;
-    }
 
     useEffect(()=>{
 
