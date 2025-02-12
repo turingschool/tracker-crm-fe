@@ -55,10 +55,10 @@ describe("New Contacts page after logging in", () => {
       statusCode: 201,
       body: {
         data: {
-          id: 123,
+          id: 3,
           type: "company",
           attributes: {
-            name: "Company C",
+            name: "Company 123",
             website: "www.testcompany.com",
             street_address: "123 Test St",
             city: "Test City",
@@ -173,6 +173,14 @@ describe("New Contacts page after logging in", () => {
       cy.contains("Company A").should("exist");
     });
 
+    it("Should be able to view modal and exit out by clicking outside of modal", () => {
+      cy.get("a > .bg-cyan-600").click();
+      cy.contains("button", "Add new company").click();
+      cy.get(".fixed.inset-0.bg-black.bg-opacity-50").should("be.visible");
+      cy.get(".fixed.inset-0.bg-black.bg-opacity-50").click("topLeft");
+      cy.get(".fixed.inset-0.bg-black.bg-opacity-50").should("not.exist");
+    });
+
     it("Should be able to add new company and create new contact", () => {
       cy.intercept(
         "POST",
@@ -212,24 +220,25 @@ describe("New Contacts page after logging in", () => {
       cy.get("label").contains("Zip Code:").should("exist");
       cy.get("label").contains("Notes:").should("exist");
 
-      cy.get("#companyName").type("CompanyTestName");
+      cy.get("#companyName").type("Company Placeholder");
       cy.get(".max-w-4xl")
         .find("button[type='submit']")
         .scrollIntoView()
         .should("be.visible")
         .click();
       cy.wait("@addCompany");
-      cy.get(".bg-green-100").should(
-        "contain.text",
-        "Company added successfully!"
-      );
-      cy.contains("button", "X").scrollIntoView().click();
+
+      cy.get(".bg-black.bg-opacity-50").should("not.exist");
 
       cy.wait("@getUpdatedCompanies");
+      cy.get("#companyId").should("exist").and("be.visible");
+      cy.get("#companyId")
+        .should("have.value", "3")
+        .find("option:selected")
+        .should("have.text", "Company C");
 
       cy.get("#firstName").type("Emma");
       cy.get("#lastName").type("Boots");
-      cy.get("#companyId").select("Company C");
 
       cy.get('button[type="submit"]').click();
 
