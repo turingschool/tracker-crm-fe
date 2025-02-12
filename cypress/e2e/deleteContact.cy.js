@@ -121,4 +121,11 @@ describe("Delete a Contact", () => {
     cy.contains("Are you sure you want to delete this?").should("be.visible");
   });
 
+  it("Should close the delete confirmation modal when Cancel is clicked", () => {
+    cy.get("button").contains("Delete").click();
+    cy.contains("Cancel").click();
+    cy.contains("Are you sure you want to delete this?").should("not.exist");
+    cy.url().should("include", "/contacts/1")
+  })
+
 });  
