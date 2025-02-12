@@ -16,6 +16,12 @@ export const DashBoard : React.FC = () => {
     const contactsCount: number = dashData.contacts.length
     const companiesCount: number = dashData.companies.length
 
+    interface CountProps {
+        section: string;
+        sectionCount: number;
+        sectionUrl: string;
+    }
+
     useEffect(()=>{
 
         const dashDataFetcher = async () => {
@@ -31,33 +37,14 @@ export const DashBoard : React.FC = () => {
 
     },[])
 
-    function RenderApplications(): any {
-    if (jobApplicationsCount >= 1) {
-        return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${jobApplicationsCount}`}</label>
+    const ConditionallyRenderBtn: React.FC<CountProps> = ({ section, sectionCount, sectionUrl}) => {
+    if (sectionCount >= 1) {
+        return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${sectionCount}`}</label>
         <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Apps submitted this week</label></>
     }
-    return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${jobApplicationsCount}`}</label>
-        <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to="/jobapplications/new">Add new job application</Link></>
+    return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${sectionCount}`}</label>
+        <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to={`${sectionUrl}`}>Add new {section}</Link></>
     }
-
-    function RenderContacts(): any {
-        if (contactsCount >= 1) {
-            return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${contactsCount}`}</label>
-            <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Apps submitted this week</label></>
-        }
-        return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${contactsCount}`}</label>
-            <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to="/contacts/new">Add new contact</Link></>
-        }
-
-    function RenderCompanies(): any {
-        if (contactsCount >= 1) {
-            return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${companiesCount}`}</label>
-            <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Apps submitted this week</label></>
-        }
-        return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${companiesCount}`}</label>
-            <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to="/companies/new">Add new company</Link></>
-        }
-
 
     if(token && isLoggedIn){
         return (
@@ -69,17 +56,17 @@ export const DashBoard : React.FC = () => {
 
                     <div className="bg-white w-[20vw] h-[17vh] inline-block rounded-[20px] shadow-black shadow-xl">
                         <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Jobs</label>
-                        <RenderApplications />
+                        <ConditionallyRenderBtn section="job application" sectionCount={jobApplicationsCount} sectionUrl="/jobapplications/new" />
                     </div>
 
                     <div className="bg-white w-[20vw] h-[17vh] inline-block m-24 rounded-[20px] shadow-black shadow-xl">
                         <label className='text-center block text-[20px] font-bold text-cyan-600 mt-2'>Contacts</label>
-                        <RenderContacts />
+                        <ConditionallyRenderBtn section="contact" sectionCount={contactsCount} sectionUrl="/contacts/new" />
                     </div>
 
                     <div className='bg-white w-[20vw] h-[17vh] inline-block rounded-[20px] shadow-black shadow-xl'>
                         <label className='text-center block text-[20px] font-bold text-cyan-600 mt-2'>Companies</label>
-                        <RenderCompanies />
+                        <ConditionallyRenderBtn section="company" sectionCount={companiesCount} sectionUrl="/companies/new" />
                     </div>
                 </div>
 
