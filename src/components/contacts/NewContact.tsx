@@ -4,6 +4,7 @@ import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { UserData } from "../../Interfaces";
 import { fetchCompanies } from "../../apiCalls";
 import { fetchNewContact } from "../../apiCalls";
+import { UserInformationProps, FormInputData } from "../../Interfaces";
 import CompanyModal from "./CompanyModal";
 
 export interface FormInputData {
