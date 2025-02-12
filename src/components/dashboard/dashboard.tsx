@@ -12,6 +12,7 @@ export const DashBoard : React.FC = () => {
         companies: [null]
     });
     const {isLoggedIn, userData,token } = useUserLoggedContext()
+    const jobApplications: number = dashData.job_applications.length
 
     useEffect(()=>{
 
@@ -28,18 +29,28 @@ export const DashBoard : React.FC = () => {
 
     },[])
 
+    function RenderApplications(): any {
+    if (jobApplications >= 1) {
+        return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${jobApplications}`}</label>
+        <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Apps submitted this week</label></>
+    }
+    return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${jobApplications}`}</label>
+        <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to="jobapplications/new">Add new job application</Link></>
+    }
+
+
+
     if(token && isLoggedIn){
         return (
             <>
                 <div className="fixed top-[15vh] left-[25vh] right-0 font-bold font-size-[4vh] text-5xl text-cyan-600">
-                    <h1>Welcome,{userData.user.data.attributes.name}</h1>
+                    <h1>Welcome, {userData.user.data.attributes.name}</h1>
                 </div>
                 <div className="ml-2 fixed top-[20vh] left-[25vh]">
 
                     <div className="bg-white w-[20vw] h-[17vh] inline-block rounded-[20px] shadow-black shadow-xl">
                         <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Jobs</label>
-                        <label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${dashData.job_applications.length }`}</label>
-                        <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Apps submitted this week</label>
+                        <RenderApplications />
                     </div>
 
                     <div className="bg-white w-[20vw] h-[17vh] inline-block m-24 rounded-[20px] shadow-black shadow-xl">
