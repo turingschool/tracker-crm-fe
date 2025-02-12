@@ -149,5 +149,19 @@ describe("Delete a Contact", () => {
     cy.contains("Are you sure you want to delete this?").should("be.visible");
     cy.get("body").click(0,1);
     cy.contains("Are you sure you want to delete this?").should("not.exist");
-  })
+  });
+
+  it("Should show an error alert if deletion fails", () => {  
+    cy.contains("Delete").should("exist").click();    
+    cy.contains("Are you sure you want to delete this?").should("be.visible");  
+    cy.intercept("DELETE", "http://localhost:3001/api/v1/users/2/contacts/1", {
+      statusCode: 500,
+      body: { error: "Something went wrong while deleting the contact" },
+    }).as("deleteContactFail");  
+    cy.contains("Ok").should("exist").click();  
+    cy.wait("@deleteContactFail");  
+    cy.on("window:alert", (text) => {
+      expect(text).to.contains("Failed to delete contact. Please try again");
+    });
+  });
 });
