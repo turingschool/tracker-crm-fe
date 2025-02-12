@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { getACompany } from "../../trackerApiCalls";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { getACompany, deleteItem } from "../../trackerApiCalls";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
+import  DeleteItem  from "../common/DeleteItem";
+
 
 interface ContactData {
   id: string;
