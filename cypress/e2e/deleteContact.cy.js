@@ -115,5 +115,10 @@ describe("Delete a Contact", () => {
   it("Should display the delete button", () => {
     cy.get("button").contains("Delete").should("be.visible");
   });
+ 
+  it("Should open the delete confirmation modal", () => {
+    cy.get("button").contains("Delete").click();
+    cy.contains("Are you sure you want to delete this?").should("be.visible");
+  });
 
 });  
