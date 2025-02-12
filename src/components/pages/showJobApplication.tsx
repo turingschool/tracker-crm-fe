@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { showJobApp, updateJobApplication } from "../../trackerApiCalls";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { statusMap, statusStyles} from "../JobApplicationUtilities";
+import DatePicker from 'react-datepicker'
 
 interface Contact {
   id: number;
@@ -48,7 +49,15 @@ function JobApplication() {
   const [applicationURL, setApplicationURL] = useState('');
   const [companyId, setCompanyId] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const [editedDate, setEditedDate] = useState(jobApp ? jobApp.date_applied : '')
+  const [editedDate, setEditedDate] = useState<string | Date>(() => {
+    if (jobApp && jobApp.date_applied) {
+      const dateApplied = new Date(jobApp.date_applied)
+      return dateApplied instanceof Date && !isNaN(dateApplied.getTime())
+      ? dateApplied: ''
+    }
+    return ''
+  })
+  const [date, setDate] = useState<Date | null>(null)
 
   useEffect(() => {
     if (jobAppId) {
@@ -57,6 +66,9 @@ function JobApplication() {
           const id = parseInt(jobAppId, 10);
           if (isNaN(id)) throw new Error("Invalid jobAppId.");
           const data = await showJobApp(user.data.id, id, token);
+          const dateApplied = new Date(data.data.attributes.date_applied)
+          console.log(dateApplied)
+
           setJobApp(data.data.attributes as JobApplicationAttributes);
           setPositionTitle(data.data.attributes.position_title)
           setStatus(data.data.attributes.status)
@@ -64,7 +76,7 @@ function JobApplication() {
           setJobDescription(data.data.attributes.job_description)
           setApplicationURL(data.data.attributes.application_url)
           setCompanyId(data.data.attributes.company_id)
-          setEditedDate(data.data.attributes.date_applied ? data.data.attributes.date_applied.toString() : '')
+          setEditedDate(dateApplied instanceof Date && !isNaN(dateApplied.getTime()) ? dateApplied : new Date()) 
 
         } catch (err) {
           console.error("Failed to fetch job application:", err);
@@ -82,7 +94,34 @@ function JobApplication() {
   const openEdit = () => setIsEditModelOpen(true);
   const closeEdit = () => setIsEditModelOpen(false);
 
-  const handleSubmit = () => {
+  const handleDateChange = (date: Date | null) => {
+    setDate(date)
+    setEditedDate(date ? date.toISOString() : '') 
+  }
+
+  useEffect(() => {
+    if (editedDate instanceof Date) {
+      console.log("editedDate has been updated to:", editedDate)
+      handleSubmit(editedDate)
+    } else {
+      const parsedDate = new Date(editedDate)
+      if (!isNaN(parsedDate.getTime())) {
+        handleSubmit(parsedDate)
+      }
+    }
+  }, [editedDate])
+
+
+  const handleSubmit = (event ?: React.SyntheticEvent<HTMLFormElement> | Date) => {
+    console.log("event type:", event)
+    if (event instanceof Event) {
+      event.preventDefault()
+    }
+
+    if (event instanceof Date) {
+      setEditedDate(event)
+    }
+
     setIsEditing(false)
 
     const compileData: DataCompile = {
@@ -125,34 +164,46 @@ function JobApplication() {
               {jobApp.company_name}
             </h2>
             </Link>
-            <p className="font-medium mb-4">
-              Applied On:{" "}
+            <div className='flex align-row'>
+              <p className="font-medium mb-4 mr-10">
+                Applied On:{" "}
+              </p>
               {isEditing ? (
-                <input
-                  type="date"
-                  id="dateApplied"
-                  value={editedDate instanceof Date ? editedDate.toString().split('T')[0] : editedDate}
-                  onChange={(e) => setEditedDate(e.target.value)}
-                  className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 ease-in-out"
-                  onBlur={handleSubmit}
-                  required
-              />
+                  <div
+                    className='flex flex-col'
+                    >
+                      <DatePicker
+                      selected={date}
+                      onChange={handleDateChange}
+                      inline
+                      className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 ease-in-out mr-10"
+                      onClickOutside={() => setIsEditing(false)}
+                    required
+                />
+                </div>
               ) : (
                 <span 
                 className="font-semibold cursor-pointer underline underline-dashed hover:text-blue-500 transition-all duration-150 ease-in-out"
                 onClick={() => setIsEditing(true)}
                 >
-                  {editedDate instanceof Date ? editedDate.toString().split('T')[0] : editedDate}
+                  {editedDate instanceof Date 
+                    ? editedDate.toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                  }) 
+                  : editedDate}
                 </span>
               )}
-              
-            </p>
-            <p className="mb-6">
-              Status:{" "}
-              <span className={`py-1 px-2 rounded ${statusStyles[statusMap[jobApp.status]]}`} data-testid="job-status">
-                {statusMap[jobApp.status]}
-              </span>
-            </p>
+            </div>
+            <div className='flex-row'>
+              <p className="mb-6">
+                Status:{" "}
+                <span className={`py-1 px-2 ml-15 rounded ${statusStyles[statusMap[jobApp.status]]}`} data-testid="job-status">
+                  {statusMap[jobApp.status]}
+                </span>
+              </p>
+            </div>
             <h3 className="text-cyan-600 text-2xl mb-4">Notes</h3>
             <p className={`mb-8 ${jobApp.notes ? "" : "text-cyan-500"}`} data-testid="job-notes">
               {jobApp.notes ? jobApp.notes : "Click edit to add some notes."}

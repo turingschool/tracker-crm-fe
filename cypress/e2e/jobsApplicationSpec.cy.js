@@ -556,7 +556,7 @@ describe("Editability of specific job application fields", () => {
     cy.get('[data-testid="edit-modal-form-url"]').clear().type("https://example.com");
     cy.get('[data-testid="edit-modal-form-notes"]').clear().type("Talked with recruiter, sounds like a great opportunity to learn new things");
     cy.get('[data-testid="edit-modal-form-submit-button"]').click();
-
+    cy.wait(5000)
     cy.get('[data-testid="job-Title"]').should('contain', 'Frontend Developer')
     cy.get('[data-testid="job-companyName"]').should('contain', 'Creative Solutions Inc.')
     cy.get('[data-testid="job-status"]').should("have.text", "Offer")
