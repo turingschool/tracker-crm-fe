@@ -112,7 +112,7 @@ function JobApplication() {
   }, [editedDate])
 
 
-  const handleSubmit = (event ?: React.SyntheticEvent<HTMLFormElement> | Date) => {
+  const handleSubmit = (event ?: React.FormEvent<HTMLFormElement> | Date) => {
     console.log("event type:", event)
     if (event instanceof Event) {
       event.preventDefault()
@@ -157,16 +157,16 @@ function JobApplication() {
             data-testid="job-Title">
               {jobApp.position_title}
             </h1>
-            <Link className="bg-transparent text-cyan-600 px-4 py-2 rounded inline-block text-center ml-2 hover:underline"
+            <Link className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline"
               to={`/companies/${companyId}/contacts`}>
-              <h2 className="text-cyan-600 text-2xl sm:text-3xl mb-6"
+              <h2 className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline"
             data-testid="job-companyName">
               {jobApp.company_name}
             </h2>
             </Link>
-            <div className='flex align-row'>
-              <p className="font-medium mb-4 mr-10">
-                Applied On:{" "}
+            <div className='flex align-row mt-5'>
+              <p className="font-bold mb-4 mr-2">
+                Applied On: {" "}
               </p>
               {isEditing ? (
                   <div
@@ -176,14 +176,15 @@ function JobApplication() {
                       selected={date}
                       onChange={handleDateChange}
                       inline
-                      className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 transition-all duration-200 ease-in-out mr-10"
+                      className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline cursor:pointer"
                       onClickOutside={() => setIsEditing(false)}
                     required
                 />
                 </div>
               ) : (
                 <span 
-                className="font-semibold cursor-pointer underline underline-dashed hover:text-blue-500 transition-all duration-150 ease-in-out"
+                className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline cursor:pointer"
+                data-testid="application-date"
                 onClick={() => setIsEditing(true)}
                 >
                   {editedDate instanceof Date 
@@ -197,9 +198,9 @@ function JobApplication() {
               )}
             </div>
             <div className='flex-row'>
-              <p className="mb-6">
+              <p className="mb-6 font-bold">
                 Status:{" "}
-                <span className={`py-1 px-2 ml-15 rounded ${statusStyles[statusMap[jobApp.status]]}`} data-testid="job-status">
+                <span className={`py-1 px-2 rounded ${statusStyles[statusMap[jobApp.status]]}`} data-testid="job-status">
                   {statusMap[jobApp.status]}
                 </span>
               </p>
