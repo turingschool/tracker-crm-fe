@@ -1,5 +1,5 @@
 import { mockContactsData } from "../fixtures/mockContactsData";
-import { mockDashboard } from "../fixtures/mockDashBoard.json"
+import { mockDashboard } from "../fixtures/mockDashBoard.json";
 
 describe("Delete a Contact", () => {
   beforeEach(() => {
@@ -91,12 +91,10 @@ describe("Delete a Contact", () => {
       }
     ).as("get-company-contacts");
 
-    cy.intercept(
-      'GET',
-      'http://localhost:3001/api/v1/users/2/dashboard',
-      { statusCode: 200, fixture: 'mockDashBoard' }
-    );
-
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/dashboard", {
+      statusCode: 200,
+      fixture: "mockDashBoard",
+    });
 
     cy.visit("http://localhost:3000/");
     cy.get("#email").type("dollyP@email.com");
@@ -109,13 +107,13 @@ describe("Delete a Contact", () => {
 
     cy.get("table tbody tr").first().find("a").click();
     cy.url().should("include", "/contacts/1");
-    cy.wait("@get-contact-details")
+    cy.wait("@get-contact-details");
   });
 
   it("Should display the delete button", () => {
     cy.get("button").contains("Delete").should("be.visible");
   });
- 
+
   it("Should open the delete confirmation modal", () => {
     cy.get("button").contains("Delete").click();
     cy.contains("Are you sure you want to delete this?").should("be.visible");
@@ -125,7 +123,31 @@ describe("Delete a Contact", () => {
     cy.get("button").contains("Delete").click();
     cy.contains("Cancel").click();
     cy.contains("Are you sure you want to delete this?").should("not.exist");
-    cy.url().should("include", "/contacts/1")
-  })
+    cy.url().should("include", "/contacts/1");
+  });
 
-});  
+  it("Should delete the contact when OK is clicked", () => {
+    cy.intercept(
+      {
+        method: "DELETE",
+        url: "http://localhost:3001/api/v1/users/2/contacts/1",
+        headers: {
+          Authorization: "Bearer The token",
+        },
+      },
+      { statusCode: 204 }
+    ).as("deleteContact");
+    cy.get("button").contains("Delete").click();
+    cy.contains("Ok").click();
+
+    cy.wait("@deleteContact");
+    cy.url().should("include", "/contacts");
+  });
+
+  it("Should close the modal when clicking outside", () => {
+    cy.get("button").contains("Delete").click();
+    cy.contains("Are you sure you want to delete this?").should("be.visible");
+    cy.get("body").click(0,1);
+    cy.contains("Are you sure you want to delete this?").should("not.exist");
+  })
+});
