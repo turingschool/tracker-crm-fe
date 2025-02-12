@@ -276,7 +276,9 @@ describe("New Contacts page after logging in", () => {
     it("Should not allow duplicate contacts", () => {
       cy.intercept("POST", "http://localhost:3001/api/v1/users/2/contacts", {
         statusCode: 422,
-        body: { error: "Contact already exists" },
+        body: {
+          message: "Contact already exists",
+        },
       }).as("addDuplicateContact");
 
       cy.get("a > .bg-cyan-600").click();
@@ -296,7 +298,9 @@ describe("New Contacts page after logging in", () => {
     it("Should display an error message if the server fails to create a contact", () => {
       cy.intercept("POST", "http://localhost:3001/api/v1/users/2/contacts", {
         statusCode: 500,
-        body: { error: "Server error, please try again" },
+        body: {
+          message: "Server error, please try again",
+        },
       }).as("addContactError");
 
       cy.get("a > .bg-cyan-600").click();
@@ -313,7 +317,9 @@ describe("New Contacts page after logging in", () => {
     it("Should validate the phone number format", () => {
       cy.intercept("POST", "http://localhost:3001/api/v1/users/2/contacts", {
         statusCode: 422,
-        body: { error: "Phone number must be in the format '555-555-5555'" },
+        body: {
+          message: "Phone number must be in the format '555-555-5555'",
+        },
       }).as("addContactInvalidPhone");
 
       cy.get("a > .bg-cyan-600").click();
