@@ -226,7 +226,7 @@ export const deleteItem = async (
   const resource = itemType === "company" ? "companies" : `${itemType}s`
   try {
     const response = await fetch(
-      `${backendURL}users/${userId}/${resource}s/${itemId}`,
+      `${backendURL}users/${userId}/${resource}/${itemId}`,
       {
         method: "DELETE",
         headers: {
