@@ -166,4 +166,5 @@ export interface DashBoardDattaI{
     section: string;
     sectionCount: number;
     sectionUrl: string;
+    sectionDescription: string
 }
