@@ -67,7 +67,6 @@ function JobApplication() {
           if (isNaN(id)) throw new Error("Invalid jobAppId.");
           const data = await showJobApp(user.data.id, id, token);
           const dateApplied = new Date(data.data.attributes.date_applied)
-          console.log(dateApplied)
 
           setJobApp(data.data.attributes as JobApplicationAttributes);
           setPositionTitle(data.data.attributes.position_title)
@@ -101,7 +100,6 @@ function JobApplication() {
 
   useEffect(() => {
     if (editedDate instanceof Date) {
-      console.log("editedDate has been updated to:", editedDate)
       handleSubmit(editedDate)
     } else {
       const parsedDate = new Date(editedDate)
@@ -113,7 +111,6 @@ function JobApplication() {
 
 
   const handleSubmit = (event ?: React.FormEvent<HTMLFormElement> | Date) => {
-    console.log("event type:", event)
     if (event instanceof Event) {
       event.preventDefault()
     }
@@ -138,7 +135,6 @@ function JobApplication() {
 
     updateJobApplication(compileData)
       .then((updatedApplication) => {
-        console.log("Application updated successfully:", updatedApplication);
         setJobApp(updatedApplication.data.attributes)
       })
       .catch((error) => {
