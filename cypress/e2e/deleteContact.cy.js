@@ -1,4 +1,5 @@
 import { mockContactsData } from "../fixtures/mockContactsData";
+import { mockDashboard } from "../fixtures/mockDashBoard.json"
 
 describe("Delete a Contact", () => {
   beforeEach(() => {
@@ -19,7 +20,6 @@ describe("Delete a Contact", () => {
         },
       },
     }).as("postUserInfo");
-
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts", {
       statusCode: 200,
@@ -62,6 +62,42 @@ describe("Delete a Contact", () => {
       },
     }).as("get-contact-details");
 
+    cy.intercept(
+      "GET",
+      "http://localhost:3001/api/v1/users/2/companies/1/contacts",
+      {
+        statusCode: 200,
+        body: {
+          contacts: {
+            data: [
+              {
+                id: "2",
+                type: "contact",
+                attributes: {
+                  first_name: "Jane",
+                  last_name: "Smith",
+                  email: "jane@example.com",
+                  phone_number: "987-654-3210",
+                  notes: "Another team member at Future Designs LLC",
+                },
+              },
+            ],
+          },
+        },
+        headers: {
+          Authorization: "Bearer The token",
+          "Content-Type": "application/json",
+        },
+      }
+    ).as("get-company-contacts");
+
+    cy.intercept(
+      'GET',
+      'http://localhost:3001/api/v1/users/2/dashboard',
+      { statusCode: 200, fixture: 'mockDashBoard' }
+    );
+
+
     cy.visit("http://localhost:3000/");
     cy.get("#email").type("dollyP@email.com");
     cy.get("#password").type("Jolene123");
@@ -73,8 +109,11 @@ describe("Delete a Contact", () => {
 
     cy.get("table tbody tr").first().find("a").click();
     cy.url().should("include", "/contacts/1");
+    cy.wait("@get-contact-details")
   });
 
-  it
+  it("Should display the delete button", () => {
+    cy.get("button").contains("Delete").should("be.visible");
+  });
 
 });  
