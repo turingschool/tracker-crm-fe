@@ -4,6 +4,8 @@ import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { Link } from "react-router-dom";
 import DeleteItem from "../common/DeleteItem";
 import { deleteItem } from "../../trackerApiCalls";
+import { Contact, ContactData } from "../../Interfaces"
+import { fetchShowContact, fetchCompanyContact } from "../../apiCalls"
 
 interface ContactAttributes {
   company: { name: string };
@@ -51,70 +53,48 @@ function ShowContact() {
   const userId = userData?.user?.data?.id;
 
   useEffect(() => {
-    const fetchShowContact = async () => {
+    const contactFetcher = async () => {
       try {
-        const apiURL = process.env.REACT_APP_BACKEND_API_URL;
-        const backendURL = `${apiURL}api/v1/`;
-        const userId = userData.user.data.id;
-        const response = await fetch(
-          `${backendURL}users/${userId}/contacts/${contactId}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error(`Failed to fetch contact: ${response.statusText}`);
-        }
-        const data = await response.json();
-        console.log("Contact Data: ", data);
-
-        setContact(data.data);
-
-        const companyId = data.data.attributes.company?.id;
+        const allData = await fetchShowContact(userId, token, contactId)
+        setContact(allData.data)
+        
+        const companyId = allData.data.attributes.company?.id;
         console.log("CompanyID: ", companyId);
 
-        if (!companyId) {
+        if(!companyId) {
           console.log("No company for this contact");
           setOtherContact([]);
           return;
         }
 
-        const companyContacts = await fetch(
-          `${backendURL}users/${userId}/companies/${companyId}/contacts`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (companyContacts.status === 404) {
+  useEffect(() => {
+    const contactFetcher = async () => {
+      try {
+        const allData = await fetchShowContact(userId, token, contactId)
+        setContact(allData.data)
+        
+        const companyId = allData.data.attributes.company?.id;
+        console.log("CompanyID: ", companyId);
+
+        if(!companyId) {
+          console.log("No company for this contact");
           setOtherContact([]);
           return;
         }
-        if (!companyContacts.ok) {
-          throw new Error(
-            `Failed to fetch a companies contacts: ${companyContacts.statusText}`
-          );
-        }
-        const companyContactsData = await companyContacts.json();
-        console.log("Company Contacts Data: ", companyContactsData);
 
-        const contactsList = companyContactsData.contacts.data;
-        console.log("Contacts List:", contactsList);
-        setOtherContact(contactsList);
+        try {
+          const companyContacts = await fetchCompanyContact(userId, token, companyId)
+          setOtherContact(companyContacts);
+        } catch (error) {
+          setFetchError(`${(error as Error).message}. Please try again later.`);
+        }
       } catch (error) {
         setFetchError(`${(error as Error).message}. Please try again later.`);
       }
-    };
+    }
 
     if (contactIdInt) {
-      fetchShowContact();
+      contactFetcher();
     }
   }, [contactId, token]);
 
@@ -137,11 +117,12 @@ function ShowContact() {
             </h1>
             <h2
               data-testid="company-name"
-              className="text-[3.5vh] font-bold text-cyan-500 p-0"
+              className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline"
             >
               {contact.attributes.company
-                ? contact.attributes.company.name
-                : "No Affiliated Companies"}
+                ? 
+                <Link data-testid="company-link" to={`/companies/${contact.attributes.company_id}/contacts`}>{contact.attributes.company.name}</Link>
+                : "No Affiliated Companies" }
             </h2>
             <div className="m-5">
               <p>
