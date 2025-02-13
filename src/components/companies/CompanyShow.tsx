@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { getACompany } from "../../trackerApiCalls";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
+import { US_STATES } from "../../constants/states";
 
 interface ContactData {
   id: string;
@@ -42,7 +43,8 @@ function CompanyShow() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
+  const [selectedState, setSelectedState] = useState("");
+  
   useEffect(() => {
     console.log("Fetching company data...");
     setIsLoading(true);
@@ -62,25 +64,40 @@ function CompanyShow() {
         console.log("Loading complete");
       }
     };
-  
+    
     fetchCompanyData();
   }, [token, userData, id]);
-
+  
+  useEffect(() => {
+    if (isEditModalOpen) {
+      const companyState = companyData?.company?.data?.attributes?.state;
+      if (companyState) {
+        let foundState = US_STATES.find((s) => s.code === companyState)?.code;
+        if (!foundState) {
+          foundState = US_STATES.find((s) => s.name.toLowerCase() === companyState.toLowerCase())?.code;
+        }
+        setSelectedState(foundState || "");
+      } else {
+        setSelectedState("");
+      }
+    }
+  }, [isEditModalOpen, companyData]);
+  
   if (isLoading) {
     return <p className="text-center mt-10">Loading company details...</p>;
   }
-
+  
   if (error) {
     return <p className="text-center mt-10 text-red-500">Error: {error}</p>;
   }
-
+  
   if (!companyData) {
     return <p className="text-center mt-10">No company data found</p>;
   }
-
-  const companyAttributes = companyData.company.data.attributes;
-  const companyContacts = companyData.contacts.data;
-
+  
+    const companyAttributes = companyData?.company?.data?.attributes ?? {};
+    const companyContacts = companyData?.contacts?.data ?? [];
+  
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-6">Company Details</h1>
@@ -149,97 +166,102 @@ function CompanyShow() {
       </div>
 
       {isEditModalOpen && (
-      <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center" onClick={() => setIsEditModalOpen(false)}>
-        <div className="bg-white w-[50vw] mx-auto my-[2vh] p-[3vh] rounded-lg shadow-lg relative" onClick={(e) => e.stopPropagation()}>
-          
-          {/* Close Button */}
-          <button
-            className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl"
-            onClick={() => setIsEditModalOpen(false)}
-          >
-            &times;
-          </button>
-
-          <h2 className="text-2xl font-bold mb-6">Edit Company</h2>
-
-          <div className="grid grid-cols-2 gap-4">
-
-            {/* Name Field */}
-            <div className="col-span-1">
-              <label className="block text-gray-700 font-medium mb-[1vh]">Name</label>
-              <input 
-                className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                defaultValue={companyAttributes.name} 
-              />
-            </div>
-
-            {/* Website Field */}
-            <div className="col-span-1">
-              <label className="block text-gray-700 font-medium mb-[1vh]">Website</label>
-              <input 
-                className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                defaultValue={companyAttributes.website} 
-              />
-            </div>
-
-            {/* Street Address */}
-            <div className="col-span-2">
-              <label className="block text-gray-700 font-medium mb-[1vh]">Street Address</label>
-              <input 
-                className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                defaultValue={companyAttributes.street_address} 
-              />
-            </div>
-
-            {/* City, State, and Zip */}
-            <div className="col-span-1">
-              <label className="block text-gray-700 font-medium mb-[1vh]">City</label>
-              <input 
-                className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                defaultValue={companyAttributes.city} 
-              />
-            </div>
-
-            <div className="col-span-1">
-              <label className="block text-gray-700 font-medium mb-[1vh]">State</label>
-              <select 
-                className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                defaultValue={companyAttributes.state}
-              >
-                {/* Add state options here */}
-              </select>
-            </div>
-
-            <div className="col-span-1">
-              <label className="block text-gray-700 font-medium mb-[1vh]">Zip</label>
-              <input 
-                className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                defaultValue={companyAttributes.zip_code} 
-              />
-            </div>
-
-            {/* Notes */}
-            <div className="col-span-2">
-              <label className="block text-gray-700 font-medium mb-[1vh]">Notes</label>
-              <textarea 
-                className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                rows={3}
-                defaultValue={companyAttributes.notes} 
-              />
-            </div>
-          </div>
-
-          {/* Save Button */}
-          <div className="flex justify-end mt-6">
-            <button 
-              className="bg-cyan-600 text-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2"
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center" onClick={() => setIsEditModalOpen(false)}>
+          <div className="bg-white w-[50vw] mx-auto my-[2vh] p-[3vh] rounded-lg shadow-lg relative" onClick={(event) => event.stopPropagation()}>
+            
+            {/* Close Button */}
+            <button
+              className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl"
+              onClick={() => setIsEditModalOpen(false)}
             >
-              Save
+              &times;
             </button>
+
+            <h2 className="text-2xl font-bold mb-6">Edit Company</h2>
+
+            <div className="grid grid-cols-2 gap-4">
+
+              {/* Name Field */}
+              <div className="col-span-1">
+                <label className="block text-gray-700 font-medium mb-[1vh]">Name</label>
+                <input 
+                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
+                  defaultValue={companyAttributes.name} 
+                />
+              </div>
+
+              {/* Website Field */}
+              <div className="col-span-1">
+                <label className="block text-gray-700 font-medium mb-[1vh]">Website</label>
+                <input 
+                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
+                  defaultValue={companyAttributes.website} 
+                />
+              </div>
+
+              {/* Street Address */}
+              <div className="col-span-2">
+                <label className="block text-gray-700 font-medium mb-[1vh]">Street Address</label>
+                <input 
+                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
+                  defaultValue={companyAttributes.street_address} 
+                />
+              </div>
+
+              {/* City, State, and Zip */}
+              <div className="col-span-1">
+                <label className="block text-gray-700 font-medium mb-[1vh]">City</label>
+                <input 
+                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
+                  defaultValue={companyAttributes.city} 
+                />
+              </div>
+
+              <div className="col-span-1">
+                <label className="block text-gray-700 font-medium mb-[1vh]">State</label>
+                <select
+                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 overflow-y-auto"
+                  value={selectedState}
+                  onChange={(event) => setSelectedState(event.target.value)}
+                >
+                  {US_STATES.map((state) => (
+                    <option key={state.code} value={state.code}>
+                      {state.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="col-span-1">
+                <label className="block text-gray-700 font-medium mb-[1vh]">Zip</label>
+                <input 
+                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
+                  defaultValue={companyAttributes.zip_code} 
+                />
+              </div>
+
+              {/* Notes */}
+              <div className="col-span-2">
+                <label className="block text-gray-700 font-medium mb-[1vh]">Notes</label>
+                <textarea 
+                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
+                  rows={3}
+                  defaultValue={companyAttributes.notes} 
+                />
+              </div>
+            </div>
+
+            {/* Save Button */}
+            <div className="flex justify-end mt-6">
+              <button 
+                className="bg-cyan-600 text-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2"
+              >
+                Save
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
     </div>
   );
 }
