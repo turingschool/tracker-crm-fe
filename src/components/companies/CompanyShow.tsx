@@ -64,7 +64,7 @@ function CompanyShow() {
         console.log("Loading complete");
       }
     };
-    
+
     fetchCompanyData();
   }, [token, userData, id]);
   
@@ -95,8 +95,17 @@ function CompanyShow() {
     return <p className="text-center mt-10">No company data found</p>;
   }
   
-    const companyAttributes = companyData?.company?.data?.attributes ?? {};
-    const companyContacts = companyData?.contacts?.data ?? [];
+  const companyContacts = companyData?.contacts?.data ?? [];
+  const companyAttributes = companyData?.company?.data?.attributes ?? {
+    name: "",
+    website: "",
+    street_address: "",
+    city: "",
+    state: "",
+    zip_code: "",
+    notes: ""
+  };
+  
   
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
@@ -113,11 +122,15 @@ function CompanyShow() {
             <h2 className="font-semibold text-gray-700">Website:</h2>
             <p className="text-blue-500 hover:underline">
               <a
-                href={companyAttributes.website.startsWith("http") ? companyAttributes.website : `https://${companyAttributes.website}`}
+                href={companyAttributes.website ? 
+                  (companyAttributes.website.startsWith("http") ? companyAttributes.website : `https://${companyAttributes.website}`) 
+                  : "#"
+                }
                 target="_blank"
                 rel="noopener noreferrer"
+                className={companyAttributes.website ? "text-blue-500 hover:underline" : "text-gray-500"}
               >
-                {companyAttributes.website}
+                {companyAttributes.website || "N/A"}
               </a>
             </p>
           </div>
@@ -125,12 +138,20 @@ function CompanyShow() {
           <div>
             <h2 className="font-semibold text-gray-700">Address:</h2>
             <p className="text-gray-900">
-              {companyAttributes.street_address} {companyAttributes.city}, {companyAttributes.state} {companyAttributes.zip_code}</p>
+            {[
+              companyAttributes.street_address,
+              companyAttributes.city,
+              companyAttributes.state,
+              companyAttributes.zip_code
+            ]
+              .filter(Boolean)
+              .join(", ") || "N/A"}
+            </p>
           </div>
 
           <div>
             <h2 className="font-semibold text-gray-700">Notes:</h2>
-            <p className="text-gray-900">{companyAttributes.notes}</p>
+            <p className="text-gray-900">{companyAttributes.notes?.trim() || "N/A"}</p>
           </div>
         </div>
 
