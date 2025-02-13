@@ -71,7 +71,7 @@ describe("Companies page after logging in", () => {
   });
 
   it("Should have a button with the text 'Add New +'", () => {
-    cy.get('.bg-cyan-600 hover:bg-cyan-500 text-white tracking-wide py-2 px-4 rounded max-w-max').click();
+    cy.get('a > .bg-cyan-600').click();
     cy.url().should("include", "/companies/new");
   });
 

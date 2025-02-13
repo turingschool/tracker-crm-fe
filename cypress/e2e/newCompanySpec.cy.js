@@ -70,7 +70,7 @@ describe("New Company page after logging in", () => {
     cy.wait("@getCompanies");
 
     // Navigate to the New Company page
-    cy.get('.bg-cyan-600').click();
+    cy.get('a > .bg-cyan-600').click();
   });
 
   it("Should display the new company form", () => {
