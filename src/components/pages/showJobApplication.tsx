@@ -4,6 +4,7 @@ import { showJobApp, updateJobApplication } from "../../trackerApiCalls";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { statusMap, statusStyles} from "../JobApplicationUtilities";
 import DatePicker from 'react-datepicker'
+import moment from 'moment-timezone'
 
 interface Contact {
   id: number;
@@ -16,7 +17,7 @@ interface Contact {
 
 interface JobApplicationAttributes {
   position_title: string;
-  date_applied: Date;
+  date_applied: string;
   status: number;
   notes: string;
   job_description: string;
@@ -47,24 +48,9 @@ function JobApplication() {
   const [notes, setNotes] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [applicationURL, setApplicationURL] = useState('');
+  const [dateApplied, setDateApplied] = useState('');
   const [companyId, setCompanyId] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-  const [editedDate, setEditedDate] = useState<string | Date>(() => {
-    if (jobApp && jobApp.date_applied) {
-      const dateApplied = new Date(jobApp.date_applied)
-      return dateApplied instanceof Date && !isNaN(dateApplied.getTime())
-      ? dateApplied: ''
-    }
-    return ''
-  })
-  const [date, setDate] = useState<Date | null>(null)
-
-  useEffect(() => {
-    if (jobApp && jobApp.date_applied) {
-      const dateApplied = new Date(jobApp.date_applied);  
-      setDate(dateApplied);  
-    }
-  }, [jobApp])
 
   useEffect(() => {
     if (jobAppId) {
@@ -81,7 +67,7 @@ function JobApplication() {
           setJobDescription(data.data.attributes.job_description)
           setApplicationURL(data.data.attributes.application_url)
           setCompanyId(data.data.attributes.company_id)
-          setEditedDate(new Date(data.data.attributes.date_applied).toISOString())
+          setDateApplied(moment(data.data.attributes.date_applied).local().format("YYYY-MM-DD"))
 
         } catch (err) {
           console.error("Failed to fetch job application:", err);
@@ -92,37 +78,15 @@ function JobApplication() {
     }
   }, [jobAppId]);
 
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const openEdit = () => setIsEditModelOpen(true);
   const closeEdit = () => setIsEditModelOpen(false);
 
-  const handleDateChange = (date: Date | null) => {
-    setDate(date)
-    setEditedDate(date ? date.toISOString() : '') 
-  }
-
-  useEffect(() => {
-    if (editedDate instanceof Date) {
-      handleSubmit(editedDate)
-    } else {
-      const parsedDate = new Date(editedDate)
-      if (!isNaN(parsedDate.getTime())) {
-        handleSubmit(parsedDate)
-      }
-    }
-  }, [editedDate])
-
-
   const handleSubmit = (event ?: React.FormEvent<HTMLFormElement> | Date) => {
     if (event instanceof Event) {
       event.preventDefault()
-    }
-
-    if (event instanceof Date) {
-      setEditedDate(event)
     }
 
     setIsEditing(false)
@@ -136,7 +100,7 @@ function JobApplication() {
       notes: notes,
       job_description: jobDescription,
       application_url: applicationURL, 
-      date_applied: editedDate
+      date_applied: dateApplied
     }
 
     updateJobApplication(compileData)
@@ -148,6 +112,12 @@ function JobApplication() {
       });
     closeEdit()
   }
+
+  useEffect(() => {
+    if (dateApplied) {
+      handleSubmit()
+    }
+  }, [dateApplied])
 
   return (
     <div className="min-h-screen p-4 sm:p-8 pt-8 sm:pt-36">
@@ -175,12 +145,16 @@ function JobApplication() {
                     className='flex flex-col'
                     >
                       <DatePicker
-                      selected={date}
-                      onChange={handleDateChange}
+                      selected={new Date(dateApplied)}
+                      onChange={(dateApplied: Date | null) => {
+                        if (dateApplied) {
+                          setDateApplied(moment(dateApplied).format("YYYY-MM-DD"))
+                        }
+                      }}
                       inline
                       className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline cursor:pointer"
                       onClickOutside={() => setIsEditing(false)}
-                    required
+                      required
                 />
                 </div>
               ) : (
@@ -189,13 +163,9 @@ function JobApplication() {
                 data-testid="application-date"
                 onClick={() => setIsEditing(true)}
                 >
-                  {editedDate instanceof Date 
-                    ? editedDate.toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                  }) 
-                  : editedDate}
+                  {moment(dateApplied).isValid()
+                    ? moment(dateApplied).format("MMMM D, YYYY")
+                    : dateApplied}
                 </span>
               )}
             </div>

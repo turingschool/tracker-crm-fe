@@ -239,7 +239,7 @@ describe("View specific job app page with all fields filled in", () => {
 
     cy.get("p.font-bold")
       .should("contain.text", "Applied On")
-    cy.get('[data-testid="application-date"]').should("have.text", "August 19, 2024"); {/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
+    cy.get('[data-testid="application-date"]').should("have.text", "August 20, 2024"); {/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
 
     cy.get("p.mb-6")
       .should("contain.text", "Status:")
