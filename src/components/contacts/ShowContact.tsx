@@ -2,41 +2,8 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { Link } from "react-router-dom";
-
-interface ContactAttributes {
-  company: { name: string };
-  first_name: string;
-  last_name: string;
-}
-
-interface Contact {
-  id: string;
-  attributes: ContactAttributes;
-}
-
-interface ContactData {
-  id: string;
-  type: string;
-  attributes: {
-    first_name: string;
-    last_name: string;
-    company_id: number;
-    email: string;
-    phone_number: string;
-    notes: string;
-    user_id: number;
-    company: {
-      id: number;
-      name: string;
-      website: string;
-      street_address: string;
-      city: string;
-      state: string;
-      zip_code: string;
-      notes: string;
-    };
-  };
-}
+import { Contact, ContactData } from "../../Interfaces"
+import { fetchShowContact, fetchCompanyContact } from "../../apiCalls"
 
 function ShowContact() {
   const { token, userData } = useUserLoggedContext();
@@ -45,76 +12,42 @@ function ShowContact() {
   const [contact, setContact] = useState<ContactData | null>(null);
   const [otherContacts, setOtherContact] = useState<Contact[]>([]);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const userId = userData.user.data.id;
 
   useEffect(() => {
-
-    const fetchShowContact = async () => {
-
+    const contactFetcher = async () => {
       try {
-        const apiURL = process.env.REACT_APP_BACKEND_API_URL
-        const backendURL = `${apiURL}api/v1/`
-        const userId = userData.user.data.id;
-        const response = await fetch(
-          `${backendURL}users/${userId}/contacts/${contactId}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error(`Failed to fetch contact: ${response.statusText}`);
-        }
-        const data = await response.json();
-        console.log("Contact Data: ", data);
-
-        setContact(data.data);
-
-        const companyId = data.data.attributes.company?.id;
+        const allData = await fetchShowContact(userId, token, contactId)
+        setContact(allData.data)
+        
+        const companyId = allData.data.attributes.company?.id;
         console.log("CompanyID: ", companyId);
-
 
         if(!companyId) {
           console.log("No company for this contact");
           setOtherContact([]);
-          return
+          return;
         }
 
+        try {
+          const companyContacts = await fetchCompanyContact(userId, token, companyId)
 
-        const companyContacts = await fetch(
-          `${backendURL}users/${userId}/companies/${companyId}/contacts`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
         if (companyContacts.status === 404) {
           setOtherContact([]);
           return;
         }
-        if (!companyContacts.ok) {
-          throw new Error(
-            `Failed to fetch a companies contacts: ${companyContacts.statusText}`
-          );
-        }
-        const companyContactsData = await companyContacts.json();
-        console.log("Company Contacts Data: ", companyContactsData);
 
-        const contactsList = companyContactsData.contacts.data;
-        console.log("Contacts List:", contactsList);
-        setOtherContact(contactsList);
+          setOtherContact(companyContacts);
+        } catch (error) {
+          setFetchError(`${(error as Error).message}. Please try again later.`);
+        }
       } catch (error) {
         setFetchError(`${(error as Error).message}. Please try again later.`);
       }
-    };
+    }
 
     if (contactIdInt) {
-      fetchShowContact();
+      contactFetcher();
     }
   }, [contactId, token]);
 
