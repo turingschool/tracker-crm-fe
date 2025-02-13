@@ -556,6 +556,10 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/MDelarosa1993)
 - [LinkedIn](https://www.linkedin.com/in/melchordelarosa/)
 
+**Fallenius, Karl Frederick**
+- [Github](https://github.com/SmilodonP)
+- [LinkedIn](https://www.linkedin.com/in/karlfallenius)
+
 **Galvin, Shane**
 - [Github](https://github.com/sgalvin36)
 - [LinkedIn](https://www.linkedin.com/in/shane-galvin36/)
