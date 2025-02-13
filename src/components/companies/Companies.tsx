@@ -55,7 +55,7 @@ function Companies() {
             onChange={(e) => setSearchTerm(e.target.value)}
           />
           <Link to="/companies/new">
-            <button className="bg-cyan-600 hover:bg-cyan-500 text-white tracking-wide py-2 px-4 rounded max-w-max">
+            <button className="bg-cyan-600">
             Add New +
             </button>
           </Link>
