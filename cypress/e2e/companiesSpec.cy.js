@@ -67,17 +67,17 @@ describe("Companies page after logging in", () => {
 
   it("Should have a search bar", () => {
     cy.get("input[type='text']").should("exist");
-    cy.get("input[type='text']").should("have.attr", "placeholder", "Search companies...");
+    cy.get("input[type='text']").should("have.attr", "placeholder", "🔍 Search Companies");
   });
 
-  it("Should have a button with the text 'Add Company'", () => {
-    cy.get('.bg-blue-500').click();
+  it("Should have a button with the text 'Add New +'", () => {
+    cy.get('.bg-cyan-600 hover:bg-cyan-500 text-white tracking-wide py-2 px-4 rounded max-w-max').click();
     cy.url().should("include", "/companies/new");
   });
 
   it("Should display the correct table headers", () => {
     cy.get("table").find("th").should("have.length", 2);
-    cy.get("table").find("th").eq(0).should("have.text", "Company Name");
+    cy.get("table").find("th").eq(0).should("have.text", "Name");
     cy.get("table").find("th").eq(1).should("have.text", "Notes");
   });
 
