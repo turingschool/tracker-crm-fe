@@ -55,35 +55,20 @@ function ShowContact() {
   useEffect(() => {
     const contactFetcher = async () => {
       try {
-        const allData = await fetchShowContact(userId, token, contactId)
-        setContact(allData.data)
-        
+        const allData = await fetchShowContact(userId, token, contactId);
+        setContact(allData.data);
+
         const companyId = allData.data.attributes.company?.id;
         console.log("CompanyID: ", companyId);
 
-        if(!companyId) {
-          console.log("No company for this contact");
-          setOtherContact([]);
-          return;
-        }
-
-  useEffect(() => {
-    const contactFetcher = async () => {
-      try {
-        const allData = await fetchShowContact(userId, token, contactId)
-        setContact(allData.data)
-        
-        const companyId = allData.data.attributes.company?.id;
-        console.log("CompanyID: ", companyId);
-
-        if(!companyId) {
+        if (!companyId) {
           console.log("No company for this contact");
           setOtherContact([]);
           return;
         }
 
         try {
-          const companyContacts = await fetchCompanyContact(userId, token, companyId)
+          const companyContacts = await fetchCompanyContact(userId, token, companyId);
           setOtherContact(companyContacts);
         } catch (error) {
           setFetchError(`${(error as Error).message}. Please try again later.`);
@@ -91,11 +76,12 @@ function ShowContact() {
       } catch (error) {
         setFetchError(`${(error as Error).message}. Please try again later.`);
       }
-    }
+    };
 
     if (contactIdInt) {
       contactFetcher();
     }
+    
   }, [contactId, token]);
 
   const filteredOtherContacts = contact?.id
@@ -103,6 +89,7 @@ function ShowContact() {
         (otherContact) => contact?.id && otherContact.id !== contact.id
       )
     : [];
+
   return (
     <section className="flex justify-between w-full">
       {fetchError && <p className="error">{fetchError}</p>}
