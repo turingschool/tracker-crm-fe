@@ -35,10 +35,10 @@ export const DashBoard : React.FC = () => {
 
     const ConditionallyRenderBtn: React.FC<CountProps> = ({ section, sectionCount, sectionUrl, sectionDescription}) => {
     if (sectionCount >= 1) {
-        return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${sectionCount}`}</label>
+        return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashNum">{`${sectionCount}`}</label>
         <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>{`${sectionDescription}`}</label></>
     }
-    return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${sectionCount}`}</label>
+    return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashNum">{`${sectionCount}`}</label>
         <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to={`${sectionUrl}`}>Add new {section}</Link></>
     }
 
