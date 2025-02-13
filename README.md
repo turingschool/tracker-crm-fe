@@ -477,6 +477,8 @@ Click on a company to see detailed information on a dedicated page, including th
 Add new companies by filling out a simple form with fields like name, website, address, and notes.
 - Search for a Company:
 Use the search bar to quickly find companies by name, enhancing efficiency and user experience.
+- Delete a Company:
+Click on the delete button in the company details page to remove a company. A confirmation modal will appear to verify the decision before proceeding. Deleting a company does not remove its associated contacts.
 
 ![Companies Section Demo](public/assets/companies.gif)
 
@@ -543,6 +545,10 @@ FORMAT: lastname, firstname
 **Cirbo, Candice**
 - [Github](https://github.com/ccirbo)
 - [LinkedIn](https://www.linkedin.com/in/candicecirbo/)
+
+**Cochran, James**
+- [Github](https://github.com/James-Cochran)
+- [LinkedIn](https://www.linkedin.com/in/james-cochran-/)
 
 **Croy, Lito**
 - [Github](https://github.com/litobot)
