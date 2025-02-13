@@ -47,7 +47,7 @@ const mockContactsData = {
       },
     },
     {
-      id: "3", // Add Alice Green here
+      id: "3",
       type: "contacts",
       attributes: {
         first_name: "Alice",
