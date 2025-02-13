@@ -512,10 +512,11 @@ Choose a company that exists under your profile.
 
 ![Add New Job Application Page Demo](./src/assets/newJobAppPage.png)
 
-- Edit A Job Application:
-Edit several of the fields of an application that has already been input into the system to stay up to date on where in the process the application is at.
+- Edit A Job Application: Job applications can be edited by clicking the "Edit" button to open a modal and edit any of the fields. 
 
 ![Edit Job Application Page](./src/assets/EditJobApp.png)
+- Edit an Application Date: Job application dates can also be edited directly on the job application page by clicking on the "Applied On" date to pull up an interactive calendar, and cliking on a new date. 
+![Edit Job Application Date Page](./src/assets/editJobAppDate.png)
 <!-- CONTRIBUTING -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
