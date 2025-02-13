@@ -40,38 +40,34 @@ function Companies() {
   }, [searchTerm, companies]);
 
   return (
-    <div className="flex min-h-screen">
+    <main className="flex">
+      <div className="w-[76vw] pl-[6vw]">
+        <h1 className="text-[5.5vh] font-bold text-cyan-600 tracking-wide mb-[2vh] mt-[8vh]">
+          Companies
+        </h1>
 
-
-      {/* Main Content */}
-      <main className="flex-1 p-6 bg-gray-100">
-        <h1 className="text-2xl font-bold mb-4">Companies</h1>
-
-        {/* Search and Add New Button */}
-        <div className="flex justify-between mb-4">
+        <div className="flex justify-between items-center">
           <input
             type="text"
-            placeholder="Search companies..."
-            className="p-2 border border-gray-300 rounded-lg w-1/2"
+            placeholder="🔍 Search Companies"
+            className="py-2 px-4 rounded w-[22vw] min-w-min border-2 border-slate-800"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Link
-            to="/companies/new"
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-          >
-            Add New
+          <Link to="/companies/new">
+            <button className="bg-cyan-600 hover:bg-cyan-500 text-white tracking-wide py-2 px-4 rounded max-w-max">
+            Add New +
+            </button>
           </Link>
         </div>
 
-        {/* Companies Table */}
         {isLoading ? (
           <p data-testid="loading-message">Loading...</p>
         ) : filteredCompanies.length > 0 ? (
-          <table className="table-auto w-full bg-white border border-gray-300 rounded-lg shadow-md">
-            <thead className="bg-gray-200">
+          <table className="w-[70vw] mt-[1.5vh]">
+            <thead className="border-t">
               <tr>
-                <th className="text-left p-4 border-b">Company Name</th>
+                <th className="text-left p-4 border-b">Name</th>
                 <th className="text-left p-4 border-b">Notes</th>
               </tr>
             </thead>
@@ -79,7 +75,7 @@ function Companies() {
             {filteredCompanies.map((company) => (
               <tr 
                 key={company.id} 
-                className="even:bg-gray-50 hover:bg-gray-100 cursor-pointer"
+                className="hover:bg-gray-100 cursor-pointer"
                 onClick={() => navigate(`/companies/${company.id}/contacts`)}
                 >
                 <td className="p-4 border-b">{company.attributes.name}</td>
@@ -91,8 +87,8 @@ function Companies() {
         ) : (
           <p data-testid="no-companies">No companies found</p>
         )}
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
 
