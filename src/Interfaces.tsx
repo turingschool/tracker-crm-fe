@@ -14,7 +14,7 @@ export interface UserData {
 }
 
 export interface UserInformationProps {
-  userData?: Partial<UserData>;
+  userData: UserData;
 }
 
 export interface CompanyAttributes {
@@ -48,56 +48,116 @@ export interface JobApplication {
   updated_at: string;
 }
 
+export interface DashBoardDattaI{
+  job_applications: [ null |
+    {
+      id: number;
+      position_title: string;
+      date_applied: string;
+      status: number;
+      notes: string;
+      job_description: string;
+      application_url: string;
+      created_at: string;
+      updated_at: string;
+      company_id: number;
+      user_id: number;
+    }
+  ],
+  contacts: [ null |
+    {
+      id: number;
+      first_name: string;
+      last_name: string;
+      email: string;
+      phone_number: string;
+      notes: string;
+      created_at: string;
+      updated_at: string;
+      user_id: number;
+      company_id: number;
+    }
+  ],
+  companies: [ null |
+    {
+      id: number;
+      user_id: number;
+      name: string;
+      website: string;
+      street_address: string;
+      city: string;
+      state: string;
+      zip_code: string;
+      notes: string;
+      created_at: string;
+      updated_at: string ;
+    }
+  ]
+}
 
+  export interface ContactAttributes {
+    company: { name: string };
+    first_name: string;
+    last_name: string;
+  }
 
+  export interface Contact {
+    id: string;
+    attributes: ContactAttributes;
+  }
 
+  export interface ContactData {
+    id: string;
+    type: string;
+    attributes: {
+      first_name: string;
+      last_name: string;
+      company_id: number;
+      email: string;
+      phone_number: string;
+      notes: string;
+      user_id: number;
+      company: {
+        id: number;
+        name: string;
+        website: string;
+        street_address: string;
+        city: string;
+        state: string;
+        zip_code: string;
+        notes: string;
+      };
+    };
+  }
 
-  export interface DashBoardDattaI{
-          job_applications: [ null |
-              {
-                  id: number;
-                  position_title: string;
-                  date_applied: string;
-                  status: number;
-                  notes: string;
-                  job_description: string;
-                  application_url: string;
-                  created_at: string;
-                  updated_at: string;
-                  company_id: number;
-                  user_id: number;
-              }
-          ],
-          contacts: [ null |
+  export interface FormInputData {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    companyId?: number | null;
+    notes: string;
+  };
 
-              {
-                  id: number;
-                  first_name: string;
-                  last_name: string;
-                  email: string;
-                  phone_number: string;
-                  notes: string;
-                  created_at: string;
-                  updated_at: string;
-                  user_id: number;
-                  company_id: number;
-              }
-          ],
-          companies: [ null |
+  export interface NewContact {
+    first_name: string,
+    last_name: string,
+    email: string,
+    phone_number: string,
+    notes: string,
+  }
 
-              {
-                  id: number;
-                  user_id: number;
-                  name: string;
-                  website: string;
-                  street_address: string;
-                  city: string;
-                  state: string;
-                  zip_code: string;
-                  notes: string;
-                  created_at: string;
-                  updated_at: string ;
-              }
-          ]
+  export interface DataCompile {
+    token?: string;
+    id?: number;
+    name?: string;
+    email?: string;
+    [key: string]: any;  
+  }
 
+  export interface UserRegistrationData {
+    name: string,
+    email: string,
+    password: string,
+    passwordConfirmation: string
   }

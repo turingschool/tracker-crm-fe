@@ -75,7 +75,7 @@ describe("Contacts page", () => {
     cy.get("input[type='search']").should(
       "have.attr",
       "placeholder",
-      "Search Contacts..."
+      "🔍 Search Contacts"
     );
   });
 
@@ -342,7 +342,7 @@ describe("Sad Paths - Contacts Page", () => {
     cy.get("input[type='search']").should(
       "have.attr",
       "placeholder",
-      "Search Contacts..."
+      "🔍 Search Contacts"
     );
 
     cy.get("table").find("th").should("have.length", 3);
