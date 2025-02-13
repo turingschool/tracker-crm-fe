@@ -14,6 +14,7 @@ function ShowContact() {
   const [contact, setContact] = useState<ContactData | null>(null);
   const [otherContacts, setOtherContact] = useState<Contact[]>([]);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const navigate = useNavigate();
   const userId = userData.user.data.id;
 
   useEffect(() => {
