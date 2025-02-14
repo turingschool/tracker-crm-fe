@@ -492,7 +492,7 @@ Key Functionalities Include:
 - Search for a Company:
   Use the search bar to quickly find companies by name, enhancing efficiency and user experience.
 - Delete a Company:
-Click on the delete button in the company details page to remove a company. A confirmation modal will appear to verify the decision before proceeding. Deleting a company does not remove its associated contacts.
+  Click on the delete button in the company details page to remove a company. A confirmation modal will appear to verify the decision before proceeding. Deleting a company does not remove its associated contacts.
 
 ![Companies Section Demo](public/assets/companies.gif)
 
