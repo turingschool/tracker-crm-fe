@@ -207,7 +207,8 @@ function CompanyShow() {
                 <label className="block text-gray-700 font-medium mb-[1vh]">Name</label>
                 <input 
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                  defaultValue={companyAttributes.name} 
+                  defaultValue={companyAttributes.name}
+                  placeholder="Company Name"
                 />
               </div>
 
@@ -216,7 +217,8 @@ function CompanyShow() {
                 <label className="block text-gray-700 font-medium mb-[1vh]">Website</label>
                 <input 
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                  defaultValue={companyAttributes.website} 
+                  defaultValue={companyAttributes.website}
+                  placeholder="https://example.com"
                 />
               </div>
 
@@ -225,19 +227,22 @@ function CompanyShow() {
                 <label className="block text-gray-700 font-medium mb-[1vh]">Street Address</label>
                 <input 
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                  defaultValue={companyAttributes.street_address} 
+                  defaultValue={companyAttributes.street_address}
+                  placeholder="123 Main St"
                 />
               </div>
 
-              {/* City, State, and Zip */}
+              {/* City Field */}
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">City</label>
                 <input 
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                  defaultValue={companyAttributes.city} 
+                  defaultValue={companyAttributes.city}
+                  placeholder="City"
                 />
               </div>
 
+              {/* State Dropdown */}
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">State</label>
                 <select
@@ -245,19 +250,27 @@ function CompanyShow() {
                   value={selectedState}
                   onChange={(event) => setSelectedState(event.target.value)}
                 >
-                  {US_STATES.map((state) => (
-                    <option key={state.code} value={state.code}>
-                      {state.name}
-                    </option>
-                  ))}
+                <option value="" disabled>
+                  Select a State
+                </option>
+
+                <option value="no-selection">No Selection</option>
+                
+                {US_STATES.map((state) => (
+                  <option key={state.code} value={state.code}>
+                    {state.name}
+                  </option>
+                ))}
                 </select>
               </div>
 
+              {/* Zip Code */}
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">Zip</label>
                 <input 
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                  defaultValue={companyAttributes.zip_code} 
+                  defaultValue={companyAttributes.zip_code}
+                  placeholder="12345"
                 />
               </div>
 
@@ -267,7 +280,8 @@ function CompanyShow() {
                 <textarea 
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
                   rows={3}
-                  defaultValue={companyAttributes.notes} 
+                  defaultValue={companyAttributes.notes}
+                  placeholder="Notes about the company"
                 />
               </div>
             </div>
