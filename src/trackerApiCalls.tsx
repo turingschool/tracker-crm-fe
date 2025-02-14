@@ -217,3 +217,34 @@ export const updateJobApplication = async (userParams: Record<string, any>) => {
     throw err;
   }
 };
+
+/*-----------------------------------// DELETE Item //--------------------------------------*/
+export const deleteItem = async (
+  userId: number,
+  itemType: string,
+  itemId: string | number,
+  token: string
+) => {
+  const resource = itemType === "company" ? "companies" : `${itemType}s`
+  try {
+    const response = await fetch(
+      `${backendURL}users/${userId}/${resource}/${itemId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to delete ${itemType}: ${response.status}`);
+    }
+
+    return true;
+  } catch (error) {
+    console.error(`Error deleting ${itemType}:`, error);
+    return false;
+  }
+};
