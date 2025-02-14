@@ -2,10 +2,19 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import { statusMap, statusStyles} from "../JobApplicationUtilities";
+import { fetchContacts } from "../../apiCalls";
+
 
 interface Company {
   id: string;
   name: string;
+}
+
+interface Contact {
+  id: string;
+  first_name: string;
+  last_name: string;
+  company_id: string;
 }
 
 function NewJobApplication() {
@@ -18,11 +27,39 @@ function NewJobApplication() {
   const [notes, setNotes] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [applicationURL, setApplicationURL] = useState('');
-  // const [contactInformation, setContactInformation] = useState('');
+  const [contactInformation, setContactInformation] = useState('');
   const [availableCompany, setAvailableCompany] = useState("");
   const [companies, setCompanies] = useState<Company[]>([]);
+  const [contacts, setContacts] = useState<Contact[]>([]);
 
-  // const selectedCompany = companies.find(company => company.id === availableCompany);
+useEffect(() => {
+  const getContacts = async () => {
+    if (!token || !userData?.user?.data?.id) return;
+
+    try {
+      const contacts = await fetchContacts(userData.user.data.id, token);
+
+      const contactList = contacts.map((contact: any) => ({
+        id: contact.id,
+        first_name: contact.attributes.first_name,
+        last_name: contact.attributes.last_name,
+        company_id: contact.attributes.company_id,
+      }));
+
+      setContacts(contactList);
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+    }
+  };
+
+  getContacts();
+}, [token, userData?.user?.data?.id]);
+
+const filteredContacts = contacts.filter(contact => {
+
+  return String(contact.company_id) === availableCompany;
+});
+
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -55,16 +92,17 @@ function NewJobApplication() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newJobApplication = {
+    const newJobApplication: any = {
         position_title: positionTitle,
         date_applied: dateApplied,
         status: status,
         notes: notes,
         job_description: jobDescription,
         application_url: applicationURL,
-        
-        company_id: availableCompany
+        company_id: availableCompany,
+        contact_id: contactInformation || null,
     };
+
 
     try {
       const apiURL = process.env.REACT_APP_BACKEND_API_URL;
@@ -114,7 +152,9 @@ function NewJobApplication() {
               <select
                 value={availableCompany || ""}
                 id="company"
-                onChange={(e) => setAvailableCompany(e.target.value)}
+                onChange={(e) => {
+                  setAvailableCompany(e.target.value);
+                }}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
                 required
               >
@@ -180,16 +220,24 @@ function NewJobApplication() {
             </label>
 
             {/* Contact Information */}
-            {/* <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
+           <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
               <span className="font-semibold">Contact Information:</span>
-              <input
-                type="text"
+              <select
                 value={contactInformation}
+                id="appContact"
                 onChange={(e) => setContactInformation(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
-                placeholder='Contact info...'
-              />
-            </label> */}
+              >
+               <option value="" className="text-gray-400">
+                  Select a contact
+                </option>
+                {filteredContacts.map((contact) => (
+                  <option key={contact.id} value={contact.id}>
+                    {contact.first_name} {contact.last_name}
+                    </option>
+                ))}
+              </select>
+            </label>
           </div>
 
           <div className='m-2'>

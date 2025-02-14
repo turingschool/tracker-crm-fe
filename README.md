@@ -522,8 +522,11 @@ Click delete in show contact page to remove a contact, with a modal to verify th
 - View A Job Application:
 
 - Create A Job Application:
-  Add a new job application by filling out a form with fields for Position Title, Company, Date Applied, Application Status, Job Description, Application URL, and Notes.
-  Choose a company that exists under your profile.
+
+Add a new job application by filling out a form with fields for Position Title, Company, Date Applied, Application Status, Job Description, User Contacts, Application URL, and Notes.
+Choose a company that exists under your profile.
+
+
 
 ![Add New Job Application Page Demo](./src/assets/newJobAppPage.png)
 
@@ -625,6 +628,10 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/aloraalee)
 - [LinkedIn](https://www.linkedin.com/in/alorariley/)
 
+**Salazar, Kaelin**
+- [Github](https://github.com/kaelinpsalazar)
+- [LinkedIn](https://www.linkedin.com/in/kaelin-salazar/)
+
 **Verrill, Seth**
 - [Github](https://github.com/sethverrill)
 - [LinkedIn](https://www.linkedin.com/in/sethverrill/)
@@ -633,6 +640,7 @@ FORMAT: lastname, firstname
 
 - [Github](https://github.com/wally-yawn)
 - [LinkedIn](https://www.https://www.linkedin.com/in/wally-wallace-719b0875/)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
