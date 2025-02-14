@@ -66,7 +66,7 @@ describe('Create New Job Application page after logging in', () => {
     cy.wait('@postUserInfo');
     cy.get('a[href="/job_applications"]').first().click();
     cy.wait('@getJobApplications')
-    cy.get('.bg-teal-500').click();
+    cy.get('a < .bg-cyan-600').click();
   })
 
   describe("Happy Paths", () => {
