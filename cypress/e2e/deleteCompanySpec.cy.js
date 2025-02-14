@@ -166,14 +166,14 @@ describe("Delete Company", () => {
 
   it("Should open the delete confirmation modal", () => {
     cy.contains("button", "Delete").click();
-    cy.contains("Are you sure you want to delete this?").should("be.visible");
+    cy.contains("Are you sure you want to delete this company?").should("be.visible");
     cy.get("button").contains("Ok").should("be.visible");
     cy.get("button").contains("Cancel").should("be.visible");
   });
 
   it("Clicking outside the modal should close it", () => {
     cy.get("button").contains("Delete").click();
-    cy.contains("Are you sure you want to delete this?").should("be.visible");
+    cy.contains("Are you sure you want to delete this company?").should("be.visible");
     cy.get("button").contains("Ok").should("be.visible");
     cy.get("button").contains("Cancel").should("be.visible");
     
@@ -183,12 +183,12 @@ describe("Delete Company", () => {
 
   it("Clicking 'Cancel' should close the modal", () => {
     cy.get("button").contains("Delete").click();
-    cy.contains("Are you sure you want to delete this?").should("be.visible");
+    cy.contains("Are you sure you want to delete this company?").should("be.visible");
     cy.get("button").contains("Ok").should("be.visible");
     cy.get("button").contains("Cancel").should("be.visible");
   
     cy.get("button").contains("Cancel").click();
-    cy.contains("Are you sure you want to delete this?").should("not.exist");
+    cy.contains("Are you sure you want to delete this company?").should("not.exist");
   });
 
   it("Clicking 'OK' should trigger the delete request", () => {
@@ -199,7 +199,7 @@ describe("Delete Company", () => {
     ).as("deleteCompany");
   
     cy.get("button").contains("Delete").click();
-    cy.contains("Are you sure you want to delete this?").should("be.visible");
+    cy.contains("Are you sure you want to delete this company?").should("be.visible");
     cy.get("button").contains("Ok").should("be.visible");
     cy.get("button").contains("Cancel").should("be.visible");
   
@@ -245,7 +245,7 @@ describe("Delete Company", () => {
   
   it("Should show an error alert if deletion fails", () => {  
     cy.contains("Delete").should("exist").click();    
-    cy.contains("Are you sure you want to delete this?").should("be.visible");  
+    cy.contains("Are you sure you want to delete this company?").should("be.visible");  
     cy.get("button").contains("Ok").should("be.visible");
     cy.get("button").contains("Cancel").should("be.visible");
   
