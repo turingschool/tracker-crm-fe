@@ -116,13 +116,13 @@ describe("Delete a Contact", () => {
 
   it("Should open the delete confirmation modal", () => {
     cy.get("button").contains("Delete").click();
-    cy.contains("Are you sure you want to delete this?").should("be.visible");
+    cy.contains("Are you sure you want to delete this").should("be.visible");
   });
 
   it("Should close the delete confirmation modal when Cancel is clicked", () => {
     cy.get("button").contains("Delete").click();
     cy.contains("Cancel").click();
-    cy.contains("Are you sure you want to delete this?").should("not.exist");
+    cy.contains("Are you sure you want to delete this").should("not.exist");
     cy.url().should("include", "/contacts/1");
   });
 
@@ -147,9 +147,9 @@ describe("Delete a Contact", () => {
 
   it("Should close the modal when clicking outside", () => {
     cy.get("button").contains("Delete").click();
-    cy.contains("Are you sure you want to delete this?").should("be.visible");
+    cy.contains("Are you sure you want to delete this").should("be.visible");
     cy.get("body").click(0,1);
-    cy.contains("Are you sure you want to delete this?").should("not.exist");
+    cy.contains("Are you sure you want to delete this").should("not.exist");
   });
 
   it("Should show an error alert if deletion fails", () => {  
