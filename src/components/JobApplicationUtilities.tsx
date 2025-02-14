@@ -9,11 +9,11 @@ export const statusMap: { [key: number]: string } = {
 };
 
 export const statusStyles: { [key: string]: string } = {
-  Submitted: 'bg-yellow-200 text-black',
-  Interviewing: 'bg-green-100 text-black',
-  Offer: 'bg-teal-600 text-white',
-  Rejected: 'bg-red-500 text-white',
-  'Phone Screen': 'bg-yellow-300 text-black',
+  Submitted: 'bg-[#e7e07e] text-black',
+  Interviewing: 'bg-[#e1f3e4] text-black',
+  Offer: 'bg-[#10a689] text-white',
+  Rejected: 'bg-[#cd644f] text-white',
+  'Phone Screen': 'bg-[#fac712] text-black',
   'Code Challenge': 'bg-blue-200 text-black',
-  'Not Yet Applied': 'bg-gray-200 text-black',
+  'Not Yet Applied': 'bg-[#e6e6e6] text-black',
 };

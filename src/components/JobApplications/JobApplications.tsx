@@ -92,7 +92,8 @@ const ApplicationsGrid: React.FC = () => {
                     <td className="p-4 border-b">
                       <Link to={`/job_applications/${app.id}`}>
                         <span
-                          className={`py-2 px-6 text-sm inline-block w-[10vw] text-center ${statusStyles[statusMap[app.status]]}`}
+                          className={`py-2 px-6 text-sm inline-block text-center w-[10vw] min-w-[80px] max-w-[200px] 
+              truncate overflow-hidden whitespace-nowrap ${statusStyles[statusMap[app.status]]}`}
                         >
                           {statusMap[app.status]}
                         </span>
