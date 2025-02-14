@@ -195,13 +195,13 @@ describe("View specific job app page with all fields filled in", () => {
 
     cy.wait("@showSingleJobApp");
 
-    cy.get('h1.text-cyan-600').should("have.text", "Backend Developer");
-    cy.get('h2.text-cyan-600').first().should("have.text", "Creative Solutions Inc.");
+    cy.get('h1.text-cyan-600').should("have.text", "Backend Developer")
+      .next().should("have.text", "Creative Solutions Inc.");
   });
   
   it("navigates to the company details page", () => {
     cy.wait("@showSingleJobApp");
-    cy.get('h2.text-cyan-600').first().click()
+    cy.get('h2').contains("Creative Solutions Inc.").click()
     cy.wait("@getCompanyDetails")
 
     cy.location('pathname').should('match', /\/companies\/3\/contacts$/)
@@ -209,12 +209,9 @@ describe("View specific job app page with all fields filled in", () => {
 
   it("displays the correct company details", () => {
     cy.wait("@showSingleJobApp");
-    cy.get('h2.text-cyan-600').first().click()
+    cy.get('h2').contains("Creative Solutions Inc.").click()
     cy.wait("@getCompanyDetails")
     cy.get("h1").should("have.text", "Company Details");
-
-    cy.get("h2").contains("Company Name:")
-      .next().should("have.text", "Creative Solutions Inc.");
     
     cy.get("h2").contains("Website:")
       .next().should("have.text", "https://creativesolutions.com");
@@ -238,17 +235,13 @@ describe("View specific job app page with all fields filled in", () => {
 
     cy.wait("@showSingleJobApp");
 
-    cy.get("p.font-medium")
+    cy.get("p.font-bold")
       .should("contain.text", "Applied On")
-      .within(() => {
-        cy.get("span.font-semibold").should("have.text", "2024-08-20"); {/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
-      });
+    cy.get('[data-testid="application-date"]').should("have.text", "August 20, 2024"); {/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
 
     cy.get("p.mb-6")
       .should("contain.text", "Status:")
-      .within(() => {
-        cy.get("span").should("have.text", "Interviewing");{/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
-      });
+      cy.get('[data-testid="job-status"]').should("have.text", "Interviewing");{/* REFACTOR AWAITING UPDATE JOB APP ROUTE */}
   });
 
   it("displays notes and edit button", () => {
@@ -497,6 +490,28 @@ describe("Editability of specific job application fields", () => {
     cy.get("tbody > tr").contains("Creative").click();
   });
 
+  it("edits an application date", () => {
+    cy.intercept("PATCH", "http://localhost:3001/api/v1/users/1/job_applications/3", (req) => {
+      console.log(req.body)
+      req.on("response", (res) => {
+      });
+      req.reply({
+        statusCode: 200,
+        fixture: "mockJobAppDateUpdate",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }).as("updateJobAppDate");
+
+    cy.wait("@showSingleJobApp");
+    cy.get('[data-testid="application-date"]').click()
+    cy.get('[aria-label="Choose Thursday, August 1st, 2024"]').click()
+    cy.get('[data-testid="application-date"]').should('have.text', 'August 1, 2024')
+    cy.wait("@updateJobAppDate")
+    cy.get('[data-testid="application-date"]').should('have.text', 'August 1, 2024')
+  })
+
   it("Should display the edit model when edit button is clicked", () => {
     cy.get('[data-testid="edit-modal"]').should('not.exist');
     cy.get('[data-testid="edit-modal-title"]').should('not.exist');
@@ -535,7 +550,7 @@ describe("Editability of specific job application fields", () => {
           "Content-Type": "application/json",
         },
       });
-    }).as("showSingleJobAppEmptyFields");
+    }).as("updateJobApp");
 
     cy.get('[data-testid="edit-button"]').click()
     
@@ -545,6 +560,15 @@ describe("Editability of specific job application fields", () => {
     cy.get('[data-testid="edit-modal-form-url"]').clear().type("https://example.com");
     cy.get('[data-testid="edit-modal-form-notes"]').clear().type("Talked with recruiter, sounds like a great opportunity to learn new things");
     cy.get('[data-testid="edit-modal-form-submit-button"]').click();
+
+    cy.reload();
+    cy.get("#email").type("danny_de@email.com");
+    cy.get("#password").type("jerseyMikesRox7");
+    cy.get('[data-testid="login-button"]').click();
+    cy.get('[data-testid="applications-iconD"]').click();
+    cy.get("tbody > tr").contains("Creative").click();
+
+    cy.wait("@updateJobApp");
 
     cy.get('[data-testid="job-Title"]').should('contain', 'Frontend Developer')
     cy.get('[data-testid="job-companyName"]').should('contain', 'Creative Solutions Inc.')
@@ -567,8 +591,20 @@ describe("Editability of specific job application fields", () => {
         },
       });
     }).as("showSingleJobAppEmptyFields");
+
     cy.get('[data-testid="edit-button"]').click()
     cy.get('[data-testid="edit-modal-form-submit-button"]').click();
+    cy.wait("@showSingleJobAppEmptyFields");
+
+    cy.reload()
+    cy.get("#email").type("danny_de@email.com")
+    cy.get("#password").type("jerseyMikesRox7")
+    cy.get('[data-testid="login-button"]').click();
+    cy.get('[data-testid="applications-iconD"]').click();
+    cy.get("tbody > tr").contains("Creative").click();
+
+    cy.wait("@getJobApplications");
+    cy.wait("@showSingleJobApp")
 
     cy.get('[data-testid="job-Title"]').should('contain', 'Backend Developer')
     cy.get('[data-testid="job-companyName"]').should('contain', 'Creative Solutions Inc.')
