@@ -44,6 +44,8 @@ export const createCompany = async (
     if (!response.ok) {
       throw new Error("Failed to add the company");
     }
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error("Error adding company:", error);
     throw error;
@@ -80,6 +82,7 @@ export const getACompany = async (
     throw error; // Propagate the error for the caller to handle
   }
 };
+
 
 /*-----------------------------------// GET USER //--------------------------------------*/
 
@@ -246,3 +249,4 @@ export const deleteItem = async (
     return false;
   }
 };
+
