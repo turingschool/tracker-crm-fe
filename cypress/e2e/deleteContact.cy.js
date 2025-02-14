@@ -142,6 +142,7 @@ describe("Delete a Contact", () => {
 
     cy.wait("@deleteContact");
     cy.url().should("include", "/contacts");
+    cy.contains("John Smith").should("not.exist")
   });
 
   it("Should close the modal when clicking outside", () => {
