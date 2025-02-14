@@ -93,7 +93,7 @@ describe("Contacts page", () => {
 
   it("Should display the correct number of companies", () => {
     cy.wait("@get-contacts");
-    cy.get("table").find("tr").should("have.length", 4);
+    cy.get("table").find("tr").should("have.length", 5);
   });
 
   it("Should display the correct company information", () => {
