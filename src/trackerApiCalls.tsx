@@ -83,6 +83,7 @@ export const getACompany = async (
   }
 };
 
+
 /*-----------------------------------// GET USER //--------------------------------------*/
 
 export const getUser = async (userId: number) => {
@@ -239,7 +240,9 @@ export const deleteItem = async (
     );
 
     if (!response.ok) {
+
       throw new Error(`Failed to delete ${itemType}: ${response.status}`);
+
     }
 
     return true;
@@ -248,3 +251,4 @@ export const deleteItem = async (
     return false;
   }
 };
+
