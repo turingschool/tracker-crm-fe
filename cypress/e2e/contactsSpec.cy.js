@@ -75,7 +75,7 @@ describe("Contacts page", () => {
     cy.get("input[type='search']").should(
       "have.attr",
       "placeholder",
-      "Search Contacts..."
+      "🔍 Search Contacts"
     );
   });
 
@@ -93,7 +93,7 @@ describe("Contacts page", () => {
 
   it("Should display the correct number of companies", () => {
     cy.wait("@get-contacts");
-    cy.get("table").find("tr").should("have.length", 4);
+    cy.get("table").find("tr").should("have.length", 5);
   });
 
   it("Should display the correct company information", () => {
@@ -342,7 +342,7 @@ describe("Sad Paths - Contacts Page", () => {
     cy.get("input[type='search']").should(
       "have.attr",
       "placeholder",
-      "Search Contacts..."
+      "🔍 Search Contacts"
     );
 
     cy.get("table").find("th").should("have.length", 3);
