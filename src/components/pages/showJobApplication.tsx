@@ -3,6 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { showJobApp, updateJobApplication } from "../../trackerApiCalls";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { statusMap, statusStyles} from "../JobApplicationUtilities";
+import DatePicker from 'react-datepicker'
+import moment from 'moment-timezone'
 
 interface Contact {
   id: number;
@@ -15,7 +17,7 @@ interface Contact {
 
 interface JobApplicationAttributes {
   position_title: string;
-  date_applied: Date;
+  date_applied: string;
   status: number;
   notes: string;
   job_description: string;
@@ -46,7 +48,9 @@ function JobApplication() {
   const [notes, setNotes] = useState('');
   const [jobDescription, setJobDescription] = useState('');
   const [applicationURL, setApplicationURL] = useState('');
+  const [dateApplied, setDateApplied] = useState('');
   const [companyId, setCompanyId] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (jobAppId) {
@@ -55,6 +59,7 @@ function JobApplication() {
           const id = parseInt(jobAppId, 10);
           if (isNaN(id)) throw new Error("Invalid jobAppId.");
           const data = await showJobApp(user.data.id, id, token);
+          
           setJobApp(data.data.attributes as JobApplicationAttributes);
           setPositionTitle(data.data.attributes.position_title)
           setStatus(data.data.attributes.status)
@@ -62,6 +67,7 @@ function JobApplication() {
           setJobDescription(data.data.attributes.job_description)
           setApplicationURL(data.data.attributes.application_url)
           setCompanyId(data.data.attributes.company_id)
+          setDateApplied(moment(data.data.attributes.date_applied).local().format("YYYY-MM-DD"))
 
         } catch (err) {
           console.error("Failed to fetch job application:", err);
@@ -78,8 +84,12 @@ function JobApplication() {
   const openEdit = () => setIsEditModelOpen(true);
   const closeEdit = () => setIsEditModelOpen(false);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = (event ?: React.FormEvent<HTMLFormElement> | Date) => {
+    if (event instanceof Event) {
+      event.preventDefault()
+    }
+
+    setIsEditing(false)
 
     const compileData: DataCompile = {
       userId: userData.user.data.id ? Number(userData.user.data.id) : undefined,
@@ -89,12 +99,12 @@ function JobApplication() {
       status: status,
       notes: notes,
       job_description: jobDescription,
-      application_url: applicationURL
+      application_url: applicationURL, 
+      date_applied: dateApplied
     }
-    console.log(compileData)
+
     updateJobApplication(compileData)
       .then((updatedApplication) => {
-        console.log("Application updated successfully:", updatedApplication);
         setJobApp(updatedApplication.data.attributes)
       })
       .catch((error) => {
@@ -102,6 +112,12 @@ function JobApplication() {
       });
     closeEdit()
   }
+
+  useEffect(() => {
+    if (dateApplied) {
+      handleSubmit()
+    }
+  }, [dateApplied])
 
   return (
     <div className="min-h-screen p-4 sm:p-8 pt-8 sm:pt-36">
@@ -113,25 +129,54 @@ function JobApplication() {
             data-testid="job-Title">
               {jobApp.position_title}
             </h1>
-            <Link className="bg-transparent text-cyan-600 px-4 py-2 rounded inline-block text-center ml-2 hover:underline"
+            <Link className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline"
               to={`/companies/${companyId}/contacts`}>
-              <h2 className="text-cyan-600 text-2xl sm:text-3xl mb-6"
+              <h2 className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline"
             data-testid="job-companyName">
               {jobApp.company_name}
             </h2>
             </Link>
-            <p className="font-medium mb-4">
-              Applied On:{" "}
-              <span className="font-semibold">
-                {`${jobApp.date_applied}`}
-              </span>
-            </p>
-            <p className="mb-6">
-              Status:{" "}
-              <span className={`py-1 px-2 rounded ${statusStyles[statusMap[jobApp.status]]}`} data-testid="job-status">
-                {statusMap[jobApp.status]}
-              </span>
-            </p>
+            <div className='flex align-row mt-5'>
+              <p className="font-bold mb-4 mr-2">
+                Applied On: {" "}
+              </p>
+              {isEditing ? (
+                  <div
+                    className='flex flex-col'
+                    >
+                      <DatePicker
+                      selected={new Date(dateApplied)}
+                      onChange={(dateApplied: Date | null) => {
+                        if (dateApplied) {
+                          setDateApplied(moment(dateApplied).format("YYYY-MM-DD"))
+                        }
+                      }}
+                      inline
+                      className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline cursor:pointer"
+                      onClickOutside={() => setIsEditing(false)}
+                      required
+                />
+                </div>
+              ) : (
+                <span 
+                className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline cursor:pointer"
+                data-testid="application-date"
+                onClick={() => setIsEditing(true)}
+                >
+                  {moment(dateApplied).isValid()
+                    ? moment(dateApplied).format("MMMM D, YYYY")
+                    : dateApplied}
+                </span>
+              )}
+            </div>
+            <div className='flex-row'>
+              <p className="mb-6 font-bold">
+                Status:{" "}
+                <span className={`py-1 px-2 rounded ${statusStyles[statusMap[jobApp.status]]}`} data-testid="job-status">
+                  {statusMap[jobApp.status]}
+                </span>
+              </p>
+            </div>
             <h3 className="text-cyan-600 text-2xl mb-4">Notes</h3>
             <p className={`mb-8 ${jobApp.notes ? "" : "text-cyan-500"}`} data-testid="job-notes">
               {jobApp.notes ? jobApp.notes : "Click edit to add some notes."}

@@ -535,6 +535,9 @@ Choose a company that exists under your profile.
 
 ![Edit Job Application Page](./src/assets/EditJobApp.png)
 
+- Edit an Application Date: Job application dates can also be edited directly on the job application page by clicking on the "Applied On" date to pull up an interactive calendar, and cliking on a new date. 
+![Edit Job Application Date Page](./src/assets/editJobAppDate.png)
+
 <!-- CONTRIBUTING -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -557,6 +560,10 @@ FORMAT: lastname, firstname
 
 - [Github](https://github.com/stefanjbloom)
 - [LinkedIn](https://www.linkedin.com/in/stefanjbloom/)
+
+**Cardona, Danielle**
+- [Github](https://github.com/dcardona23)
+- [LinkedIn](www.linkedin.com/in/danielle-cardona-se)
 
 **Chirchirillo, Joe**
 
