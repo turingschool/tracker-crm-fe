@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import { statusMap, statusStyles} from "../JobApplicationUtilities";
+import { fetchContacts } from "../../apiCalls";
+
 
 interface Company {
   id: string;
@@ -30,45 +32,34 @@ function NewJobApplication() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [contacts, setContacts] = useState<Contact[]>([]);
 
-  // const selectedCompany = companies.find(company => company.id === availableCompany);
+useEffect(() => {
+  const getContacts = async () => {
+    if (!token || !userData?.user?.data?.id) return;
 
-  useEffect(() => {
-    const fetchContacts = async () => {
-      try {
-        const apiURL = process.env.REACT_APP_BACKEND_API_URL;
-        const response = await fetch(`${apiURL}api/v1/users/${userData.user.data.id}/contacts`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-        });
-  
-        if (!response.ok) {
-          throw new Error(`Failed to fetch contacts: ${response.statusText}`);
-        }
-  
-        const data = await response.json();
-        const contactList = data.data.map((contact: any) => ({
-          id: contact.id,
-          first_name: contact.attributes.first_name,
-          last_name: contact.attributes.last_name,
-          company_id: contact.attributes.company_id
-        }));
-  
-        setContacts(contactList);
-      } catch (error) {
-        console.error("Fetch error", error);
-      }
-    };
-  
-    fetchContacts();
-  }, [userData.user.data.id, token]);
+    try {
+      const contacts = await fetchContacts(userData.user.data.id, token);
 
-  const filteredContacts = contacts.filter(contact => {
-    
-    return String(contact.company_id) === availableCompany;
-  });
+      const contactList = contacts.map((contact: any) => ({
+        id: contact.id,
+        first_name: contact.attributes.first_name,
+        last_name: contact.attributes.last_name,
+        company_id: contact.attributes.company_id,
+      }));
+
+      setContacts(contactList);
+    } catch (error) {
+      console.error("Error fetching contacts:", error);
+    }
+  };
+
+  getContacts();
+}, [token, userData?.user?.data?.id]);
+
+const filteredContacts = contacts.filter(contact => {
+
+  return String(contact.company_id) === availableCompany;
+});
+
 
   useEffect(() => {
     const fetchCompanies = async () => {
@@ -162,7 +153,6 @@ function NewJobApplication() {
                 value={availableCompany || ""}
                 id="company"
                 onChange={(e) => {
-                  console.log('Selected Company ID:', e.target.value);  // Log the selected company ID
                   setAvailableCompany(e.target.value);
                 }}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
