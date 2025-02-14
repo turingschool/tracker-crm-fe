@@ -505,7 +505,9 @@ Key Functionalities Include:
 - View All Contacts:
   Browse a comprehensive list of contacts with info like their name, company, and notes. Includes a search bar and ability to create a new contact.
 - View a Contact:
-  Click on a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page. Click the contact's email address to open their mail client with an email to the contact. Click on the company name to view company name details.
+Click on  a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page. Click the contact's email address to open their mail client with an email to the contact. Click on the company name to view company name details.
+- Delete a Contact:
+Click delete in show contact page to remove a contact, with a modal to verify the decision.
 - Add a new Contact
   Click on the Add New + button to navigate to a form where a user inputs a new contact and their associated information. The user has the ability to add a new company here as well.
 - Search for a Contact
@@ -522,8 +524,11 @@ Key Functionalities Include:
 - View A Job Application:
 
 - Create A Job Application:
-  Add a new job application by filling out a form with fields for Position Title, Company, Date Applied, Application Status, Job Description, Application URL, and Notes.
-  Choose a company that exists under your profile.
+
+Add a new job application by filling out a form with fields for Position Title, Company, Date Applied, Application Status, Job Description, User Contacts, Application URL, and Notes.
+Choose a company that exists under your profile.
+
+
 
 ![Add New Job Application Page Demo](./src/assets/newJobAppPage.png)
 
@@ -629,10 +634,19 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/aloraalee)
 - [LinkedIn](https://www.linkedin.com/in/alorariley/)
 
+**Salazar, Kaelin**
+- [Github](https://github.com/kaelinpsalazar)
+- [LinkedIn](https://www.linkedin.com/in/kaelin-salazar/)
+
+**Verrill, Seth**
+- [Github](https://github.com/sethverrill)
+- [LinkedIn](https://www.linkedin.com/in/sethverrill/)
+
 **Wallace, Wally**
 
 - [Github](https://github.com/wally-yawn)
 - [LinkedIn](https://www.https://www.linkedin.com/in/wally-wallace-719b0875/)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

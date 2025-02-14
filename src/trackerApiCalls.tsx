@@ -240,7 +240,9 @@ export const deleteItem = async (
     );
 
     if (!response.ok) {
-      throw new Error(`Failed to delete {itemType}: ${response.status}`);
+
+      throw new Error(`Failed to delete ${itemType}: ${response.status}`);
+
     }
 
     return true;
