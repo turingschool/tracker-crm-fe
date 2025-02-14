@@ -137,30 +137,51 @@ describe("Delete a Contact", () => {
       },
       { statusCode: 204 }
     ).as("deleteContact");
+
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts", {
+      statusCode: 200,
+      body: {
+        data: [
+          {
+            id: "2",
+            type: "contact",
+            attributes: {
+              first_name: "Jane",
+              last_name: "Smith",
+              email: "jane@example.com",
+              phone_number: "987-654-3210",
+              notes: "Another team member at Future Designs LLC",
+            },
+          },
+        ],
+      },
+    }).as("getContactsAfterDelete");
+
     cy.get("button").contains("Delete").click();
     cy.contains("Ok").click();
 
     cy.wait("@deleteContact");
+    cy.wait("@getContactsAfterDelete");
     cy.url().should("include", "/contacts");
-    cy.contains("John Smith").should("not.exist")
+    cy.contains("John Smith").should("not.exist");
   });
 
   it("Should close the modal when clicking outside", () => {
     cy.get("button").contains("Delete").click();
     cy.contains("Are you sure you want to delete this").should("be.visible");
-    cy.get("body").click(0,1);
+    cy.get("body").click(0, 1);
     cy.contains("Are you sure you want to delete this").should("not.exist");
   });
 
-  it("Should show an error alert if deletion fails", () => {  
-    cy.contains("Delete").should("exist").click();    
-    cy.contains("Are you sure you want to delete this?").should("be.visible");  
+  it("Should show an error alert if deletion fails", () => {
+    cy.contains("Delete").should("exist").click();
+    cy.contains("Are you sure you want to delete this").should("be.visible");
     cy.intercept("DELETE", "http://localhost:3001/api/v1/users/2/contacts/1", {
       statusCode: 500,
       body: { error: "Something went wrong while deleting the contact" },
-    }).as("deleteContactFail");  
-    cy.contains("Ok").should("exist").click();  
-    cy.wait("@deleteContactFail");  
+    }).as("deleteContactFail");
+    cy.contains("Ok").should("exist").click();
+    cy.wait("@deleteContactFail");
     cy.on("window:alert", (text) => {
       expect(text).to.contains("Failed to delete contact. Please try again");
     });
