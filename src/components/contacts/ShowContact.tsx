@@ -121,23 +121,20 @@ function ShowContact() {
               Notes:{" "}
             </h2>
             <p data-testid="note-text">{contact.attributes.notes}</p>
-             {/* Edit Contact Button */}
           <div className="mt-[40px] flex items-start ml-20">
             <button
               className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700"
               onClick={() => setIsEditOpen(true)}
             >
-              Edit Contact
+              Edit
             </button>
           </div>
-
-          {/* Edit Contact Modal */}
           <EditContactModal
             open={isEditOpen}
             setIsOpen={setIsEditOpen}
             contact={contact}
             userId={userId}
-            token={token}
+            token={token ?? ""} 
             onUpdate={handleUpdateContact}
           />
             <div className="mt-[80px] flex flex-col items-start ml-20">
