@@ -177,7 +177,7 @@ describe("Delete Company", () => {
     cy.get("button").contains("Ok").should("be.visible");
     cy.get("button").contains("Cancel").should("be.visible");
     
-    cy.get(".fixed.inset-0").click("topLeft"); // Click outside the modal
+    cy.get(".fixed.inset-0").click("topLeft"); 
     cy.contains("Are you sure you want to delete this?").should("not.exist");
   });
 
