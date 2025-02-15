@@ -19,8 +19,6 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
   token,
   onUpdate,
 }) => {
-  if (!open) return null;
-
   const [formData, setFormData] = useState({
     firstName: contact.attributes.first_name,
     lastName: contact.attributes.last_name,
@@ -28,6 +26,8 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
     phoneNumber: contact.attributes.phone_number || "",
     notes: contact.attributes.notes || "",
   });
+
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // 
 
   useEffect(() => {
     setFormData({
@@ -39,6 +39,8 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
     });
   }, [contact]);
 
+  if (!open) return null;
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -49,6 +51,8 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null); //
+  
     const updatedContactData = {
       first_name: formData.firstName,
       last_name: formData.lastName,
@@ -56,16 +60,21 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
       phone_number: formData.phoneNumber,
       notes: formData.notes,
     };
-
+  
     try {
-      const updatedContact = await fetchUpdatedContact(userId, contact.id, updatedContactData, token);
+      // ✅ Ensure `contact.id` is a number
+      const contactIdNumber = Number(contact.id);
+      if (isNaN(contactIdNumber)) throw new Error("Invalid contact ID");
+
+      const updatedContact = await fetchUpdatedContact(userId, contactIdNumber, updatedContactData, token);
       onUpdate(updatedContact);
       setIsOpen(false);
     } catch (error) {
       console.error("Failed to update contact:", error);
+      setErrorMessage("Failed to update contact.");
     }
   };
-
+  
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center" onClick={() => setIsOpen(false)}>
       <div className="bg-white p-6 rounded-lg shadow-lg w-[40vw] max-h-[90vh] overflow-y-auto relative" onClick={(e) => e.stopPropagation()}>
@@ -128,10 +137,15 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
               rows={3}
             />
           </div>
+          {errorMessage && (
+            <p className="error text-red-600 mt-2" data-testid="error-message">
+              {errorMessage}
+            </p>
+          )}
 
           <div className="flex justify-end">
             <button type="submit" className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700">
-              Save Changes
+              Save
             </button>
           </div>
         </form>
