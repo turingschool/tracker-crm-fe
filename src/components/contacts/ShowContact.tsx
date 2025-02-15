@@ -6,6 +6,7 @@ import DeleteItem from "../common/DeleteItem";
 import { deleteItem } from "../../trackerApiCalls";
 import { Contact, ContactData } from "../../Interfaces"
 import { fetchShowContact, fetchCompanyContact } from "../../apiCalls"
+import EditContactModal from "./EditContactModal";
 
 function ShowContact() {
   const { token, userData } = useUserLoggedContext();
@@ -16,6 +17,11 @@ function ShowContact() {
   const [fetchError, setFetchError] = useState<string | null>(null);
   const navigate = useNavigate();
   const userId = userData.user.data.id;
+  const [isEditOpen, setIsEditOpen] = useState<boolean>(false); 
+
+  const handleUpdateContact = (updatedContact: ContactData) => {
+    setContact(updatedContact);
+  };
 
   useEffect(() => {
     const contactFetcher = async () => {
@@ -115,6 +121,25 @@ function ShowContact() {
               Notes:{" "}
             </h2>
             <p data-testid="note-text">{contact.attributes.notes}</p>
+             {/* Edit Contact Button */}
+          <div className="mt-[40px] flex items-start ml-20">
+            <button
+              className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700"
+              onClick={() => setIsEditOpen(true)}
+            >
+              Edit Contact
+            </button>
+          </div>
+
+          {/* Edit Contact Modal */}
+          <EditContactModal
+            open={isEditOpen}
+            setIsOpen={setIsEditOpen}
+            contact={contact}
+            userId={userId}
+            token={token}
+            onUpdate={handleUpdateContact}
+          />
             <div className="mt-[80px] flex flex-col items-start ml-20">
               <DeleteItem
                 userId={userId}
