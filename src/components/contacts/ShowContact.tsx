@@ -18,7 +18,6 @@ function ShowContact() {
   const navigate = useNavigate();
   const userId = userData.user.data.id;
   const [isEditOpen, setIsEditOpen] = useState<boolean>(false); 
-
   const handleUpdateContact = (updatedContact: ContactData) => {
     setContact(updatedContact);
   };
@@ -54,7 +53,6 @@ function ShowContact() {
         setFetchError(`${(error as Error).message}. Please try again later.`);
       }
     }
-
     if (contactIdInt) {
       contactFetcher();
     }
@@ -66,49 +64,39 @@ function ShowContact() {
       )
     : [];
   return (
-    <section className="flex justify-between w-full">
+    <section className="flex">
       {fetchError && <p className="error">{fetchError}</p>}
       {contact ? (
         <>
-          <div className="w-[65%] pl-[3vw] mt-[1vh]">
+          <div className="w-[76vh] pl-[6vw] mt-[8vh]">
             <h1
               data-testid="contact-name"
-              className="text-[5vh] font-bold text-cyan-600 p-0"
+              className="text-[5.5vh] font-bold text-cyan-600 tracking-wide mb-[1vh]"
             >
               {contact.attributes.first_name} {contact.attributes.last_name}
             </h1>
             <h2
               data-testid="company-name"
-              className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline"
+              className="text-[2.5vh] font-bold text-cyan-700 hover:text-cyan-700"
             >
               {contact.attributes.company
                 ? 
                 <Link data-testid="company-link" to={`/companies/${contact.attributes.company_id}/contacts`}>{contact.attributes.company.name}</Link>
                 : "No Affiliated Companies" }
             </h2>
-            <div className="m-5">
-              <p>
-                <span
-                  data-testid="contact-email"
-                  className="text=[1vh] font-bold"
-                >
-                  Email:{" "}
-                </span>
+            <div className="mt-[2.5vh] ml-0">
+              <p className="text-black mb-[2vh]">
+                <span className="font-bold">Email: </span>
                 <a
-                  className="text-cyan-500 underline hover:text-cyan-700"
+                  className=""
                   data-testid="email-address"
                   href={`mailto:${contact.attributes.email}`}
                 >
                   {contact.attributes.email}
                 </a>
               </p>
-              <p>
-                <span
-                  data-testid="contact-phone"
-                  className="text=[1vh] font-bold"
-                >
-                  Phone:{" "}
-                </span>
+              <p className="text-black mb-[2vh]">
+                <span className="font-bold">Phone: </span>
                 <span data-testid="phone-num">
                   {contact.attributes.phone_number}
                 </span>
@@ -116,14 +104,14 @@ function ShowContact() {
             </div>
             <h2
               data-testid="notes"
-              className="text=[4vh] font-bold text-cyan-500"
+              className="text=[4vh] font-bold text-cyan-700"
             >
-              Notes:{" "}
+              Notes{" "}
             </h2>
             <p data-testid="note-text">{contact.attributes.notes}</p>
-          <div className="mt-[40px] flex items-start ml-20">
+          <div className="mt-[6vh] flex items-center justify-center space-x-6">
             <button
-              className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700"
+              className="border-2 border-cyan-600 text-cyan-600 px-8 py-2 rounded"
               onClick={() => setIsEditOpen(true)}
             >
               Edit
@@ -137,7 +125,7 @@ function ShowContact() {
             token={token ?? ""} 
             onUpdate={handleUpdateContact}
           />
-            <div className="mt-[80px] flex flex-col items-start ml-20">
+            <div className="mt-[20px] mt-[2vh] self-center ml-20">
               <DeleteItem
                 userId={userId}
                 itemId={contactId || ""}
@@ -148,10 +136,10 @@ function ShowContact() {
               />
             </div>
           </div>
-          <div className="w-[35%] text-left pr-[3vw] mt-[2vh]">
+          <div className="mt-12">
             <h2
               data-testid="other-contacts"
-              className="text-[3vh] inset-3 font-bold text-cyan-500 mb-[2vh]"
+              className="text-[2.5vh] font-bold text-cyan-700 mt-[13vh]"
             >
               {contact.attributes.company
                 ? `Other contacts at ${contact.attributes.company.name}`
@@ -162,7 +150,7 @@ function ShowContact() {
               {filteredOtherContacts.map((otherContact) => (
                 <li key={otherContact.id} className="font-normal">
                   <Link
-                    className="text-cyan-500 underline hover:text-cyan-700"
+                    className="text-cyan-600"
                     to={`/contacts/${otherContact.id}`}
                   >
                     <td className="p-4 border-b truncate max-w-[8vw]">

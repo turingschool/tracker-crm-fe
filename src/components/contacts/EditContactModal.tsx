@@ -38,7 +38,6 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
       notes: contact.attributes.notes || "",
     });
   }, [contact]);
-
   if (!open) return null;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -62,7 +61,6 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
     };
   
     try {
-      // ✅ Ensure `contact.id` is a number
       const contactIdNumber = Number(contact.id);
       if (isNaN(contactIdNumber)) throw new Error("Invalid contact ID");
 
@@ -82,27 +80,31 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
         <h2 className="text-xl font-bold text-cyan-600 mb-4">Edit Contact</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-gray-700 font-medium mb-1">First Name</label>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500"
-              required
-            />
+          <label className="block text-gray-700 font-medium mb-1">
+            First Name <span className="text-red-600">*</span>
+          </label>
+          <input
+            type="text"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleInputChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500"
+            required
+          />
           </div>
 
           <div>
-            <label className="block text-gray-700 font-medium mb-1">Last Name</label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500"
-              required
-            />
+          <label className="block text-gray-700 font-medium mb-1">
+            Last Name <span className="text-red-600">*</span>
+          </label>
+          <input
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleInputChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-cyan-500"
+            required
+          />
           </div>
 
           <div>
@@ -144,7 +146,7 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
           )}
 
           <div className="flex justify-end">
-            <button type="submit" className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-700">
+            <button type="submit" className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-500">
               Save
             </button>
           </div>

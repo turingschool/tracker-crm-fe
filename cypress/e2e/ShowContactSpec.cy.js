@@ -1,5 +1,4 @@
 import { mockContactsData } from "../fixtures/mockContactsData";
-import { mockDashboard } from "../fixtures/mockDashBoard.json"
 
 describe("Show a single contact page", () => {
   beforeEach(() => {
