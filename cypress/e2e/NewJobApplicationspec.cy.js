@@ -102,7 +102,7 @@ describe('Create New Job Application page after logging in', () => {
     cy.wait('@postUserInfo');
     cy.get('a[href="/job_applications"]').first().click();
     cy.wait('@getJobApplications')
-    cy.get('.bg-teal-500').click();
+    cy.get('a > .bg-cyan-600').click();
   })
 
   describe("Happy Paths", () => {
@@ -192,7 +192,7 @@ describe('Create New Job Application page after logging in', () => {
       cy.get('button[type="submit"]').click();
       cy.url().should('include', '/job_applications');
       cy.get(':nth-child(3) > :nth-child(2) > a').should('contain', 'Test Position');
-      cy.get(':nth-child(3) > :nth-child(3) > a > .py-1').should('contain', 'Offer');
+      cy.get(':nth-child(3) > :nth-child(3) > a > .py-2').should('contain', 'Offer');
     });
   })
 

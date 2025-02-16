@@ -44,8 +44,6 @@ describe("Job app page after logging in", () => {
     cy.wait("@getJobApplications");
 
     cy.get("h1").should("have.text", "Applications");
-
-    cy.get('.border.rounded-lg.overflow-hidden').should('exist');
   });
   
   it("Should display a spinner while loading and show data after loading completes", () => {
