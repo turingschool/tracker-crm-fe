@@ -94,7 +94,7 @@ function ShowContact() {
     
               <div className="mt-[2.5vh] ml-0">
               <p className="text-black mb-[2vh] flex">
-              <span className="font-bold w-[7vw]">Email</span>
+              <span data-testid="contact-email" className="font-bold w-[7vw]">Email</span>
               {contact.attributes.email ? (
                 <a
                   className="text-cyan-600 hover:underline"
@@ -111,7 +111,7 @@ function ShowContact() {
             </p>
 
             <p className="text-black mb-[2vh] flex">
-              <span className="font-bold w-[7vw]">Phone</span>
+              <span data-testid="contact-phone" className="font-bold w-[7vw]">Phone</span>
               {contact.attributes.phone_number ? (
                 <span data-testid="phone-num">{contact.attributes.phone_number}</span>
               ) : (
@@ -121,7 +121,6 @@ function ShowContact() {
               )}
             </p>
           </div>
-    
               <h2
                 data-testid="notes"
                 className="text-[2.5vh] font-bold text-cyan-700 mt-[2vh]"
@@ -131,26 +130,27 @@ function ShowContact() {
               <p data-testid="note-text" className="mt-[2vh]">
                 {contact.attributes.notes}
               </p>
-              
-              {/* Centered buttons & aligned text */}
               <div className="mt-[20vh] flex flex-col items-center space-y-4 ml-[-16vw]">
                 <button
                   className="border-2 border-cyan-600 text-cyan-600 px-6 py-2 rounded hover:bg-cyan-600 hover:text-white transition-all"
                   onClick={() => setIsEditOpen(true)}
                 >
                   Edit
-                </button>
-    
-                <DeleteItem
-                  userId={userId}
-                  itemId={contactId || ""}
-                  itemType="contact"
-                  deleteAction={deleteItem}
-                  token={token ?? ""}
-                  onDeleteSuccess={() => navigate("/contacts")}
-                />
+                </button>   
+                {contact && (
+                  <DeleteItem
+                    userId={userId}
+                    itemId={contactId || ""}
+                    itemType="contact"
+                    deleteAction={deleteItem}
+                    token={token ?? ""}
+                    onDeleteSuccess={() => {
+                      setContact(null); 
+                      navigate("/contacts");
+                    }}
+                  />
+                )}
               </div>
-    
               <EditContactModal
                 open={isEditOpen}
                 setIsOpen={setIsEditOpen}
@@ -160,8 +160,6 @@ function ShowContact() {
                 onUpdate={handleUpdateContact}
               />
             </div>
-    
-            {/* Spacing Fix for "Other Contacts/No Contacts" */}
             <div className="mt-[17vh]">
               <h2
                 data-testid="other-contacts"

@@ -619,6 +619,11 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/jimmacur)
 - [LinkedIn](https://www.linkedin.com/in/jimmacur/)
 
+**Manning, Terra**
+
+- [Github](https://github.com/TDManning)
+- [LinkedIn](https://www.linkedin.com/in/terra-manning/)
+
 **Messersmith, Renee**
 
 - [Github](https://github.com/reneemes)

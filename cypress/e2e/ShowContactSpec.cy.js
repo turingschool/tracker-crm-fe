@@ -138,16 +138,16 @@ describe("Show a single contact page", () => {
 
   it("Should display the contact's email and phone number", () => {
     cy.wait("@get-contact-details");
-    cy.get('[data-testid="contact-email"]').should("have.text", "Email: ");
+    cy.get('[data-testid="contact-email"]').should("have.text", "Email");
     cy.get('[data-testid="email-address"]').should("have.text", "123@example.com");
     cy.get('[data-testid="email-address"]').should('have.attr', 'href').and('include', 'mailto:123@example.com')
-    cy.get('[data-testid="contact-phone"]').should("have.text", "Phone: ");
+    cy.get('[data-testid="contact-phone"]').should("have.text", "Phone");
     cy.get('[data-testid="phone-num"]').should("have.text", "123-555-6789");
   });
 
   it("Should display a users notes", () => {
     cy.wait("@get-contact-details");
-    cy.get('[data-testid="notes"]').should("have.text", "Notes: ");
+    cy.get('[data-testid="notes"]').should("have.text", "Notes");
     cy.get('[data-testid="note-text"]').should("have.text", 'Detailed notes for John Smith');
   });
 
