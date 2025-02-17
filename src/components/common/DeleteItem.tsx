@@ -48,7 +48,7 @@ const DeleteItem = ({
         Delete
       </button>
 
-      {deleteModalOpen && (
+        {deleteModalOpen && (
         <div
           className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-75"
           onClick={() => setDeleteModalOpen(false)} 
@@ -63,14 +63,18 @@ const DeleteItem = ({
             </p>
             <button
               onClick={handleDelete}
-              className="bg-gray-200 text-red-600 px-4 py-2 rounded border border-black mr-2"
+
+              className="bg-gray-200 text-black px-4 py-2 rounded border border-black mr-2"
+
               disabled={deleting}
             >
               {deleting ? "Deleting ..." : "Ok"}
             </button>
             <button
               onClick={() => setDeleteModalOpen(false)}
-              className="bg-gray-200 text-red-600 px-4 py-2 rounded border border-black"
+
+              className="bg-gray-200 text-black px-4 py-2 rounded border border-black"
+
             >
               Cancel
             </button>
