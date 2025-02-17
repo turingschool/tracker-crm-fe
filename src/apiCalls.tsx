@@ -210,6 +210,33 @@ export const fetchShowContact = async (userId: number | undefined, token: string
   }
 }
 
+  /*-----------------------------------// Update - Contact //--------------------------------------*/
+  export const fetchUpdatedContact = async (
+    userId: number,
+    contactId: number,
+    updatedContactData: any,
+    token: string
+  ) => {
+    const response = await fetch(
+      `${backendURL}users/${userId}/contacts/${contactId}`, 
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ contact: updatedContactData }),
+      }
+    );
+  
+    if (!response.ok) {
+      throw new Error(`Failed to update contact. Status: ${response.status}`);
+    }
+  
+    const result = await response.json();
+    return result.data; 
+  };
+
   /*-----------------------------------//  Company Contacts //--------------------------------------*/
 export const fetchCompanyContact = async (userId: number | undefined, token: string | null, companyId: string) => {
   try {
