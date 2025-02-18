@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getACompany } from "../../trackerApiCalls";
+import { getACompany, updateCompany } from "../../trackerApiCalls";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import { US_STATES } from "../../constants/states";
 
@@ -43,7 +43,15 @@ function CompanyShow() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedState, setSelectedState] = useState("");
+  const [selectedState, setSelectedState] = useState<string>("");
+  const [name, setName] = useState("");
+  const [isNameValid, setIsNameValid] = useState(true);
+  const [website, setWebsite] = useState("");
+  const [streetAddress, setStreetAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [zipCode, setZipCode] = useState("");
+  const [notes, setNotes] = useState("");
+
   
   useEffect(() => {
     console.log("Fetching company data...");
@@ -56,6 +64,7 @@ function CompanyShow() {
         const companyId = parseInt(id);
         const data = await getACompany(userData.user.data.id, token!, companyId);
         setCompanyData(data);
+        setName(data?.company?.data?.attributes?.name || "");
       } catch (error) {
         console.error("Error fetching company data:", error);
         setError(error instanceof Error ? error.message : "Unknown error occurred");
@@ -69,8 +78,16 @@ function CompanyShow() {
   }, [token, userData, id]);
   
   useEffect(() => {
-    if (isEditModalOpen) {
-      const companyState = companyData?.company?.data?.attributes?.state;
+    if (isEditModalOpen && companyData) {
+      const attributes = companyData.company.data.attributes;
+      setName(attributes.name || "");
+      setWebsite(attributes.website || "");
+      setStreetAddress(attributes.street_address || "");
+      setCity(attributes.city || "");
+      setZipCode(attributes.zip_code || "");
+      setNotes(attributes.notes || "");
+
+      const companyState = attributes.state;
       if (companyState) {
         let foundState = US_STATES.find((s) => s.code === companyState)?.code;
         if (!foundState) {
@@ -82,6 +99,48 @@ function CompanyShow() {
       }
     }
   }, [isEditModalOpen, companyData]);
+
+  const handleSave = async () => {
+    if (!name.trim()) {
+      setIsNameValid(false);
+      return;
+    }
+  
+    try {
+      const updatedCompany = {
+        name,
+        state: selectedState || null,
+        website: website || null,
+        street_address: streetAddress || null,
+        city: city || null,
+        zip_code: zipCode || null,
+        notes: notes || null,
+      };
+  
+      const companyId = parseInt(id!);
+      const updatedData = await updateCompany(userData.user.data.id, token!, companyId, updatedCompany);
+  
+      if (!updatedData || !updatedData.data) {
+        throw new Error("Invalid API response structure: Missing 'data'");
+      }
+  
+      setCompanyData((prevData) => ({
+        company: {
+          data: {
+            attributes: {
+              ...(prevData?.company?.data?.attributes || {}),
+              ...(updatedData.data.attributes || {}),
+            },
+          },
+        },
+        contacts: prevData?.contacts ?? { data: [] },
+      }));
+  
+      setIsEditModalOpen(false);
+    } catch (error) {
+      console.error("Error updating company:", error);
+    }
+  };
   
   if (isLoading) {
     return <p className="text-center mt-10">Loading company details...</p>;
@@ -204,13 +263,30 @@ function CompanyShow() {
 
               {/* Name Field */}
               <div className="col-span-1">
-                <label className="block text-gray-700 font-medium mb-[1vh]">Name</label>
-                <input 
-                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                  defaultValue={companyAttributes.name}
+                <label className="block text-gray-700 font-medium mb-[1vh]">
+                  Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  className={`w-full px-[1vh] py-[1vh] border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 ${
+                    isNameValid ? "border-black" : "border-red-500"
+                  }`}
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    if (e.target.value.trim().length > 0) {
+                      setIsNameValid(true);
+                    }
+                  }}
+                  onBlur={() => {
+                    if (!name.trim()) {
+                      setIsNameValid(false);
+                    }
+                  }}
                   placeholder="Company Name"
                 />
+                {!isNameValid && <p className="text-red-500 text-sm">Company name is required.</p>}
               </div>
+
 
               {/* Website Field */}
               <div className="col-span-1">
@@ -218,6 +294,7 @@ function CompanyShow() {
                 <input 
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
                   defaultValue={companyAttributes.website}
+                  onChange={(e) => setWebsite(e.target.value)}
                   placeholder="https://example.com"
                 />
               </div>
@@ -228,6 +305,7 @@ function CompanyShow() {
                 <input 
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
                   defaultValue={companyAttributes.street_address}
+                  onChange={(e) => setStreetAddress(e.target.value)}
                   placeholder="123 Main St"
                 />
               </div>
@@ -238,6 +316,7 @@ function CompanyShow() {
                 <input 
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
                   defaultValue={companyAttributes.city}
+                  onChange={(e) => setCity(e.target.value)}
                   placeholder="City"
                 />
               </div>
@@ -250,17 +329,13 @@ function CompanyShow() {
                   value={selectedState}
                   onChange={(event) => setSelectedState(event.target.value)}
                 >
-                <option value="" disabled>
-                  Select a State
-                </option>
-
-                <option value="no-selection">No Selection</option>
-                
-                {US_STATES.map((state) => (
-                  <option key={state.code} value={state.code}>
-                    {state.name}
-                  </option>
-                ))}
+                  <option value="">Select a State</option>
+                  <option value="">Clear Selection</option>
+                  {US_STATES.map((state) => (
+                    <option key={state.code} value={state.code}>
+                      {state.name}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -270,6 +345,7 @@ function CompanyShow() {
                 <input 
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
                   defaultValue={companyAttributes.zip_code}
+                  onChange={(e) => setZipCode(e.target.value)}
                   placeholder="12345"
                 />
               </div>
@@ -281,6 +357,7 @@ function CompanyShow() {
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
                   rows={3}
                   defaultValue={companyAttributes.notes}
+                  onChange={(e) => setNotes(e.target.value)}
                   placeholder="Notes about the company"
                 />
               </div>
@@ -290,6 +367,7 @@ function CompanyShow() {
             <div className="flex justify-end mt-6">
               <button 
                 className="bg-cyan-600 text-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2"
+                onClick={handleSave}
               >
                 Save
               </button>
