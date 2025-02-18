@@ -51,6 +51,7 @@ function JobApplication() {
   const [dateApplied, setDateApplied] = useState("");
   const [companyId, setCompanyId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  const [statusUpdateFlag, setStatusUpdateFlag] = useState(false);
 
   useEffect(() => {
     if (jobAppId) {
@@ -123,10 +124,11 @@ function JobApplication() {
   }, [dateApplied])
 
   useEffect(() => {
-    if(status) {
+    if(statusUpdateFlag) {
       handleSubmit()
+      setStatusUpdateFlag(false)
     }
-  }, [status])
+  }, [status, statusUpdateFlag])
     
   return (
     <div className="min-h-screen p-4 sm:p-8 pt-8 sm:pt-36">
@@ -152,7 +154,7 @@ function JobApplication() {
               </h2>
             </Link>
             <div className='text-[1.25vw] font-[Helvetica Neue] flex flex-row items-center flex align-row mt-5 mb-4 font-bold'>
-              <p className="mr-2">
+              <p id="applied-on" className="mr-2">
                 Applied On: {" "}
               </p>
               {isEditing ? (
@@ -185,11 +187,15 @@ function JobApplication() {
               )}
             </div>
             <div className="text-[1.25vw] font-[Helvetica Neue] flex flex-row items-center ">
-              <p className="font-bold mr-2">Application Status:</p>
+              <p id="application-status" className="font-bold mr-2">Status:</p>
                 <select
                   value={status}
                   id="appStatus"
-                  onChange={(e) => setStatus(Number(e.target.value))}
+                  onChange={(e) => {
+                    setStatus(Number(e.target.value))
+                    handleSubmit()
+                    setStatusUpdateFlag(true)
+                  }}
                   className={`p-2 border-4 rounded-lg focus:outline-none focus:ring-2 m-2 ${statusMap[status] ? statusStyles[statusMap[status]] : ''
                     }`}
                   required >

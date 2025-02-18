@@ -255,21 +255,13 @@ describe("View specific job app page with all fields filled in", () => {
 
   it("displays application details", () => {
     cy.wait("@showSingleJobApp");
-
-    cy.get("p.font-bold").should("contain.text", "Applied On");
-    cy.get('[data-testid="application-date"]').should(
-      "have.text",
-      "August 20, 2024"
-    );
-    {
-      /* REFACTOR AWAITING UPDATE JOB APP ROUTE */
-    }
-
-    cy.get("p.mb-6").should("contain.text", "Status:");
-    cy.get('[data-testid="job-status"]').should("have.text", "Interviewing");
-    {
-      /* REFACTOR AWAITING UPDATE JOB APP ROUTE */
-    }
+    cy.get("#applied-on")
+      .should("contain.text", "Applied On");
+    cy.get('[data-testid="application-date"]').should("have.text", "August 20, 2024"); 
+    
+    cy.get("#application-status")
+      .should("contain.text", "Status:");
+    cy.get('#appStatus').should("have.value", "2");
   });
 
   it("displays notes and edit button", () => {
@@ -281,9 +273,6 @@ describe("View specific job app page with all fields filled in", () => {
       "Had a technical interview, awaiting decision."
     );
     cy.get("button.bg-transparent").should("have.text", "Edit");
-    {
-      /* REFACTOR AWAITING UPDATE JOB APP ROUTE */
-    }
   });
 
   it("displays job description and link", () => {
@@ -608,6 +597,39 @@ describe("Editability of specific job application fields", () => {
     );
   });
 
+  it("Edits an application status from the application show page", () => {
+    cy.intercept(
+      "PATCH",
+      "http://localhost:3001/api/v1/users/1/job_applications/3",
+      (req) => {
+        console.log(req.body);
+        req.on("response", (res) => {});
+        req.reply({
+          statusCode: 200,
+          fixture: "mockJobAppStatusUpdate",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+    ).as("updateJobAppStatus");
+
+    cy.wait("@showSingleJobApp");
+    cy.get('#appStatus').should(
+      "have.value", 
+      "2"
+    );
+    cy.get('#appStatus').select('Offer').should(
+      'have.value', 
+      '3'
+    );
+    cy.wait("@updateJobAppStatus");
+    cy.get('#appStatus').should(
+      "have.value",
+      "3"
+    );
+  });
+
   it("Should display the edit model when edit button is clicked", () => {
     cy.get('[data-testid="edit-modal"]').should("not.exist");
     cy.get('[data-testid="edit-modal-title"]').should("not.exist");
@@ -696,7 +718,7 @@ describe("Editability of specific job application fields", () => {
       "contain",
       "Creative Solutions Inc."
     );
-    cy.get('[data-testid="job-status"]').should("have.text", "Offer");
+    cy.get('#appStatus').should("have.value", "2");
     cy.get('[data-testid="job-notes"]').should(
       "contain",
       "Talked with recruiter, sounds like a great opportunity to learn new things"
@@ -746,7 +768,7 @@ describe("Editability of specific job application fields", () => {
       "contain",
       "Creative Solutions Inc."
     );
-    cy.get('[data-testid="job-status"]').should("have.text", "Interviewing");
+    cy.get('#appStatus').should("have.value", "2");
     cy.get('[data-testid="job-notes"]').should(
       "contain",
       "Had a technical interview, awaiting decision."
