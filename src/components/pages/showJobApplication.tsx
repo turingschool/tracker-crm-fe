@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { showJobApp, updateJobApplication } from "../../trackerApiCalls";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
-import { statusMap, statusStyles} from "../JobApplicationUtilities";
-import DatePicker from 'react-datepicker'
-import moment from 'moment-timezone'
+import { statusMap, statusStyles } from "../JobApplicationUtilities";
+import DatePicker from "react-datepicker";
+import moment from "moment-timezone";
 
 interface Contact {
   id: number;
@@ -31,25 +31,25 @@ interface DataCompile {
   token?: string;
   userId?: number;
   id?: string;
-  [key: string]: any;  
+  [key: string]: any;
 }
 
 function JobApplication() {
   const [jobApp, setJobApp] = useState<JobApplicationAttributes | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isEditModelOpen, setIsEditModelOpen] = useState(false)
+  const [isEditModelOpen, setIsEditModelOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const { token, userData } = useUserLoggedContext();
   const { user } = userData;
   const { jobAppId } = useParams<{ jobAppId?: string }>();
-  const [status, setStatus] = useState(0)
-  const [positionTitle, setPositionTitle] = useState('');
-  const [notes, setNotes] = useState('');
-  const [jobDescription, setJobDescription] = useState('');
-  const [applicationURL, setApplicationURL] = useState('');
-  const [dateApplied, setDateApplied] = useState('');
-  const [companyId, setCompanyId] = useState('');
+  const [status, setStatus] = useState(0);
+  const [positionTitle, setPositionTitle] = useState("");
+  const [notes, setNotes] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+  const [applicationURL, setApplicationURL] = useState("");
+  const [dateApplied, setDateApplied] = useState("");
+  const [companyId, setCompanyId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
@@ -59,22 +59,25 @@ function JobApplication() {
           const id = parseInt(jobAppId, 10);
           if (isNaN(id)) throw new Error("Invalid jobAppId.");
           const data = await showJobApp(user.data.id, id, token);
-          
-          setJobApp(data.data.attributes as JobApplicationAttributes);
-          setPositionTitle(data.data.attributes.position_title)
-          setStatus(data.data.attributes.status)
-          setNotes(data.data.attributes.notes)
-          setJobDescription(data.data.attributes.job_description)
-          setApplicationURL(data.data.attributes.application_url)
-          setCompanyId(data.data.attributes.company_id)
-          setDateApplied(moment(data.data.attributes.date_applied).local().format("YYYY-MM-DD"))
 
+          setJobApp(data.data.attributes as JobApplicationAttributes);
+          setPositionTitle(data.data.attributes.position_title);
+          setStatus(data.data.attributes.status);
+          setNotes(data.data.attributes.notes);
+          setJobDescription(data.data.attributes.job_description);
+          setApplicationURL(data.data.attributes.application_url);
+          setCompanyId(data.data.attributes.company_id);
+          setDateApplied(
+            moment(data.data.attributes.date_applied)
+              .local()
+              .format("YYYY-MM-DD")
+          );
         } catch (err) {
           console.error("Failed to fetch job application:", err);
           setError("Unable to fetch job application data.");
         }
       };
-      fetchJobApplication()
+      fetchJobApplication();
     }
   }, [jobAppId]);
 
@@ -84,12 +87,12 @@ function JobApplication() {
   const openEdit = () => setIsEditModelOpen(true);
   const closeEdit = () => setIsEditModelOpen(false);
 
-  const handleSubmit = (event ?: React.FormEvent<HTMLFormElement> | Date) => {
+  const handleSubmit = (event?: React.FormEvent<HTMLFormElement> | Date) => {
     if (event instanceof Event) {
-      event.preventDefault()
+      event.preventDefault();
     }
 
-    setIsEditing(false)
+    setIsEditing(false);
 
     const compileData: DataCompile = {
       userId: userData.user.data.id ? Number(userData.user.data.id) : undefined,
@@ -99,19 +102,19 @@ function JobApplication() {
       status: status,
       notes: notes,
       job_description: jobDescription,
-      application_url: applicationURL, 
-      date_applied: dateApplied
-    }
+      application_url: applicationURL,
+      date_applied: dateApplied,
+    };
 
     updateJobApplication(compileData)
       .then((updatedApplication) => {
-        setJobApp(updatedApplication.data.attributes)
+        setJobApp(updatedApplication.data.attributes);
       })
       .catch((error) => {
         console.error("Error updating user:", error);
       });
-    closeEdit()
-  }
+    closeEdit();
+  };
 
   useEffect(() => {
     if (dateApplied) {
@@ -131,43 +134,49 @@ function JobApplication() {
       {jobApp ? (
         <main className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-8">
           <section>
-            <h1 className="text-cyan-600 text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4"
-            data-testid="job-Title">
+            <h1
+              className="text-cyan-600 text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4"
+              data-testid="job-Title"
+            >
               {jobApp.position_title}
             </h1>
-            <Link className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline"
-              to={`/companies/${companyId}/contacts`}>
-              <h2 className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline"
-            data-testid="job-companyName">
-              {jobApp.company_name}
-            </h2>
+            <Link
+              className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline"
+              to={`/companies/${companyId}/contacts`}
+            >
+              <h2
+                className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline"
+                data-testid="job-companyName"
+              >
+                {jobApp.company_name}
+              </h2>
             </Link>
             <div className='text-[1.25vw] font-[Helvetica Neue] flex flex-row items-center flex align-row mt-5 mb-4 font-bold'>
               <p className="mr-2">
                 Applied On: {" "}
               </p>
               {isEditing ? (
-                  <div
-                    className='flex flex-col'
-                    >
-                      <DatePicker
-                      selected={new Date(dateApplied)}
-                      onChange={(dateApplied: Date | null) => {
-                        if (dateApplied) {
-                          setDateApplied(moment(dateApplied).format("YYYY-MM-DD"))
-                        }
-                      }}
-                      inline
-                      className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline cursor:pointer"
-                      onClickOutside={() => setIsEditing(false)}
-                      required
-                />
+                <div className="flex flex-col">
+                  <DatePicker
+                    selected={new Date(dateApplied)}
+                    onChange={(dateApplied: Date | null) => {
+                      if (dateApplied) {
+                        setDateApplied(
+                          moment(dateApplied).format("YYYY-MM-DD")
+                        );
+                      }
+                    }}
+                    inline
+                    className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline cursor:pointer"
+                    onClickOutside={() => setIsEditing(false)}
+                    required
+                  />
                 </div>
               ) : (
-                <span 
-                className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline cursor:pointer"
-                data-testid="application-date"
-                onClick={() => setIsEditing(true)}
+                <span
+                  className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline cursor:pointer"
+                  data-testid="application-date"
+                  onClick={() => setIsEditing(true)}
                 >
                   {moment(dateApplied).isValid()
                     ? moment(dateApplied).format("MMMM D, YYYY")
@@ -195,17 +204,23 @@ function JobApplication() {
                 </select>
             </div>
             <h3 className="text-cyan-600 text-2xl mb-4">Notes</h3>
-            <p className={`mb-8 ${jobApp.notes ? "" : "text-cyan-500"}`} data-testid="job-notes">
+            <p
+              className={`mb-8 ${jobApp.notes ? "" : "text-cyan-500"}`}
+              data-testid="job-notes"
+            >
               {jobApp.notes ? jobApp.notes : "Click edit to add some notes."}
             </p>
-            <button className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded"
+            <button
+              className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded"
               onClick={openEdit}
               data-testid="edit-button"
-              >
+            >
               Edit
             </button>
-            <Link className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded inline-block text-center ml-2"
-              to="/job_applications">
+            <Link
+              className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded inline-block text-center ml-2"
+              to="/job_applications"
+            >
               Back
             </Link>
           </section>
@@ -224,8 +239,10 @@ function JobApplication() {
               >
                 {jobApp.application_url}
               </a>
-              <p className="mt-4 text-sm sm:text-base"
-              data-testid="job-description">
+              <p
+                className="mt-4 text-sm sm:text-base"
+                data-testid="job-description"
+              >
                 {jobApp.job_description.slice(0, 300)}...
               </p>
               <button
@@ -235,8 +252,7 @@ function JobApplication() {
                 Read More...
               </button>
             </div>
-            {
-            /**WORKING CODE CAN BE USED TO RESOLVE ISSUE 93**
+            {/**WORKING CODE CAN BE USED TO RESOLVE ISSUE 93**
             /* <div>
               <h2 className="text-cyan-600 text-xl sm:text-2xl font-bold mb-4">
                 My Contacts at {jobApp.company_name}
@@ -263,11 +279,17 @@ function JobApplication() {
           </section>
 
           {isModalOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded p-6 w-3/4 max-w-lg max-h-[80vh] overflow-y-auto">
-              <h2 className="text-cyan-600 text-xl font-bold mb-4">
-                Full Job Description
-              </h2>
+            <div
+              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+              onClick={closeModal}
+            >
+              <div
+                className="bg-white rounded p-6 w-3/4 max-w-lg max-h-[80vh] overflow-y-auto"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <h2 className="text-cyan-600 text-xl font-bold mb-4">
+                  Full Job Description
+                </h2>
                 <p className="mb-4">{jobApp.job_description}</p>
                 <button
                   onClick={closeModal}
@@ -280,94 +302,99 @@ function JobApplication() {
           )}
 
           {isEditModelOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-            data-testid="edit-modal">
-            <div className="bg-white rounded p-6 w-3/4 max-w-lg max-h-[80vh] overflow-y-auto">
-              <h2 className="text-cyan-600 text-xl font-bold mb-4"
-              data-testid="edit-modal-title">
-                Update Job Description
-              </h2>
-              <form 
-                onSubmit={handleSubmit} 
-                className="grid grid-cols-2 gap-4"
-                data-testid="edit-modal-form"
-                >  
-                <label>Position Title:</label>
-                <input
-                  type="text"
-                  id="positionTitle"
-                  value={positionTitle}
-                  onChange={(e) => setPositionTitle(e.target.value)}
-                  className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
-                  placeholder="Position Title"
-                  data-testid="edit-modal-form-title"
-                  required
-                />
-                <label>Status:</label>
-                <select
-                  value={status}
-                  id="appStatus"
-                  onChange={(e) => setStatus(Number(e.target.value))}
-                  data-testid="edit-modal-form-status"
-                  required
-                  className={`p-2 border-2 rounded-lg focus:outline-none focus:ring-2 m-2 ${statusMap[status] ? statusStyles[statusMap[status]] : ''
-                    }`}             
+            <div
+              className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+              data-testid="edit-modal"
+            >
+              <div className="bg-white rounded p-6 w-3/4 max-w-lg max-h-[80vh] overflow-y-auto">
+                <h2
+                  className="text-cyan-600 text-xl font-bold mb-4"
+                  data-testid="edit-modal-title"
                 >
-                  <option value="" className="text-gray-400">
-                    Select Status
-                  </option>
-                  {Object.entries(statusMap).map(([key, value]) => (
-                    <option key={key} value={key}>
-                      {value}
+                  Update Job Description
+                </h2>
+                <form
+                  onSubmit={handleSubmit}
+                  className="grid grid-cols-2 gap-4"
+                  data-testid="edit-modal-form"
+                >
+                  <label>Position Title:</label>
+                  <input
+                    type="text"
+                    id="positionTitle"
+                    value={positionTitle}
+                    onChange={(e) => setPositionTitle(e.target.value)}
+                    className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
+                    placeholder="Position Title"
+                    data-testid="edit-modal-form-title"
+                    required
+                  />
+                  <label>Status:</label>
+                  <select
+                    value={status}
+                    id="appStatus"
+                    onChange={(e) => setStatus(Number(e.target.value))}
+                    data-testid="edit-modal-form-status"
+                    required
+                    className={`p-2 border-2 rounded-lg focus:outline-none focus:ring-2 m-2 ${
+                      statusMap[status] ? statusStyles[statusMap[status]] : ""
+                    }`}
+                  >
+                    <option value="" className="text-gray-400">
+                      Select Status
                     </option>
-                  ))}                
-                </select>
-                <label>Job Description:</label>
-                <textarea
-                  value={jobDescription}
-                  id="jobDescription"
-                  onChange={(e) => setJobDescription(e.target.value)}
-                  className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2  m-2"
-                  placeholder='Job Description'
-                  data-testid="edit-modal-form-description"
-                  rows={6}
-                />
-                <label>URL:</label>
-                <input
-                type="url"
-                id="appURL"
-                value={applicationURL}
-                onChange={(e) => setApplicationURL(e.target.value)}
-                className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2 w-[90%]"
-                placeholder='www.example.com'
-                required
-                data-testid="edit-modal-form-url"
-                />
-                <label>Notes: </label>
-                <textarea
-                value={notes}
-                id="notes"
-                onChange={(e) => setNotes(e.target.value)}
-                className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 w-[90%] m-2"
-                rows={6}
-                placeholder='Notes...'
-                data-testid="edit-modal-form-notes"
-                />
-                <button
-                  onClick={closeEdit}
-                  className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-800"
-                  data-testid="edit-modal-form-cancel-button"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-800"
-                  data-testid="edit-modal-form-submit-button"
-                >
-                  Update Info
-                </button>
-              </form>
+                    {Object.entries(statusMap).map(([key, value]) => (
+                      <option key={key} value={key}>
+                        {value}
+                      </option>
+                    ))}
+                  </select>
+                  <label>Job Description:</label>
+                  <textarea
+                    value={jobDescription}
+                    id="jobDescription"
+                    onChange={(e) => setJobDescription(e.target.value)}
+                    className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2  m-2"
+                    placeholder="Job Description"
+                    data-testid="edit-modal-form-description"
+                    rows={6}
+                  />
+                  <label>URL:</label>
+                  <input
+                    type="url"
+                    id="appURL"
+                    value={applicationURL}
+                    onChange={(e) => setApplicationURL(e.target.value)}
+                    className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2 w-[90%]"
+                    placeholder="www.example.com"
+                    required
+                    data-testid="edit-modal-form-url"
+                  />
+                  <label>Notes: </label>
+                  <textarea
+                    value={notes}
+                    id="notes"
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 w-[90%] m-2"
+                    rows={6}
+                    placeholder="Notes..."
+                    data-testid="edit-modal-form-notes"
+                  />
+                  <button
+                    onClick={closeEdit}
+                    className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-800"
+                    data-testid="edit-modal-form-cancel-button"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-800"
+                    data-testid="edit-modal-form-submit-button"
+                  >
+                    Update Info
+                  </button>
+                </form>
               </div>
             </div>
           )}
