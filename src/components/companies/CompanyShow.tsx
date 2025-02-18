@@ -197,14 +197,13 @@ function CompanyShow() {
           <div>
             <h2 className="font-semibold text-gray-700">Address:</h2>
             <p className="text-gray-900">
-            {[
-              companyAttributes.street_address,
-              companyAttributes.city,
-              companyAttributes.state,
-              companyAttributes.zip_code
-            ]
-              .filter(Boolean)
-              .join(", ") || "N/A"}
+              {[
+                companyAttributes.street_address,
+                companyAttributes.city,
+                companyAttributes.state
+              ]
+                .filter(Boolean)
+                .join(", ") + (companyAttributes.zip_code ? ` ${companyAttributes.zip_code}` : "") || "N/A"}
             </p>
           </div>
 

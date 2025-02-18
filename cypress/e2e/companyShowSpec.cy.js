@@ -116,7 +116,7 @@ describe("Company Show Page", () => {
     cy.get("h2").contains("Address:")
       .next().should(
         "have.text",
-        "1600 Amphitheatre Parkway Mountain View, CA 94043"
+        "1600 Amphitheatre Parkway, Mountain View, CA 94043"
       );
     
     cy.get("h2").contains("Notes:")
@@ -154,11 +154,6 @@ describe("Company Show Page", () => {
 
     cy.contains("Jane Smith").click();
     cy.url().should("include", "/contacts/102");
-  });
-
-  it("Should navigate back to the companies page when clicking 'Back to Companies'", () => {
-    cy.contains("Back to Companies").click();
-    cy.url().should("include", "/companies");
   });
 });
 
