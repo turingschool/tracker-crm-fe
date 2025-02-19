@@ -10,7 +10,7 @@ const LoginForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const { userLogged, setUserData, } = useUserLoggedContext();
+  const { userLogged, setUserData } = useUserLoggedContext();
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

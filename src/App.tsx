@@ -3,7 +3,7 @@ import './App.css';
 // import { UserData } from './Interfaces'
 import LoginForm from './Login';
 import MenuBar from './components/layout/MenuBar';
-import { useUserLoggedContext } from './context/UserLoggedContext'; 
+import { useUserLoggedContext } from './context/UserLoggedContext';
 import UserInformation from './components/pages/userInformation';
 import UserRegistration from './components/UserRegistration';
 import { Route, Routes, Navigate } from 'react-router-dom';
