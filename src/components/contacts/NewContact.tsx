@@ -49,10 +49,18 @@ const NewContact = ({ userData }: UserInformationProps) => {
   ) => {
     const { name, value } = e.target;
 
-    setFormInputData((prev) => ({
-      ...prev,
-      [name]: value === " " ? null : value,
-    }));
+    if (name === "phoneNumber") {
+      const phoneInput = value.replace(/\D/g, "");
+      setFormInputData((prev) => ({
+        ...prev,
+        [name]: phoneInput,
+      }));
+    } else {
+      setFormInputData((prev) => ({
+        ...prev,
+        [name]: value === " " ? null : value,
+      }));
+    }
   };
 
   const handleCompanyCreated = (
