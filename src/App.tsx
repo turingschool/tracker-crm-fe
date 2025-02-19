@@ -4,10 +4,9 @@ import './App.css';
 import LoginForm from './Login';
 import MenuBar from './components/layout/MenuBar';
 import { useUserLoggedContext } from './context/UserLoggedContext'; 
-// import { UserLoggedContextProvider }from './context/UserLoggedContext';
 import UserInformation from './components/pages/userInformation';
 import UserRegistration from './components/UserRegistration';
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom';
 import Contacts from './components/contacts/Contacts';
 import NewContact from './components/contacts/NewContact';
 import Companies from './components/companies/Companies';
