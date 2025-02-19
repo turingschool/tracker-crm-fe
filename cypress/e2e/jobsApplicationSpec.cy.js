@@ -640,7 +640,7 @@ describe("Editability of specific job application fields", () => {
       });
     });
 
-    it("Should display the edit model when edit button is clicked", () => {
+    it("Should display the edit modal when edit button is clicked", () => {
     cy.get('[data-testid="edit-modal"]').should("not.exist");
     cy.get('[data-testid="edit-modal-title"]').should("not.exist");
     cy.get('[data-testid="edit-modal-form"]').should("not.exist");
@@ -670,7 +670,7 @@ describe("Editability of specific job application fields", () => {
     );
     });
     
-    it("Should close the edit model when cancel button is clicked", () => {
+    it("Should close the edit modal when cancel button is clicked", () => {
     cy.get('[data-testid="edit-button"]').click();
     cy.get('[data-testid="edit-modal-form-cancel-button"]').click();
     
