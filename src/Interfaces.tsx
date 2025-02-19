@@ -161,3 +161,10 @@ export interface DashBoardDattaI{
     password: string,
     passwordConfirmation: string
   }
+
+  export interface CountProps {
+    section: string;
+    sectionCount: number;
+    sectionUrl: string;
+    sectionDescription: string
+}

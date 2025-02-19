@@ -1,0 +1,21 @@
+{
+  "data": {
+    "id": "1",
+    "type": "dashboard",
+    "attributes": {
+      "id": 1,
+      "name": "Danny DeVito",
+      "email": "danny_de@email.com",
+      "dashboard": {
+        "weekly_summary": {
+          "job_applications": [
+          ],
+          "contacts": [
+          ],
+          "companies": [
+          ]
+        }
+      }
+    }
+  }
+}
