@@ -49,7 +49,6 @@ export function UserLoggedContextProvider({ children }: React.PropsWithChildren)
     sessionStorage.setItem("token", newToken)
     setRoles(userRoles);
     sessionStorage.setItem("roles", JSON.stringify(userRoles))
-    // console.log(userData, '<-- USER DATA SHOULD SET');
   };
 
   // Function to clear the logged-in state
@@ -71,7 +70,6 @@ export function UserLoggedContextProvider({ children }: React.PropsWithChildren)
         }
       }
     });
-    // console.log(userData, '<-- USER DATA SHOULD CLEAR');
   };
 
   // Context value
