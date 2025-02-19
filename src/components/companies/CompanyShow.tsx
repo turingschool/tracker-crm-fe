@@ -259,7 +259,6 @@ function CompanyShow() {
             </button>
 
             <h2 className="text-2xl font-bold mb-6">Edit Company</h2>
-
             <div className="grid grid-cols-2 gap-4">
 
               {/* Name Field */}
@@ -290,7 +289,6 @@ function CompanyShow() {
                   Company name is required.
                   </p>}
               </div>
-
 
               {/* Website Field */}
               <div className="col-span-1">
