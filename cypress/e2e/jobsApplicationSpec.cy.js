@@ -224,7 +224,7 @@ describe("View specific job app page with all fields filled in", () => {
     cy.get("h2").contains("Address:")
       .next().should(
         "have.text",
-        "789 Creative Street Seattle, WA 98101"
+        "789 Creative Street, Seattle, WA 98101"
       );
     
     cy.get("h2").contains("Notes:")
