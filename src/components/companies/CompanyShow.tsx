@@ -237,6 +237,7 @@ function CompanyShow() {
       {/* Edit Button */}
       <div className="mt-6">
         <button
+          data-cytest="edit-button"
           className="border border-cyan-600 text-cyan-600 bg-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-gray-100"
           onClick={() => setIsEditModalOpen(true)}
         >
@@ -250,6 +251,7 @@ function CompanyShow() {
             
             {/* Close Button */}
             <button
+              data-cytest="close-button"
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl"
               onClick={() => setIsEditModalOpen(false)}
             >
@@ -266,6 +268,7 @@ function CompanyShow() {
                   Name <span className="text-red-500">*</span>
                 </label>
                 <input
+                  data-cytest="name-input"
                   className={`w-full px-[1vh] py-[1vh] border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 ${
                     isNameValid ? "border-black" : "border-red-500"
                   }`}
@@ -283,14 +286,17 @@ function CompanyShow() {
                   }}
                   placeholder="Company Name"
                 />
-                {!isNameValid && <p className="text-red-500 text-sm">Company name is required.</p>}
+                {!isNameValid && <p data-cytest="name-error" className="text-red-500 text-sm">
+                  Company name is required.
+                  </p>}
               </div>
 
 
               {/* Website Field */}
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">Website</label>
-                <input 
+                <input
+                  data-cytest="website-input"
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
                   defaultValue={companyAttributes.website}
                   onChange={(e) => setWebsite(e.target.value)}
@@ -301,7 +307,8 @@ function CompanyShow() {
               {/* Street Address */}
               <div className="col-span-2">
                 <label className="block text-gray-700 font-medium mb-[1vh]">Street Address</label>
-                <input 
+                <input
+                  data-cytest="street-address-input"
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
                   defaultValue={companyAttributes.street_address}
                   onChange={(e) => setStreetAddress(e.target.value)}
@@ -312,7 +319,8 @@ function CompanyShow() {
               {/* City Field */}
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">City</label>
-                <input 
+                <input
+                  data-cytest="city-input"
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
                   defaultValue={companyAttributes.city}
                   onChange={(e) => setCity(e.target.value)}
@@ -324,6 +332,7 @@ function CompanyShow() {
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">State</label>
                 <select
+                  data-cytest="state-select"
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 overflow-y-auto"
                   value={selectedState}
                   onChange={(event) => setSelectedState(event.target.value)}
@@ -341,7 +350,8 @@ function CompanyShow() {
               {/* Zip Code */}
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">Zip</label>
-                <input 
+                <input
+                  data-cytest="zip-code-input"
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
                   defaultValue={companyAttributes.zip_code}
                   onChange={(e) => setZipCode(e.target.value)}
@@ -352,7 +362,8 @@ function CompanyShow() {
               {/* Notes */}
               <div className="col-span-2">
                 <label className="block text-gray-700 font-medium mb-[1vh]">Notes</label>
-                <textarea 
+                <textarea
+                  data-cytest="notes-input"
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
                   rows={3}
                   defaultValue={companyAttributes.notes}
@@ -364,7 +375,8 @@ function CompanyShow() {
 
             {/* Save Button */}
             <div className="flex justify-end mt-6">
-              <button 
+              <button
+                data-cytest="save-button"
                 className="bg-cyan-600 text-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2"
                 onClick={handleSave}
               >
