@@ -45,22 +45,6 @@ export function UserLoggedContextProvider({ children }: React.PropsWithChildren)
     };
   });
   
-  //Adjust this to session storage
-  // const [userData, setUserData] = useState<UserData>({
-  //   token: '',
-  //   user: {
-  //     data: {
-  //       id: 0,
-  //       type: 'user',
-  //       attributes: {
-  //         name: '',
-  //         email: '',
-  //         companies: []
-  //       }
-  //     }
-  //   }
-  // });
-
   // Function to set the logged-in state
   const userLogged = (newToken: string, userRoles: string[]) => {
     setIsLoggedIn(true);
