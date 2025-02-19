@@ -26,7 +26,7 @@ const LoginForm: React.FC = () => {
     loginUser(requestBody)
 
       .then((loggedInUser) => {
-        setUserData({
+        const userData = {
           token: loggedInUser.token,
           user: {
             data: {
@@ -39,7 +39,9 @@ const LoginForm: React.FC = () => {
               }
             }
           }
-        });
+        }
+        setUserData(userData)
+        sessionStorage.setItem("userData", JSON.stringify(userData))
         setSuccessMessage('Login successful!');
         userLogged(loggedInUser.token, loggedInUser.user.data.type)
         navigate("/")

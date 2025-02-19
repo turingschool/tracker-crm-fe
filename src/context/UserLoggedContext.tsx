@@ -25,21 +25,41 @@ export function UserLoggedContextProvider({ children }: React.PropsWithChildren)
     return storedRoles ? JSON.parse(storedRoles) : [];
   });
 
-  //Adjust this to session storage
-  const [userData, setUserData] = useState<UserData>({
-    token: '',
-    user: {
-      data: {
-        id: 0,
-        type: 'user',
-        attributes: {
-          name: '',
-          email: '',
-          companies: []
+
+  const [userData, setUserData] = useState<UserData>(() => {
+    let userData = sessionStorage.getItem("userData")
+    return userData ? JSON.parse(userData) : {    
+      token: '',
+      user: 
+      {
+        data: {
+          id: 0,
+          type: 'user',
+          attributes: {
+            name: '',
+            email: '',
+            companies: []
+          }
         }
       }
-    }
+    };
   });
+  
+  //Adjust this to session storage
+  // const [userData, setUserData] = useState<UserData>({
+  //   token: '',
+  //   user: {
+  //     data: {
+  //       id: 0,
+  //       type: 'user',
+  //       attributes: {
+  //         name: '',
+  //         email: '',
+  //         companies: []
+  //       }
+  //     }
+  //   }
+  // });
 
   // Function to set the logged-in state
   const userLogged = (newToken: string, userRoles: string[]) => {
