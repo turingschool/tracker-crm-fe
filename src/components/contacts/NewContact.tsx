@@ -50,7 +50,18 @@ const NewContact = ({ userData }: UserInformationProps) => {
     const { name, value } = e.target;
 
     if (name === "phoneNumber") {
-      const phoneInput = value.replace(/\D/g, "");
+      let phoneInput = value.replace(/\D/g, "");
+      if (phoneInput.length > 3 && phoneInput.length <= 6) {
+        phoneInput = phoneInput.slice(0, 3) + "-" + phoneInput.slice(3);
+      } else if (phoneInput.length > 6) {
+        phoneInput =
+          phoneInput.slice(0, 3) +
+          "-" +
+          phoneInput.slice(3, 6) +
+          "-" +
+          phoneInput.slice(6, 10);
+      }
+
       setFormInputData((prev) => ({
         ...prev,
         [name]: phoneInput,
