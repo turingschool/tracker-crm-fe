@@ -91,16 +91,30 @@ function MenuBar() {
         </div>
 
         {/* Account */}
-        <NavLink
-          to="/userInformation"
-          className={({ isActive }) =>
-            isActive
-              ? "m-auto mt-[20vh] rounded-full text-cyan-800 transform scale-150 transition-transform duration-150"
-              : "m-auto mt-[20vh] rounded-full text-gray-500 transform scale-125 transition-transform duration-150"
-          }
-          data-testid="update-user">
-          <AccountCircleIcon data-testid="updateUser-iconD" fontSize="large" />
-        </NavLink>
+        <div className="flex flex-col items-center justify-center relative" onMouseLeave={() => setIsUserDropDownOpen(false)}>
+          <button
+            className={`${ isUserDropDownOpen 
+                ? "m-auto pb-10 mt-[20vh] rounded-full transform transition-transform duration-150 text-cyan-800 scale-125" 
+                : "m-auto pb-10 mt-[20vh] rounded-full transform transition-transform duration-150 text-gray-500 scale-125"}`} 
+              onClick={toggleUserDropDown} 
+              data-testid="update-user" >
+            <AccountCircleIcon data-testid="updateUser-iconD" fontSize="large" />
+          </button>
+          <ul className={`absolute bottom-50 left-0 bg-cyan-600 shadow-md rounded-md transition-all duration-700 ease-in-out
+            ${isUserDropDownOpen ? "scale-100 opacity-100 visible" : "hidden"}`} style={{ zIndex: 10 }}
+            >
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2">
+              <Link to="/userInformation" onClick={toggleUserDropDown}>
+                User Profile
+              </Link>
+            </li>
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2" >
+              <button onClick={() => { clearUserLogged(); toggleUserDropDown(); }}>
+                Logout
+              </button>
+            </li>
+          </ul>
+        </div>
       </nav>
 
       {/* -- MOBILE HAMBURGER, shown on small screens only -- */}
