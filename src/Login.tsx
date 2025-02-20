@@ -10,7 +10,7 @@ const LoginForm: React.FC = () => {
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const { userLogged, setUserData } = useUserLoggedContext()
+  const { userLogged, setUserData } = useUserLoggedContext();
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,9 +24,9 @@ const LoginForm: React.FC = () => {
     };
 
     loginUser(requestBody)
+
       .then((loggedInUser) => {
-        console.log("logged data:", loggedInUser)
-        setUserData({
+        const userData = {
           token: loggedInUser.token,
           user: {
             data: {
@@ -39,13 +39,12 @@ const LoginForm: React.FC = () => {
               }
             }
           }
-        });
-        // setId(loggedInUser.user.data.id);
-        // setLogin(true);
+        }
+        setUserData(userData)
+        sessionStorage.setItem("userData", JSON.stringify(userData))
         setSuccessMessage('Login successful!');
         userLogged(loggedInUser.token, loggedInUser.user.data.type)
         navigate("/")
-        console.log("User updated successfully:", loggedInUser);
       })
       .catch((error) => {
         console.error("Error updating user:", error);

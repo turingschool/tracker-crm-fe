@@ -806,13 +806,7 @@ describe("Editability of specific job application fields", () => {
       cy.get('[data-testid="edit-modal-form-submit-button"]').click();
       cy.wait("@showSingleJobAppEmptyFields");
       
-      cy.reload();
-      cy.get("#email").type("danny_de@email.com");
-      cy.get("#password").type("jerseyMikesRox7");
-      cy.get('[data-testid="login-button"]').click();
-      cy.get('[data-testid="applications-iconD"]').click();
-      cy.get("tbody > tr").contains("Creative").click();
-    
+     
       cy.wait("@getJobApplications");
       cy.wait("@showSingleJobApp");
       
