@@ -674,6 +674,7 @@ describe("Editability of specific job application fields", () => {
         .should(
           "have.value", 
           "2"
+        );
       cy.get('[data-testid="edit-modal-form-submit-button"]').click();
       cy.wait("@updateJobApp");
 
