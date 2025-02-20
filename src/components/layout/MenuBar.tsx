@@ -65,7 +65,7 @@ function MenuBar() {
         </NavLink>
 
         {/* Drop Down Shortcut Menu */}
-        <div className="flex flex-col items-center justify-center relative">
+        <div className="flex flex-col items-center justify-center relative" onMouseLeave={() => setIsDropDownOpen(false)}>
           <button className={`flex items-center justify-items-center ${isDropDownOpen ? "text-cyan-800" : "text-gray-500"}`}
             onClick={toggleDropDown} data-testid="plus-iconD">
             <AddCircleIcon fontSize="large" className="m-auto justify-items-center mt-[6vh]" />
@@ -92,15 +92,11 @@ function MenuBar() {
 
         {/* Account */}
         <div className="flex flex-col items-center justify-center relative" onMouseLeave={() => setIsUserDropDownOpen(false)}>
-          <button
-            className={`${ isUserDropDownOpen 
-                ? "m-auto pb-10 mt-[20vh] rounded-full transform transition-transform duration-150 text-cyan-800 scale-125" 
-                : "m-auto pb-10 mt-[20vh] rounded-full transform transition-transform duration-150 text-gray-500 scale-125"}`} 
-              onClick={toggleUserDropDown} 
-              data-testid="update-user" >
-            <AccountCircleIcon data-testid="updateUser-iconD" fontSize="large" />
+        <button className={`flex items-center justify-items-center ${isUserDropDownOpen ? "text-cyan-800" : "text-gray-500"}`}
+            onClick={toggleUserDropDown} data-testid="updateUser-iconD">
+            <AccountCircleIcon fontSize="large" className="m-6 justify-items-center mt-[20vh]" />
           </button>
-          <ul className={`absolute bottom-50 left-0 bg-cyan-600 shadow-md rounded-md transition-all duration-700 ease-in-out
+          <ul className={`absolute bottom-0 mb-16 left-0 bg-cyan-600 shadow-md rounded-md transition-all duration-700 ease-in-out
             ${isUserDropDownOpen ? "scale-100 opacity-100 visible" : "hidden"}`} style={{ zIndex: 10 }}
             >
             <li className="p-2 hover:bg-gray-100 rounded text-center mb-2">
@@ -108,7 +104,7 @@ function MenuBar() {
                 User Profile
               </Link>
             </li>
-            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2" >
+            <li className="p-2 hover:bg-gray-100 rounded text-center" >
               <button onClick={() => { clearUserLogged(); toggleUserDropDown(); }}>
                 Logout
               </button>
