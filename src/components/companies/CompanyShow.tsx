@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import { getACompany, updateCompany } from "../../trackerApiCalls";
-import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import { US_STATES } from "../../constants/states";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { getACompany, deleteItem, updateCompany } from "../../trackerApiCalls";
+import { useUserLoggedContext } from '../../context/UserLoggedContext';
+import  DeleteItem  from "../common/DeleteItem";
 
 interface ContactData {
   id: string;
@@ -38,6 +39,7 @@ interface CompanyData {
 
 function CompanyShow() {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { token, userData} = useUserLoggedContext();
   const [companyData, setCompanyData] = useState<CompanyData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -244,6 +246,16 @@ function CompanyShow() {
           Edit
         </button>
       </div>
+        
+      {/* Delete Button */}
+      <DeleteItem
+        userId={userData.user.data.id}
+        itemId={id!}
+        itemType="company"
+        deleteAction={deleteItem}
+        token={token!}
+        onDeleteSuccess={() => navigate("/companies")}
+      />
 
       {isEditModalOpen && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center" onClick={() => setIsEditModalOpen(false)}>

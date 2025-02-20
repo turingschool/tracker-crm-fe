@@ -1,37 +1,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
-import { UserData } from '../../Interfaces';
 import { fetchCompanies } from "../../apiCalls";
 import { fetchNewContact } from "../../apiCalls";
+import { UserInformationProps, FormInputData } from "../../Interfaces";
+import CompanyModal from "./CompanyModal";
 
-
-export interface FormInputData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  companyId?: number | null;
-  notes: string;
-};
-
-export interface NewContact {
-  first_name: string,
-  last_name: string,
-  email: string,
-  phone_number: string,
-  notes: string,
-}
-
-interface UserInformationProps {
-  userData: UserData;
-};
-
-const NewContact = ( {userData}: UserInformationProps ) => {
+const NewContact = ({ userData }: UserInformationProps) => {
   const navigate = useNavigate();
-  
+
   const { token } = useUserLoggedContext();
-  const userId = userData.user.data.id ? Number(userData.user.data.id) : undefined
+  const userId = userData.user.data.id
+    ? Number(userData.user.data.id)
+    : undefined;
 
   const [formInputData, setFormInputData] = useState<FormInputData>({
     firstName: "",
@@ -46,19 +27,19 @@ const NewContact = ( {userData}: UserInformationProps ) => {
   const [companies, setCompanies] = useState<{ id: number; name: string }[]>(
     []
   );
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const companiesFetcher = async () => {
+    try {
+      const allData = await fetchCompanies(userId, token);
+      return setCompanies(allData);
+    } catch (error: any) {
+      console.error("Error fetching companies:", error.message);
+    }
+  };
 
   useEffect(() => {
-    const companiesFetcher = async () => {
-
-      try {
-        const allData = await fetchCompanies(userId, token)
-        return setCompanies(allData);
-      } catch (error: any) {
-        console.error("Error fetching companies:", error.message);
-      }
-    };
-
-    companiesFetcher();
+    companiesFetcher(); // Runs on mount
   }, []);
 
   const handleInputChange = (
@@ -74,6 +55,20 @@ const NewContact = ( {userData}: UserInformationProps ) => {
     }));
   };
 
+  const handleCompanyCreated = (
+    newCompanyId: number,
+    newCompanyName: string
+  ) => {
+    setCompanies((prevCompanies) => [
+      ...prevCompanies,
+      { id: newCompanyId, name: newCompanyName },
+    ]);
+    setFormInputData((prev) => ({
+      ...prev,
+      companyId: newCompanyId,
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const newContact = {
@@ -84,15 +79,14 @@ const NewContact = ( {userData}: UserInformationProps ) => {
       notes: formInputData.notes,
     };
 
-      try {
-        await fetchNewContact(userId, token, formInputData, newContact)
-        setFeedback("Contact added successfully! Redirecting...");
-        setTimeout(() => navigate("/contacts"), 3000);
-
-      } catch (error: any) {
-        console.error("Error adding contact:", error);
-        setFeedback(error.message);
-      }
+    try {
+      await fetchNewContact(userId, token, formInputData, newContact);
+      setFeedback("Contact added successfully! Redirecting...");
+      setTimeout(() => navigate("/contacts"), 3000);
+    } catch (error: any) {
+      console.error("Error adding contact:", error);
+      setFeedback(error.message);
+    }
   };
 
   return (
@@ -201,6 +195,7 @@ const NewContact = ( {userData}: UserInformationProps ) => {
               id="companyId"
               name="companyId"
               value={formInputData.companyId || ""}
+              onFocus={() => companiesFetcher()}
               onChange={handleInputChange}
             >
               <option value="" className="text-gray-400">
@@ -217,6 +212,19 @@ const NewContact = ( {userData}: UserInformationProps ) => {
                 </option>
               ))}
             </select>
+            <div>
+              <button
+                className="bg-cyan-600 text-white px-[.5vw] py-[1vh] rounded w-[18vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2 mt-3"
+                onClick={() => setIsOpen(true)}
+              >
+                Add new company
+              </button>
+              <CompanyModal
+                open={isOpen}
+                setIsOpen={setIsOpen}
+                onCompanyCreated={handleCompanyCreated}
+              ></CompanyModal>
+            </div>
           </div>
 
           <div>

@@ -1,42 +1,11 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { Link } from "react-router-dom";
-
-interface ContactAttributes {
-  company: { name: string };
-  first_name: string;
-  last_name: string;
-}
-
-interface Contact {
-  id: string;
-  attributes: ContactAttributes;
-}
-
-interface ContactData {
-  id: string;
-  type: string;
-  attributes: {
-    first_name: string;
-    last_name: string;
-    company_id: number;
-    email: string;
-    phone_number: string;
-    notes: string;
-    user_id: number;
-    company: {
-      id: number;
-      name: string;
-      website: string;
-      street_address: string;
-      city: string;
-      state: string;
-      zip_code: string;
-      notes: string;
-    };
-  };
-}
+import DeleteItem from "../common/DeleteItem";
+import { deleteItem } from "../../trackerApiCalls";
+import { Contact, ContactData } from "../../Interfaces"
+import { fetchShowContact, fetchCompanyContact } from "../../apiCalls"
 
 function ShowContact() {
   const { token, userData } = useUserLoggedContext();
@@ -45,81 +14,50 @@ function ShowContact() {
   const [contact, setContact] = useState<ContactData | null>(null);
   const [otherContacts, setOtherContact] = useState<Contact[]>([]);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const userId = userData.user.data.id;
 
   useEffect(() => {
-
-    const fetchShowContact = async () => {
-
+    const contactFetcher = async () => {
       try {
-        const apiURL = process.env.REACT_APP_BACKEND_API_URL
-        const backendURL = `${apiURL}api/v1/`
-        const userId = userData.user.data.id;
-        const response = await fetch(
-          `${backendURL}users/${userId}/contacts/${contactId}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!response.ok) {
-          throw new Error(`Failed to fetch contact: ${response.statusText}`);
-        }
-        const data = await response.json();
-        console.log("Contact Data: ", data);
-
-        setContact(data.data);
-
-        const companyId = data.data.attributes.company?.id;
+        const allData = await fetchShowContact(userId, token, contactId)
+        setContact(allData.data)
+        
+        const companyId = allData.data.attributes.company?.id;
         console.log("CompanyID: ", companyId);
-
 
         if(!companyId) {
           console.log("No company for this contact");
           setOtherContact([]);
-          return
+          return;
         }
 
+        try {
+          const companyContacts = await fetchCompanyContact(userId, token, companyId)
 
-        const companyContacts = await fetch(
-          `${backendURL}users/${userId}/companies/${companyId}/contacts`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
         if (companyContacts.status === 404) {
           setOtherContact([]);
           return;
         }
-        if (!companyContacts.ok) {
-          throw new Error(
-            `Failed to fetch a companies contacts: ${companyContacts.statusText}`
-          );
-        }
-        const companyContactsData = await companyContacts.json();
-        console.log("Company Contacts Data: ", companyContactsData);
 
-        const contactsList = companyContactsData.contacts.data;
-        console.log("Contacts List:", contactsList);
-        setOtherContact(contactsList);
+          setOtherContact(companyContacts);
+        } catch (error) {
+          setFetchError(`${(error as Error).message}. Please try again later.`);
+        }
       } catch (error) {
         setFetchError(`${(error as Error).message}. Please try again later.`);
       }
-    };
+    }
 
     if (contactIdInt) {
-      fetchShowContact();
+      contactFetcher();
     }
   }, [contactId, token]);
 
-  const filteredOtherContacts = contact?.id ? otherContacts.filter(
-    (otherContact) => contact?.id && otherContact.id !== contact.id)
+  const filteredOtherContacts = contact?.id
+    ? otherContacts.filter(
+        (otherContact) => contact?.id && otherContact.id !== contact.id
+      )
     : [];
   return (
     <section className="flex justify-between w-full">
@@ -144,15 +82,19 @@ function ShowContact() {
             </h2>
             <div className="m-5">
               <p>
-                <span 
+                <span
                   data-testid="contact-email"
                   className="text=[1vh] font-bold"
                 >
                   Email:{" "}
                 </span>
-                <a 
+                <a
                   className="text-cyan-500 underline hover:text-cyan-700"
-                  data-testid="email-address" href={`mailto:${contact.attributes.email}`} >{contact.attributes.email}</a>
+                  data-testid="email-address"
+                  href={`mailto:${contact.attributes.email}`}
+                >
+                  {contact.attributes.email}
+                </a>
               </p>
               <p>
                 <span
@@ -173,24 +115,37 @@ function ShowContact() {
               Notes:{" "}
             </h2>
             <p data-testid="note-text">{contact.attributes.notes}</p>
+            <div className="mt-[80px] flex flex-col items-start ml-20">
+              <DeleteItem
+                userId={userId}
+                itemId={contactId || ""}
+                itemType="contact"
+                deleteAction={deleteItem}
+                token={token ?? ""}
+                onDeleteSuccess={() => navigate("/contacts")}
+              />
+            </div>
           </div>
           <div className="w-[35%] text-left pr-[3vw] mt-[2vh]">
             <h2
               data-testid="other-contacts"
               className="text-[3vh] inset-3 font-bold text-cyan-500 mb-[2vh]"
             >
-              {contact.attributes.company 
-              ? `Other contacts at ${contact.attributes.company.name}`
-              : "No Contacts"}
+              {contact.attributes.company
+                ? `Other contacts at ${contact.attributes.company.name}`
+                : "No Contacts"}
               {/* Hi from the past! Here you can refactor to link to a new route... like create a new contact */}
             </h2>
             <ul className="list-disc list-inside">
               {filteredOtherContacts.map((otherContact) => (
                 <li key={otherContact.id} className="font-normal">
-                  <Link className="text-cyan-500 underline hover:text-cyan-700" to={`/contacts/${otherContact.id}`}>
+                  <Link
+                    className="text-cyan-500 underline hover:text-cyan-700"
+                    to={`/contacts/${otherContact.id}`}
+                  >
                     <td className="p-4 border-b truncate max-w-[8vw]">
-                    {otherContact.attributes.first_name}{" "}
-                    {otherContact.attributes.last_name}
+                      {otherContact.attributes.first_name}{" "}
+                      {otherContact.attributes.last_name}
                     </td>
                   </Link>
                 </li>
