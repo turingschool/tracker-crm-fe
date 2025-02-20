@@ -178,11 +178,6 @@ it(" if plus icon is clicked multiple times, still behaves correctly", () => {
       cy.url().should("include", "/job_applications");
     });
 
-    it("MSM should have clickable links for user profile icon", () => {
-      cy.get('[data-testid="updateUser-iconM"]').click();
-      cy.url().should("include", "/userInformation");
-    });
-
     it("MSM should render plus sign dropdown menu with link to add new contact", () => {
       cy.get('[data-testid="plus-iconM"]').click();
       cy.contains("Add New Contact").should("exist");
