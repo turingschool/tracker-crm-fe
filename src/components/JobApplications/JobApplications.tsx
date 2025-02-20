@@ -33,73 +33,73 @@ const ApplicationsGrid: React.FC = () => {
   }
 
   return (
-    <div className="p-6">
-      {isLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <ClipLoader
-            color={"#3498db"}
-            loading={isLoading}
-            size={60}
-            aria-label="Loading Applications"
-          />
-        </div>
-      ) : (
-        <>
-          <h1 className="text-3xl font-bold text-gray-800 mb-4">Applications</h1>
-  
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center">
+    <main className="flex">
+      <div className="w-[76vw] pl-[6vw]">
+        {isLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <ClipLoader
+              color={"#3498db"}
+              loading={isLoading}
+              size={60}
+              aria-label="Loading Applications"
+            />
+          </div>
+        ) : (
+          <>
+            <h1 className="text-[5.5vh] font-bold text-cyan-600 tracking-wide mb-[2vh] mt-[8vh]">
+              Applications
+            </h1>
+    
+            <div className="flex justify-between items-center">
               <input
                 type="search"
-                placeholder="Search Company"
-                className="border rounded px-4 py-2 w-64"
+                placeholder="🔍 Search Applications"
+                className="py-2 px-4 rounded w-[22vw] min-w-min border-2 border-slate-800"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-              />
+              />  
+              <Link to="/jobapplications/new">
+                <button className="bg-cyan-600 hover:bg-cyan-500 text-white tracking-wide py-2 px-4 rounded max-w-max">
+                  Add New +
+                </button>
+              </Link>
             </div>
-            <Link to="/jobapplications/new">
-              <button className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded">
-                Add New +
-              </button>
-            </Link>
-          </div>
-  
-          <div className="border rounded-lg overflow-hidden">
-            <table className="min-w-full bg-white border-collapse">
-              <thead>
-                <tr className="text-left bg-gray-50 border-b">
-                  <th className="p-4 font-semibold text-gray-600">Company</th>
-                  <th className="p-4 font-semibold text-gray-600">Title</th>
-                  <th className="p-4 font-semibold text-gray-600">Status</th>
-                  <th className="p-4 font-semibold text-gray-600">Last Updated</th>
+            <table className="w-[70vw] mt-[1.5vh]">
+              <thead className="border-t">
+                <tr>
+                  <th className="text-left p-4 border-b">Company</th>
+                  <th className="text-left p-4 border-b">Title</th>
+                  <th className="text-left p-4 border-b">Status</th>
+                  <th className="text-left p-4 border-b">Last Updated</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredApplications.map((app) => (
                   <tr
                     key={app.id}
-                    className="hover:bg-gray-50 border-b transition-colors duration-200"
+                    className="hover:bg-gray-100 cursor-pointer"
                   >
-                    <td className="p-4 text-gray-700">
+                    <td className="p-4 border-b">
                       <Link to={`/job_applications/${app.id}`}>
                         {app.company_name || app.company_id}
                       </Link>
                     </td>
-                    <td className="p-4 text-gray-700">
+                    <td className="p-4 border-b">
                       <Link to={`/job_applications/${app.id}`}>
                         {app.position_title}
                       </Link>
                     </td>
-                    <td className="p-4">
+                    <td className="p-4 border-b">
                       <Link to={`/job_applications/${app.id}`}>
                         <span
-                          className={`py-1 px-2 rounded-md text-sm font-medium ${statusStyles[statusMap[app.status]]}`}
+                          className={`py-2 px-6 text-sm inline-block text-center w-[10vw] min-w-[80px] max-w-[200px] 
+              truncate overflow-hidden whitespace-nowrap ${statusStyles[statusMap[app.status]]}`}
                         >
                           {statusMap[app.status]}
                         </span>
                       </Link>
                     </td>
-                    <td className="p-4 text-gray-700">
+                    <td className="p-4 border-b">
                       <Link to={`/job_applications/${app.id}`}>
                         {app.updated_at}
                       </Link>
@@ -115,10 +115,10 @@ const ApplicationsGrid: React.FC = () => {
                 )}
               </tbody>
             </table>
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+    </main>
   );
   
 };
