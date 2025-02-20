@@ -193,7 +193,6 @@ function JobApplication() {
                   id="appStatus"
                   onChange={(e) => {
                     setStatus(Number(e.target.value))
-                    handleSubmit()
                     setStatusUpdateFlag(true)
                   }}
                   className={`p-2 border-4 rounded-lg focus:outline-none focus:ring-2 m-2 ${statusMap[status] ? statusStyles[statusMap[status]] : ''
