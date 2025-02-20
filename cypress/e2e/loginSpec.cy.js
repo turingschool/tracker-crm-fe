@@ -96,8 +96,8 @@ describe('testing for Login page', () => {
     cy.get("#email").type("danny_de@email.com")
     cy.get("#password").type("jerseyMikesRox7")
     cy.get('[data-testid="login-button"]').click();
-    cy.get("h1").should("have.text", "Welcome,Danny DeVito");
+    cy.get("h1").should("have.text", "Welcome, Danny DeVito");
     cy.reload();
-    cy.get("h1").should("have.text", "Welcome,Danny DeVito");
+    cy.get("h1").should("have.text", "Welcome, Danny DeVito");
   })
 });
