@@ -88,8 +88,16 @@ const NewContact = ({ userData }: UserInformationProps) => {
     }));
   };
 
+  const isPhoneValid = (phoneNumber: string) =>
+    /^\d{3}-\d{3}-\d{4}$/.test(phoneNumber);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isPhoneValid(formInputData.phoneNumber)) {
+      setFeedback("Phone number must be in the format '555-555-5555'");
+      return;
+    }
     const newContact = {
       first_name: formInputData.firstName,
       last_name: formInputData.lastName,
