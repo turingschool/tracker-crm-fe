@@ -1,4 +1,3 @@
-// import {mockCompanies} from "../fixtures/mockCompanies";
 describe('Dash Board after loggging in with recent jobs, contacts and companies', () => {
   beforeEach(()=>{
     cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
@@ -108,7 +107,7 @@ describe('Dash Board after loggging in with zero recent jobs, contacts and compa
     cy.get('.ml-2 > :nth-child(1) > :nth-child(3)').should("have.text","Add new job application")
   });
 
-  it("Should show how many connections where submitted in the week", () => {
+  it("Should show how many connections were submitted in the week", () => {
     cy.get('.m-24').should("exist")
     cy.get('.m-24 > .mt-2').should("exist")
     cy.get('.m-24 > .mt-2').should("have.text","Contacts")
@@ -118,7 +117,7 @@ describe('Dash Board after loggging in with zero recent jobs, contacts and compa
     cy.get('.ml-2 > :nth-child(2) > :nth-child(3)').should("have.text","Add new contact")
   });
 
-  it("Should show how many companies where submitted in the week", () => {
+  it("Should show how many companies were submitted in the week", () => {
     cy.get('.ml-2 > :nth-child(3)').should("exist")
     cy.get(':nth-child(3) > .mt-2').should("exist")
     cy.get(':nth-child(3) > .mt-2').should("have.text","Companies")
@@ -133,7 +132,7 @@ describe('Dash Board after loggging in with zero recent jobs, contacts and compa
     cy.url().should('include', 'http://localhost:3000/jobapplications/new');
   });
 
-  it("Should have a clickable button to route you to add a new job application", () => {
+  it("Should have a clickable button to route you to add a new contact", () => {
     cy.get(':nth-child(2) > .bg-cyan-600').click();
     cy.url().should('include', 'http://localhost:3000/contacts/new');
   });

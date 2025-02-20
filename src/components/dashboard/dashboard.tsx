@@ -16,8 +16,6 @@ export const DashBoard : React.FC = () => {
     const contactsCount: number = dashData.contacts.length
     const companiesCount: number = dashData.companies.length
 
-    console.log('dashData', dashData)
-
     useEffect(()=>{
 
         const dashDataFetcher = async () => {
@@ -26,7 +24,6 @@ export const DashBoard : React.FC = () => {
                 return await setDashData(allData)
 
             } catch (error) {
-                // return error
             }
         };
         dashDataFetcher()
