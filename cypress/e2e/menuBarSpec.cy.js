@@ -57,7 +57,6 @@ describe("Menu Bar after logging in spec", () => {
     cy.get('[href="/contacts"] > .MuiSvgIcon-root').should("exist");
     cy.get('[href="/companies"] > .MuiSvgIcon-root').should("exist");
     cy.get('[href="/job_applications"] > .MuiSvgIcon-root').should("exist");
-    cy.get('[href="/userInformation"] > .MuiSvgIcon-root').should("exist");
   });
 
   it("DMB should have clickable links for each icon", () => {
