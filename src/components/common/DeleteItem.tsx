@@ -59,7 +59,6 @@ const DeleteItem = ({
             >
             <p className="mb-6">
               Are you sure you want to delete this {itemType.toLowerCase()}? <br /> This action is
-
               permanent.
             </p>
             <button
