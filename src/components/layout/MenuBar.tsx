@@ -177,9 +177,21 @@ function MenuBar() {
         </div>
 
         {/* Account */}
-        <NavLink to="/userInformation" className="m-auto text-white" data-testid="update-userM" onClick={toggleSideMenu}>
+        <div className="flex mt-auto flex-col items-center justify-center relative text-white" data-testid="update-userM" onClick={toggleUserSideMenu}>
           <AccountCircleIcon data-testid="updateUser-iconM" fontSize="large" />
-        </NavLink>
+          <ul className={`bg-cyan-500 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform
+            ${ isSideMenuUserDropDownOpen ? "scale-100 opacity-100 visible" : "scale-95 opacity-0 invisible"}`}>
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 hover:text-black" onClick={() => {toggleSideMenu(); toggleUserSideMenu();}}>
+              <Link data-testid="newContactLink" to="/userInformation">
+              User Profile
+              </Link>
+            </li>
+            <li className="p-2 hover:bg-gray-100 rounded text-center hover:text-black" onClick={() => {clearUserLogged(); toggleSideMenu(); toggleUserSideMenu();}}>
+                Logout
+            </li>
+          </ul>
+        </div>
+        
       </nav>
 
       {/* -- QUAD COLOR BAR -- */}
