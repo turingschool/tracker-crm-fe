@@ -20,6 +20,11 @@ function MenuBar() {
     setSideMenuOpen((previousState) => !previousState);
   };
 
+  const [isSideMenuUserDropDownOpen, setIsSideMenuUserDropDownOpen] = useState(false);
+  const toggleUserSideMenu = () => {
+    setIsSideMenuUserDropDownOpen((previousState) => !previousState);
+  };
+
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const { userData } = useUserLoggedContext();
   const toggleDropDown = () => {
