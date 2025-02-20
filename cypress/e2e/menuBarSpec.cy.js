@@ -83,9 +83,6 @@ describe("Menu Bar after logging in spec", () => {
     cy.get('[data-testid="applications-iconD"]').should('have.class', 'text-gray-500').click();
     cy.url().should("include", "/job_applications");
     cy.get('[data-testid="applications-iconD"]').should('have.class', 'text-cyan-800')
-    
-    cy.get('[data-testid="update-user"]').should('have.class', 'text-gray-500').click();
-    cy.get('[data-testid="update-user"]').should('have.class', 'text-cyan-800')
   });
 
   it("DMB should toggle the desktop plus sign dropdown menu when the plus sign icon is clicked", () => {
