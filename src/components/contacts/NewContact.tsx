@@ -87,9 +87,9 @@ const NewContact = ({ userData }: UserInformationProps) => {
       companyId: newCompanyId,
     }));
   };
-
-  const isPhoneValid = (phoneNumber: string) =>
-    /^\d{3}-\d{3}-\d{4}$/.test(phoneNumber);
+  const isPhoneValid = (phoneNumber: string) => {
+    return phoneNumber === "" || /^\d{3}-\d{3}-\d{4}$/.test(phoneNumber);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
