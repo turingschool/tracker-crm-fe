@@ -2,7 +2,7 @@ import {useUserLoggedContext} from "../../context/UserLoggedContext";
 import { fetchDashBoardData } from '../../apiCalls';
 import React, {useState,useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {DashBoardDattaI} from "../../Interfaces";
+import {DashBoardDattaI, CountProps} from "../../Interfaces";
 
 export const DashBoard : React.FC = () => {
     const [dashData, setDashData] = useState<DashBoardDattaI>(
@@ -12,6 +12,9 @@ export const DashBoard : React.FC = () => {
         companies: [null]
     });
     const {isLoggedIn, userData,token } = useUserLoggedContext()
+    const jobApplicationsCount: number = dashData.job_applications.length
+    const contactsCount: number = dashData.contacts.length
+    const companiesCount: number = dashData.companies.length
 
     useEffect(()=>{
 
@@ -21,38 +24,42 @@ export const DashBoard : React.FC = () => {
                 return await setDashData(allData)
 
             } catch (error) {
-                // return error
             }
         };
         dashDataFetcher()
 
     },[])
 
+    const ConditionallyRenderBtn: React.FC<CountProps> = ({ section, sectionCount, sectionUrl, sectionDescription}) => {
+    if (sectionCount >= 1) {
+        return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashNum">{`${sectionCount}`}</label>
+        <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>{`${sectionDescription}`}</label></>
+    }
+    return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashNum">{`${sectionCount}`}</label>
+        <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to={`${sectionUrl}`}>Add new {section}</Link></>
+    }
+
     if(token && isLoggedIn){
         return (
             <>
                 <div className="fixed top-[15vh] left-[25vh] right-0 font-bold font-size-[4vh] text-5xl text-cyan-600">
-                    <h1>Welcome,{userData.user.data.attributes.name}</h1>
+                    <h1>Welcome, {userData.user.data.attributes.name}</h1>
                 </div>
                 <div className="ml-2 fixed top-[20vh] left-[25vh]">
 
                     <div className="bg-white w-[20vw] h-[17vh] inline-block rounded-[20px] shadow-black shadow-xl">
                         <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Jobs</label>
-                        <label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashJobNum">{`${dashData.job_applications.length }`}</label>
-                        <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>Apps submitted this week</label>
+                        <ConditionallyRenderBtn section="job application" sectionCount={jobApplicationsCount} sectionUrl="/jobapplications/new" sectionDescription="Apps submitted this week" />
                     </div>
 
                     <div className="bg-white w-[20vw] h-[17vh] inline-block m-24 rounded-[20px] shadow-black shadow-xl">
                         <label className='text-center block text-[20px] font-bold text-cyan-600 mt-2'>Contacts</label>
-                        <label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashConNum">{`${dashData.contacts.length}`}</label>
-                        <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1' data-cy="conLabel">New connections this week</label>
+                        <ConditionallyRenderBtn section="contact" sectionCount={contactsCount} sectionUrl="/contacts/new" sectionDescription="New connections this week"/>
                     </div>
 
                     <div className='bg-white w-[20vw] h-[17vh] inline-block rounded-[20px] shadow-black shadow-xl'>
                         <label className='text-center block text-[20px] font-bold text-cyan-600 mt-2'>Companies</label>
-                        <label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashCompNum">{`${dashData.companies.length}`}</label>
-                        <Link className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]' to="/companies/new">Add new company</Link>
-
+                        <ConditionallyRenderBtn section="company" sectionCount={companiesCount} sectionUrl="/companies/new" sectionDescription="New companies this week"/>
                     </div>
                 </div>
 
