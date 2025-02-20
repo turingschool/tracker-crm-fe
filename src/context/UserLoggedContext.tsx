@@ -14,30 +14,45 @@ interface Value {
 const UserLoggedContext = createContext<null | Value>(null);
 
 export function UserLoggedContextProvider({ children }: React.PropsWithChildren) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [token, setToken] = useState<null | string>(null);
-  const [roles, setRoles] = useState<[] | string[]>([]);
-  const [userData, setUserData] = useState<UserData>({
-    token: '',
-    user: {
-      data: {
-        id: 0,
-        type: 'user',
-        attributes: {
-          name: '',
-          email: '',
-          companies: []
-        }
-      }
-    }
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => {
+    return sessionStorage.getItem("isLoggedIn") === "true";
+  });
+  const [token, setToken] = useState<null | string>(() => {
+    return sessionStorage.getItem("token");
+  });
+  const [roles, setRoles] = useState<string[]>(() => {
+    const storedRoles = sessionStorage.getItem("roles");
+    return storedRoles ? JSON.parse(storedRoles) : [];
   });
 
+
+  const [userData, setUserData] = useState<UserData>(() => {
+    let userData = sessionStorage.getItem("userData")
+    return userData ? JSON.parse(userData) : {    
+      token: '',
+      user: 
+      {
+        data: {
+          id: 0,
+          type: 'user',
+          attributes: {
+            name: '',
+            email: '',
+            companies: []
+          }
+        }
+      }
+    };
+  });
+  
   // Function to set the logged-in state
   const userLogged = (newToken: string, userRoles: string[]) => {
     setIsLoggedIn(true);
+    sessionStorage.setItem("isLoggedIn", "true")
     setToken(newToken);
+    sessionStorage.setItem("token", newToken)
     setRoles(userRoles);
-    console.log(userData, '<-- USER DATA SHOULD SET');
+    sessionStorage.setItem("roles", JSON.stringify(userRoles))
   };
 
   // Function to clear the logged-in state
@@ -59,7 +74,6 @@ export function UserLoggedContextProvider({ children }: React.PropsWithChildren)
         }
       }
     });
-    console.log(userData, '<-- USER DATA SHOULD CLEAR');
   };
 
   // Context value
