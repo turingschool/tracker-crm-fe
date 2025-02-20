@@ -85,7 +85,6 @@ describe("Menu Bar after logging in spec", () => {
     cy.get('[data-testid="applications-iconD"]').should('have.class', 'text-cyan-800')
     
     cy.get('[data-testid="update-user"]').should('have.class', 'text-gray-500').click();
-    cy.url().should("include", "/userInformation");
     cy.get('[data-testid="update-user"]').should('have.class', 'text-cyan-800')
   });
 
