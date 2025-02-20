@@ -674,6 +674,71 @@ describe("Editability of specific job application fields", () => {
         .should(
           "have.value", 
           "2"
+      cy.get('[data-testid="edit-modal-form-submit-button"]').click();
+      cy.wait("@updateJobApp");
+
+      cy.get('[data-testid="job-Title"]').should("contain", "Frontend Developer");
+      cy.get('[data-testid="job-companyName"]').should(
+        "contain",
+        "Creative Solutions Inc."
+      );
+      cy.get('[data-testid="job-status"]').should("have.text", "Offer");
+      cy.get('[data-testid="job-notes"]').should(
+        "contain",
+        "Talked with recruiter, sounds like a great opportunity to learn new things"
+      );
+      cy.get('[data-testid="job-URL"]').should("contain", "https://example.com");
+      cy.get('[data-testid="job-URL"]')
+        .should("have.attr", "href")
+        .and("include", "https://example.com");
+      cy.get('[data-testid="job-description"]').should(
+        "contain",
+        "Frontend Developer of React only with no CSS"
+      );
+    });
+
+  it("Should not create an error when update info button is clicked and no info changed", () => {
+    cy.intercept(
+      "PATCH",
+      "http://localhost:3001/api/v1/users/1/job_applications/3",
+      (req) => {
+        req.on("response", (res) => {});
+        req.reply({
+          statusCode: 200,
+          fixture: "mockSingleJobApp",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+    ).as("showSingleJobAppEmptyFields");
+
+    cy.get('[data-testid="edit-button"]').click();
+    cy.get('[data-testid="edit-modal-form-submit-button"]').click();
+    cy.wait("@showSingleJobAppEmptyFields");
+
+    cy.wait("@getJobApplications");
+    cy.wait("@showSingleJobApp");
+
+    cy.get('[data-testid="job-Title"]').should("contain", "Backend Developer");
+    cy.get('[data-testid="job-companyName"]').should(
+      "contain",
+      "Creative Solutions Inc."
+    );
+    cy.get('[data-testid="job-status"]').should("have.text", "Interviewing");
+    cy.get('[data-testid="job-notes"]').should(
+      "contain",
+      "Had a technical interview, awaiting decision."
+    );
+    cy.get('[data-testid="job-URL"]').should(
+      "contain",
+      "https://creativesolutions.com/careers/backend-developer"
+    );
+    cy.get('[data-testid="job-URL"]')
+      .should("have.attr", "href")
+      .and(
+        "include",
+        "https://creativesolutions.com/careers/backend-developer"
       );
       cy.get('[data-testid="edit-modal-form-description"]')
         .should(
