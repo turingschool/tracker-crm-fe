@@ -104,6 +104,32 @@ describe("Menu Bar after logging in spec", () => {
    cy.get('ul.bg-cyan-600').should('not.be.visible');
  });
 
+  it("DMB should toggle the desktop User Management dropdown menu when the User Management icon is clicked", () => {
+    cy.get('[data-testid="updateUser-iconD"]').should("have.class", "text-gray-500").click();
+    cy.get('[data-testid="updateUser-iconD"]').should("have.class", "text-cyan-800");
+    cy.get("ul.bg-cyan-600").should("have.class", "scale-100").and("be.visible")
+  });
+
+  it('DBM should close desktop User Management dropdown after clicking a link', () => {
+    cy.get('[data-testid="updateUser-iconD"]').should("have.class", "text-gray-500").click();
+    cy.get('[data-testid="updateUser-iconD"]').should("have.class", "text-cyan-800");
+
+  cy.contains('User Profile').click(); 
+  cy.url().should('include', '/userInformation');
+
+  cy.get('ul.bg-cyan-600').should('not.be.visible');
+  });
+
+  it('DBM should log the user out when user clicks logout in the User Management Dropdown', () => {
+    cy.get('[data-testid="updateUser-iconD"]').should("have.class", "text-gray-500").click();
+    cy.get('[data-testid="updateUser-iconD"]').should("have.class", "text-cyan-800");
+
+    cy.contains('Logout').click(); 
+    cy.url().should('include', '/');
+    cy.reload()
+    cy.url().should('include', '/');
+  });
+
  it('should have the desktop dropdown closed by default', () => {
   cy.viewport(1280, 800);
   cy.get('ul.bg-cyan-600').should('not.be.visible'); 
