@@ -105,7 +105,7 @@ describe("Delete a Contact", () => {
     cy.get('[data-testid="contacts-iconD"]').click();
     cy.url().should("include", "/contacts");
 
-    cy.get("table tbody tr").first().find("a").click();
+    cy.get("table tbody tr").first().click();
     cy.url().should("include", "/contacts/1");
     cy.wait("@get-contact-details");
   });
