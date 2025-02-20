@@ -14,6 +14,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 function MenuBar() {
+  const { clearUserLogged } = useUserLoggedContext();
   const [sideMenuOpen, setSideMenuOpen] = useState(true);
   const toggleSideMenu = () => {
     setSideMenuOpen((previousState) => !previousState);
@@ -23,6 +24,11 @@ function MenuBar() {
   const { userData } = useUserLoggedContext();
   const toggleDropDown = () => {
     setIsDropDownOpen((prevState) => !prevState);
+  };
+
+  const [isUserDropDownOpen, setIsUserDropDownOpen] = useState(false);
+  const toggleUserDropDown = () => {
+    setIsUserDropDownOpen((prevState) => !prevState);
   };
 
   let { userId = userData.user.data.id } = useParams();
