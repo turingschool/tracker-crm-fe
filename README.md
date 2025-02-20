@@ -537,7 +537,7 @@ Choose a company that exists under your profile.
 
 ![Edit Job Application Page](./src/assets/EditJobApp.png)
 
-- Edit an Application Date or Status: Job application dates and statuses can also be edited directly on the job application page. Dates can be changed by clicking on the "Applied On" date to pull up an interactive calendar, and cliking on a new date. Statuses can be changed by clicking on the current status and selecting a new status from the dropdown. 
+- Edit an Application Date or Status: Job application dates and statuses can also be edited directly on the job application page. Dates can be changed by clicking on the "Applied On" date to pull up an interactive calendar, and clicking on a new date. Statuses can be changed by clicking on the current status and selecting a new status from the dropdown. 
 ![Edit Job Application Date Page](./src/assets/editJobAppDateOrStatus.png)
 
 <!-- CONTRIBUTING -->
