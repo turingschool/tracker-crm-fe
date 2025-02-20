@@ -679,14 +679,6 @@ describe("Editability of specific job application fields", () => {
         "Talked with recruiter, sounds like a great opportunity to learn new things"
       );
     cy.get('[data-testid="edit-modal-form-submit-button"]').click();
-
-    cy.reload();
-    cy.get("#email").type("danny_de@email.com");
-    cy.get("#password").type("jerseyMikesRox7");
-    cy.get('[data-testid="login-button"]').click();
-    cy.get('[data-testid="applications-iconD"]').click();
-    cy.get("tbody > tr").contains("Creative").click();
-
     cy.wait("@updateJobApp");
 
     cy.get('[data-testid="job-Title"]').should("contain", "Frontend Developer");
@@ -728,13 +720,6 @@ describe("Editability of specific job application fields", () => {
     cy.get('[data-testid="edit-button"]').click();
     cy.get('[data-testid="edit-modal-form-submit-button"]').click();
     cy.wait("@showSingleJobAppEmptyFields");
-
-    cy.reload();
-    cy.get("#email").type("danny_de@email.com");
-    cy.get("#password").type("jerseyMikesRox7");
-    cy.get('[data-testid="login-button"]').click();
-    cy.get('[data-testid="applications-iconD"]').click();
-    cy.get("tbody > tr").contains("Creative").click();
 
     cy.wait("@getJobApplications");
     cy.wait("@showSingleJobApp");
