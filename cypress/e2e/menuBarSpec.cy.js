@@ -199,6 +199,22 @@ it(" if plus icon is clicked multiple times, still behaves correctly", () => {
       cy.url().should("include", "/jobapplications/new");
     });
 
+    it("MSM should render User management dropdown menu with link to viw user profile", () => {
+      cy.get('[data-testid="updateUser-iconM"]').click();
+      cy.contains("User Profile").should("exist");
+      cy.get('[data-testid="userProfileLink"]').click();
+      cy.url().should("include", "/userInformation");
+    });
+
+    it("MSM should render User management dropdown menu with link to logout", () => {
+      cy.get('[data-testid="updateUser-iconM"]').click();
+      cy.contains("Logout").should("exist");
+      cy.get('[data-testid="userLogoutLink"]').click();
+      cy.url().should("include", "/");
+      cy.reload()
+      cy.url().should("include", "/");
+    });
+
     it("if hamburger icon is clicked again while open, still behaves correctly", () => {
       cy.get('[data-testid="slideout-menu"]').should("have.class", "translate-x-0");
       cy.get('[data-testid="menu-iconM"]').click().click();
