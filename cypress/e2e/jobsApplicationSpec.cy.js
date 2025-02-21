@@ -226,6 +226,11 @@ describe("View specific job app page with all fields filled in", () => {
     cy.get("h1").should("have.text", "Company Details");
 
     cy.get("h2")
+      .contains("Company Name:")
+      .next()
+      .should("have.text", "Creative Solutions Inc.");
+    
+    cy.get("h2")
       .contains("Website:")
       .next()
       .should("have.text", "https://creativesolutions.com");
@@ -233,7 +238,7 @@ describe("View specific job app page with all fields filled in", () => {
     cy.get("h2")
       .contains("Address:")
       .next()
-      .should("have.text", "789 Creative Street Seattle, WA 98101");
+      .should("have.text", "789 Creative Street, Seattle, WA 98101");
 
     cy.get("h2")
       .contains("Notes:")

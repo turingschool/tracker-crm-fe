@@ -1,0 +1,13 @@
+{
+  "data": {
+    "attributes": {
+      "name": "Google Updated",
+      "website": "https://newgoogle.com",
+      "street_address": "1600 Amphitheatre Parkway",
+      "city": "Mountain View",
+      "state": "CA",
+      "zip_code": "94043",
+      "notes": "Innovative tech company."
+    }
+  }
+}
