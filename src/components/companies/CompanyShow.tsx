@@ -258,7 +258,11 @@ function CompanyShow() {
       />
 
       {isEditModalOpen && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center" onClick={() => setIsEditModalOpen(false)}>
+        <div
+          data-cytest="modal"
+          className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center"
+          onClick={() => setIsEditModalOpen(false)}
+        >
           <div className="bg-white w-[50vw] mx-auto my-[2vh] p-[3vh] rounded-lg shadow-lg relative" onClick={(event) => event.stopPropagation()}>
             
             {/* Close Button */}
@@ -348,7 +352,6 @@ function CompanyShow() {
                   onChange={(event) => setSelectedState(event.target.value)}
                 >
                   <option value="">Select a State</option>
-                  <option value="">Clear Selection</option>
                   {US_STATES.map((state) => (
                     <option key={state.code} value={state.code}>
                       {state.name}

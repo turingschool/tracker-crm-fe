@@ -159,23 +159,23 @@ describe("Company Show Page", () => {
   it("Should open, close, reopen the modal and then update company details", () => {
     cy.get('[data-cytest="edit-button"]').click();
 
-    cy.get(".fixed.inset-0") // Finds the modal container first otherwise it looks at whole page.
+    cy.get('[data-cytest="modal"]')
       .find("h2")
       .should("have.text", "Edit Company");
     
-    cy.get('.fixed.inset-0')
-    .within(() => {
-      cy.get('[data-cytest="name-input"]').should("exist").should("have.value", "Google");
-      cy.get('[data-cytest="website-input"]').should("exist").should("have.value", "https://google.com");
-      cy.get('[data-cytest="street-address-input"]').should("exist").should("have.value", "1600 Amphitheatre Parkway");
-      cy.get('[data-cytest="city-input"]').should("exist").should("have.value", "Mountain View");
-      cy.get('[data-cytest="state-select"]').should("exist").should("have.value", "CA");
-      cy.get('[data-cytest="zip-code-input"]').should("exist").should("have.value", "94043");
-      cy.get('[data-cytest="notes-input"]').should("exist").should("have.value", "Innovative tech company.");
+    cy.get('[data-cytest="modal"]')
+      .within(() => {
+        cy.get('[data-cytest="name-input"]').should("exist").should("have.value", "Google");
+        cy.get('[data-cytest="website-input"]').should("exist").should("have.value", "https://google.com");
+        cy.get('[data-cytest="street-address-input"]').should("exist").should("have.value", "1600 Amphitheatre Parkway");
+        cy.get('[data-cytest="city-input"]').should("exist").should("have.value", "Mountain View");
+        cy.get('[data-cytest="state-select"]').should("exist").should("have.value", "CA");
+        cy.get('[data-cytest="zip-code-input"]').should("exist").should("have.value", "94043");
+        cy.get('[data-cytest="notes-input"]').should("exist").should("have.value", "Innovative tech company.");
     });
 
     cy.get('[data-cytest="close-button"]').click()
-    cy.get('.fixed.inset-0').should("not.exist");
+    cy.get('[data-cytest="modal"]').should("not.exist");
   })
 
   it("Should intercept and verify the PATCH request when updating company details", () => {
@@ -191,7 +191,7 @@ describe("Company Show Page", () => {
         });
       }).as("updateCompany");
   
-      cy.get('.fixed.inset-0').within(() => {
+      cy.get('[data-cytest="modal"]').within(() => {
         cy.get('[data-cytest="name-input"]').clear().type(mockUpdatedCompany.data.attributes.name);
         cy.get('[data-cytest="website-input"]').clear().type(mockUpdatedCompany.data.attributes.website);
         cy.get('[data-cytest="save-button"]').click();
@@ -205,11 +205,10 @@ describe("Company Show Page", () => {
   });
 
   it("Should show an error when trying to save without a company name", () => {
-
     cy.get('[data-cytest="edit-button"]').click();
     cy.get(".fixed.inset-0").find("h2").should("have.text", "Edit Company");
 
-    cy.get('.fixed.inset-0').within(() => {
+    cy.get('[data-cytest="modal"]').within(() => {
       cy.get('[data-cytest="name-input"]').clear();
 
       cy.get('[data-cytest="save-button"]').click();
@@ -221,7 +220,31 @@ describe("Company Show Page", () => {
         .and("have.text", "Company name is required.");
     });
   
-    cy.get('.fixed.inset-0').should("exist");
+    cy.get('[data-cytest="modal"]').should("exist");
+  });
+
+  it("Should not error out if all fields except name are blank", () => {
+    cy.get('[data-cytest="edit-button"]').click();
+  
+    cy.get('[data-cytest="website-input"]').clear();
+    cy.get('[data-cytest="street-address-input"]').clear();
+    cy.get('[data-cytest="city-input"]').clear();
+    cy.get('[data-cytest="state-select"]').select("Select a State");
+    cy.get('[data-cytest="zip-code-input"]').clear();
+    cy.get('[data-cytest="notes-input"]').clear();
+  
+    cy.fixture("mockUpdatedBlankCompany").then((mockUpdatedBlankCompany) => {
+      cy.intercept("PATCH", "http://localhost:3001/api/v1/users/2/companies/1", {
+        statusCode: 200,
+        body: mockUpdatedBlankCompany,
+      }).as("updateCompany");
+    });
+  
+    cy.get('[data-cytest="save-button"]').click();
+  
+    cy.wait("@updateCompany").its("response.statusCode").should("eq", 200);
+
+    cy.get('[data-cytest="modal"]').should("not.exist");
   });
 });
 
