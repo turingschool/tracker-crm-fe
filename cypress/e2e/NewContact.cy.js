@@ -315,13 +315,6 @@ describe("New Contacts page after logging in", () => {
     });
 
     it("Should validate the phone number format", () => {
-      cy.intercept("POST", "http://localhost:3001/api/v1/users/2/contacts", {
-        statusCode: 422,
-        body: {
-          message: "Phone number must be in the format '555-555-5555'",
-        },
-      }).as("addContactInvalidPhone");
-
       cy.get("a > .bg-cyan-600").click();
       cy.contains("Add New Contact");
 
@@ -331,7 +324,6 @@ describe("New Contacts page after logging in", () => {
       cy.get("#phoneNumber").type("12345");
       cy.get('button[type="submit"]').click();
 
-      cy.wait("@addContactInvalidPhone");
       cy.contains("Phone number must be in the format '555-555-5555'").should(
         "exist"
       );
