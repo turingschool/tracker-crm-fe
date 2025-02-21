@@ -23,7 +23,8 @@ describe('Landing page after logging in spec and clicking user information butto
     cy.get('#password').type('Jolene123');
     cy.get('.login-btn').click();
     cy.wait('@postUserInfo');
-    cy.get('[data-testid="update-user"]').click();
+    cy.get('[data-testid="updateUser-iconD"]').click();
+    cy.contains('User Profile').click(); 
   });
 
   it('Should open the user info page;', () => {
