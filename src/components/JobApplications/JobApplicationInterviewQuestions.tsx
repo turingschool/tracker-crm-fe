@@ -1,3 +1,4 @@
+import { useLocation } from 'react-router-dom'
 
 const JobApplicationInterviewQuestions: React.FC = () => {
 
@@ -5,6 +6,14 @@ interface DummyQuestions {
   id: number;
   text: string;
 }
+
+const location = useLocation()
+const positionTitle = location.state.positionTitle
+const companyName = location.state.companyName
+// This is currently not used and wont be used until it is sent in the body of a fetch request to the backend to use for chatGPT
+// const jobDescription = location.state.jobDescription
+
+  // console.log('location from job application', location)
 
 const questions :DummyQuestions[] = [
   { id: 1, text: "Can you explain the difference between state and props in React?" },
@@ -27,7 +36,13 @@ const questionObject = questions.reduce((acc, question) => {
 return (
     <div className="min-h-screen p-4 sm:p-8 pt-8 sm:pt-36">
         <main>
-          <h3 className='text-[20px] font-bold text-cyan-600 tracking-wide'>
+          <h1 className="text-cyan-600 text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">
+            {positionTitle}
+          </h1>
+          <h2 className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline">
+            {companyName}
+          </h2>
+          <h3 className='mt-10 text-[20px] font-bold text-cyan-600 tracking-wide'>
             Technical Interview Questions
           </h3>
           {Object.entries(questionObject).map(([id, text]) => (
