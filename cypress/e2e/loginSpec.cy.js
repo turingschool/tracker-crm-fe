@@ -66,4 +66,38 @@ describe('testing for Login page', () => {
     .get('.login-form-wrap > .form-inputs > .failed-login').should('be.visible')
     .get('.login-form-wrap > .form-inputs > .failed-login').should('contain', 'Error in Login: Invalid login credentials')
   });
+
+  it('persists login after a refresh', () => {
+    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
+      statusCode: 200,
+      body: {
+        token: 'fake-token',
+        user: {
+          data: {
+            id: 1,
+            type: 'user',
+            attributes: {
+              name: 'Danny DeVito',
+              email: 'danny_de@email.com',
+              companies: []
+            }
+          }
+        }
+      }
+    }).as("mockSession");
+
+    cy.intercept(
+      'GET',
+      'http://localhost:3001/api/v1/users/1/dashboard',
+      { statusCode: 200, fixture: 'mockDashBoard' }
+    );
+
+    cy.visit("http://localhost:3000/");
+    cy.get("#email").type("danny_de@email.com")
+    cy.get("#password").type("jerseyMikesRox7")
+    cy.get('[data-testid="login-button"]').click();
+    cy.get("h1").should("have.text", "Welcome, Danny DeVito");
+    cy.reload();
+    cy.get("h1").should("have.text", "Welcome, Danny DeVito");
+  })
 });

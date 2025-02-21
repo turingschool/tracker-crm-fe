@@ -57,7 +57,6 @@ describe("Menu Bar after logging in spec", () => {
     cy.get('[href="/contacts"] > .MuiSvgIcon-root').should("exist");
     cy.get('[href="/companies"] > .MuiSvgIcon-root').should("exist");
     cy.get('[href="/job_applications"] > .MuiSvgIcon-root').should("exist");
-    cy.get('[href="/userInformation"] > .MuiSvgIcon-root').should("exist");
   });
 
   it("DMB should have clickable links for each icon", () => {
@@ -83,10 +82,6 @@ describe("Menu Bar after logging in spec", () => {
     cy.get('[data-testid="applications-iconD"]').should('have.class', 'text-gray-500').click();
     cy.url().should("include", "/job_applications");
     cy.get('[data-testid="applications-iconD"]').should('have.class', 'text-cyan-800')
-    
-    cy.get('[data-testid="update-user"]').should('have.class', 'text-gray-500').click();
-    cy.url().should("include", "/userInformation");
-    cy.get('[data-testid="update-user"]').should('have.class', 'text-cyan-800')
   });
 
   it("DMB should toggle the desktop plus sign dropdown menu when the plus sign icon is clicked", () => {
@@ -107,6 +102,32 @@ describe("Menu Bar after logging in spec", () => {
 
    cy.get('ul.bg-cyan-600').should('not.be.visible');
  });
+
+  it("DMB should toggle the desktop User Management dropdown menu when the User Management icon is clicked", () => {
+    cy.get('[data-testid="updateUser-iconD"]').should("have.class", "text-gray-500").click();
+    cy.get('[data-testid="updateUser-iconD"]').should("have.class", "text-cyan-800");
+    cy.get("ul.bg-cyan-600").should("have.class", "scale-100").and("be.visible")
+  });
+
+  it('DBM should close desktop User Management dropdown after clicking a link', () => {
+    cy.get('[data-testid="updateUser-iconD"]').should("have.class", "text-gray-500").click();
+    cy.get('[data-testid="updateUser-iconD"]').should("have.class", "text-cyan-800");
+
+  cy.contains('User Profile').click(); 
+  cy.url().should('include', '/userInformation');
+
+  cy.get('ul.bg-cyan-600').should('not.be.visible');
+  });
+
+  it('DBM should log the user out when user clicks logout in the User Management Dropdown', () => {
+    cy.get('[data-testid="updateUser-iconD"]').should("have.class", "text-gray-500").click();
+    cy.get('[data-testid="updateUser-iconD"]').should("have.class", "text-cyan-800");
+
+    cy.contains('Logout').click(); 
+    cy.url().should('include', '/');
+    cy.reload()
+    cy.url().should('include', '/');
+  });
 
  it('should have the desktop dropdown closed by default', () => {
   cy.viewport(1280, 800);
@@ -157,11 +178,6 @@ it(" if plus icon is clicked multiple times, still behaves correctly", () => {
       cy.url().should("include", "/job_applications");
     });
 
-    it("MSM should have clickable links for user profile icon", () => {
-      cy.get('[data-testid="updateUser-iconM"]').click();
-      cy.url().should("include", "/userInformation");
-    });
-
     it("MSM should render plus sign dropdown menu with link to add new contact", () => {
       cy.get('[data-testid="plus-iconM"]').click();
       cy.contains("Add New Contact").should("exist");
@@ -181,6 +197,22 @@ it(" if plus icon is clicked multiple times, still behaves correctly", () => {
       cy.contains("Add New Job Application").should("exist");
       cy.get('[data-testid="newAppLink"]').click();
       cy.url().should("include", "/jobapplications/new");
+    });
+
+    it("MSM should render User management dropdown menu with link to viw user profile", () => {
+      cy.get('[data-testid="updateUser-iconM"]').click();
+      cy.contains("User Profile").should("exist");
+      cy.get('[data-testid="userProfileLink"]').click();
+      cy.url().should("include", "/userInformation");
+    });
+
+    it("MSM should render User management dropdown menu with link to logout", () => {
+      cy.get('[data-testid="updateUser-iconM"]').click();
+      cy.contains("Logout").should("exist");
+      cy.get('[data-testid="userLogoutLink"]').click();
+      cy.url().should("include", "/");
+      cy.reload()
+      cy.url().should("include", "/");
     });
 
     it("if hamburger icon is clicked again while open, still behaves correctly", () => {

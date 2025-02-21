@@ -51,6 +51,7 @@ function JobApplication() {
   const [dateApplied, setDateApplied] = useState("");
   const [companyId, setCompanyId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  const [statusUpdateFlag, setStatusUpdateFlag] = useState(false);
 
   useEffect(() => {
     if (jobAppId) {
@@ -118,10 +119,17 @@ function JobApplication() {
 
   useEffect(() => {
     if (dateApplied) {
-      handleSubmit();
+      handleSubmit()
     }
-  }, [dateApplied]);
+  }, [dateApplied])
 
+  useEffect(() => {
+    if(statusUpdateFlag) {
+      handleSubmit()
+      setStatusUpdateFlag(false)
+    }
+  }, [status, statusUpdateFlag])
+    
   return (
     <div className="min-h-screen p-4 sm:p-8 pt-8 sm:pt-36">
       {error && <p className="text-red-600 text-center">{error}</p>}
@@ -145,8 +153,10 @@ function JobApplication() {
                 {jobApp.company_name}
               </h2>
             </Link>
-            <div className="flex align-row mt-5">
-              <p className="font-bold mb-4 mr-2">Applied On: </p>
+            <div className='text-[1.25vw] font-[Helvetica Neue] flex flex-row items-center flex align-row mt-5 mb-4 font-bold'>
+              <p id="applied-on" className="mr-2">
+                Applied On: {" "}
+              </p>
               {isEditing ? (
                 <div className="flex flex-col">
                   <DatePicker
@@ -176,18 +186,27 @@ function JobApplication() {
                 </span>
               )}
             </div>
-            <div className="flex-row">
-              <p className="mb-6 font-bold">
-                Status:{" "}
-                <span
-                  className={`py-1 px-2 rounded ${
-                    statusStyles[statusMap[jobApp.status]]
-                  }`}
-                  data-testid="job-status"
-                >
-                  {statusMap[jobApp.status]}
-                </span>
-              </p>
+            <div className="text-[1.25vw] font-[Helvetica Neue] flex flex-row items-center ">
+              <p id="application-status" className="font-bold mr-2">Status:</p>
+                <select
+                  value={status}
+                  id="appStatus"
+                  onChange={(e) => {
+                    setStatus(Number(e.target.value))
+                    setStatusUpdateFlag(true)
+                  }}
+                  className={`p-2 border-4 rounded-lg focus:outline-none focus:ring-2 m-2 ${statusMap[status] ? statusStyles[statusMap[status]] : ''
+                    }`}
+                  required >
+                  <option value="" className="text-gray-400">
+                    Select Status
+                  </option>
+                  {Object.entries(statusMap).map(([key, value]) => (
+                  <option key={key} value={key}>
+                    {value}
+                  </option>
+                  ))}
+                </select>
             </div>
             <h3 className="text-cyan-600 text-2xl mb-4">Notes</h3>
             <p
