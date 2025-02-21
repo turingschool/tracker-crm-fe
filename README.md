@@ -505,13 +505,16 @@ Key Functionalities Include:
 - View All Contacts:
   Browse a comprehensive list of contacts with info like their name, company, and notes. Includes a search bar and ability to create a new contact.
 - View a Contact:
-Click on  a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page. Click the contact's email address to open their mail client with an email to the contact. Click on the company name to view company name details.
+  Click on  a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page. Click the contact's email address to open their mail client with an email to the contact. Click on the company name to view company name details.
+- Edit a Contact:
+  Click edit in show contact page to open a modal that will enable a contact to be edited. First name and last name are required fields and the rest are optional. To exit the modal without saving changes, click the x in the corner or outside of the modal to close it. To save changes, click the save button. The modal will automatically close and the changes will be immediately viewable on your contact page. 
 - Delete a Contact:
-Click delete in show contact page to remove a contact, with a modal to verify the decision.
+  Click delete in show contact page to remove a contact, with a modal to verify the decision.
 - Add a new Contact
   Click on the Add New + button to navigate to a form where a user inputs a new contact and their associated information. The user has the ability to add a new company here as well.
 - Search for a Contact
   Use the search bar to quickly find a contact by name, enhancing efficiency and user experience.
+
 
 ![Contacts Section Demo](public/assets/contacts.gif)
 
@@ -624,6 +627,11 @@ FORMAT: lastname, firstname
 
 - [Github](https://github.com/jimmacur)
 - [LinkedIn](https://www.linkedin.com/in/jimmacur/)
+
+**Manning, Terra**
+
+- [Github](https://github.com/TDManning)
+- [LinkedIn](https://www.linkedin.com/in/terra-manning/)
 
 **Messersmith, Renee**
 

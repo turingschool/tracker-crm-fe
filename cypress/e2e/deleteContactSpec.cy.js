@@ -169,7 +169,7 @@ describe("Delete a Contact", () => {
   it("Should close the modal when clicking outside", () => {
     cy.get("button").contains("Delete").click();
     cy.contains("Are you sure you want to delete this").should("be.visible");
-    cy.get("body").click(0, 1);
+    cy.get("div.fixed.inset-0").click("topLeft");
     cy.contains("Are you sure you want to delete this").should("not.exist");
   });
 
