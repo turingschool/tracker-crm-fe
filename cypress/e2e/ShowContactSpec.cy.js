@@ -118,7 +118,7 @@ describe("Show a single contact page", () => {
     cy.get('[data-testid="contacts-iconD"]').click();
     cy.url().should("include", "/contacts");
 
-    cy.get("table tbody tr").first().find("a").click();
+    cy.get("table tbody tr").first().click();
     cy.url().should("include", "/contacts/1");
   });
 
@@ -182,7 +182,7 @@ describe("Show a single contact page", () => {
     }).as("get-contact-details-no-comp");
 
     cy.get('[data-testid="contacts-iconD"]').click();
-    cy.get("table tbody tr").first().find("a").click();
+    cy.get("table tbody tr").first().click();
 
     cy.wait("@get-contact-details-no-comp");
     cy.get('[data-testid="other-contacts"]').should("have.text", 'No Contacts');
@@ -237,7 +237,7 @@ describe("Show a single contact page (Sad Path)", () => {
     cy.get('[data-testid="contacts-iconD"]').click();
     cy.url().should("include", "/contacts");
 
-    cy.get("table tbody tr").first().find("a").click();
+    cy.get("table tbody tr").first().click();
     cy.url().should("include", "/contacts/1");
   });
 
@@ -400,7 +400,7 @@ describe ("Additional contacts link navigates to contact", () => {
     cy.get('[data-testid="contacts-iconD"]').click();
     cy.url().should("include", "/contacts");
 
-    cy.get("table tbody tr").first().find("a").click();
+    cy.get("table tbody tr").first().click();
     cy.url().should("include", "/contacts/1");
   });
   
