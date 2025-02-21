@@ -146,4 +146,14 @@ describe("Edit Contact Functionality", () => {
       .should("be.visible")
       .and("have.text", "Failed to update contact.");
   });
+
+  it("Should show an error if phone number is not a valid format", () => {
+    cy.get("button").contains("Edit").click();
+    cy.get("input[name='phoneNumber']").clear().type("12345");
+    cy.get('button[type="submit"]').click();
+
+    cy.contains("Phone number must be in the format '555-555-5555'").should(
+      "exist"
+    );
+  });
 });
