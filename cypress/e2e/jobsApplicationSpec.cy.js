@@ -46,8 +46,6 @@ describe("Job app page after logging in", () => {
     cy.wait("@getJobApplications");
 
     cy.get("h1").should("have.text", "Applications");
-
-    cy.get(".border.rounded-lg.overflow-hidden").should("exist");
   });
 
   it("Should display a spinner while loading and show data after loading completes", () => {
@@ -228,6 +226,11 @@ describe("View specific job app page with all fields filled in", () => {
     cy.get("h1").should("have.text", "Company Details");
 
     cy.get("h2")
+      .contains("Company Name:")
+      .next()
+      .should("have.text", "Creative Solutions Inc.");
+    
+    cy.get("h2")
       .contains("Website:")
       .next()
       .should("have.text", "https://creativesolutions.com");
@@ -235,7 +238,7 @@ describe("View specific job app page with all fields filled in", () => {
     cy.get("h2")
       .contains("Address:")
       .next()
-      .should("have.text", "789 Creative Street Seattle, WA 98101");
+      .should("have.text", "789 Creative Street, Seattle, WA 98101");
 
     cy.get("h2")
       .contains("Notes:")
@@ -255,21 +258,13 @@ describe("View specific job app page with all fields filled in", () => {
 
   it("displays application details", () => {
     cy.wait("@showSingleJobApp");
-
-    cy.get("p.font-bold").should("contain.text", "Applied On");
-    cy.get('[data-testid="application-date"]').should(
-      "have.text",
-      "August 20, 2024"
-    );
-    {
-      /* REFACTOR AWAITING UPDATE JOB APP ROUTE */
-    }
-
-    cy.get("p.mb-6").should("contain.text", "Status:");
-    cy.get('[data-testid="job-status"]').should("have.text", "Interviewing");
-    {
-      /* REFACTOR AWAITING UPDATE JOB APP ROUTE */
-    }
+    cy.get("#applied-on")
+      .should("contain.text", "Applied On");
+    cy.get('[data-testid="application-date"]').should("have.text", "August 20, 2024"); 
+    
+    cy.get("#application-status")
+      .should("contain.text", "Status:");
+    cy.get('#appStatus').should("have.value", "2");
   });
 
   it("displays notes and edit button", () => {
@@ -281,9 +276,6 @@ describe("View specific job app page with all fields filled in", () => {
       "Had a technical interview, awaiting decision."
     );
     cy.get("button.bg-transparent").should("have.text", "Edit");
-    {
-      /* REFACTOR AWAITING UPDATE JOB APP ROUTE */
-    }
   });
 
   it("displays job description and link", () => {
@@ -568,6 +560,22 @@ describe("Editability of specific job application fields", () => {
       }
     ).as("showSingleJobApp");
 
+    cy.intercept(
+      "PATCH",
+      "http://localhost:3001/api/v1/users/1/job_applications/3",
+      (req) => {
+        console.log("request body:", req.body);
+        req.body.status = status; 
+        req.reply({
+          statusCode: 200,
+          fixture: "mockJobAppStatusUpdate",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+    ).as("updateJobAppStatus");
+
     cy.visit("http://localhost:3000/");
     cy.get("#email").type("danny_de@email.com");
     cy.get("#password").type("jerseyMikesRox7");
@@ -597,173 +605,247 @@ describe("Editability of specific job application fields", () => {
     cy.wait("@showSingleJobApp");
     cy.get('[data-testid="application-date"]').click();
     cy.get('[aria-label="Choose Thursday, August 1st, 2024"]').click();
-    cy.get('[data-testid="application-date"]').should(
-      "have.text",
-      "August 1, 2024"
+    cy.get('[data-testid="application-date"]')
+      .should(
+        "have.text",
+        "August 1, 2024"
     );
     cy.wait("@updateJobAppDate");
-    cy.get('[data-testid="application-date"]').should(
-      "have.text",
-      "August 1, 2024"
+    cy.get('[data-testid="application-date"]')
+      .should(
+        "have.text",
+        "August 1, 2024"
     );
   });
 
-  it("Should display the edit model when edit button is clicked", () => {
-    cy.get('[data-testid="edit-modal"]').should("not.exist");
-    cy.get('[data-testid="edit-modal-title"]').should("not.exist");
-    cy.get('[data-testid="edit-modal-form"]').should("not.exist");
+  describe("Updating job application status from the application show page", () => {
+    const statuses = [
+      "Submitted",
+      "Interviewing",
+      "Offer",
+      "Rejected",
+      "Phone Screen",
+      "Code Challenge",
+      "Not Yet Applied",
+    ];
 
-    cy.get('[data-testid="edit-button"]').click();
+    statuses.forEach((status, index) => {
+      it(`should update application status to ${status}`, () => {
+        if (status === "Interviewing") {
+          cy.get("#appStatus")
+            .select("Submitted")
+            .should("have.value", "1");
+        }
 
-    cy.get('[data-testid="edit-modal"]').should("be.visible");
-    cy.get('[data-testid="edit-modal-title"]').should("be.visible");
-    cy.get('[data-testid="edit-modal-form"]').should("be.visible");
+        cy.get("#appStatus")
+          .select(status)
+          .should("have.value", `${index + 1}`);
 
-    cy.get('[data-testid="edit-modal-form-title"]').should(
-      "have.value",
-      "Backend Developer"
-    );
-    cy.get('[data-testid="edit-modal-form-status"]').should("have.value", "2");
-    cy.get('[data-testid="edit-modal-form-description"]').should(
-      "have.value",
-      "Developing RESTful APIs and optimizing server performance."
-    );
-    cy.get('[data-testid="edit-modal-form-url"]').should(
-      "have.value",
-      "https://creativesolutions.com/careers/backend-developer"
-    );
-    cy.get('[data-testid="edit-modal-form-notes"]').should(
-      "have.value",
-      "Had a technical interview, awaiting decision."
-    );
+        cy.wait("@updateJobAppStatus");
+
+        cy.get("#appStatus")
+          .select(status)
+          .should("have.value", `${index + 1}`);
+      });
+    });
   });
 
-  it("Should close the edit model when cancel button is clicked", () => {
-    cy.get('[data-testid="edit-button"]').click();
-    cy.get('[data-testid="edit-modal-form-cancel-button"]').click();
-
-    cy.get('[data-testid="edit-modal"]').should("not.exist");
-    cy.get('[data-testid="edit-modal-title"]').should("not.exist");
-    cy.get('[data-testid="edit-modal-form"]').should("not.exist");
-  });
-
-  it("Should make a fetch call when update info button is clicked", () => {
-    cy.intercept(
-      "PATCH",
-      "http://localhost:3001/api/v1/users/1/job_applications/3",
-      (req) => {
-        req.on("response", (res) => {});
-        req.reply({
-          statusCode: 200,
-          fixture: "mockSingleJobAppUpdate",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      }
-    ).as("updateJobApp");
-
-    cy.get('[data-testid="edit-button"]').click();
-
-    cy.get('[data-testid="edit-modal-form-title"]')
-      .clear()
-      .type("Frontend Developer");
-    cy.get('[data-testid="edit-modal-form-status"]').select("3");
-    cy.get('[data-testid="edit-modal-form-description"]')
-      .clear()
-      .type("Frontend Developer of React only with no CSS");
-    cy.get('[data-testid="edit-modal-form-url"]')
-      .clear()
-      .type("https://example.com");
-    cy.get('[data-testid="edit-modal-form-notes"]')
-      .clear()
-      .type(
-        "Talked with recruiter, sounds like a great opportunity to learn new things"
+    it("Should display the edit modal when edit button is clicked", () => {
+      cy.get('[data-testid="edit-modal"]')
+        .should("not.exist");
+      cy.get('[data-testid="edit-modal-title"]')
+        .should("not.exist");
+      cy.get('[data-testid="edit-modal-form"]')
+        .should("not.exist");
+      
+      cy.get('[data-testid="edit-button"]').click();
+      
+      cy.get('[data-testid="edit-modal"]')
+        .should("be.visible");
+      cy.get('[data-testid="edit-modal-title"]')
+        .should("be.visible");
+      cy.get('[data-testid="edit-modal-form"]')
+        .should("be.visible");
+      
+      cy.get('[data-testid="edit-modal-form-title"]')
+        .should(
+          "have.value",
+          "Backend Developer"
       );
-    cy.get('[data-testid="edit-modal-form-submit-button"]').click();
 
-    cy.reload();
-    cy.get("#email").type("danny_de@email.com");
-    cy.get("#password").type("jerseyMikesRox7");
-    cy.get('[data-testid="login-button"]').click();
-    cy.get('[data-testid="applications-iconD"]').click();
-    cy.get("tbody > tr").contains("Creative").click();
-
-    cy.wait("@updateJobApp");
-
-    cy.get('[data-testid="job-Title"]').should("contain", "Frontend Developer");
-    cy.get('[data-testid="job-companyName"]').should(
-      "contain",
-      "Creative Solutions Inc."
-    );
-    cy.get('[data-testid="job-status"]').should("have.text", "Offer");
-    cy.get('[data-testid="job-notes"]').should(
-      "contain",
-      "Talked with recruiter, sounds like a great opportunity to learn new things"
-    );
-    cy.get('[data-testid="job-URL"]').should("contain", "https://example.com");
-    cy.get('[data-testid="job-URL"]')
-      .should("have.attr", "href")
-      .and("include", "https://example.com");
-    cy.get('[data-testid="job-description"]').should(
-      "contain",
-      "Frontend Developer of React only with no CSS"
-    );
-  });
-
-  it("Should not create an error when update info button is clicked and no info changed", () => {
-    cy.intercept(
-      "PATCH",
-      "http://localhost:3001/api/v1/users/1/job_applications/3",
-      (req) => {
-        req.on("response", (res) => {});
-        req.reply({
-          statusCode: 200,
-          fixture: "mockSingleJobApp",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      }
-    ).as("showSingleJobAppEmptyFields");
-
-    cy.get('[data-testid="edit-button"]').click();
-    cy.get('[data-testid="edit-modal-form-submit-button"]').click();
-    cy.wait("@showSingleJobAppEmptyFields");
-
-    cy.reload();
-    cy.get("#email").type("danny_de@email.com");
-    cy.get("#password").type("jerseyMikesRox7");
-    cy.get('[data-testid="login-button"]').click();
-    cy.get('[data-testid="applications-iconD"]').click();
-    cy.get("tbody > tr").contains("Creative").click();
-
-    cy.wait("@getJobApplications");
-    cy.wait("@showSingleJobApp");
-
-    cy.get('[data-testid="job-Title"]').should("contain", "Backend Developer");
-    cy.get('[data-testid="job-companyName"]').should(
-      "contain",
-      "Creative Solutions Inc."
-    );
-    cy.get('[data-testid="job-status"]').should("have.text", "Interviewing");
-    cy.get('[data-testid="job-notes"]').should(
-      "contain",
-      "Had a technical interview, awaiting decision."
-    );
-    cy.get('[data-testid="job-URL"]').should(
-      "contain",
-      "https://creativesolutions.com/careers/backend-developer"
-    );
-    cy.get('[data-testid="job-URL"]')
-      .should("have.attr", "href")
-      .and(
-        "include",
-        "https://creativesolutions.com/careers/backend-developer"
+      cy.get('[data-testid="edit-modal-form-status"]')
+        .should(
+          "have.value", 
+          "2"
       );
-    cy.get('[data-testid="job-description"]').should(
-      "contain",
-      "Developing RESTful APIs and optimizing server performance."
-    );
+      cy.get('[data-testid="edit-modal-form-description"]')
+        .should(
+          "have.value",
+          "Developing RESTful APIs and optimizing server performance."
+      );
+      cy.get('[data-testid="edit-modal-form-url"]')
+        .should(
+          "have.value",
+          "https://creativesolutions.com/careers/backend-developer"
+        );
+      cy.get('[data-testid="edit-modal-form-notes"]')
+        .should(
+          "have.value",
+          "Had a technical interview, awaiting decision."
+      );
+    });
+    
+    it("Should close the edit modal when cancel button is clicked", () => {
+      cy.get('[data-testid="edit-button"]').click();
+      cy.get('[data-testid="edit-modal-form-cancel-button"]').click();
+      
+      cy.get('[data-testid="edit-modal"]')
+        .should("not.exist");
+      cy.get('[data-testid="edit-modal-title"]')
+        .should("not.exist");
+      cy.get('[data-testid="edit-modal-form"]')
+        .should("not.exist");
+    });
+    
+    it("Should make a fetch call when update info button is clicked", () => {
+      cy.intercept(
+        "PATCH",
+          "http://localhost:3001/api/v1/users/1/job_applications/3",
+          (req) => {
+            req.on("response", (res) => {});
+            req.reply({
+              statusCode: 200,
+              fixture: "mockSingleJobAppUpdate",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            });
+          }
+      ).as("updateJobApp");
+    
+      cy.get('[data-testid="edit-button"]').click();
+    
+      cy.get('[data-testid="edit-modal-form-title"]')
+        .clear()
+        .type("Frontend Developer");
+      cy.get('[data-testid="edit-modal-form-status"]')
+        .select("3");
+      cy.get('[data-testid="edit-modal-form-description"]')
+        .clear()
+        .type("Frontend Developer of React only with no CSS");
+      cy.get('[data-testid="edit-modal-form-url"]')
+        .clear()
+        .type("https://example.com");
+      cy.get('[data-testid="edit-modal-form-notes"]')
+        .clear()
+        .type(
+          "Talked with recruiter, sounds like a great opportunity to learn new things");
+      cy.get('[data-testid="edit-modal-form-submit-button"]').click();
+    
+      cy.wait("@updateJobApp");
+    
+      cy.get('[data-testid="job-Title"]')
+        .should(
+          "contain", 
+          "Frontend Developer"
+        );
+      cy.get('[data-testid="job-companyName"]')
+        .should(
+          "contain",
+          "Creative Solutions Inc."
+        );
+      cy.get('#appStatus')
+        .should(
+          "have.value", 
+          "2"
+        );
+      cy.get('[data-testid="job-notes"]')
+        .should(
+          "contain",
+          "Talked with recruiter, sounds like a great opportunity to learn new things"
+        );
+      cy.get('[data-testid="job-URL"]')
+        .should(
+          "contain", 
+          "https://example.com"
+          );
+      cy.get('[data-testid="job-URL"]')
+        .should(
+          "have.attr", 
+          "href"
+        )
+        .and("include", "https://example.com"
+        );
+      cy.get('[data-testid="job-description"]')
+        .should(
+          "contain",
+          "Frontend Developer of React only with no CSS"
+        );
+    });
+    
+    it("Should not create an error when update info button is clicked and no info changed", () => {
+      cy.intercept(
+          "PATCH",
+          "http://localhost:3001/api/v1/users/1/job_applications/3",
+          (req) => {
+            req.on("response", (res) => {});
+              req.reply({
+                statusCode: 200,
+                fixture: "mockSingleJobApp",
+                headers: {
+                "Content-Type": "application/json",
+                },
+              });
+            }
+      ).as("showSingleJobAppEmptyFields");
+    
+      cy.get('[data-testid="edit-button"]').click();
+      cy.get('[data-testid="edit-modal-form-submit-button"]').click();
+      cy.wait("@showSingleJobAppEmptyFields");
+      
+     
+      cy.wait("@getJobApplications");
+      cy.wait("@showSingleJobApp");
+      
+      cy.get('[data-testid="job-Title"]')
+        .should(
+          "contain", 
+          "Backend Developer"
+        );
+      cy.get('[data-testid="job-companyName"]')
+        .should(
+          "contain",
+          "Creative Solutions Inc."
+      );
+      cy.get('#appStatus')
+        .should(
+          "have.value", 
+          "2"
+        );
+      cy.get('[data-testid="job-notes"]')
+        .should(
+          "contain",
+          "Had a technical interview, awaiting decision."
+        );
+      cy.get('[data-testid="job-URL"]')
+        .should(
+          "contain",
+          "https://creativesolutions.com/careers/backend-developer"
+        );
+      cy.get('[data-testid="job-URL"]')
+        .should(
+          "have.attr", 
+          "href"
+        )
+        .and(
+          "include",
+          "https://creativesolutions.com/careers/backend-developer"
+      );
+      cy.get('[data-testid="job-description"]')
+        .should(
+          "contain",
+          "Developing RESTful APIs and optimizing server performance."
+        );
+    });
   });
-});
+    

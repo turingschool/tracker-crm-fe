@@ -489,6 +489,8 @@ Key Functionalities Include:
   Click on a company to see detailed information on a dedicated page, including the company’s name, website, address, and notes. The details page also displays a list of associated contacts, making it easier to manage relationships and connections.
 - Create a Company:
   Add new companies by filling out a simple form with fields like name, website, address, and notes.
+- Update a Company:
+  Click the Edit button on a company's details page to open a modal. Modify any field, including the company name, website, address, state, or notes, and save the changes effortlessly.
 - Search for a Company:
   Use the search bar to quickly find companies by name, enhancing efficiency and user experience.
 - Delete a Company:
@@ -505,13 +507,16 @@ Key Functionalities Include:
 - View All Contacts:
   Browse a comprehensive list of contacts with info like their name, company, and notes. Includes a search bar and ability to create a new contact.
 - View a Contact:
-Click on  a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page. Click the contact's email address to open their mail client with an email to the contact. Click on the company name to view company name details.
+  Click on  a contact to see detail info on a dedicated page, such as their name, company, email address, phone number, notes and any other contacts associated with the company. Click on the other contacts to view their contact page. Click the contact's email address to open their mail client with an email to the contact. Click on the company name to view company name details.
+- Edit a Contact:
+  Click edit in show contact page to open a modal that will enable a contact to be edited. First name and last name are required fields and the rest are optional. To exit the modal without saving changes, click the x in the corner or outside of the modal to close it. To save changes, click the save button. The modal will automatically close and the changes will be immediately viewable on your contact page. 
 - Delete a Contact:
-Click delete in show contact page to remove a contact, with a modal to verify the decision.
+  Click delete in show contact page to remove a contact, with a modal to verify the decision.
 - Add a new Contact
   Click on the Add New + button to navigate to a form where a user inputs a new contact and their associated information. The user has the ability to add a new company here as well.
 - Search for a Contact
   Use the search bar to quickly find a contact by name, enhancing efficiency and user experience.
+
 
 ![Contacts Section Demo](public/assets/contacts.gif)
 
@@ -539,8 +544,8 @@ Choose a company that exists under your profile.
 
 ![Edit Job Application Page](./src/assets/EditJobApp.png)
 
-- Edit an Application Date: Job application dates can also be edited directly on the job application page by clicking on the "Applied On" date to pull up an interactive calendar, and cliking on a new date. 
-![Edit Job Application Date Page](./src/assets/editJobAppDate.png)
+- Edit an Application Date or Status: Job application dates and statuses can also be edited directly on the job application page. Dates can be changed by clicking on the "Applied On" date to pull up an interactive calendar, and clicking on a new date. Statuses can be changed by clicking on the current status and selecting a new status from the dropdown. 
+![Edit Job Application Date Page](./src/assets/editJobAppDateOrStatus.png)
 
 <!-- CONTRIBUTING -->
 
@@ -627,6 +632,11 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/jimmacur)
 - [LinkedIn](https://www.linkedin.com/in/jimmacur/)
 
+**Manning, Terra**
+
+- [Github](https://github.com/TDManning)
+- [LinkedIn](https://www.linkedin.com/in/terra-manning/)
+
 **Messersmith, Renee**
 
 - [Github](https://github.com/reneemes)
@@ -665,6 +675,9 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/wally-yawn)
 - [LinkedIn](https://www.https://www.linkedin.com/in/wally-wallace-719b0875/)
 
+**Willett, Bryan**
+- [Github](https://github.com/bwillett2003)
+- [LinkedIn](https://www.linkedin.com/in/bryan--willett/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

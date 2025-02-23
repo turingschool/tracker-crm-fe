@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { ContactData, UserInformationProps } from "../../Interfaces";
 import { fetchContacts } from '../../apiCalls';
@@ -10,6 +10,7 @@ function Contacts({ userData }: UserInformationProps) {
   const [contactSearch, setContactSearch] = useState<string>("");
   const [fetchError, setFetchError] = useState<string | null>(null);
   const { token } = useUserLoggedContext();
+  const navigate = useNavigate();
 
     useEffect(() => {
       const contactFetcher = async () =>{
@@ -64,12 +65,14 @@ function Contacts({ userData }: UserInformationProps) {
   const contactData = contacts.map((data) => {
     const companyName = data.attributes.company?.name || "N/A";
     return (
-      <tr key={data.id} className="border-b hover:bg-gray-100">
-        <Link to={`/contacts/${data.id}`}>
-          <td className="p-4 text-gray-700">
-            {data.attributes.first_name} {data.attributes.last_name}
-          </td>
-        </Link>
+      <tr 
+        key={data.id} 
+        className="border-b hover:bg-gray-100 cursor-pointer"
+        onClick={() => navigate(`/contacts/${data.id}`)}
+      >
+        <td className="p-4 text-gray-700">
+          {data.attributes.first_name} {data.attributes.last_name}
+        </td>
         <td className="p-4 truncate max-w-[8vw]">{companyName}</td>
         <td className="p-4 truncate max-w-[8vw]">
           {data.attributes.notes}
