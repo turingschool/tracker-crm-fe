@@ -188,7 +188,6 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
               {errorMessage}
             </p>
           )}
-
           <div className="flex justify-end">
             <button
               type="submit"
