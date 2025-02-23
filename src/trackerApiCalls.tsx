@@ -83,7 +83,34 @@ export const getACompany = async (
   }
 };
 
+/*---------------------------------// EDIT A COMPANY //----------------------------------*/
 
+export const updateCompany = async (userId: number, token: string, companyId: number, updatedCompanyData: any) => {
+  try {
+    const response = await fetch(
+      `${backendURL}users/${userId}/companies/${companyId}`,
+      {
+        method: "PATCH",
+        headers: {
+          authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedCompanyData),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to update company: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Update error:", error);
+    throw error;
+  }
+};
+  
 /*-----------------------------------// GET USER //--------------------------------------*/
 
 export const getUser = async (userId: number) => {

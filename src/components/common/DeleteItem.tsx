@@ -49,12 +49,22 @@ const DeleteItem = ({
       </button>
 
       {deleteModalOpen && (
+<<<<<<<<< Temporary merge branch 1
         <div className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-75" onClick={() => setDeleteModalOpen(false)}>
 
         <div className="border-4 border-red-600 p-6 rounded shadow-lg text-red-600 text-center" onClick={(e) => e.stopPropagation()}>
+=========
+        <div
+          className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-75"
+          onClick={() => setDeleteModalOpen(false)} 
+        >
+          <div
+            className="border-4 border-red-600 p-6 rounded shadow-lg text-red-600 text-center"
+            onClick={(e) => e.stopPropagation()} 
+            >
+>>>>>>>>> Temporary merge branch 2
             <p className="mb-6">
               Are you sure you want to delete this {itemType.toLowerCase()}? <br /> This action is
-
               permanent.
             </p>
             <button
