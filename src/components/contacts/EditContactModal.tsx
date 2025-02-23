@@ -27,15 +27,8 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
   token,
   onUpdate,
 }) => {
-  const [formData, setFormData] = useState({
-    firstName: contact.attributes.first_name,
-    lastName: contact.attributes.last_name,
-    email: contact.attributes.email || "",
-    phoneNumber: contact.attributes.phone_number || "",
-    notes: contact.attributes.notes || "",
-  });
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null); //
+  const [formData, setFormData] = useState(formatContactData(contact))
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); 
 
   useEffect(() => {
     setFormData(formatContactData(contact));
