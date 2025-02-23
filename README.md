@@ -640,7 +640,7 @@ FORMAT: lastname, firstname
 **O'Brien, Michael**
 
 - [Github](https://github.com/MiTOBrien)
--[LinkedIn](https://www.linkedin.com/in/michaelobrien67/)
+- [LinkedIn](https://www.linkedin.com/in/michaelobrien67/)
 
 **Pintozzi, Erin - (Project Manager)**
 
