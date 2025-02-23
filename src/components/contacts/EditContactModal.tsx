@@ -11,6 +11,14 @@ type EditContactModalProps = {
   onUpdate: (updatedContact: ContactData) => void;
 };
 
+const formatContactData = (contact: ContactData) => ({
+  firstName: contact.attributes.first_name,
+  lastName: contact.attributes.last_name,
+  email: contact.attributes.email || "",
+  phoneNumber: contact.attributes.phone_number || "",
+  notes: contact.attributes.notes || "",
+})
+
 const EditContactModal: React.FC<EditContactModalProps> = ({
   open,
   setIsOpen,
@@ -19,24 +27,11 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
   token,
   onUpdate,
 }) => {
-  const [formData, setFormData] = useState({
-    firstName: contact.attributes.first_name,
-    lastName: contact.attributes.last_name,
-    email: contact.attributes.email || "",
-    phoneNumber: contact.attributes.phone_number || "",
-    notes: contact.attributes.notes || "",
-  });
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null); //
+  const [formData, setFormData] = useState(formatContactData(contact))
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); 
 
   useEffect(() => {
-    setFormData({
-      firstName: contact.attributes.first_name,
-      lastName: contact.attributes.last_name,
-      email: contact.attributes.email || "",
-      phoneNumber: contact.attributes.phone_number || "",
-      notes: contact.attributes.notes || "",
-    });
+    setFormData(formatContactData(contact));
   }, [contact]);
   if (!open) return null;
 
@@ -193,7 +188,6 @@ const EditContactModal: React.FC<EditContactModalProps> = ({
               {errorMessage}
             </p>
           )}
-
           <div className="flex justify-end">
             <button
               type="submit"
