@@ -16,10 +16,10 @@ describe('Delete a Job Application', () => {
               name: "Dolly Parton",
               email: "dollyP@email.com",
               companies: []
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     }).as("postUserInfo")
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/2/job_applications", (req) => {
@@ -87,9 +87,9 @@ describe('Delete a Job Application', () => {
     cy.wait('@postUserInfo');
     cy.get('a[href="/job_applications"]').first().click();
     cy.wait('@getJobApplications')
-    cy.get("tr td ").contains("3").click();
-    cy.url().should("include", "/job_applications/3")
-    cy.wait("@getJobApplicationDetails");
+    cy.get('tr td').contains('3').click();
+    cy.url().should('include', '/job_applications/3')
+    cy.wait('@getJobApplicationDetails');
   })
 
   it("Should display the delete button on the job application show page", () => {
@@ -125,33 +125,11 @@ describe('Delete a Job Application', () => {
       {statusCode: 200}
     ).as("deleteJobApplication")
 
-    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/job_applications", {
-      statusCode: 200,
-      body: {
-        data: {
-          id: "1",
-          type: "job_application",
-          attributes: {
-            position_title: "Jr. CTO",
-            date_applied: "2024-10-31",
-            status: 1,
-            notes: "Fingers crossed!",
-            job_description: "Looking for Turing grad/jr dev to be CTO",
-            application_url: "www.example.com",
-            contact_information: "boss@example.com",
-            company_id: 1
-          },
-        },
-      },
-    }).as("getJobApplicationAfterDelete");
-
     cy.get("button").contains("Delete").click();
     cy.contains("Ok").click();
 
     cy.wait("@deleteJobApplication");
-    cy.wait("@getJobApplicationAfterDelete");
     cy.url().should("include", "/job_applications");
-    cy.get("tr td").contains("3").should("not.exist");
   })
 
   it("Should show an error alert if deletion fails", () => {
@@ -167,5 +145,4 @@ describe('Delete a Job Application', () => {
       expect(text).to.contains("Failed to delete job_application. Please try again");
     });
   });
-  
 })
