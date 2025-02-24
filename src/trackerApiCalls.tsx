@@ -31,6 +31,7 @@ export const fetchCompanies = async (userId: number, token: string, setErrors: (
 };
 
 /*-----------------------------------// CREATE A COMPANY //---------------------------------*/
+//Refactored to handle error messages through the back end. 
 
 export const createCompany = async (
   userId: number,
@@ -149,7 +150,7 @@ export const getUser = async (userId: number) => {
   }
 };
 
-/*-----------------------------------// SHOW //--------------------------------------*/
+/*-----------------------------------// SHOW Job Application //--------------------------------------*/
 
 export const showJobApp = async (
   userId: number,

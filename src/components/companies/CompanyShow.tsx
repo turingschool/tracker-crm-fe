@@ -151,13 +151,13 @@ function CompanyShow() {
     return <p className="text-center mt-10">Loading company details...</p>;
   }
   
-  if (error) {
-    return <p className="text-center mt-10 text-red-500">Error: {error}</p>;
-  }
+  // if (error) {
+  //   return <p className="text-center mt-10 text-red-500">Error: {error}</p>;
+  // }
   
-  if (!companyData) {
-    return <p className="text-center mt-10">No company data found</p>;
-  }
+  // if (!companyData) {
+  //   return <p className="text-center mt-10">No company data found</p>;
+  // }
   
   const companyContacts = companyData?.contacts?.data ?? [];
   const companyAttributes = companyData?.company?.data?.attributes ?? {
