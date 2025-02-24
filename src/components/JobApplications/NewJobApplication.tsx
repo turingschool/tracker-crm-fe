@@ -92,15 +92,18 @@ const filteredContacts = contacts.filter(contact => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const newJobApplication: any = {
-        position_title: positionTitle,
-        date_applied: dateApplied,
-        status: status,
-        notes: notes,
-        job_description: jobDescription,
-        application_url: applicationURL,
-        company_id: availableCompany,
-        contact_id: contactInformation || null,
+      userId: userData.user.data.id ? Number(userData.user.data.id) : undefined,
+      token: userData.token,
+      position_title: positionTitle,
+      date_applied: dateApplied,
+      status: status,
+      notes: notes,
+      job_description: jobDescription,
+      application_url: applicationURL,
+      company_id: availableCompany,
+      contact_id: contactInformation || null,
     };
 
 
