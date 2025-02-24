@@ -106,25 +106,15 @@ const filteredContacts = contacts.filter(contact => {
       contact_id: contactInformation || null,
     };
 
-
-    try {
-      const apiURL = process.env.REACT_APP_BACKEND_API_URL;
-      const response = await fetch(`${apiURL}api/v1/users/${userData.user.data.id}/job_applications`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(newJobApplication)
+      postJobApplication(newJobApplication)
+      .then((response) => {
+        if (response === true) {
+          navigate('/job_applications')
+        }
       })
-
-      if (!response.ok) {
-        throw new Error('Failed to add job application');
-      }
-      navigate('/job_applications')
-    } catch (error) {
-      console.error("Error adding job application:", error)
-    }
+      .catch((error) => {
+        console.error("Error adding job application:", error)
+      })
   }
 
   return (
