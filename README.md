@@ -489,6 +489,8 @@ Key Functionalities Include:
   Click on a company to see detailed information on a dedicated page, including the company’s name, website, address, and notes. The details page also displays a list of associated contacts, making it easier to manage relationships and connections.
 - Create a Company:
   Add new companies by filling out a simple form with fields like name, website, address, and notes.
+- Update a Company:
+  Click the Edit button on a company's details page to open a modal. Modify any field, including the company name, website, address, state, or notes, and save the changes effortlessly.
 - Search for a Company:
   Use the search bar to quickly find companies by name, enhancing efficiency and user experience.
 - Delete a Company:
@@ -525,6 +527,8 @@ Key Functionalities Include:
 - View All Job Applications:
 
 - View A Job Application:
+
+- Delete a Job Application: Click delete in the show job application page to remove a job application, with a modal to verify the decision. After the job application is successfully deleted you will be returned to the main job application page.
 
 - Create A Job Application:
 
@@ -638,6 +642,11 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/reneemes)
 - [LinkedIn](https://www.linkedin.com/in/reneemessersmith/)
 
+**O'Brien, Michael**
+
+- [Github](https://github.com/MiTOBrien)
+- [LinkedIn](https://www.linkedin.com/in/michaelobrien67/)
+  
 **O'Leary, Ryan**
 
 - [Github](https://github.com/ROlearyPro)
@@ -666,6 +675,9 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/wally-yawn)
 - [LinkedIn](https://www.https://www.linkedin.com/in/wally-wallace-719b0875/)
 
+**Willett, Bryan**
+- [Github](https://github.com/bwillett2003)
+- [LinkedIn](https://www.linkedin.com/in/bryan--willett/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

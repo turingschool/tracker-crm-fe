@@ -1,0 +1,15 @@
+{
+  "data": {
+    "id": 1,
+    "type": "company",
+    "attributes": {
+      "name": "Google",
+      "website": null,
+      "street_address": null,
+      "city": null,
+      "state": null,
+      "zip_code": null,
+      "notes": null
+    }
+  }
+}
