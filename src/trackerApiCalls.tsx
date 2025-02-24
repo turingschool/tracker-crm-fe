@@ -112,14 +112,7 @@ export const getACompany = async (
 
 /*---------------------------------// EDIT A COMPANY //----------------------------------*/
 
-//Refactored to handle error messages through the back end. 
-
-export const updateCompany = async (
-  userId: number,
-  token: string,
-  companyId: number,
-  updatedCompanyData: any
-): Promise<APIResult<any>> => {
+export const updateCompany = async (userId: number, token: string, companyId: number, updatedCompanyData: any) => {
   try {
     const response = await fetch(
       `${backendURL}users/${userId}/companies/${companyId}`,
@@ -134,16 +127,14 @@ export const updateCompany = async (
     );
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.log("handleErrorResponse called with:", errorData.message);
-      return { error: errorData.message || "Failed to update company" };
+      throw new Error(`Failed to update company: ${response.statusText}`);
     }
 
     const data = await response.json();
-    return { data };
-  } catch (error: any) {
-    console.error("Error updating company:", error);
-    return { error: error.message || "Unable to connect to the server. Please try again later." };
+    return data;
+  } catch (error) {
+    console.error("Update error:", error);
+    throw error;
   }
 };
 

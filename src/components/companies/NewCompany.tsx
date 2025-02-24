@@ -36,7 +36,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
         const result = await fetchCompanies(
           userData.user.data.id,
           token!,
-          setBackendErrors  // used in the API call
+          setBackendErrors  
         );
         if (result.data) {
           setExistingCompanies(result.data);
@@ -47,9 +47,19 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
     };
   
     getCompanies();
-    // Remove setBackendErrors from the dependency array if it is stable.
   }, [token, userData]);
-  
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    if (errorMessages.length > 0) {
+      timer = setTimeout(() => {
+        setBackendErrors([]);
+      }, 5000);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [errorMessages, setBackendErrors]);
   
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -31,9 +31,22 @@ function Companies() {
   
     getCompanies();
   }, [token, userData]);
-  
-  
 
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    if (errorMessages.length > 0) {
+      timer = setTimeout(() => {
+        setErrors([]);
+      }, 5000);
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [errorMessages, setErrors]);
+  
+  
   useEffect(() => {
     if (companies) {
       setFilteredCompanies(
