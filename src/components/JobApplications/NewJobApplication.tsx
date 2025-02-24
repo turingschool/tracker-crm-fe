@@ -247,7 +247,12 @@ const filteredContacts = contacts.filter(contact => {
               </select>
             </label>
           </div>
+<div className="font-semibold">
+<p className='m-2'>* Required Fields</p>
 
+</div>
+
+          
           <div className='m-2'>
 
             {/* Application URL */}
@@ -287,6 +292,7 @@ const filteredContacts = contacts.filter(contact => {
       </form>
       </div>
     </div>
+    
   )
 }
 export default NewJobApplication
