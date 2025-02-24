@@ -4,6 +4,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { getACompany, deleteItem, updateCompany } from "../../trackerApiCalls";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import  DeleteItem  from "../common/DeleteItem";
+import { useErrorContext } from "../../context/ErrorContext";
 
 interface ContactData {
   id: string;
@@ -40,6 +41,7 @@ interface CompanyData {
 function CompanyShow() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { setErrors: setBackendErrors } = useErrorContext();
   const { token, userData} = useUserLoggedContext();
   const [companyData, setCompanyData] = useState<CompanyData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -64,7 +66,7 @@ function CompanyShow() {
           throw new Error("Company ID is missing");
         }
         const companyId = parseInt(id);
-        const data = await getACompany(userData.user.data.id, token!, companyId);
+        const data = await getACompany(userData.user.data.id, token!, companyId, setBackendErrors);
         setCompanyData(data);
         setName(data?.company?.data?.attributes?.name || "");
       } catch (error) {
@@ -77,7 +79,7 @@ function CompanyShow() {
     };
 
     fetchCompanyData();
-  }, [token, userData, id]);
+  }, [token, userData, id, setBackendErrors]);
   
   useEffect(() => {
     if (isEditModalOpen && companyData) {
