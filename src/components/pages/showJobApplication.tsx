@@ -25,6 +25,7 @@ interface JobApplicationAttributes {
   contacts: Contact[];
   company_id: number;
   company_name: string;
+  contact_id: number;
 }
 
 interface DataCompile {
@@ -52,6 +53,7 @@ function JobApplication() {
   const [companyId, setCompanyId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [statusUpdateFlag, setStatusUpdateFlag] = useState(false);
+  const [contacts, setContacts] = useState<Contact[]>([]);
 
   useEffect(() => {
     if (jobAppId) {
@@ -73,6 +75,7 @@ function JobApplication() {
               .local()
               .format("YYYY-MM-DD")
           );
+          setContacts(data.data.attributes.contacts);
         } catch (err) {
           console.error("Failed to fetch job application:", err);
           setError("Unable to fetch job application data.");
@@ -81,6 +84,8 @@ function JobApplication() {
       fetchJobApplication();
     }
   }, [jobAppId]);
+
+  const filteredContact = contacts.filter(contact => contact.id === jobApp?.contact_id);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -257,30 +262,31 @@ function JobApplication() {
                 Read More...
               </button>
             </div>
-            {/**WORKING CODE CAN BE USED TO RESOLVE ISSUE 93**
-            /* <div>
+            <div>
               <h2 className="text-cyan-600 text-xl sm:text-2xl font-bold mb-4">
-                My Contacts at {jobApp.company_name}
+                    My Contacts at {jobApp.company_name}
               </h2>
               <ul>
-                {jobApp.contacts.length > 0 ? (
-                  jobApp.contacts.map((contact) => (
-                    <li key={contact.id} className="mb-4">
-                      <p className="text-cyan-500 font-semibold">
-                        {contact.first_name} {contact.last_name}
-                      </p>
-                    </li>
-                  ))
-                  ) : (
-                    <Link to="/contacts/new">
-                      <p className="text-cyan-500 underline font-semibold hover:text-cyan-600">
-                        Add a new contact
-                      </p>
+                    {filteredContact.length > 0 ? (
+                      <Link
+                      key={filteredContact[0].id}
+                      to={`/contacts/${filteredContact[0].id}`}
+                      className="text-blue-500 hover:underline text-lg font-semibold"
+                    >
+                      {filteredContact[0].first_name} {filteredContact[0].last_name}
                     </Link>
-                  )
-                }
-              </ul>
-            </div> */}
+                    
+                    ) : (
+                      <Link to="/contacts/new">
+                        <p className="text-cyan-500 underline font-semibold hover:text-cyan-600">
+                          Add a new contact
+                        </p>
+                      </Link>
+                    )}
+                  </ul>
+
+
+            </div>
           </section>
 
           {isModalOpen && (
@@ -412,3 +418,5 @@ function JobApplication() {
 }
 
 export default JobApplication;
+
+
