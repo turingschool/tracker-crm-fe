@@ -92,10 +92,11 @@ function NewJobApplication() {
 
       postJobApplication(newJobApplication)
       .then((response) => {
-        if (response === true) {
-          navigate('/job_applications')
+        if (response) {
+          navigate('/job_applications') 
         }
-      })
+      }
+      )
       .catch((error) => {
         console.error("Error adding job application:", error)
       })
