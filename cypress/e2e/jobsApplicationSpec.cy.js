@@ -303,13 +303,20 @@ describe("View specific job app page with all fields filled in", () => {
     );
   });
 
-  // it("displays the contact list", () => {
+  it("displays the contact list", () => {
 
-  //   cy.wait("@showSingleJobApp");
+    cy.wait("@showSingleJobApp");
 
-  //   cy.get("h2.text-cyan-600").should("contain.text", "My Contacts at Creative Solutions Inc.");
-  //   cy.get("p.text-cyan-500").should("contain.text", "Michael Johnson");{/* REFACTOR AWAITING SHOW CONTACT ROUTE */}
-  // });
+    cy.get("h2.text-cyan-600").should("contain.text", "My Contact at Creative Solutions Inc.");
+    cy.get("a.text-blue-500").should("contain.text", "Michael Johnson");
+  });
+
+  it("navigates to the contact's personal page when clicking on their name", () => {
+    cy.wait("@showSingleJobApp");
+    cy.get("a.text-blue-500").contains("Michael Johnson").click();
+    cy.location("pathname").should("match", /\/contacts\/\d+$/);
+  });
+  
 
   it("handles the modal for full job description", () => {
     cy.wait("@showSingleJobApp");
@@ -428,20 +435,20 @@ describe("View specific job app page with empty fields", () => {
     }
   });
 
-  //   it("should display a link for adding contacts when contact field is empty", () => {
+    it("should display a link for adding contacts when contact field is empty", () => {
 
-  //     cy.wait("@showSingleJobAppEmptyFields");
+      cy.wait("@showSingleJobAppEmptyFields");
 
-  //     cy.get("p.text-cyan-500").should("contain.text", "Add a new contact");
-  //     cy.contains('Add a new contact').click();
+      cy.get("p.text-cyan-500").should("contain.text", "Add a new contact");
+      cy.contains('Add a new contact').click();
 
-  //     cy.intercept("GET", "http://localhost:3001/api/v1/users/1/contacts/new", {
-  //       statusCode: 200
-  //     }).as("addContact");
+      cy.intercept("GET", "http://localhost:3001/api/v1/users/1/contacts/new", {
+        statusCode: 200
+      }).as("addContact");
 
-  //     cy.url().should('include', '/contacts/new');
-  //     cy.get("h1").should("have.text", "Add New Contact");
-  //   })
+      cy.url().should('include', '/contacts/new');
+      cy.get("h1").should("have.text", "Add New Contact");
+    })
 });
 
 describe("View specific job app page when data fails to load", () => {
