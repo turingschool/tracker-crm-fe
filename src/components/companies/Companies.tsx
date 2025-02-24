@@ -90,12 +90,10 @@ function Companies() {
                 <td className="p-4 border-b">{company.attributes.name}</td>
                 <td className="p-4 border-b">{company.attributes.notes}</td>
               </tr>
-            ))}
-            </tbody>
-          </table>
-        ) : (
-          <p data-testid="no-companies">No companies found</p>
-        )}
+              ))}
+              </tbody>
+            </table>
+          ) : null }
       </div>
     </main>
   );

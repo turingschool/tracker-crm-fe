@@ -16,7 +16,6 @@ export const fetchCompanies = async (userId: number, token: string, setErrors: (
     });
 
     if (!response.ok) {
-      console.error("Response not OK, status:", response.status); //debugging for terra
       await handleErrorResponse(response, setErrors);
       throw new Error(`Failed to fetch companies: ${response.statusText}`);
     }
@@ -26,6 +25,7 @@ export const fetchCompanies = async (userId: number, token: string, setErrors: (
     return data.data;
   } catch (error) {
     console.error("Fetch error", error);
+    setErrors(["Unable to connect to the server. Please try again later."]);
     throw error
   }
 };
@@ -84,7 +84,6 @@ export const getACompany = async (
     );
 
     if (!response.ok) {
-      console.error("Response not OK, status, get one company:", response.status); //debugging for terra
       await handleErrorResponse(response, setErrors);
       throw new Error(`Failed to fetch company: ${response.statusText}`);
     }
@@ -93,6 +92,7 @@ export const getACompany = async (
     return data; 
   } catch (error) {
     console.error("Fetch error:", error);
+    setErrors(["Unable to connect to the server. Please try again later."]);
     throw error; 
   }
 };
