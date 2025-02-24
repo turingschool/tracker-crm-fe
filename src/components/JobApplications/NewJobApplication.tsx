@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import { statusMap, statusStyles} from "../JobApplicationUtilities";
 import { fetchContacts } from "../../apiCalls";
-
+import { postJobApplication } from '../../trackerApiCalls';
 
 interface Company {
   id: string;
