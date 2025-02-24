@@ -528,6 +528,8 @@ Key Functionalities Include:
 
 - View A Job Application:
 
+- Delete a Job Application: Click delete in the show job application page to remove a job application, with a modal to verify the decision. After the job application is successfully deleted you will be returned to the main job application page.
+
 - Create A Job Application:
 
 Add a new job application by filling out a form with fields for Position Title, Company, Date Applied, Application Status, Job Description, User Contacts, Application URL, and Notes.
@@ -640,6 +642,11 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/reneemes)
 - [LinkedIn](https://www.linkedin.com/in/reneemessersmith/)
 
+**O'Brien, Michael**
+
+- [Github](https://github.com/MiTOBrien)
+- [LinkedIn](https://www.linkedin.com/in/michaelobrien67/)
+  
 **O'Leary, Ryan**
 
 - [Github](https://github.com/ROlearyPro)
