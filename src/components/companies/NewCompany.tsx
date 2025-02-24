@@ -27,8 +27,8 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
     {}
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const { setErrors: setBackendErrors } = useErrorContext()
+  const { errorMessages } = useErrorContext();
 
   useEffect(() => {
     const getCompanies = async () => {
@@ -45,11 +45,6 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
     e.preventDefault();
     setErrors({});
     setSuccessMessage(null);
-
-    if (!name.trim()) {
-      setErrors({ name: "Company name is required." });
-      return;
-    }
 
     const isDuplicate = existingCompanies.some(
       (company) =>
@@ -101,8 +96,18 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
     }
   };
   return (
+
     <div className="flex flex-row">
       <div className="max-w-4xl w-10/12  m-auto p-12 justify-self-center bg-white border border-gray-200 rounded-lg shadow-lg">
+      {errorMessages.length > 0 && (
+      <div className="mb-4">
+        {errorMessages.map((msg, index) => (
+          <p key={index} className="text-red-700 bg-red-100 p-3 rounded-md">
+            {msg}
+          </p>
+        ))}
+      </div>
+    )}
         <h1 className="text-2xl font-bold mb-4">Add New Company</h1>
         {successMessage && (
           <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">

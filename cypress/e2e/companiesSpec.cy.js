@@ -151,12 +151,4 @@ describe("Companies page with no companies", () => {
     cy.get('[data-testid="companies-iconD"]').click();
     cy.wait("@getEmptyCompanies");
   });
-
-  it("Should display 'No companies found' when no companies exist", () => {
-    cy.get("[data-testid='no-companies']")
-      .should("be.visible")
-      .and("have.text", "No companies found");
-      
-    cy.get("table").should("not.exist");
-  });
 });

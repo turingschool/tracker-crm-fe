@@ -57,6 +57,11 @@ function CompanyShow() {
   const [zipCode, setZipCode] = useState("");
   const [notes, setNotes] = useState("");
 
+
+  useEffect(() => {
+    console.log("Current backend error messages:", errorMessages);
+  }, [errorMessages]);
+  
   
   useEffect(() => {
     console.log("Fetching company data...");
@@ -171,6 +176,7 @@ function CompanyShow() {
   };
 
     return (
+      <>
   
       <div className="max-w-4xl mx-auto mt-10">
       {/* Error Section */}
@@ -424,6 +430,7 @@ function CompanyShow() {
       )}
    </div>
 </div>
+</>
 )}
 
 
