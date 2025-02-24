@@ -17,19 +17,22 @@ function Companies() {
   
   useEffect(() => {
     const getCompanies = async () => {
-      try {
-        const companies = await fetchCompanies(userData.user.data.id, token!, setErrors);
-        setCompanies(companies);
-        setFilteredCompanies(companies);
-      } catch (error) {
-        console.error("Error fetching companies:", error);
-      } finally {
-        setIsLoading(false);
+      if (token && userData?.user?.data?.id) {
+        const result = await fetchCompanies(userData.user.data.id, token, setErrors);
+        if (result.error) {
+          console.error("Error fetching companies:", result.error);
+        } else if (result.data) {
+          setCompanies(result.data);
+          setFilteredCompanies(result.data);
+        }
       }
+      setIsLoading(false);
     };
-
+  
     getCompanies();
-  }, [token, userData, setErrors]);
+  }, [token, userData]);
+  
+  
 
   useEffect(() => {
     if (companies) {

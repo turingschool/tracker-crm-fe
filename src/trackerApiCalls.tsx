@@ -1,11 +1,17 @@
 import { handleErrorResponse } from "./context/ErrorHelpers"; 
+import { Company, CompanyData, APIResult } from "./Interfaces";
+
 const apiURL = process.env.REACT_APP_BACKEND_API_URL;
 const backendURL = `${apiURL}api/v1/`;
 
-/*----------------------------------// FETCH Companies //--------------------------------*/
-//Refactored to handle error messages through the back end. 
 
-export const fetchCompanies = async (userId: number, token: string, setErrors: (messages: string[]) => void) => {
+/*----------------------------------// FETCH Companies //--------------------------------*/
+// Refactored to handle error messages through the backend.
+export const fetchCompanies = async (
+  userId: number,
+  token: string,
+  setErrors: (messages: string[]) => void
+): Promise<APIResult<Company[]>> => {
   try {
     const response = await fetch(`${backendURL}users/${userId}/companies`, {
       method: "GET",
@@ -17,18 +23,23 @@ export const fetchCompanies = async (userId: number, token: string, setErrors: (
 
     if (!response.ok) {
       await handleErrorResponse(response, setErrors);
-      throw new Error(`Failed to fetch companies: ${response.statusText}`);
+      return { error: `Failed to fetch companies: ${response.statusText}` };
     }
 
     const data = await response.json();
-    console.log("Companies fetched:", data.data);
-    return data.data;
-  } catch (error) {
+    console.log("Raw companies data:", data);
+    return { data: data.data };
+  } catch (error: any) {
     console.error("Fetch error", error);
-    setErrors(["Unable to connect to the server. Please try again later."]);
-    throw error
+    if (error && typeof error.message === "string" && error.message.includes("Failed to fetch")) {
+      setErrors(["Unable to connect to the server. Please try again later."]);
+      return { error: "Unable to connect to the server. Please try again later." };
+    }
+    return { error: error.message || "An unexpected error occurred." };
   }
 };
+
+
 
 /*-----------------------------------// CREATE A COMPANY //---------------------------------*/
 //Refactored to handle error messages through the back end. 
@@ -38,7 +49,7 @@ export const createCompany = async (
   token: string,
   newCompany: object,
   setErrors: (messages: string[]) => void
-) => {
+): Promise<APIResult<any>> => {  
   try {
     const response = await fetch(`${backendURL}users/${userId}/companies`, {
       method: "POST",
@@ -50,15 +61,15 @@ export const createCompany = async (
     });
 
     if (!response.ok) {
-      await handleErrorResponse(response, setErrors)
-      throw new Error("Failed to add the company");
+      await handleErrorResponse(response, setErrors);
+      return { error: `Failed to add the company` };
     }
     const data = await response.json();
-    return data;
-  } catch (error) {
+    return { data };
+  } catch (error: any) {
     console.error("Error adding company:", error);
     setErrors(["Unable to connect to the server. Please try again later."]);
-    throw error;
+    return { error: error.message };
   }
 };
 
@@ -70,7 +81,7 @@ export const getACompany = async (
   token: string,
   companyId: number,
   setErrors: (messages: string[]) => void
-) => {
+): Promise<APIResult<CompanyData>> => {
   try {
     const response = await fetch(
       `${backendURL}users/${userId}/companies/${companyId}/contacts`,
@@ -85,21 +96,30 @@ export const getACompany = async (
 
     if (!response.ok) {
       await handleErrorResponse(response, setErrors);
-      throw new Error(`Failed to fetch company: ${response.statusText}`);
+      return { error: `Failed to fetch company: ${response.statusText}` };
     }
 
     const data = await response.json();
-    return data; 
-  } catch (error) {
+    console.log("Raw company data:", data);
+    return { data };
+  } catch (error: any) {
     console.error("Fetch error:", error);
     setErrors(["Unable to connect to the server. Please try again later."]);
-    throw error; 
+    return { error: error.message };
   }
 };
 
+
 /*---------------------------------// EDIT A COMPANY //----------------------------------*/
 
-export const updateCompany = async (userId: number, token: string, companyId: number, updatedCompanyData: any) => {
+//Refactored to handle error messages through the back end. 
+
+export const updateCompany = async (
+  userId: number,
+  token: string,
+  companyId: number,
+  updatedCompanyData: any
+): Promise<APIResult<any>> => {
   try {
     const response = await fetch(
       `${backendURL}users/${userId}/companies/${companyId}`,
@@ -114,17 +134,19 @@ export const updateCompany = async (userId: number, token: string, companyId: nu
     );
 
     if (!response.ok) {
-      throw new Error(`Failed to update company: ${response.statusText}`);
+      const errorData = await response.json();
+      console.log("handleErrorResponse called with:", errorData.message);
+      return { error: errorData.message || "Failed to update company" };
     }
 
     const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Update error:", error);
-    throw error;
+    return { data };
+  } catch (error: any) {
+    console.error("Error updating company:", error);
+    return { error: error.message || "Unable to connect to the server. Please try again later." };
   }
 };
-  
+
 /*-----------------------------------// GET USER //--------------------------------------*/
 
 export const getUser = async (userId: number) => {
@@ -138,15 +160,15 @@ export const getUser = async (userId: number) => {
     });
 
     if (!response.ok) {
-      console.log(response);
-
-      throw new Error(`Failed to fetch user data: ${response.status}`);
+      const errorData = await response.json();
+      console.log("handleErrorResponse called with:", errorData.message);
+      return { error: errorData.message || "Failed to add the company" };
     }
-
-    return await response.json();
-  } catch (err) {
-    console.error("Error in getUser:", err);
-    throw err;
+    const data = await response.json();
+    return { data };
+  } catch (error: any) {
+    console.error("Error adding company:", error);
+    return { error: error.message || "Unable to connect to the server. Please try again later." };
   }
 };
 

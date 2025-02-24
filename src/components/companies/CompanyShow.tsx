@@ -59,33 +59,28 @@ function CompanyShow() {
 
 
   useEffect(() => {
-    console.log("Current backend error messages:", errorMessages);
-  }, [errorMessages]);
-  
-  
-  useEffect(() => {
-    console.log("Fetching company data...");
-    setIsLoading(true);
     const fetchCompanyData = async () => {
-      try {
-        if (!id) {
-          throw new Error("Company ID is missing");
-        }
-        const companyId = parseInt(id);
-        const data = await getACompany(userData.user.data.id, token!, companyId, setBackendErrors);
-        setCompanyData(data);
-        setName(data?.company?.data?.attributes?.name || "");
-      } catch (error) {
-        console.error("Error fetching company data:", error);
-        setError(error instanceof Error ? error.message : "Unknown error occurred");
-      } finally {
+      setIsLoading(true);
+      if (!id) {
+        setError("Company ID is missing");
         setIsLoading(false);
-        console.log("Loading complete");
+        return;
       }
+      const companyId = parseInt(id);
+      const result = await getACompany(userData.user.data.id, token!, companyId, setBackendErrors);
+      if (result.error) {
+        setError(result.error);
+      } else if (result.data) {
+        setCompanyData(result.data);
+        setName(result.data.company.data.attributes.name || "");
+      }
+      setIsLoading(false);
+      console.log("Loading complete");
     };
-
+  
     fetchCompanyData();
-  }, [token, userData, id, setBackendErrors]);
+  }, [token, userData, id]);
+  
   
   useEffect(() => {
     if (isEditModalOpen && companyData) {
@@ -156,13 +151,13 @@ function CompanyShow() {
     return <p className="text-center mt-10">Loading company details...</p>;
   }
   
-  // if (error) {
-  //   return <p className="text-center mt-10 text-red-500">Error: {error}</p>;
-  // }
+  if (error) {
+    return <p className="text-center mt-10 text-red-500">Error: {error}</p>;
+  }
   
-  // if (!companyData) {
-  //   return <p className="text-center mt-10">No company data found</p>;
-  // }
+  if (!companyData) {
+    return <p className="text-center mt-10">No company data found</p>;
+  }
   
   const companyContacts = companyData?.contacts?.data ?? [];
   const companyAttributes = companyData?.company?.data?.attributes ?? {
@@ -177,9 +172,7 @@ function CompanyShow() {
 
     return (
       <>
-  
       <div className="max-w-4xl mx-auto mt-10">
-      {/* Error Section */}
       <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
         {errorMessages.length > 0 && (
           <div className="mb-4">
@@ -201,7 +194,6 @@ function CompanyShow() {
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-6">Company Details</h1>
       <div className="flex justify-between items-start space-x-8">
-        {/* Company Details */}
         <div className="space-y-4">
           <div>
             <h2 className="font-semibold text-gray-700">Company Name:</h2>
@@ -243,8 +235,6 @@ function CompanyShow() {
             <p className="text-gray-900">{companyAttributes.notes?.trim() || "N/A"}</p>
           </div>
         </div>
-
-        {/* Contacts Section */}
         <div className="w-1/2">
           <h2 className="text-xl font-bold mb-4">Contacts</h2>
           {companyContacts.length > 0 ? (
@@ -265,7 +255,6 @@ function CompanyShow() {
         </div>
       </div>
 
-      {/* Edit Button */}
       <div className="mt-6">
         <button
           data-cytest="edit-button"
@@ -275,8 +264,7 @@ function CompanyShow() {
           Edit
         </button>
       </div>
-        
-      {/* Delete Button */}
+
       <DeleteItem
         userId={userData.user.data.id}
         itemId={id!}
@@ -294,7 +282,6 @@ function CompanyShow() {
         >
           <div className="bg-white w-[50vw] mx-auto my-[2vh] p-[3vh] rounded-lg shadow-lg relative" onClick={(event) => event.stopPropagation()}>
             
-            {/* Close Button */}
             <button
               data-cytest="close-button"
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl"
@@ -306,7 +293,6 @@ function CompanyShow() {
             <h2 className="text-2xl font-bold mb-6">Edit Company</h2>
             <div className="grid grid-cols-2 gap-4">
 
-              {/* Name Field */}
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">
                   Name <span className="text-red-500">*</span>
@@ -335,7 +321,6 @@ function CompanyShow() {
                   </p>}
               </div>
 
-              {/* Website Field */}
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">Website</label>
                 <input
@@ -347,7 +332,6 @@ function CompanyShow() {
                 />
               </div>
 
-              {/* Street Address */}
               <div className="col-span-2">
                 <label className="block text-gray-700 font-medium mb-[1vh]">Street Address</label>
                 <input
@@ -359,7 +343,6 @@ function CompanyShow() {
                 />
               </div>
 
-              {/* City Field */}
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">City</label>
                 <input
@@ -371,7 +354,6 @@ function CompanyShow() {
                 />
               </div>
 
-              {/* State Dropdown */}
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">State</label>
                 <select
@@ -389,7 +371,6 @@ function CompanyShow() {
                 </select>
               </div>
 
-              {/* Zip Code */}
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">Zip</label>
                 <input
@@ -401,7 +382,6 @@ function CompanyShow() {
                 />
               </div>
 
-              {/* Notes */}
               <div className="col-span-2">
                 <label className="block text-gray-700 font-medium mb-[1vh]">Notes</label>
                 <textarea
@@ -415,7 +395,6 @@ function CompanyShow() {
               </div>
             </div>
 
-            {/* Save Button */}
             <div className="flex justify-end mt-6">
               <button
                 data-cytest="save-button"

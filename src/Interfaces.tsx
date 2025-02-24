@@ -168,3 +168,27 @@ export interface DashBoardDattaI{
     sectionUrl: string;
     sectionDescription: string
 }
+
+export interface APIResult<T> {
+  data?: T;
+  error?: string;
+}
+
+export interface CompanyData {
+  company: {
+    data: {
+      attributes: {
+        name: string;
+        website: string;
+        street_address: string;
+        city: string;
+        state: string;
+        zip_code: string;
+        notes: string;
+      }
+    }
+  },
+  contacts: {
+    data: ContactData[];
+  }
+}

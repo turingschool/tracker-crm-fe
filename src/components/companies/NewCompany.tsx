@@ -33,29 +33,40 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
   useEffect(() => {
     const getCompanies = async () => {
       if (token && userData?.user?.data?.id) {
-        const companies = await fetchCompanies(userData.user.data.id, token, setBackendErrors);
-        setExistingCompanies(companies || []);
+        const result = await fetchCompanies(
+          userData.user.data.id,
+          token!,
+          setBackendErrors  // used in the API call
+        );
+        if (result.data) {
+          setExistingCompanies(result.data);
+        } else {
+          setExistingCompanies([]);
+        }
       }
     };
-
+  
     getCompanies();
-  }, [token, userData, setBackendErrors]);
+    // Remove setBackendErrors from the dependency array if it is stable.
+  }, [token, userData]);
+  
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
     setSuccessMessage(null);
-
+  
     const isDuplicate = existingCompanies.some(
       (company) =>
         company.attributes.name.toLowerCase() === name.trim().toLowerCase()
     );
-
+  
     if (isDuplicate) {
       setErrors({ duplicate: "A company with this name already exists." });
       return;
     }
-
+  
     const newCompany: CompanyAttributes = {
       id: 0,
       name,
@@ -66,24 +77,32 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
       zip_code: zipCode,
       notes,
     };
-
+  
     try {
       if (!token || !userData?.user?.data?.id) {
         console.error("Missing token or user ID");
         return;
       }
-
+  
       setIsLoading(true);
-      const response = await createCompany(
+      const result = await createCompany(
         userData.user.data.id,
         token,
         newCompany,
         setBackendErrors
       );
+      setIsLoading(false);
+  
+      if (result.error) {
+        // Instead of throwing, display the error message.
+        setErrors({ name: result.error });
+        return;
+      }
+  
       setSuccessMessage("Company added successfully!");
-
+  
       if (isModal && onSuccess) {
-        onSuccess(response.data.id, response.data.attributes.name);
+        onSuccess(result.data.data.id, result.data.data.attributes.name);
       } else if (window.location.href.includes("companies")) {
         setTimeout(() => {
           navigate("/companies");
@@ -95,6 +114,8 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
       setIsLoading(false);
     }
   };
+  
+
   return (
 
     <div className="flex flex-row">
