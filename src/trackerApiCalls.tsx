@@ -1,8 +1,10 @@
-/*----------------------------------// FETCH Companies //--------------------------------*/
+import { handleErrorResponse } from "./context/ErrorHelpers"; 
 const apiURL = process.env.REACT_APP_BACKEND_API_URL;
 const backendURL = `${apiURL}api/v1/`;
 
-export const fetchCompanies = async (userId: number, token: string) => {
+/*----------------------------------// FETCH Companies //--------------------------------*/
+
+export const fetchCompanies = async (userId: number, token: string, setErrors: (messages: string[]) => void) => {
   try {
     const response = await fetch(`${backendURL}users/${userId}/companies`, {
       method: "GET",
@@ -13,14 +15,16 @@ export const fetchCompanies = async (userId: number, token: string) => {
     });
 
     if (!response.ok) {
+      await handleErrorResponse(response, setErrors);
       throw new Error(`Failed to fetch companies: ${response.statusText}`);
     }
 
     const data = await response.json();
-    console.log(data.data);
+    console.log("Companies fetched:", data.data);
     return data.data;
   } catch (error) {
     console.error("Fetch error", error);
+    throw error
   }
 };
 
@@ -76,10 +80,10 @@ export const getACompany = async (
     }
 
     const data = await response.json();
-    return data; // Return the fetched data
+    return data; 
   } catch (error) {
     console.error("Fetch error:", error);
-    throw error; // Propagate the error for the caller to handle
+    throw error; 
   }
 };
 
