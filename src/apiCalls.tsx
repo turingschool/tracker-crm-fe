@@ -147,11 +147,8 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
     }
 
     const result = await response.json();
-    const companyList = result.data.map((company: Company) => ({
-      id: company.id,
-      name: company.attributes.name,
-    }));
-    return companyList
+    const formattedData = result.data 
+    return formattedData;
   } catch (error: any) {
     console.error("Error fetching companies:", error.message);
     throw error;
