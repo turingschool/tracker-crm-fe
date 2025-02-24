@@ -66,11 +66,7 @@ function NewJobApplication() {
 
       try {
         const companies = await fetchCompanies(userData.user.data.id, token)
-        const companyList = companies.map((company: any) => ({
-          id: company.id,
-          name: company.attributes.name,
-        }));
-        setCompanies(companyList);
+        setCompanies(companies);
       } catch (error) {
         console.error("Fetch error", error);
       }
