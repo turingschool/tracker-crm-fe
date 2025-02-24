@@ -303,12 +303,28 @@ describe("View specific job app page with all fields filled in", () => {
     );
   });
 
-  // it("displays the contact list", () => {
+  it("displays the contact list", () => {
 
-  //   cy.wait("@showSingleJobApp");
+    cy.wait("@showSingleJobApp");
 
-  //   cy.get("h2.text-cyan-600").should("contain.text", "My Contacts at Creative Solutions Inc.");
-  //   cy.get("p.text-cyan-500").should("contain.text", "Michael Johnson");{/* REFACTOR AWAITING SHOW CONTACT ROUTE */}
+    cy.get("h2.text-cyan-600").should("contain.text", "My Contacts at Creative Solutions Inc.");
+    cy.get("a.text-blue-500").should("contain.text", "Michael Johnson");
+  });
+
+  it("navigates to the contact's personal page when clicking on their name", () => {
+    cy.wait("@showSingleJobApp");
+    cy.get("a.text-blue-500").contains("Michael Johnson").click();
+    cy.location("pathname").should("match", /\/contacts\/\d+$/);
+  });
+
+
+
+  // it('should show the "Add a new contact" link when no contact data is available', () => {
+  //   cy.intercept('GET', '/api/contacts', { body: [] }); 
+  
+  //   cy.visit('/job-applications'); 
+  
+  //   cy.contains('Add a new contact').should('be.visible');
   // });
 
   it("handles the modal for full job description", () => {
