@@ -136,7 +136,7 @@ export const getUser = async (userId: number) => {
   }
 };
 
-/*-----------------------------------// SHOW //--------------------------------------*/
+/*-----------------------------------// SHOW JOB APPLICATIONS //--------------------------------------*/
 
 export const showJobApp = async (
   userId: number,
@@ -279,3 +279,26 @@ export const deleteItem = async (
   }
 };
 
+/*-----------------------------------// POST NEW JOB APPLICATION//--------------------------------------*/
+export const postJobApplication = async (userParams: Record<string, any>) => {
+  try {
+    const apiURL = process.env.REACT_APP_BACKEND_API_URL;
+    const response = await fetch(
+      `${apiURL}/api/v1/users/${userParams.userId}/job_applications`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${userParams.token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(userParams)
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to add job application');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error adding job application:", error)
+  }
+};

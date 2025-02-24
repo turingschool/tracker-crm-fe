@@ -1,4 +1,4 @@
-import { UserRegistrationData, FormInputData, NewContact, Company } from "./Interfaces"
+import { UserRegistrationData, FormInputData, NewContact } from "./Interfaces"
 const apiURL = process.env.REACT_APP_BACKEND_API_URL
 const backendURL = `${apiURL}api/v1/`
 /*-----------------------------------// GET //--------------------------------------*/
@@ -147,11 +147,12 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
     }
 
     const result = await response.json();
-    const companyList = result.data.map((company: Company) => ({
+    const companyList = result.data.map((company: any) => ({
       id: company.id,
       name: company.attributes.name,
     }));
-    return companyList
+
+    return companyList;
   } catch (error: any) {
     console.error("Error fetching companies:", error.message);
     throw error;
