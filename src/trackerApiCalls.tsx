@@ -3,6 +3,7 @@ const apiURL = process.env.REACT_APP_BACKEND_API_URL;
 const backendURL = `${apiURL}api/v1/`;
 
 /*----------------------------------// FETCH Companies //--------------------------------*/
+//Refactored to handle error messages through the back end. 
 
 export const fetchCompanies = async (userId: number, token: string, setErrors: (messages: string[]) => void) => {
   try {
@@ -15,6 +16,7 @@ export const fetchCompanies = async (userId: number, token: string, setErrors: (
     });
 
     if (!response.ok) {
+      console.error("Response not OK, status:", response.status); //debugging for terra
       await handleErrorResponse(response, setErrors);
       throw new Error(`Failed to fetch companies: ${response.statusText}`);
     }
@@ -33,7 +35,8 @@ export const fetchCompanies = async (userId: number, token: string, setErrors: (
 export const createCompany = async (
   userId: number,
   token: string,
-  newCompany: object
+  newCompany: object,
+  setErrors: (messages: string[]) => void
 ) => {
   try {
     const response = await fetch(`${backendURL}users/${userId}/companies`, {
@@ -46,22 +49,26 @@ export const createCompany = async (
     });
 
     if (!response.ok) {
+      await handleErrorResponse(response, setErrors)
       throw new Error("Failed to add the company");
     }
     const data = await response.json();
     return data;
   } catch (error) {
     console.error("Error adding company:", error);
+    setErrors(["Unable to connect to the server. Please try again later."]);
     throw error;
   }
 };
 
 /*-----------------------------------// GET ONE COMPANY //-------------------------------*/
+//Refactored to handle error messages through the back end. 
 
 export const getACompany = async (
   userId: number,
   token: string,
-  companyId: number
+  companyId: number,
+  setErrors: (messages: string[]) => void
 ) => {
   try {
     const response = await fetch(
@@ -76,6 +83,8 @@ export const getACompany = async (
     );
 
     if (!response.ok) {
+      console.error("Response not OK, status, get one company:", response.status); //debugging for terra
+      await handleErrorResponse(response, setErrors);
       throw new Error(`Failed to fetch company: ${response.statusText}`);
     }
 

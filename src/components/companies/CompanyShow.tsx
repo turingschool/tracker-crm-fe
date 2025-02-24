@@ -6,6 +6,7 @@ import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import  DeleteItem  from "../common/DeleteItem";
 import { useErrorContext } from "../../context/ErrorContext";
 
+
 interface ContactData {
   id: string;
   type: string;
@@ -41,7 +42,7 @@ interface CompanyData {
 function CompanyShow() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { setErrors: setBackendErrors } = useErrorContext();
+  const { setErrors: setBackendErrors, errorMessages } = useErrorContext();
   const { token, userData} = useUserLoggedContext();
   const [companyData, setCompanyData] = useState<CompanyData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -168,9 +169,29 @@ function CompanyShow() {
     zip_code: "",
     notes: ""
   };
+
+    return (
   
+      <div className="max-w-4xl mx-auto mt-10">
+      {/* Error Section */}
+      <div className="p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
+        {errorMessages.length > 0 && (
+          <div className="mb-4">
+            {errorMessages.map((msg, index) => (
+              <p key={index} className="text-red-700 bg-red-100 p-3 rounded-md">
+                {msg}
+              </p>
+            ))}
+          </div>
+        )}
   
-  return (
+        {error && (
+          <p className="text-center mt-10 text-red-500">Error: {error}</p>
+        )}
+  
+        <h1 className="text-2xl font-bold mb-6">Company Details</h1>
+      </div>
+    
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-6">Company Details</h1>
       <div className="flex justify-between items-start space-x-8">
@@ -401,8 +422,9 @@ function CompanyShow() {
           </div>
         </div>
       )}
-    </div>
-  );
-}
+   </div>
+</div>
+)}
+
 
 export default CompanyShow;

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchCompanies, createCompany } from "../../trackerApiCalls";
 import { CompanyAttributes } from "../../Interfaces";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
+import { useErrorContext } from "../../context/ErrorContext"; 
 
 interface NewCompanyProps {
   isModal?: boolean;
@@ -22,22 +23,23 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
   const [notes, setNotes] = useState<string>("");
   const [existingCompanies, setExistingCompanies] = useState<any[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
   const [errors, setErrors] = useState<{ name?: string; duplicate?: string }>(
     {}
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const { setErrors: setBackendErrors } = useErrorContext()
+
   useEffect(() => {
     const getCompanies = async () => {
       if (token && userData?.user?.data?.id) {
-        const companies = await fetchCompanies(userData.user.data.id, token);
+        const companies = await fetchCompanies(userData.user.data.id, token, setBackendErrors);
         setExistingCompanies(companies || []);
       }
     };
 
     getCompanies();
-  }, [token, userData]);
+  }, [token, userData, setBackendErrors]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,7 +82,8 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
       const response = await createCompany(
         userData.user.data.id,
         token,
-        newCompany
+        newCompany,
+        setBackendErrors
       );
       setSuccessMessage("Company added successfully!");
 

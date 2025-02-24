@@ -12,7 +12,7 @@ function Companies() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const {token, userData} = useUserLoggedContext();
-  const {setErrors} = useErrorContext();
+  const {setErrors, errorMessages} = useErrorContext();
 
   
   useEffect(() => {
@@ -29,7 +29,7 @@ function Companies() {
     };
 
     getCompanies();
-  }, [token, setErrors]);
+  }, [token, userData, setErrors]);
 
   useEffect(() => {
     if (companies) {
@@ -47,6 +47,13 @@ function Companies() {
         <h1 className="text-[5.5vh] font-bold text-cyan-600 tracking-wide mb-[2vh] mt-[8vh]">
           Companies
         </h1>
+
+        {errorMessages.length > 0 &&
+          errorMessages.map((msg, index) => (
+            <p key={index} className="text-red-700 bg-red-100 p-3 rounded-md">
+              {msg}
+            </p>
+          ))}
 
         <div className="flex justify-between items-center">
           <input
