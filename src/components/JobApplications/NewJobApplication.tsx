@@ -38,7 +38,6 @@ function NewJobApplication() {
 
       try {
         const contacts = await fetchContacts(userData.user.data.id, token);
-
         const contactList = contacts.map((contact: any) => ({
           id: contact.id,
           first_name: contact.attributes.first_name,
@@ -62,23 +61,12 @@ function NewJobApplication() {
 
 
   useEffect(() => {
-    const fetchCompanies = async () => {
+    const getCompanies = async () => {
+      if (!token || !userData?.user?.data?.id) return;
+
       try {
-        const apiURL = process.env.REACT_APP_BACKEND_API_URL;
-        const response = await fetch(`${apiURL}api/v1/users/${userData.user.data.id}/companies`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch companies: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        const companyList = data.data.map((company: any) => ({
+        const companies = await fetchCompanies(userData.user.data.id, token)
+        const companyList = companies.map((company: any) => ({
           id: company.id,
           name: company.attributes.name,
         }));
@@ -87,7 +75,7 @@ function NewJobApplication() {
         console.error("Fetch error", error);
       }
     };
-    fetchCompanies();
+    getCompanies();
   }, [userData.user.data.id, token]);
 
   const handleSubmit = async (e: React.FormEvent) => {
