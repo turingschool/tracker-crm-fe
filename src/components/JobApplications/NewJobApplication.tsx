@@ -134,21 +134,25 @@ const filteredContacts = contacts.filter(contact => {
 
             {/* Position Title*/}
             <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
-              <span className="font-semibold">Position Title:</span>
+              <span className="font-semibold">Position Title:
+                <span className="text-red-500"> *</span>
+              </span>
               <input
                 type="text"
                 id="positionTitle"
                 value={positionTitle}
                 onChange={(e) => setPositionTitle(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
-                placeholder='Position Title is required'
+                placeholder='Position Title (required)'
                 required
               />
             </label>
 
             {/* Company*/}
             <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
-              <span className="font-semibold">Company:</span>
+              <span className="font-semibold">Company:
+                <span className="text-red-500"> *</span>
+              </span>
               <select
                 value={availableCompany || ""}
                 id="company"
@@ -159,7 +163,7 @@ const filteredContacts = contacts.filter(contact => {
                 required
               >
                 <option value="" className="text-gray-400">
-                  Select a company (required)
+                  Select a Company (required)
                 </option>
                 {companies.map((company) => (
                   <option key={company.id} value={company.id}>
@@ -172,7 +176,9 @@ const filteredContacts = contacts.filter(contact => {
 
               {/* Date Applied */}
               <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[45%]">
-                <span className="font-semibold">Date Applied:</span>
+                <span className="font-semibold">Date Applied:
+                  <span className="text-red-500"> *</span>
+                </span>
                 <input
                   type="date"
                   id="dateApplied"
@@ -185,16 +191,18 @@ const filteredContacts = contacts.filter(contact => {
 
               {/* Status */}
               <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[45%]">
-                <span className="font-semibold">Application Status:</span>
+                <span className="font-semibold">Application Status:
+                  <span className="text-red-500"> *</span>
+                </span>
                 <select
                   value={status}
                   id="appStatus"
                   onChange={(e) => setStatus(Number(e.target.value))}
-                  className={`p-2 border-4 rounded-lg focus:outline-none focus:ring-2 m-2 ${statusMap[status] ? statusStyles[statusMap[status]] : ''
+                  className={`p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2 ${statusMap[status] ? statusStyles[statusMap[status]] : ''
                     }`}
                   required                >
                   <option value="" className="text-gray-400">
-                    Select Status
+                    Select Status (required)
                   </option>
                   {Object.entries(statusMap).map(([key, value]) => (
                     <option key={key} value={key}>
@@ -207,13 +215,13 @@ const filteredContacts = contacts.filter(contact => {
 
             {/* Job Description */}
             <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
-              <span className="font-semibold">Job Description:</span>
+              <span className="font-semibold">Job Description:<span className="text-red-500"> *</span></span>
               <textarea
                 value={jobDescription}
                 id="jobDescription"
                 onChange={(e) => setJobDescription(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2  m-2"
-                placeholder='Job Description is required'
+                placeholder='Job Description (required)'
                 rows={6}
                 required
               />
@@ -229,7 +237,7 @@ const filteredContacts = contacts.filter(contact => {
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
               >
                <option value="" className="text-gray-400">
-                  Select a contact
+                  Select a Contact
                 </option>
                 {filteredContacts.map((contact) => (
                   <option key={contact.id} value={contact.id}>
