@@ -264,7 +264,7 @@ function JobApplication() {
             </div>
             <div>
               <h2 className="text-cyan-600 text-xl sm:text-2xl font-bold mb-4">
-                    My Contacts at {jobApp.company_name}
+                    My Contact at {jobApp.company_name}
               </h2>
               <ul>
                     {filteredContact.length > 0 ? (

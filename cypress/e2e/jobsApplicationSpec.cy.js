@@ -307,7 +307,7 @@ describe("View specific job app page with all fields filled in", () => {
 
     cy.wait("@showSingleJobApp");
 
-    cy.get("h2.text-cyan-600").should("contain.text", "My Contacts at Creative Solutions Inc.");
+    cy.get("h2.text-cyan-600").should("contain.text", "My Contact at Creative Solutions Inc.");
     cy.get("a.text-blue-500").should("contain.text", "Michael Johnson");
   });
 
