@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Company } from "../../Interfaces";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { fetchCompanies } from "../../trackerApiCalls";
+import { useErrorContext } from "../../context/ErrorContext";
 
 function Companies() {
   const [companies, setCompanies] = useState<Company[] | null>([]); 
@@ -11,12 +12,13 @@ function Companies() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const {token, userData} = useUserLoggedContext();
+  const {setErrors} = useErrorContext();
 
   
   useEffect(() => {
     const getCompanies = async () => {
       try {
-        const companies = await fetchCompanies(userData.user.data.id, token!);
+        const companies = await fetchCompanies(userData.user.data.id, token!, setErrors);
         setCompanies(companies);
         setFilteredCompanies(companies);
       } catch (error) {
@@ -27,7 +29,7 @@ function Companies() {
     };
 
     getCompanies();
-  }, [token]);
+  }, [token, setErrors]);
 
   useEffect(() => {
     if (companies) {
