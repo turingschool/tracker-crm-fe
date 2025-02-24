@@ -1,4 +1,4 @@
-import { UserRegistrationData, FormInputData, NewContact, Company } from "./Interfaces"
+import { UserRegistrationData, FormInputData, NewContact } from "./Interfaces"
 const apiURL = process.env.REACT_APP_BACKEND_API_URL
 const backendURL = `${apiURL}api/v1/`
 /*-----------------------------------// GET //--------------------------------------*/
