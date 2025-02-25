@@ -224,18 +224,16 @@ function NewJobApplication() {
                 ))}
               </select>
             </label>
+            <div className="text-red-500">
+              <p className='m-2'>* Required Fields</p>
+            </div>
           </div>
-<div className="font-semibold">
-<p className='m-2'>* Required Fields</p>
 
-</div>
-
-          
           <div className='m-2'>
 
             {/* Application URL */}
             <label className="text-[1vw] font-[Helvetica Neue] flex flex-col">
-              <span className="font-semibold">Application URL:</span>
+              <span className="font-semibold">Application URL:<span className="text-red-500"> *</span></span>
               <input
                 type="url"
                 id="appURL"
