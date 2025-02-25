@@ -248,3 +248,62 @@ describe("Company Show Page", () => {
   });
 });
 
+
+describe("NewCompany backend error handling", () => {
+  const userId = 2;
+
+  beforeEach(() => {
+    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
+      statusCode: 200,
+      body: {
+        token: "fake-token",
+        user: {
+          data: {
+            id: userId,
+            type: "user",
+            attributes: {
+              name: "Test User",
+              email: "testuser@example.com",
+              companies: [],
+            },
+          },
+        },
+      },
+    }).as("mockSession");
+
+    cy.visit("http://localhost:3000/");
+    cy.get("#email").type("danny_de@email.com");
+    cy.get("#password").type("jerseyMikesRox7");
+    cy.get('[data-testid="login-button"]').click();
+    cy.wait("@mockSession");
+    cy.window().then((win) => {
+      win.localStorage.setItem("token", "fake-token");
+    });
+
+    cy.visit("http://localhost:3000/companies/new");
+  });
+
+  it("should display a backend error message when the company name is missing and auto-dismiss it after 5 seconds", () => {
+    cy.get("input#companyName").should("have.value", "");
+
+    cy.get("input#website").type("https://example.com");
+    cy.get("input#streetAddress").type("123 Main St");
+    cy.get("input#city").type("CityName");
+    cy.get("select").select("CA"); 
+    cy.get("input#zipCode").type("12345");
+    cy.get("textarea").type("Some notes about the company");
+
+    cy.intercept("POST", `http://localhost:3001/api/v1/users/${userId}/companies`, {
+      statusCode: 422,
+      body: { error: "Company name is required" },
+      headers: { "Content-Type": "application/json" },
+    }).as("createCompanyError");
+
+    cy.get('button[type="submit"]').click();
+    cy.get("p.text-red-700")
+      .should("be.visible")
+      .and("contain.text", "Company name is required");
+    cy.wait(6000);
+    cy.get("p.text-red-700").should("not.exist");
+  });
+});
