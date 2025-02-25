@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { showJobApp, updateJobApplication } from "../../trackerApiCalls";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { statusMap, statusStyles } from "../JobApplicationUtilities";
+import { deleteItem } from "../../trackerApiCalls";
+import DeleteItem from "../common/DeleteItem";
 import DatePicker from "react-datepicker";
 import moment from "moment-timezone";
 
@@ -54,6 +56,8 @@ function JobApplication() {
   const [isEditing, setIsEditing] = useState(false);
   const [statusUpdateFlag, setStatusUpdateFlag] = useState(false);
   const [contacts, setContacts] = useState<Contact[]>([]);
+  const navigate = useNavigate();
+  const userId = userData.user.data.id;
 
   useEffect(() => {
     if (jobAppId) {
@@ -233,6 +237,16 @@ function JobApplication() {
             >
               Back
             </Link>
+            <div className="mt-[80px] flex flex-col items-start ml-20">
+              <DeleteItem
+                userId={userId}
+                itemId={jobAppId || ""}
+                itemType="job_application"
+                deleteAction={deleteItem}
+                token={token ?? ""}
+                onDeleteSuccess={() => navigate("/job_applications")}
+              />
+            </div>
           </section>
 
           <section className="mt-8 lg:mt-0">
