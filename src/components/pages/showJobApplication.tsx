@@ -55,9 +55,12 @@ function JobApplication() {
   const [companyId, setCompanyId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [statusUpdateFlag, setStatusUpdateFlag] = useState(false);
+
   const [contacts, setContacts] = useState<Contact[]>([]);
+
   const navigate = useNavigate();
   const userId = userData.user.data.id;
+
 
   useEffect(() => {
     if (jobAppId) {
