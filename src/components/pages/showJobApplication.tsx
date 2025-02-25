@@ -214,7 +214,7 @@ function JobApplication() {
           <section className="mt-8 lg:mt-0">
             <div className="mb-8">
               <div className="flex justify-end"> 
-                <Link to={`/job_applications/${jobAppId}/interviewQuestions`} state={{positionTitle: positionTitle, companyName: jobApp.company_name, jobDescription:jobDescription}}>
+                <Link to={`/job_applications/${jobAppId}/interviewQuestions`} state={{jobAppId: jobAppId, positionTitle: positionTitle, companyName: jobApp.company_name, companyId: companyId, jobDescription:jobDescription}}>
                 <button className="bg-cyan-600 hover:bg-cyan-500 text-white tracking-wide py-2 px-4 rounded max-w-max">
                 Practice Interview ✨
                 </button>

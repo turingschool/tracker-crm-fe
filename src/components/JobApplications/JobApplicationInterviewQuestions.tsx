@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from "react-router-dom"
 
 const JobApplicationInterviewQuestions: React.FC = () => {
 
@@ -9,7 +9,9 @@ interface DummyQuestions {
 
 const location = useLocation()
 const positionTitle = location.state.positionTitle
+// const companyId = location.state.companyId
 const companyName = location.state.companyName
+const jobAppId = location.state.jobAppId
 // This is currently not used and wont be used until it is sent in the body of a fetch request to the backend to use for chatGPT
 // const jobDescription = location.state.jobDescription
 
@@ -39,14 +41,24 @@ return (
           <h1 className="text-cyan-600 text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">
             {positionTitle}
           </h1>
-          <h2 className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline">
+          {/* <Link className="font-bold text-cyan-800 hover:text-cyan-700 p-0 hover:underline" to={`/companies/${companyId}/contacts`}>
+            <h2 className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline">
+              {companyName}
+            </h2>
+          </Link> */}
+          <h2 className="text-[3.5vh] font-bold text-cyan-800">
             {companyName}
           </h2>
-          <h3 className='mt-10 text-[20px] font-bold text-cyan-600 tracking-wide'>
+          < Link to={`/job_applications/${jobAppId}`}>
+            <h3 className="underline underline-offset-[7px] text-cyan-600 text-[2.3vh]">
+              Back to job application details 
+            </h3>
+          </Link>
+          <h4 className="mt-10 text-[20px] font-bold text-cyan-600 tracking-wide">
             Technical Interview Questions
-          </h3>
+          </h4>
           {Object.entries(questionObject).map(([id, text]) => (
-            <div key={id} className="ml-5 text-gray-600 w-1/2">
+            <div key={id} className="ml-5 text-gray-600 w-1/2 text-[17px]">
               <br>
               </br>
               {id}. {text}
