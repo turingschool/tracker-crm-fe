@@ -5,61 +5,50 @@ describe("Companies page after logging in", () => {
   const userId = 2;
 
   beforeEach(() => {
-  // Intercept the login POST request
-
-  cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
-    statusCode: 200,
-    body: {
-      token: "fake-token",
-      user: {
-        data: {
-          id: userId,
-          type: "user",
-          attributes: {
-            name: "Test User",
-            email: "testuser@example.com",
-            companies: [],
+    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
+      statusCode: 200,
+      body: {
+        token: "fake-token",
+        user: {
+          data: {
+            id: userId,
+            type: "user",
+            attributes: {
+              name: "Test User",
+              email: "testuser@example.com",
+              companies: [],
+            },
           },
         },
       },
-    },
-  }).as("mockSession");
+    }).as("mockSession");
 
-  // Intercept the GET request to fetch companies
-  cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/companies`, {
-    statusCode: 200,
-    body: mockCompanies,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  }).as("getCompanies");
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/companies`, {
+      statusCode: 200,
+      body: mockCompanies,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).as("getCompanies");
 
-  // Intercept the GET request to fetch job applications
-  cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/job_applications`,{
-    statusCode: 200,
-    body: {
-      data: [],
-    },
-  })
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/job_applications`, {
+      statusCode: 200,
+      body: { data: [] },
+    });
 
-  // Visit the login page and perform login
-  cy.visit("http://localhost:3000/");
-  cy.get("#email").type("danny_de@email.com");
-  cy.get("#password").type("jerseyMikesRox7");
-  cy.get('[data-testid="login-button"]').click();
+    cy.visit("http://localhost:3000/");
+    cy.get("#email").type("danny_de@email.com");
+    cy.get("#password").type("jerseyMikesRox7");
+    cy.get('[data-testid="login-button"]').click();
+    cy.wait("@mockSession");
 
-  // Wait for the login request to complete
-  cy.wait("@mockSession");
+    cy.window().then((win) => {
+      win.localStorage.setItem("token", "fake-token");
+    });
 
-  // Store the token in localStorage
-  cy.window().then((win) => {
-    win.localStorage.setItem("token", "fake-token");
+    cy.get('[data-testid="companies-iconD"]').click();
+    cy.wait("@getCompanies");
   });
-
-  // Navigate to the companies page
-  cy.get('[data-testid="companies-iconD"]').click();
-  cy.wait("@getCompanies");
-});
 
   it("Should have a header with the text 'Companies'", () => {
     cy.get("h1").should("have.text", "Companies");
@@ -67,7 +56,11 @@ describe("Companies page after logging in", () => {
 
   it("Should have a search bar", () => {
     cy.get("input[type='text']").should("exist");
-    cy.get("input[type='text']").should("have.attr", "placeholder", "🔍 Search Companies");
+    cy.get("input[type='text']").should(
+      "have.attr",
+      "placeholder",
+      "🔍 Search Companies"
+    );
   });
 
   it("Should have a button with the text 'Add New +'", () => {
@@ -93,11 +86,10 @@ describe("Companies page after logging in", () => {
   });
 });
 
-describe("Companies page with no companies", () => {
+describe("Companies page backend error handling", () => {
   const userId = 2;
-  
+
   beforeEach(() => {
-    // Intercept the login POST request
     cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
       statusCode: 200,
       body: {
@@ -116,39 +108,37 @@ describe("Companies page with no companies", () => {
       },
     }).as("mockSession");
 
-    // Intercept the GET request with empty companies
-    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/companies`, {
-      statusCode: 200,
-      body: mockEmptyCompanies,
-      headers: {
-        "Content-Type": "application/json",
+    cy.intercept(
+      "GET",
+      `http://localhost:3001/api/v1/users/${userId}/companies`,
+      {
+        statusCode: 500,
+        statusMessage: "Internal Server Error",
+        body: { error: "Server error" },
       }
-    }).as("getEmptyCompanies");
+    ).as("getCompaniesError");
 
-    // Intercept the GET request to fetch job applications
-    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/job_applications`,{
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/${userId}/job_applications`, {
       statusCode: 200,
-      body: {
-        data: [],
-      },
-    })
-
-    // Visit the login page and perform login
+      body: { data: [] },
+    });
     cy.visit("http://localhost:3000/");
     cy.get("#email").type("danny_de@email.com");
     cy.get("#password").type("jerseyMikesRox7");
     cy.get('[data-testid="login-button"]').click();
-
-    // Wait for the login request to complete
     cy.wait("@mockSession");
-
-    // Store the token in localStorage
     cy.window().then((win) => {
       win.localStorage.setItem("token", "fake-token");
     });
+  });
 
-    // Navigate to the companies page
-    cy.get('[data-testid="companies-iconD"]').click();
-    cy.wait("@getEmptyCompanies");
+  it("should display generic backend error messages and auto-dismiss them after 5 seconds", () => {
+    cy.visit("http://localhost:3000/companies");
+    cy.wait("@getCompaniesError");
+    cy.get("p.text-red-700")
+      .should("be.visible")
+      .and("contain.text", "Server error");
+    cy.wait(6000);
+    cy.get("p.text-red-700").should("not.exist");
   });
 });

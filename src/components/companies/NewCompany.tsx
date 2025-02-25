@@ -104,7 +104,6 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
       setIsLoading(false);
   
       if (result.error) {
-        // Instead of throwing, display the error message.
         setErrors({ name: result.error });
         return;
       }
