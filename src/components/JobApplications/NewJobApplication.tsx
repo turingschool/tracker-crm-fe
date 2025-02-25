@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import { statusMap, statusStyles} from "../JobApplicationUtilities";
-import { fetchContacts } from "../../apiCalls";
-
+import { fetchContacts, fetchCompanies } from "../../apiCalls";
+import { postJobApplication } from '../../trackerApiCalls';
 
 interface Company {
   id: string;
@@ -32,96 +32,74 @@ function NewJobApplication() {
   const [companies, setCompanies] = useState<Company[]>([]);
   const [contacts, setContacts] = useState<Contact[]>([]);
 
-useEffect(() => {
-  const getContacts = async () => {
-    if (!token || !userData?.user?.data?.id) return;
+  useEffect(() => {
+    const getContacts = async () => {
+      if (!token || !userData?.user?.data?.id) return;
 
-    try {
-      const contacts = await fetchContacts(userData.user.data.id, token);
+      try {
+        const contacts = await fetchContacts(userData.user.data.id, token);
+        const contactList = contacts.map((contact: any) => ({
+          id: contact.id,
+          first_name: contact.attributes.first_name,
+          last_name: contact.attributes.last_name,
+          company_id: contact.attributes.company_id,
+        }));
 
-      const contactList = contacts.map((contact: any) => ({
-        id: contact.id,
-        first_name: contact.attributes.first_name,
-        last_name: contact.attributes.last_name,
-        company_id: contact.attributes.company_id,
-      }));
+        setContacts(contactList);
+      } catch (error) {
+        console.error("Error fetching contacts:", error);
+      }
+    };
 
-      setContacts(contactList);
-    } catch (error) {
-      console.error("Error fetching contacts:", error);
-    }
-  };
+    getContacts();
+  }, [token, userData?.user?.data?.id]);
 
-  getContacts();
-}, [token, userData?.user?.data?.id]);
-
-const filteredContacts = contacts.filter(contact => {
+  const filteredContacts = contacts.filter(contact => {
 
   return String(contact.company_id) === availableCompany;
-});
+  });
 
 
   useEffect(() => {
-    const fetchCompanies = async () => {
+    const getCompanies = async () => {
+      if (!token || !userData?.user?.data?.id) return;
+
       try {
-        const apiURL = process.env.REACT_APP_BACKEND_API_URL;
-        const response = await fetch(`${apiURL}api/v1/users/${userData.user.data.id}/companies`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Failed to fetch companies: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        const companyList = data.data.map((company: any) => ({
-          id: company.id,
-          name: company.attributes.name,
-        }));
-        setCompanies(companyList);
+        const companies = await fetchCompanies(userData.user.data.id, token)
+        setCompanies(companies);
       } catch (error) {
         console.error("Fetch error", error);
       }
     };
-    fetchCompanies();
+    getCompanies();
   }, [userData.user.data.id, token]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const newJobApplication: any = {
-        position_title: positionTitle,
-        date_applied: dateApplied,
-        status: status,
-        notes: notes,
-        job_description: jobDescription,
-        application_url: applicationURL,
-        company_id: availableCompany,
-        contact_id: contactInformation || null,
+      userId: userData.user.data.id ? Number(userData.user.data.id) : undefined,
+      token: userData.token,
+      position_title: positionTitle,
+      date_applied: dateApplied,
+      status: status,
+      notes: notes,
+      job_description: jobDescription,
+      application_url: applicationURL,
+      company_id: availableCompany,
+      contact_id: contactInformation || null,
     };
 
-
-    try {
-      const apiURL = process.env.REACT_APP_BACKEND_API_URL;
-      const response = await fetch(`${apiURL}api/v1/users/${userData.user.data.id}/job_applications`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(newJobApplication)
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to add job application');
+      postJobApplication(newJobApplication)
+      .then((response) => {
+        if (response) {
+          navigate('/job_applications') 
+        }
       }
-      navigate('/job_applications')
-    } catch (error) {
-      console.error("Error adding job application:", error)
-    }
+      )
+      .catch((error) => {
+        console.error("Error adding job application:", error)
+      })
   }
 
   return (
