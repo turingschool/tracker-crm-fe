@@ -376,6 +376,8 @@ describe("New Contacts page after logging in", () => {
 
     it("Should keep the add company modal open when clicked", () => {
       cy.get("a > .bg-cyan-600").click();
+      cy.get("#firstName").type("Emma");
+      cy.get("#lastName").type("Boots");
       cy.contains("Add New Contact");
       cy.contains("button", "Add new company").click();
       cy.wait(5000)
