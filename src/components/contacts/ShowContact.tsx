@@ -78,7 +78,7 @@ function ShowContact() {
     
               <h2
                 data-testid="company-name"
-                className="text-[2.5vh] font-bold text-cyan-700 hover:text-cyan-700"
+                className="text-[3vh] font-bold text-cyan-700 hover:text-cyan-600 mb-[5vh]"
               >
                 {contact.attributes.company ? (
                   <Link
@@ -110,7 +110,7 @@ function ShowContact() {
               )}
             </p>
 
-            <p className="text-black mb-[2vh] flex">
+            <p className="mb-[5vh] flex">
               <span data-testid="contact-phone" className="font-bold w-[7vw]">Phone</span>
               {contact.attributes.phone_number ? (
                 <span data-testid="phone-num">{contact.attributes.phone_number}</span>
@@ -121,13 +121,13 @@ function ShowContact() {
               )}
             </p>
           </div>
-              <h2
+              <h3
                 data-testid="notes"
                 className="text-[2.5vh] font-bold text-cyan-700 mt-[2vh]"
               >
                 Notes
-              </h2>
-              <p data-testid="note-text" className="mt-[2vh]">
+              </h3>
+              <p data-testid="note-text" className="mt-[2vh] whitespace-pre-wrap">
                 {contact.attributes.notes}
               </p>
               <div className="mt-[20vh] flex flex-col items-center space-y-4 ml-[-16vw]">
@@ -163,7 +163,7 @@ function ShowContact() {
             <div className="mt-[17vh]">
               <h2
                 data-testid="other-contacts"
-                className="text-[2.5vh] font-bold text-cyan-700 mb-6"
+                className="text-[3vh] font-bold text-cyan-700 mb-[4vh]"
               >
                 {contact.attributes.company
                   ? `Other contacts at ${contact.attributes.company.name}`
@@ -171,15 +171,15 @@ function ShowContact() {
               </h2>
               <ul className="list-none">
                 {filteredOtherContacts.map((otherContact) => (
-                  <li key={otherContact.id} className="font-normal mb-[2vh]">
+                  <li key={otherContact.id} className="text-2xl font-medium text-cyan-700 mb-[2vh]">
                     <Link
-                    className="text-cyan-600 hover:text-cyan-700 no-underline"
-                    to={`/contacts/${otherContact.id}`}
-                    >
-                    {otherContact.attributes.first_name}{" "}
-                    {otherContact.attributes.last_name}
-                  </Link>
-                </li>
+                      className="text-cyan-600 hover:text-cyan-500 no-underline"
+                      to={`/contacts/${otherContact.id}`}
+                      >
+                      {otherContact.attributes.first_name}{" "}
+                      {otherContact.attributes.last_name}
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </div>
