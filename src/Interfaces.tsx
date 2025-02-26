@@ -164,7 +164,7 @@ export interface DashBoardDattaI{
 
   export interface CountProps {
     section: string;
-    sectionCount: number;
-    sectionUrl: string;
-    sectionDescription: string
+    sectionCount?: number;
+    sectionUrl?: string;
+    sectionDescription?: string
 }
