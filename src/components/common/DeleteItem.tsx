@@ -31,7 +31,7 @@ const DeleteItem = ({
     <>
       <button
         onClick={() => setDeleteModalOpen(true)}
-        className="text-red-600 underline text-sm"
+        className="text-red-700 underline underline-offset-4 font-semibold "
       >
         Delete
       </button>

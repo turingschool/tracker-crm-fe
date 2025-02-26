@@ -132,7 +132,7 @@ function ShowContact() {
               </p>
               <div className="mt-[20vh] flex flex-col items-center space-y-4 ml-[-16vw]">
                 <button
-                  className="border-2 border-cyan-600 text-cyan-600 px-6 py-2 rounded hover:bg-cyan-600 hover:text-white transition-all"
+                  className="border-2 border-cyan-600 text-cyan-600 px-8 py-2 rounded hover:bg-cyan-600 hover:text-white transition-all"
                   onClick={() => setIsEditOpen(true)}
                 >
                   Edit
