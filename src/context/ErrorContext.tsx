@@ -40,7 +40,7 @@ export const ErrorProvider = ( { children }: { children: ReactNode }) => {
 export const useErrorContext = () => {
   const context = useContext(ErrorContext);
   if (!context) {
-    throw new Error("useErrorContext must abe used witin an ErrorProvider");
+    throw new Error("useErrorContext must be used within an ErrorProvider");
   }
   return context;
 }
