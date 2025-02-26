@@ -45,14 +45,16 @@ function CompanyShow() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [selectedState, setSelectedState] = useState<string>("");
-  const [name, setName] = useState("");
   const [isNameValid, setIsNameValid] = useState(true);
-  const [website, setWebsite] = useState("");
-  const [streetAddress, setStreetAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [zipCode, setZipCode] = useState("");
-  const [notes, setNotes] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    website: "",
+    streetAddress: "",
+    city: "",
+    selectedState: "",
+    zipCode: "",
+    notes: ""
+  });
 
   
   useEffect(() => {
@@ -66,7 +68,17 @@ function CompanyShow() {
         const companyId = parseInt(id);
         const data = await getACompany(userData.user.data.id, token!, companyId);
         setCompanyData(data);
-        setName(data?.company?.data?.attributes?.name || "");
+
+        const attributes = data?.company?.data?.attributes || {};
+        setFormData({
+          name: attributes.name || "",
+          website: attributes.website || "",
+          streetAddress: attributes.street_address || "",
+          city: attributes.city || "",
+          selectedState: attributes.state || "",
+          zipCode: attributes.zip_code || "",
+          notes: attributes.notes || ""
+        });
       } catch (error) {
         console.error("Error fetching company data:", error);
         setError(error instanceof Error ? error.message : "Unknown error occurred");
@@ -78,45 +90,49 @@ function CompanyShow() {
 
     fetchCompanyData();
   }, [token, userData, id]);
-  
-  useEffect(() => {
-    if (isEditModalOpen && companyData) {
-      const attributes = companyData.company.data.attributes;
-      setName(attributes.name || "");
-      setWebsite(attributes.website || "");
-      setStreetAddress(attributes.street_address || "");
-      setCity(attributes.city || "");
-      setZipCode(attributes.zip_code || "");
-      setNotes(attributes.notes || "");
 
-      const companyState = attributes.state;
-      if (companyState) {
-        let foundState = US_STATES.find((s) => s.code === companyState)?.code;
-        if (!foundState) {
-          foundState = US_STATES.find((s) => s.name.toLowerCase() === companyState.toLowerCase())?.code;
-        }
-        setSelectedState(foundState || "");
-      } else {
-        setSelectedState("");
-      }
-    }
-  }, [isEditModalOpen, companyData]);
+useEffect(() => {
+  if (companyData) {
+    const attributes = companyData.company.data.attributes;
+    setFormData({
+      name: attributes.name || "",
+      website: attributes.website || "",
+      streetAddress: attributes.street_address || "",
+      city: attributes.city || "",
+      selectedState: attributes.state || "",
+      zipCode: attributes.zip_code || "",
+      notes: attributes.notes || ""
+    });
+  }
+}, [companyData]);
+
+  const handleEditClick = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
 
   const handleSave = async () => {
-    if (!name.trim()) {
+    if (!formData.name.trim()) {
       setIsNameValid(false);
       return;
     }
   
     try {
       const updatedCompany = {
-        name,
-        state: selectedState || null,
-        website: website || null,
-        street_address: streetAddress || null,
-        city: city || null,
-        zip_code: zipCode || null,
-        notes: notes || null,
+        name: formData.name,
+        state: formData.selectedState || null,
+        website: formData.website || null,
+        street_address: formData.streetAddress || null,
+        city: formData.city || null,
+        zip_code: formData.zipCode || null,
+        notes: formData.notes || null,
       };
   
       const companyId = parseInt(id!);
@@ -166,7 +182,15 @@ function CompanyShow() {
     zip_code: "",
     notes: ""
   };
+  const formatZipCode = (value: string) => {
+    const digits = value.replace(/\D/g, "");
   
+    if (digits.length <= 5) {
+      return digits;
+    }
+  
+    return `${digits.slice(0, 5)}-${digits.slice(5, 9)}`;
+  };
   
   return (
     <div className="max-w-4xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-lg shadow-lg">
@@ -241,7 +265,7 @@ function CompanyShow() {
         <button
           data-cytest="edit-button"
           className="border border-cyan-600 text-cyan-600 bg-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-gray-100"
-          onClick={() => setIsEditModalOpen(true)}
+          onClick={handleEditClick}
         >
           Edit
         </button>
@@ -261,7 +285,11 @@ function CompanyShow() {
         <div
           data-cytest="modal"
           className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center"
-          onClick={() => setIsEditModalOpen(false)}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              setIsEditModalOpen(false);
+            }
+          }}
         >
           <div className="bg-white w-[50vw] mx-auto my-[2vh] p-[3vh] rounded-lg shadow-lg relative" onClick={(event) => event.stopPropagation()}>
             
@@ -283,19 +311,15 @@ function CompanyShow() {
                   Name <span className="text-red-500">*</span>
                 </label>
                 <input
+                  name="name"
                   data-cytest="name-input"
                   className={`w-full px-[1vh] py-[1vh] border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 ${
                     isNameValid ? "border-black" : "border-red-500"
                   }`}
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                    if (e.target.value.trim().length > 0) {
-                      setIsNameValid(true);
-                    }
-                  }}
+                  value={formData.name}
+                  onChange={handleInputChange}
                   onBlur={() => {
-                    if (!name.trim()) {
+                    if (!formData.name.trim()) {
                       setIsNameValid(false);
                     }
                   }}
@@ -310,10 +334,11 @@ function CompanyShow() {
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">Website</label>
                 <input
+                  name="website"
                   data-cytest="website-input"
-                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                  defaultValue={companyAttributes.website}
-                  onChange={(e) => setWebsite(e.target.value)}
+                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  value={formData.website}
+                  onChange={handleInputChange}
                   placeholder="https://example.com"
                 />
               </div>
@@ -322,10 +347,11 @@ function CompanyShow() {
               <div className="col-span-2">
                 <label className="block text-gray-700 font-medium mb-[1vh]">Street Address</label>
                 <input
+                  name="streetAddress"
                   data-cytest="street-address-input"
-                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                  defaultValue={companyAttributes.street_address}
-                  onChange={(e) => setStreetAddress(e.target.value)}
+                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  value={formData.streetAddress}
+                  onChange={handleInputChange}
                   placeholder="123 Main St"
                 />
               </div>
@@ -334,10 +360,11 @@ function CompanyShow() {
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">City</label>
                 <input
+                  name="city"
                   data-cytest="city-input"
-                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                  defaultValue={companyAttributes.city}
-                  onChange={(e) => setCity(e.target.value)}
+                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  value={formData.city}
+                  onChange={handleInputChange}
                   placeholder="City"
                 />
               </div>
@@ -346,10 +373,11 @@ function CompanyShow() {
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">State</label>
                 <select
+                  name="selectedState"
                   data-cytest="state-select"
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 overflow-y-auto"
-                  value={selectedState}
-                  onChange={(event) => setSelectedState(event.target.value)}
+                  value={formData.selectedState}
+                  onChange={handleInputChange}
                 >
                   <option value="">Select a State</option>
                   {US_STATES.map((state) => (
@@ -364,11 +392,20 @@ function CompanyShow() {
               <div className="col-span-1">
                 <label className="block text-gray-700 font-medium mb-[1vh]">Zip</label>
                 <input
+                  name="zipCode"
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={10}
                   data-cytest="zip-code-input"
-                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
-                  defaultValue={companyAttributes.zip_code}
-                  onChange={(e) => setZipCode(e.target.value)}
-                  placeholder="12345"
+                  className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  value={formData.zipCode}
+                  onChange={(e) => {
+                    setFormData((prevData) => ({
+                      ...prevData,
+                      zipCode: formatZipCode(e.target.value),
+                    }));
+                  }}
+                  placeholder="12345 or 12345-6789"
                 />
               </div>
 
@@ -376,11 +413,12 @@ function CompanyShow() {
               <div className="col-span-2">
                 <label className="block text-gray-700 font-medium mb-[1vh]">Notes</label>
                 <textarea
+                  name="notes"
                   data-cytest="notes-input"
                   className="w-full px-[1vh] py-[1vh] border-2 border-black rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" 
                   rows={3}
-                  defaultValue={companyAttributes.notes}
-                  onChange={(e) => setNotes(e.target.value)}
+                  value={formData.notes}
+                  onChange={handleInputChange}
                   placeholder="Notes about the company"
                 />
               </div>

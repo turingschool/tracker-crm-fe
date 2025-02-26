@@ -246,5 +246,33 @@ describe("Company Show Page", () => {
 
     cy.get('[data-cytest="modal"]').should("not.exist");
   });
+
+  it("Should have persisting data after closing/reopening the modal", () => {
+    cy.get('[data-cytest="edit-button"]').click();
+    
+    cy.get('[data-cytest="name-input"]').clear().type("Updated Company");
+    cy.get('[data-cytest="website-input"]').clear().type("https://updated.com");
+    
+    cy.get('[data-cytest="close-button"]').click();
+    cy.get('[data-cytest="modal"]').should("not.exist");
+    
+    cy.get('[data-cytest="edit-button"]').click();
+    
+    cy.get('[data-cytest="name-input"]').should("have.value", "Updated Company");
+    cy.get('[data-cytest="website-input"]').should("have.value", "https://updated.com");
+  });
+
+  it("Should allow only numbers in the ZIP code field and format correctly", () => {
+    cy.get('[data-cytest="edit-button"]').click();
+  
+    cy.get('[data-cytest="zip-code-input"]').clear().type("1234abc5678");
+    cy.get('[data-cytest="zip-code-input"]').should("have.value", "12345-678");
+  
+    cy.get('[data-cytest="zip-code-input"]').clear().type("98765");
+    cy.get('[data-cytest="zip-code-input"]').should("have.value", "98765");
+  
+    cy.get('[data-cytest="zip-code-input"]').clear().type("987654321");
+    cy.get('[data-cytest="zip-code-input"]').should("have.value", "98765-4321");
+  });  
 });
 
