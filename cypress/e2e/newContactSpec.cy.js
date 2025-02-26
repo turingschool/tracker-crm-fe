@@ -380,7 +380,7 @@ describe("New Contacts page after logging in", () => {
       cy.get("#lastName").type("Boots");
       cy.contains("Add New Contact");
       cy.contains("button", "Add new company").click();
-      cy.wait(5000)
+      cy.wait(5000) //including a wait period in this test due to a bug that was causing the modal to close unexpectedly after opening 
 
       cy.get("label").contains("Company Name:").should("exist");
       cy.get("label").contains("Website:").should("exist");
