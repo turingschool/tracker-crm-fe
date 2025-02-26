@@ -316,7 +316,7 @@ FORMAT: lastname, firstname
 **Cardona, Danielle**
 
 - [Github](https://github.com/dcardona23)
-- [LinkedIn](www.linkedin.com/in/danielle-cardona-se)
+- [LinkedIn](https://www.linkedin.com/in/danielle-cardona-se/)
 
 **Chirchirillo, Joe**
 
@@ -421,7 +421,7 @@ FORMAT: lastname, firstname
 **Wallace, Wally**
 
 - [Github](https://github.com/wally-yawn)
-- [LinkedIn](https://www.https://www.linkedin.com/in/wally-wallace-719b0875/)
+- [LinkedIn](https://www.linkedin.com/in/wally--wallace/)
 
 **Willett, Bryan**
 
