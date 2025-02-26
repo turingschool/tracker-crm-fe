@@ -109,7 +109,7 @@ describe("View specific job app page with all fields filled in", () => {
     
     cy.get('[data-testid="interview-questions-list"]')
       .should('exist')
-      .and('have.length.greaterThan', 9);
+      .and('have.length', 10);
   });
 
   it("displays interview questions", () => {

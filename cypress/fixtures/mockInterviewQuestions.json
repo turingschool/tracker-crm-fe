@@ -1,12 +1,26 @@
 {
   "data": {
-    "id": "1",
-    "type": "interview_questions",
+    "id": "3",
+    "type": "job_application",
     "attributes": {
       "position_title": "Backend Developer",
+      "date_applied": "2024-08-20",
+      "status": 2,
+      "notes": "Had a technical interview, awaiting decision.",
+      "job_description": "Developing RESTful APIs and optimizing server performance.",
       "application_url": "https://creativesolutions.com/careers/backend-developer",
       "company_id": 3,
       "company_name": "Creative Solutions Inc.",
+      "contacts": [
+        {
+          "id": 3,
+          "first_name": "Michael",
+          "last_name": "Johnson",
+          "email": "michael.johnson@example.com",
+          "phone_number": "123-555-9012",
+          "notes": "Hiring manager at Creative Solutions Inc."
+        }
+      ],
       "questions": [
         {
           "id": 1,
