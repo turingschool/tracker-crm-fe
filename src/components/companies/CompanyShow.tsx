@@ -56,7 +56,6 @@ function CompanyShow() {
     notes: ""
   });
 
-  
   useEffect(() => {
     console.log("Fetching company data...");
     setIsLoading(true);
@@ -91,20 +90,20 @@ function CompanyShow() {
     fetchCompanyData();
   }, [token, userData, id]);
 
-useEffect(() => {
-  if (companyData) {
-    const attributes = companyData.company.data.attributes;
-    setFormData({
-      name: attributes.name || "",
-      website: attributes.website || "",
-      streetAddress: attributes.street_address || "",
-      city: attributes.city || "",
-      selectedState: attributes.state || "",
-      zipCode: attributes.zip_code || "",
-      notes: attributes.notes || ""
-    });
-  }
-}, [companyData]);
+  useEffect(() => {
+    if (companyData) {
+      const attributes = companyData.company.data.attributes;
+      setFormData({
+        name: attributes.name || "",
+        website: attributes.website || "",
+        streetAddress: attributes.street_address || "",
+        city: attributes.city || "",
+        selectedState: attributes.state || "",
+        zipCode: attributes.zip_code || "",
+        notes: attributes.notes || ""
+      });
+    }
+  }, [companyData]);
 
   const handleEditClick = () => {
     setIsEditModalOpen(true);
