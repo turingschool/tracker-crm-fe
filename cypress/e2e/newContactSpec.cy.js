@@ -211,6 +211,9 @@ describe("New Contacts page after logging in", () => {
       }).as("getUpdatedCompanies");
 
       cy.get("a > .bg-cyan-600").click();
+      cy.get("#firstName").type("Emma");
+      cy.get("#lastName").type("Boots");
+
       cy.contains("button", "Add new company").click();
       cy.get("label").contains("Company Name:").should("exist");
       cy.get("label").contains("Website:").should("exist");
@@ -236,9 +239,6 @@ describe("New Contacts page after logging in", () => {
         .should("have.value", "3")
         .find("option:selected")
         .should("have.text", "Company C");
-
-      cy.get("#firstName").type("Emma");
-      cy.get("#lastName").type("Boots");
 
       cy.get('button[type="submit"]').click();
 
@@ -373,5 +373,20 @@ describe("New Contacts page after logging in", () => {
       );
       cy.contains("button", "X").scrollIntoView().click();
     });
+
+    it("Should keep the add company modal open when clicked", () => {
+      cy.get("a > .bg-cyan-600").click();
+      cy.contains("Add New Contact");
+      cy.contains("button", "Add new company").click();
+      cy.wait(5000)
+
+      cy.get("label").contains("Company Name:").should("exist");
+      cy.get("label").contains("Website:").should("exist");
+      cy.get("label").contains("Street Address:").should("exist");
+      cy.get("label").contains("City:").should("exist");
+      cy.get("label").contains("State:").should("exist");
+      cy.get("label").contains("Zip Code:").should("exist");
+      cy.get("label").contains("Notes:").should("exist");
+    })
   });
 });
