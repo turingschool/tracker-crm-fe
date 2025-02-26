@@ -9,7 +9,7 @@ interface DummyQuestions {
 
 const location = useLocation()
 const positionTitle = location.state.positionTitle
-// const companyId = location.state.companyId
+const companyId = location.state.companyId
 const companyName = location.state.companyName
 const jobAppId = location.state.jobAppId
 // This is currently not used and wont be used until it is sent in the body of a fetch request to the backend to use for chatGPT
@@ -41,14 +41,11 @@ return (
           <h1 className="text-cyan-600 text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">
             {positionTitle}
           </h1>
-          {/* <Link className="font-bold text-cyan-800 hover:text-cyan-700 p-0 hover:underline" to={`/companies/${companyId}/contacts`}>
+          <Link className="font-bold text-cyan-800 hover:text-cyan-700 p-0 hover:underline" to={`/companies/${companyId}/contacts`}>
             <h2 className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline">
               {companyName}
             </h2>
-          </Link> */}
-          <h2 className="text-[3.5vh] font-bold text-cyan-800">
-            {companyName}
-          </h2>
+          </Link>
           < Link to={`/job_applications/${jobAppId}`}>
             <h3 className="underline underline-offset-[7px] text-cyan-600 text-[2.3vh]">
               Back to job application details 
