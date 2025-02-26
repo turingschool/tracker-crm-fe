@@ -58,7 +58,7 @@ return (
             Technical Interview Questions
           </h4>
           {Object.entries(questionObject).map(([id, text]) => (
-            <div key={id} className="ml-5 text-gray-600 w-1/2 text-[17px]">
+            <div key={id} data-testid="interview-questions-list" className="ml-5 text-gray-600 w-1/2 text-[17px]">
               <br>
               </br>
               {id}. {text}
