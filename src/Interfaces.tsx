@@ -169,6 +169,20 @@ export interface DashBoardDattaI{
     sectionDescription: string
 }
 
+  export interface DeleteItemProps {
+    userId: number;
+    itemId: string | number;
+    itemType: string;
+    deleteAction: (
+      userId: number,
+      itemType: string,
+      itemId: string | number,
+      token: string
+    ) => Promise<boolean>;
+    token: string;
+    onDeleteSuccess: () => void;
+}
+
 export interface APIResult<T> {
   data?: T;
   error?: string;

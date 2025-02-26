@@ -49,7 +49,9 @@ describe('Delete a Job Application', () => {
             job_description: "Developing RESTful APIs and optimizing server performance.",
             application_url: "https://creativesolutions.com/careers/backend-developer",
             contact_information: "techlead@creativesolutions.com",
-            company_id: 3
+            company_id: 3,
+            contact_id: null,
+            contacts: []
           },
         },
       },

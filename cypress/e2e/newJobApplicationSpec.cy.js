@@ -117,6 +117,23 @@ describe('Create New Job Application page after logging in', () => {
       cy.get('label').contains('Contact Information:').should('exist');
       cy.get('label').contains('Application URL:').should('exist');
       cy.get('label').contains('Notes:').should('exist');
+      cy.get('.text-red-500').first().should('have.text', ' *')
+      cy.get('.text-red-500').last().should('have.text', ' *')
+    })
+
+    it('has placeholder values in inputs', () => {
+      cy.get('#positionTitle').should('have.attr', 'placeholder')
+      cy.get('#positionTitle').invoke('attr', 'placeholder')
+        .should('eq', 'Position Title (required)')
+      cy.get('#jobDescription').should('have.attr', 'placeholder')
+      cy.get('#jobDescription').invoke('attr', 'placeholder')
+        .should('eq', 'Job Description (required)')
+      cy.get('#appURL').should('have.attr', 'placeholder')
+      cy.get('#appURL').invoke('attr', 'placeholder')
+        .should('eq', 'www.example.com')
+      cy.get('#notes').should('have.attr', 'placeholder')
+      cy.get('#notes').invoke('attr', 'placeholder')
+        .should('eq', 'Notes...')
     })
   
     it('allows input into form fields', () => {

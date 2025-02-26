@@ -27,10 +27,8 @@ export const fetchCompanies = async (
     }
 
     const data = await response.json();
-    console.log("Raw companies data:", data);
     return { data: data.data };
   } catch (error: any) {
-    console.error("Fetch error", error);
     if (error && typeof error.message === "string" && error.message.includes("Failed to fetch")) {
       setErrors(["Unable to connect to the server. Please try again later."]);
       return { error: "Unable to connect to the server. Please try again later." };
@@ -100,7 +98,6 @@ export const getACompany = async (
     }
 
     const data = await response.json();
-    console.log("Raw company data:", data);
     return { data };
   } catch (error: any) {
     console.error("Fetch error:", error);
@@ -158,12 +155,11 @@ export const getUser = async (userId: number) => {
     const data = await response.json();
     return { data };
   } catch (error: any) {
-    console.error("Error adding company:", error);
     return { error: error.message || "Unable to connect to the server. Please try again later." };
   }
 };
 
-/*-----------------------------------// SHOW Job Application //--------------------------------------*/
+/*-----------------------------------// SHOW JOB APPLICATIONS //--------------------------------------*/
 
 export const showJobApp = async (
   userId: number,
@@ -306,3 +302,26 @@ export const deleteItem = async (
   }
 };
 
+/*-----------------------------------// POST NEW JOB APPLICATION//--------------------------------------*/
+export const postJobApplication = async (userParams: Record<string, any>) => {
+  try {
+    const apiURL = process.env.REACT_APP_BACKEND_API_URL;
+    const response = await fetch(
+      `${apiURL}/api/v1/users/${userParams.userId}/job_applications`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${userParams.token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(userParams)
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to add job application');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error adding job application:", error)
+  }
+};
