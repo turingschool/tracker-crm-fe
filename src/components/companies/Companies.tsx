@@ -64,7 +64,7 @@ function Companies() {
         {isLoading ? (
           <p data-testid="loading-message">Loading...</p>
         ) : filteredCompanies.length > 0 ? (
-          <table className="w-[70vw] mt-[1.5vh]">
+          <table className="w-[70vw] mt-[1.5vh] px-4">
             <thead className="border-t">
               <tr>
                 <th className="text-left p-4 border-b">Name</th>
@@ -78,8 +78,10 @@ function Companies() {
                 className="hover:bg-gray-100 cursor-pointer"
                 onClick={() => navigate(`/companies/${company.id}/contacts`)}
                 >
-                <td className="p-4 border-b">{company.attributes.name}</td>
-                <td className="p-4 border-b">{company.attributes.notes}</td>
+                <td className="p-4 border-b font-semibold">{company.attributes.name}</td>
+                <td className="p-4 border-b max-w-[58vw] truncate overflow-hidden whitespace-nowrap ">
+                  {company.attributes.notes}
+                </td>
               </tr>
             ))}
             </tbody>
