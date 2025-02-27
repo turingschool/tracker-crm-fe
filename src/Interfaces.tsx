@@ -182,3 +182,4 @@ export interface DashBoardDattaI{
     token: string;
     onDeleteSuccess: () => void;
 }
+
