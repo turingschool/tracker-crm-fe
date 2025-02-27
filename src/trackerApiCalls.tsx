@@ -1,8 +1,9 @@
-import { handleErrorResponse } from "./context/ErrorHelpers"; 
+import { handleErrorResponse } from "./context/ErrorHelpers";
 import { Company, CompanyData, APIResult } from "./Interfaces";
 
 const apiURL = process.env.REACT_APP_BACKEND_API_URL;
 const backendURL = `${apiURL}api/v1/`;
+
 
 
 /*----------------------------------// FETCH Companies //--------------------------------*/
@@ -39,15 +40,17 @@ export const fetchCompanies = async (
 
 
 
+
+
 /*-----------------------------------// CREATE A COMPANY //---------------------------------*/
-//Refactored to handle error messages through the back end. 
+//Refactored to handle error messages through the back end.
 
 export const createCompany = async (
   userId: number,
   token: string,
   newCompany: object,
   setErrors: (messages: string[]) => void
-): Promise<APIResult<any>> => {  
+): Promise<APIResult<any>> => {
   try {
     const response = await fetch(`${backendURL}users/${userId}/companies`, {
       method: "POST",
@@ -72,7 +75,7 @@ export const createCompany = async (
 };
 
 /*-----------------------------------// GET ONE COMPANY //-------------------------------*/
-//Refactored to handle error messages through the back end. 
+//Refactored to handle error messages through the back end.
 
 export const getACompany = async (
   userId: number,
