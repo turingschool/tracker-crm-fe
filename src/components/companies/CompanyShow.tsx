@@ -4,44 +4,33 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { getACompany, deleteItem, updateCompany } from "../../trackerApiCalls";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import  DeleteItem  from "../common/DeleteItem";
+import { ContactData, Company } from "../../Interfaces";
 
-interface ContactData {
-  id: string;
-  type: string;
-  attributes: {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone_number: string;
-    notes: string;
-    user_id: number;
-  }
-}
 
-interface CompanyData {
-  company: {
-    data: {
-      attributes: {
-        name: string;
-        website: string;
-        street_address: string;
-        city: string;
-        state: string;
-        zip_code: string;
-        notes: string;
-      }
-    }
-  },
-  contacts: {
-    data: ContactData[];
-  }
-}
+// interface CompanyData {
+//   company: {
+//     data: {
+//       attributes: {
+//         name: string;
+//         website: string;
+//         street_address: string;
+//         city: string;
+//         state: string;
+//         zip_code: string;
+//         notes: string;
+//       }
+//     }
+//   },
+//   contacts: {
+//     data: ContactData[];
+//   }
+// }
 
 function CompanyShow() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { token, userData} = useUserLoggedContext();
-  const [companyData, setCompanyData] = useState<CompanyData | null>(null);
+  const [companyData, setCompanyData] = useState<{ company: Company; contacts: ContactData[] } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -65,8 +54,11 @@ function CompanyShow() {
         }
         const companyId = parseInt(id);
         const data = await getACompany(userData.user.data.id, token!, companyId);
-        setCompanyData(data);
-        setName(data?.company?.data?.attributes?.name || "");
+        setCompanyData( {
+          company: data.company,
+          contacts: data.contacts?.data || []
+        });
+        setName(data?.company?.attributes?.name || "");
       } catch (error) {
         console.error("Error fetching company data:", error);
         setError(error instanceof Error ? error.message : "Unknown error occurred");
@@ -81,7 +73,7 @@ function CompanyShow() {
   
   useEffect(() => {
     if (isEditModalOpen && companyData) {
-      const attributes = companyData.company.data.attributes;
+      const attributes = companyData.company.attributes;
       setName(attributes.name || "");
       setWebsite(attributes.website || "");
       setStreetAddress(attributes.street_address || "");
@@ -128,14 +120,14 @@ function CompanyShow() {
   
       setCompanyData((prevData) => ({
         company: {
-          data: {
-            attributes: {
-              ...(prevData?.company?.data?.attributes || {}),
-              ...(updatedData.data.attributes || {}),
-            },
+          id: updatedData.data.id ?? prevData?.company?.id ?? 0,
+          type: updatedData.data.type ?? prevData?.company?.type ?? "",
+          attributes: {
+            ...(prevData?.company?.attributes || {}),
+            ...(updatedData.data.attributes || {}),
           },
         },
-        contacts: prevData?.contacts ?? { data: [] },
+        contacts: prevData?.contacts ?? [],
       }));
   
       setIsEditModalOpen(false);
@@ -156,8 +148,8 @@ function CompanyShow() {
     return <p className="text-center mt-10">No company data found</p>;
   }
   
-  const companyContacts = companyData?.contacts?.data ?? [];
-  const companyAttributes = companyData?.company?.data?.attributes ?? {
+  const companyContacts = companyData?.contacts ?? [];
+  const companyAttributes = companyData?.company?.attributes ?? {
     name: "",
     website: "",
     street_address: "",
