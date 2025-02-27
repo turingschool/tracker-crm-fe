@@ -111,7 +111,7 @@ describe('Dash Board after loggging in with recent jobs, contacts and companies'
   //   cy.get('[data-cy="companyBtn"]').should('not.exist');
   // })
 
-  it("Should display buttons with no job application/contact/company", () => {
+  it("Should display button with no job applications and go to the new job application page when the button is clicked", () => {
     cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
       statusCode: 200,
       body: {
@@ -138,10 +138,88 @@ describe('Dash Board after loggging in with recent jobs, contacts and companies'
 
     cy.visit("http://localhost:3000/");
 
+    cy.get('[data-cy="jobHuntingTips"]').contains('Job Hunt Tips');
+    cy.get('[data-cy="jobHuntTip"]').contains("Try to make at least one new contact, research a new company, and apply to one job each week to keep up your momentum. You've got this!")
     cy.get('[data-cy="jobApplicationBtn"]').should('exist');
     cy.get('[data-cy="contactBtn"]').should('exist');
     cy.get('[data-cy="companyBtn"]').scrollIntoView().should('exist');
 
-    // cy.get('[data-cy="jobApplicationBtn"]').click();
+    cy.get('[data-cy="jobApplicationBtn"]').click();
+    cy.url().should("include", "/jobapplications/new");
+  })
+
+  it("Should display button with no contacts and go to the new contacts page when clicked", () => {
+    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
+      statusCode: 200,
+      body: {
+        token: 'fake-token',
+        user: {
+          data: {
+            id: 1,
+            type: 'user',
+            attributes: {
+              name: 'Danny DeVito',
+              email: 'danny_de@email.com',
+              companies: []
+            }
+          }
+        }
+      }
+    }).as("mockSession2");
+
+    cy.intercept(
+      'GET',
+      'http://localhost:3001/api/v1/users/1/dashboard',
+      { statusCode: 200, fixture: 'mockDashBoardNoJobsContactsOrCompanies' }
+    );
+
+    cy.visit("http://localhost:3000/");
+
+    cy.get('[data-cy="jobHuntingTips"]').contains('Job Hunt Tips');
+    cy.get('[data-cy="jobHuntTip"]').contains("Try to make at least one new contact, research a new company, and apply to one job each week to keep up your momentum. You've got this!")
+    cy.get('[data-cy="jobApplicationBtn"]').should('exist');
+    cy.get('[data-cy="contactBtn"]').should('exist');
+    cy.get('[data-cy="companyBtn"]').scrollIntoView().should('exist');
+
+    cy.get('[data-cy="contactBtn"]').click();
+    cy.url().should("include", "/contacts/new");
+  })
+
+  it("Should display button with no companies and go to the new company page when clicked", () => {
+    cy.viewport(1400, 1020)
+    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
+      statusCode: 200,
+      body: {
+        token: 'fake-token',
+        user: {
+          data: {
+            id: 1,
+            type: 'user',
+            attributes: {
+              name: 'Danny DeVito',
+              email: 'danny_de@email.com',
+              companies: []
+            }
+          }
+        }
+      }
+    }).as("mockSession2");
+
+    cy.intercept(
+      'GET',
+      'http://localhost:3001/api/v1/users/1/dashboard',
+      { statusCode: 200, fixture: 'mockDashBoardNoJobsContactsOrCompanies' }
+    );
+
+    cy.visit("http://localhost:3000/");
+
+    cy.get('[data-cy="jobHuntingTips"]').contains('Job Hunt Tips');
+    cy.get('[data-cy="jobHuntTip"]').contains("Try to make at least one new contact, research a new company, and apply to one job each week to keep up your momentum. You've got this!")
+    cy.get('[data-cy="jobApplicationBtn"]').should('exist');
+    cy.get('[data-cy="contactBtn"]').should('exist');
+    cy.get('[data-cy="companyBtn"]').scrollIntoView().should('exist');
+
+    cy.get('[data-cy="companyBtn"]').click();
+    cy.url().should("include", "/companies/new");
   })
 })

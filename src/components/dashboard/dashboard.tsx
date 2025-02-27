@@ -80,17 +80,23 @@ export const DashBoard : React.FC = () => {
                             <ConditionallyRenderCard section="company" sectionCount={companiesCount} sectionDescription="New companies this week"/>
                         </div>
                     </Link>
-                    <div className="font-size-[4vh] text-4xl text-cyan-600">Job Hunt Tips</div>
+                    <div data-cy="jobHuntingTips" className="font-size-[4vh] text-4xl text-cyan-600">Job Hunt Tips</div>
 
-                    <div className="font-size-[4vh] text-2xl text-cyan-600">Try to make at least one new contact, research a new company, and apply to one job each week so you don't lose your momentum.  You've got this!
-                        <div data-cy="jobApplicationBtn">
-                        <ConditionallyRenderBtn section="job application" sectionCount={jobApplicationsCount} sectionUrl="/jobapplications/new" />
+                    <div data-cy="jobHuntTip" className="font-size-[4vh] text-2xl text-cyan-600">Try to make at least one new contact, research a new company, and apply to one job each week to keep up your momentum. You've got this!
+                        <div>
+                            <button data-cy="jobApplicationBtn">
+                                <ConditionallyRenderBtn section="job application" sectionCount={jobApplicationsCount} sectionUrl="/jobapplications/new" />
+                            </button>
                         </div>
-                        <div  data-cy="contactBtn">
-                        <ConditionallyRenderBtn sectionCount={contactsCount}  section="contact" sectionUrl="/contacts/new" />
+                        <div >
+                            <button data-cy="contactBtn">
+                                <ConditionallyRenderBtn sectionCount={contactsCount}  section="contact" sectionUrl="/contacts/new" />
+                            </button>
                         </div>
-                        <div data-cy="companyBtn">
-                        <ConditionallyRenderBtn section="company" sectionCount={companiesCount} sectionUrl="/companies/new" />
+                        <div>
+                            <button data-cy="companyBtn">
+                                <ConditionallyRenderBtn section="company" sectionCount={companiesCount} sectionUrl="/companies/new" />
+                            </button>
                         </div>
                     </div>
                 </div>
