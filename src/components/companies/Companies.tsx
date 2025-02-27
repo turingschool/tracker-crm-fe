@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Company } from "../../Interfaces";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { fetchCompanies } from "../../trackerApiCalls";
+import { useErrorContext } from "../../context/ErrorContext";
 
 function Companies() {
   const [companies, setCompanies] = useState<Company[] | null>([]); 
@@ -11,24 +12,41 @@ function Companies() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const {token, userData} = useUserLoggedContext();
+  const {setErrors, errorMessages} = useErrorContext();
 
   
   useEffect(() => {
     const getCompanies = async () => {
-      try {
-        const companies = await fetchCompanies(userData.user.data.id, token!);
-        setCompanies(companies);
-        setFilteredCompanies(companies);
-      } catch (error) {
-        console.error("Error fetching companies:", error);
-      } finally {
-        setIsLoading(false);
+      if (token && userData?.user?.data?.id) {
+        const result = await fetchCompanies(userData.user.data.id, token, setErrors);
+        if (result.error) {
+          console.error("Error fetching companies:", result.error);
+        } else if (result.data) {
+          setCompanies(result.data);
+          setFilteredCompanies(result.data);
+        }
+      }
+      setIsLoading(false);
+    };
+  
+    getCompanies();
+  }, [token, userData]);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    if (errorMessages.length > 0) {
+      timer = setTimeout(() => {
+        setErrors([]);
+      }, 5000);
+    }
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
       }
     };
-
-    getCompanies();
-  }, [token]);
-
+  }, [errorMessages, setErrors]);
+  
+  
   useEffect(() => {
     if (companies) {
       setFilteredCompanies(
@@ -45,6 +63,13 @@ function Companies() {
         <h1 className="text-[5.5vh] font-bold text-cyan-600 tracking-wide mb-[2vh] mt-[8vh]">
           Companies
         </h1>
+
+        {errorMessages.length > 0 &&
+          errorMessages.map((msg, index) => (
+            <p key={index} className="text-red-700 bg-red-100 p-3 rounded-md">
+              {msg}
+            </p>
+          ))}
 
         <div className="flex justify-between items-center">
           <input
@@ -81,12 +106,10 @@ function Companies() {
                 <td className="p-4 border-b">{company.attributes.name}</td>
                 <td className="p-4 border-b">{company.attributes.notes}</td>
               </tr>
-            ))}
-            </tbody>
-          </table>
-        ) : (
-          <p data-testid="no-companies">No companies found</p>
-        )}
+              ))}
+              </tbody>
+            </table>
+          ) : null }
       </div>
     </main>
   );
