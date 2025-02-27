@@ -205,7 +205,7 @@ function CompanyShow() {
 
         {/* Buttons */}
         <div className="mt-[10vh] flex flex-col items-center space-y-4 ml-[-16vw]">
-          
+
           {/* Edit Button */}
           <button
             data-cytest="edit-button"
@@ -229,14 +229,14 @@ function CompanyShow() {
     
     {/* Contacts Section */}
     <div className="my-[16vh] mr-[20vw]">
-      <h2
+      <h3
         data-testid="other-contacts"
         className="text-[3vh] font-bold text-cyan-700 mb-[4vh] text-nowrap"
       >
         {companyAttributes.name
           ? `My contacts at ${companyAttributes.name}`
           : `No contacts found at ${companyAttributes.name}`}
-      </h2>
+      </h3>
       <ul className="list-none">
         {companyContacts.map((contact) => (
             <li key={contact.id} className="text-2xl font-medium text-cyan-700 mb-[2vh]">

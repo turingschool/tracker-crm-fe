@@ -133,7 +133,7 @@ describe("Show a single contact page", () => {
       "Future Designs LLC"
     );
     cy.get('[data-testid="company-link"]').click();
-    cy.get("h2").contains("Company Name:").next().should("have.text", "Google");
+    cy.get("h2").should("have.text", "https://google.com");
     cy.url().should("include", "/companies/1/contacts");
   });
 
@@ -419,7 +419,6 @@ describe("Additional contacts link navigates to contact", () => {
 
   it("should navigate to the contact page after clicking a contact in the additional contacts list", () => {
     cy.get('[data-testid="other-contacts"]')
-      .closest("section")
       .find("li")
       .first()
       .find("a")
