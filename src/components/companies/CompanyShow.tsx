@@ -5,39 +5,7 @@ import { getACompany, deleteItem, updateCompany } from "../../trackerApiCalls";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import  DeleteItem  from "../common/DeleteItem";
 import { useErrorContext } from "../../context/ErrorContext";
-
-
-interface ContactData {
-  id: string;
-  type: string;
-  attributes: {
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone_number: string;
-    notes: string;
-    user_id: number;
-  }
-}
-
-interface CompanyData {
-  company: {
-    data: {
-      attributes: {
-        name: string;
-        website: string;
-        street_address: string;
-        city: string;
-        state: string;
-        zip_code: string;
-        notes: string;
-      }
-    }
-  },
-  contacts: {
-    data: ContactData[];
-  }
-}
+import { CompanyData } from "../../Interfaces";
 
 function CompanyShow() {
   const { id } = useParams<{ id: string }>();
@@ -57,29 +25,65 @@ function CompanyShow() {
   const [zipCode, setZipCode] = useState("");
   const [notes, setNotes] = useState("");
 
-
   useEffect(() => {
+    if (!id || !token || !userData?.user?.data?.id) return;
+
+    console.log("Fetching company data...");
+    setIsLoading(true);
+
     const fetchCompanyData = async () => {
-      setIsLoading(true);
-      if (!id) {
-        setError("Company ID is missing");
+      try {
+        if (!id) {
+          setError("Company ID is missing");
+          setIsLoading(false);
+          return;
+        }
+
+        const companyId = parseInt(id);
+        const result = await getACompany(userData.user.data.id, token, companyId, setBackendErrors);
+
+        if (result.error) {
+          setError(result.error);
+          setIsLoading(false);
+          return;
+        }
+
+        if (!result.data) {
+          setError("No data returned from API.");
+          setIsLoading(false);
+          return;
+        }
+
+        const contacts = {
+          data: Array.isArray(result.data?.contacts?.data) ? result.data.contacts.data : [],
+        };
+        const company = result.data?.company ?? {
+          data: {
+            attributes: {
+              name: "",
+              website: "",
+              street_address: "",
+              city: "",
+              state: "",
+              zip_code: "",
+              notes: "",
+            },
+          },
+        };
+
+        setCompanyData({ company, contacts });
+        setName(company.data.attributes.name);
+      } catch (error) {
+        console.error("Error fetching company data:", error);
+        setError(error instanceof Error ? error.message : "Unknown error occurred");
+      } finally {
         setIsLoading(false);
-        return;
+        console.log("Loading complete");
       }
-      const companyId = parseInt(id);
-      const result = await getACompany(userData.user.data.id, token!, companyId, setBackendErrors);
-      if (result.error) {
-        setError(result.error);
-      } else if (result.data) {
-        setCompanyData(result.data);
-        setName(result.data.company.data.attributes.name || "");
-      }
-      setIsLoading(false);
-      console.log("Loading complete");
     };
-  
+
     fetchCompanyData();
-  }, [token, userData, id]);
+  }, [id, token, userData?.user?.data?.id ?? ""]);
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
@@ -119,12 +123,13 @@ function CompanyShow() {
   }, [isEditModalOpen, companyData]);
 
 
+
   const handleSave = async () => {
     if (!name.trim()) {
       setIsNameValid(false);
       return;
     }
-  
+
     try {
       const updatedCompany = {
         name,
@@ -135,14 +140,14 @@ function CompanyShow() {
         zip_code: zipCode || null,
         notes: notes || null,
       };
-  
+
       const companyId = parseInt(id!);
       const updatedData = await updateCompany(userData.user.data.id, token!, companyId, updatedCompany);
-  
+
       if (!updatedData || !updatedData.data) {
         throw new Error("Invalid API response structure: Missing 'data'");
       }
-  
+
       setCompanyData((prevData) => ({
         company: {
           data: {
@@ -154,25 +159,25 @@ function CompanyShow() {
         },
         contacts: prevData?.contacts ?? { data: [] },
       }));
-  
+
       setIsEditModalOpen(false);
     } catch (error) {
       console.error("Error updating company:", error);
     }
   };
-  
+
   if (isLoading) {
     return <p className="text-center mt-10">Loading company details...</p>;
   }
-  
+
   if (error) {
     return <p className="text-center mt-10 text-red-500">Error: {error}</p>;
   }
-  
+
   if (!companyData) {
     return <p className="text-center mt-10">No company data found</p>;
   }
-  
+
   const companyContacts = companyData?.contacts?.data ?? [];
   const companyAttributes = companyData?.company?.data?.attributes ?? {
     name: "",
@@ -183,7 +188,6 @@ function CompanyShow() {
     zip_code: "",
     notes: ""
   };
-  
 
   return (
     <>
@@ -205,7 +209,7 @@ function CompanyShow() {
               <h2 className="font-semibold text-gray-700">Company Name:</h2>
               <p className="text-gray-900">{companyAttributes.name}</p>
             </div>
-  
+
             <div>
               <h2 className="font-semibold text-gray-700">Website:</h2>
               <p className="text-blue-500 hover:underline">
@@ -229,7 +233,7 @@ function CompanyShow() {
                 </a>
               </p>
             </div>
-  
+
             <div>
               <h2 className="font-semibold text-gray-700">Address:</h2>
               <p className="text-gray-900">
@@ -244,7 +248,7 @@ function CompanyShow() {
                   "N/A"}
               </p>
             </div>
-  
+
             <div>
               <h2 className="font-semibold text-gray-700">Notes:</h2>
               <p className="text-gray-900">
@@ -309,7 +313,7 @@ function CompanyShow() {
               >
                 &times;
               </button>
-  
+
               <h2 className="text-2xl font-bold mb-6">Edit Company</h2>
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-1">
@@ -438,4 +442,4 @@ function CompanyShow() {
   );
 }
 
-export default CompanyShow;
+export default CompanyShow

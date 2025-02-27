@@ -152,7 +152,7 @@ export interface DashBoardDattaI{
     id?: number;
     name?: string;
     email?: string;
-    [key: string]: any;  
+    [key: string]: any;
   }
 
   export interface UserRegistrationData {
