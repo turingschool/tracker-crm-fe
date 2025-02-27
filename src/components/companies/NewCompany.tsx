@@ -155,7 +155,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
               value={name}
               placeholder="Company Name"
               onChange={(e) => setName(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
               required
             />
             {errors.name && <p className="text-red-500 mt-1">{errors.name}</p>}
@@ -171,7 +171,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
               value={website}
               placeholder="https://example.com"
               onChange={(e) => setWebsite(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
           <div className="flex flex-col">
@@ -182,7 +182,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
               value={streetAddress}
               placeholder="123 Main St"
               onChange={(e) => setStreetAddress(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
           <div className="flex flex-col">
@@ -193,7 +193,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
               value={city}
               placeholder="City"
               onChange={(e) => setCity(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
           <div className="flex flex-col">
@@ -201,7 +201,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
             <select
               value={state}
               onChange={(e) => setState(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
             >
               <option value="">Select State</option>
               <option value="AL">Alabama</option>
@@ -264,7 +264,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
               value={zipCode}
               placeholder="12345"
               onChange={(e) => setZipCode(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
           <div className="flex flex-col">
@@ -273,12 +273,12 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
               value={notes}
               placeholder="Notes about the company"
               onChange={(e) => setNotes(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
           <button
             type="submit"
-            className={`mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`mt-4 bg-cyan-500 text-white px-4 py-2 rounded-lg hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={isLoading}

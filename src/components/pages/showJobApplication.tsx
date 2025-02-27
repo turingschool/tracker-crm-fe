@@ -288,7 +288,7 @@ function JobApplication() {
                       <Link
                       key={filteredContact[0].id}
                       to={`/contacts/${filteredContact[0].id}`}
-                      className="text-blue-500 hover:underline text-lg font-semibold"
+                      className="text-cyan-500 hover:underline text-lg font-semibold"
                     >
                       {filteredContact[0].first_name} {filteredContact[0].last_name}
                     </Link>
