@@ -1,21 +1,45 @@
+import {useUserLoggedContext} from "../../context/UserLoggedContext";
 import { Link, useLocation } from "react-router-dom"
+import { useEffect, useState } from "react"
 
 const JobApplicationInterviewQuestions: React.FC = () => {
-
-interface DummyQuestions {
-  id: number;
-  text: string;
-}
-
+const apiURL = process.env.REACT_APP_BACKEND_API_URL
+const backendURL = `${apiURL}api/v1/`
+const { token } = useUserLoggedContext();
+const [chatgptQuestions, setChatgptQuestions] = useState(null);
 const location = useLocation()
 const positionTitle = location.state.positionTitle
 const companyId = location.state.companyId
 const companyName = location.state.companyName
 const jobAppId = location.state.jobAppId
-// This is currently not used and wont be used until it is sent in the body of a fetch request to the backend to use for chatGPT
-// const jobDescription = location.state.jobDescription
+const jobDescription = location.state.jobDescription
 
-  // console.log('location from job application', location)
+  useEffect(() => {
+    const fetchData = async (jobDescription: string, token: string | null) => {
+      try {
+        const response = await fetch(`${backendURL}interview_questions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+          body: JSON.stringify({description: jobDescription}),
+        });
+        const result = await response.json();
+        setChatgptQuestions(result.data);
+        console.log("chat gpt questions", chatgptQuestions)
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchData(jobDescription, token);
+  }, []); 
+
+interface DummyQuestions {
+  id: number;
+  text: string;
+}
 
 const questions :DummyQuestions[] = [
   { id: 1, text: "Can you explain the difference between state and props in React?" },
