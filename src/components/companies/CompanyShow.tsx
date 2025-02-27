@@ -7,25 +7,6 @@ import  DeleteItem  from "../common/DeleteItem";
 import { ContactData, Company } from "../../Interfaces";
 
 
-// interface CompanyData {
-//   company: {
-//     data: {
-//       attributes: {
-//         name: string;
-//         website: string;
-//         street_address: string;
-//         city: string;
-//         state: string;
-//         zip_code: string;
-//         notes: string;
-//       }
-//     }
-//   },
-//   contacts: {
-//     data: ContactData[];
-//   }
-// }
-
 function CompanyShow() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -55,8 +36,8 @@ function CompanyShow() {
         const companyId = parseInt(id);
         const data = await getACompany(userData.user.data.id, token!, companyId);
         setCompanyData( {
-          company: data.company,
-          contacts: data.contacts?.data || []
+          company: data.company?.data ?? {},
+          contacts: Array.isArray(data.contacts?.data) ? data.contacts.data : []
         });
         setName(data?.company?.attributes?.name || "");
       } catch (error) {
