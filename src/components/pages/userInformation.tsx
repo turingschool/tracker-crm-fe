@@ -57,7 +57,7 @@ function UserInformation({userData}: UserInformationProps) {
           placeholder="Name"
           value={name}
           onChange={event => setName(event.target.value)}
-          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
           data-testid="name-input"
           required
         />
@@ -67,7 +67,7 @@ function UserInformation({userData}: UserInformationProps) {
           placeholder="Email"
           value={email}
           onChange={event => setEmail(event.target.value)}
-          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
           data-testid="email-input"
           required
         />
@@ -77,7 +77,7 @@ function UserInformation({userData}: UserInformationProps) {
           placeholder="Password"
           value={password}
           onChange={event => setPassword(event.target.value)}
-          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
           data-testid="password-input"
         />
         <h2 className="text-2xl font-bold mb-4">Re-enter password</h2>
@@ -86,13 +86,13 @@ function UserInformation({userData}: UserInformationProps) {
           placeholder="Name"
           value={password2}
           onChange={handlePassword2Change}
-          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-cyan-500"
           data-testid="password-confirmation-input"
         />
         <br />
         <button 
           type="submit" 
-          className="mt-4 bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+          className="mt-4 bg-cyan-500 text-white py-2 px-4 rounded hover:bg-cyan-600"
           data-testid="submit-button"
         >EDIT INFO</button>
         {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}

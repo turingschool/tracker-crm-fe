@@ -208,7 +208,7 @@ function CompanyShow() {
   
             <div>
               <h2 className="font-semibold text-gray-700">Website:</h2>
-              <p className="text-blue-500 hover:underline">
+              <p className="text-cyan-500 hover:underline">
                 <a
                   href={
                     companyAttributes.website
@@ -221,7 +221,7 @@ function CompanyShow() {
                   rel="noopener noreferrer"
                   className={
                     companyAttributes.website
-                      ? "text-blue-500 hover:underline"
+                      ? "text-cyan-500 hover:underline"
                       : "text-gray-500"
                   }
                 >
@@ -260,7 +260,7 @@ function CompanyShow() {
                   <Link
                     key={contact.id}
                     to={`/contacts/${contact.id}`}
-                    className="text-blue-500 hover:underline text-lg font-semibold"
+                    className="text-cyan-500 hover:underline text-lg font-semibold"
                   >
                     {contact.attributes.first_name} {contact.attributes.last_name}
                   </Link>
