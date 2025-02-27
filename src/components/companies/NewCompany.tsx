@@ -138,7 +138,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
         ))}
       </div>
     )}
-        <h1 className="text-2xl font-bold mb-4">Add New Company</h1>
+        <h1 className="text-2xl text-cyan-600 font-bold mb-4">Add New Company</h1>
         {successMessage && (
           <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
             {successMessage}
