@@ -18,6 +18,7 @@ import ShowContact from './components/contacts/ShowContact';
 import JobApplication from './components/pages/showJobApplication';
 import DashBoard from "./components/dashboard/dashboard";
 import { ErrorProvider } from "./context/ErrorContext";
+import JobApplicationInterviewQuestions from "./components/JobApplications/JobApplicationInterviewQuestions"
 
 
 function App() {
