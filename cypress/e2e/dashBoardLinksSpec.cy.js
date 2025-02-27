@@ -106,9 +106,9 @@ describe('Dash Board after loggging in with recent jobs, contacts and companies'
   });
 
   it("Should not show the button with at least 1 job application/contact/company", () => {
-    cy.get('[data-cy="jobApplicationBtn"]').should('not.exist');
-    cy.get('[data-cy="contactBtn"]').should('not.exist');
-    cy.get('[data-cy="companyBtn"]').should('not.exist');
+    cy.get('[data-cy="jobApplicationBtn"]').should('not.be.visible');
+    cy.get('[data-cy="contactBtn"]').should('not.be.visible');
+    cy.get('[data-cy="companyBtn"]').should('not.be.visible');
   })
 
   it("Should display button with no job applications and go to the new job application page when the button is clicked", () => {
