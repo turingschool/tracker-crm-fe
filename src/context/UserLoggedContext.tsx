@@ -57,23 +57,8 @@ export function UserLoggedContextProvider({ children }: React.PropsWithChildren)
 
   // Function to clear the logged-in state
   const clearUserLogged = () => {
-    setIsLoggedIn(false)
-    setToken(null);
-    setRoles([]);
-    setUserData({
-      token: '',
-      user: {
-        data: {
-          id: 0,
-          type: 'user',
-          attributes: {
-            name: '',
-            email: '',
-            companies: []
-          }
-        }
-      }
-    });
+    sessionStorage.clear()
+    window.location.reload();
   };
 
   // Context value

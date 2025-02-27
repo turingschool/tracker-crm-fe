@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchCompanies, createCompany } from "../../trackerApiCalls";
 import { CompanyAttributes } from "../../Interfaces";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
+import { useErrorContext } from "../../context/ErrorContext"; 
 
 interface NewCompanyProps {
   isModal?: boolean;
@@ -22,43 +23,60 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
   const [notes, setNotes] = useState<string>("");
   const [existingCompanies, setExistingCompanies] = useState<any[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
   const [errors, setErrors] = useState<{ name?: string; duplicate?: string }>(
     {}
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { setErrors: setBackendErrors } = useErrorContext()
+  const { errorMessages } = useErrorContext();
 
   useEffect(() => {
     const getCompanies = async () => {
       if (token && userData?.user?.data?.id) {
-        const companies = await fetchCompanies(userData.user.data.id, token);
-        setExistingCompanies(companies || []);
+        const result = await fetchCompanies(
+          userData.user.data.id,
+          token!,
+          setBackendErrors  
+        );
+        if (result.data) {
+          setExistingCompanies(result.data);
+        } else {
+          setExistingCompanies([]);
+        }
       }
     };
-
+  
     getCompanies();
   }, [token, userData]);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    if (errorMessages.length > 0) {
+      timer = setTimeout(() => {
+        setBackendErrors([]);
+      }, 5000);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [errorMessages, setBackendErrors]);
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
     setSuccessMessage(null);
-
-    if (!name.trim()) {
-      setErrors({ name: "Company name is required." });
-      return;
-    }
-
+  
     const isDuplicate = existingCompanies.some(
       (company) =>
         company.attributes.name.toLowerCase() === name.trim().toLowerCase()
     );
-
+  
     if (isDuplicate) {
       setErrors({ duplicate: "A company with this name already exists." });
       return;
     }
-
+  
     const newCompany: CompanyAttributes = {
       id: 0,
       name,
@@ -69,23 +87,31 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
       zip_code: zipCode,
       notes,
     };
-
+  
     try {
       if (!token || !userData?.user?.data?.id) {
         console.error("Missing token or user ID");
         return;
       }
-
+  
       setIsLoading(true);
-      const response = await createCompany(
+      const result = await createCompany(
         userData.user.data.id,
         token,
-        newCompany
+        newCompany,
+        setBackendErrors
       );
+      setIsLoading(false);
+  
+      if (result.error) {
+        setErrors({ name: result.error });
+        return;
+      }
+  
       setSuccessMessage("Company added successfully!");
-
+  
       if (isModal && onSuccess) {
-        onSuccess(response.data.id, response.data.attributes.name);
+        onSuccess(result.data.data.id, result.data.data.attributes.name);
       } else if (window.location.href.includes("companies")) {
         setTimeout(() => {
           navigate("/companies");
@@ -97,9 +123,21 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
       setIsLoading(false);
     }
   };
+  
+
   return (
+
     <div className="flex flex-row">
       <div className="max-w-4xl w-10/12  m-auto p-12 justify-self-center bg-white border border-gray-200 rounded-lg shadow-lg">
+      {errorMessages.length > 0 && (
+      <div className="mb-4">
+        {errorMessages.map((msg, index) => (
+          <p key={index} className="text-red-700 bg-red-100 p-3 rounded-md">
+            {msg}
+          </p>
+        ))}
+      </div>
+    )}
         <h1 className="text-2xl font-bold mb-4">Add New Company</h1>
         {successMessage && (
           <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">

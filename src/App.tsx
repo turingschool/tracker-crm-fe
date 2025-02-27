@@ -17,12 +17,13 @@ import ApplicationsGrid from './components/JobApplications/JobApplications';
 import ShowContact from './components/contacts/ShowContact';
 import JobApplication from './components/pages/showJobApplication';
 import DashBoard from "./components/dashboard/dashboard";
-import JobApplicationInterviewQuestions from './components/JobApplications/JobApplicationInterviewQuestions';
+import { ErrorProvider } from "./context/ErrorContext";
 
 
 function App() {
   const { isLoggedIn,  userData } = useUserLoggedContext()
   return (
+    <ErrorProvider>
       <Routes>
         <Route // Public Route
           path="/"
@@ -54,6 +55,7 @@ function App() {
         </Route>
         <Route path="/UserRegistration" element={<UserRegistration/>}/>
       </Routes>
+    </ErrorProvider>
   );
 }
 

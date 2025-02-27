@@ -14,15 +14,26 @@ import CloseIcon from "@mui/icons-material/Close";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 function MenuBar() {
+  const { clearUserLogged } = useUserLoggedContext();
   const [sideMenuOpen, setSideMenuOpen] = useState(true);
   const toggleSideMenu = () => {
     setSideMenuOpen((previousState) => !previousState);
+  };
+
+  const [isSideMenuUserDropDownOpen, setIsSideMenuUserDropDownOpen] = useState(false);
+  const toggleUserSideMenu = () => {
+    setIsSideMenuUserDropDownOpen((previousState) => !previousState);
   };
 
   const [isDropDownOpen, setIsDropDownOpen] = useState(false);
   const { userData } = useUserLoggedContext();
   const toggleDropDown = () => {
     setIsDropDownOpen((prevState) => !prevState);
+  };
+
+  const [isUserDropDownOpen, setIsUserDropDownOpen] = useState(false);
+  const toggleUserDropDown = () => {
+    setIsUserDropDownOpen((prevState) => !prevState);
   };
 
   let { userId = userData.user.data.id } = useParams();
@@ -59,7 +70,7 @@ function MenuBar() {
         </NavLink>
 
         {/* Drop Down Shortcut Menu */}
-        <div className="flex flex-col items-center justify-center relative">
+        <div className="flex flex-col items-center justify-center relative" onMouseLeave={() => setIsDropDownOpen(false)}>
           <button className={`flex items-center justify-items-center ${isDropDownOpen ? "text-cyan-800" : "text-gray-500"}`}
             onClick={toggleDropDown} data-testid="plus-iconD">
             <AddCircleIcon fontSize="large" className="m-auto justify-items-center mt-[6vh]" />
@@ -85,16 +96,26 @@ function MenuBar() {
         </div>
 
         {/* Account */}
-        <NavLink
-          to="/userInformation"
-          className={({ isActive }) =>
-            isActive
-              ? "m-auto mt-[20vh] rounded-full text-cyan-800 transform scale-150 transition-transform duration-150"
-              : "m-auto mt-[20vh] rounded-full text-gray-500 transform scale-125 transition-transform duration-150"
-          }
-          data-testid="update-user">
-          <AccountCircleIcon data-testid="updateUser-iconD" fontSize="large" />
-        </NavLink>
+        <div className="flex flex-col items-center justify-center relative" onMouseLeave={() => setIsUserDropDownOpen(false)}>
+        <button className={`flex items-center justify-items-center ${isUserDropDownOpen ? "text-cyan-800" : "text-gray-500"}`}
+            onClick={toggleUserDropDown} data-testid="updateUser-iconD">
+            <AccountCircleIcon fontSize="large" className="m-6 justify-items-center mt-[20vh]" />
+          </button>
+          <ul className={`absolute bottom-0 mb-16 left-0 bg-cyan-600 shadow-md rounded-md transition-all duration-700 ease-in-out
+            ${isUserDropDownOpen ? "scale-100 opacity-100 visible" : "hidden"}`} style={{ zIndex: 10 }}
+            >
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2">
+              <Link to="/userInformation" onClick={toggleUserDropDown}>
+                User Profile
+              </Link>
+            </li>
+            <li className="p-2 hover:bg-gray-100 rounded text-center" >
+              <button onClick={() => { clearUserLogged(); toggleUserDropDown(); }}>
+                Logout
+              </button>
+            </li>
+          </ul>
+        </div>
       </nav>
 
       {/* -- MOBILE HAMBURGER, shown on small screens only -- */}
@@ -156,9 +177,21 @@ function MenuBar() {
         </div>
 
         {/* Account */}
-        <NavLink to="/userInformation" className="m-auto text-white" data-testid="update-userM" onClick={toggleSideMenu}>
+        <div className="flex mt-auto flex-col items-center justify-center relative text-white" data-testid="update-userM" onClick={toggleUserSideMenu}>
           <AccountCircleIcon data-testid="updateUser-iconM" fontSize="large" />
-        </NavLink>
+          <ul className={`bg-cyan-500 m-4 shadow-md rounded-md transition-all duration-700 ease-in-out transform
+            ${ isSideMenuUserDropDownOpen ? "scale-100 opacity-100 visible" : "scale-95 opacity-0 invisible"}`}>
+            <li className="p-2 hover:bg-gray-100 rounded text-center mb-2 hover:text-black" onClick={() => {toggleSideMenu(); toggleUserSideMenu();}}>
+              <Link data-testid="userProfileLink" to="/userInformation">
+              User Profile
+              </Link>
+            </li>
+            <li data-testid="userLogoutLink" className="p-2 hover:bg-gray-100 rounded text-center hover:text-black" onClick={() => {clearUserLogged(); toggleSideMenu(); toggleUserSideMenu();}}>
+                Logout
+            </li>
+          </ul>
+        </div>
+        
       </nav>
 
       {/* -- QUAD COLOR BAR -- */}

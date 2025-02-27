@@ -1,18 +1,6 @@
 import { useState } from "react";
+import { DeleteItemProps } from "../../Interfaces";
 
-interface DeleteItemProps {
-  userId: number;
-  itemId: string | number;
-  itemType: string;
-  deleteAction: (
-    userId: number,
-    itemType: string,
-    itemId: string | number,
-    token: string
-  ) => Promise<boolean>;
-  token: string;
-  onDeleteSuccess: () => void;
-}
 
 const DeleteItem = ({
   userId,
@@ -48,7 +36,7 @@ const DeleteItem = ({
         Delete
       </button>
 
-        {deleteModalOpen && (
+      {deleteModalOpen && (
         <div
           className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-75"
           onClick={() => setDeleteModalOpen(false)} 

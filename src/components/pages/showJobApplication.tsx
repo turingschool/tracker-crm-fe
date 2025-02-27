@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { showJobApp, updateJobApplication } from "../../trackerApiCalls";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { statusMap, statusStyles } from "../JobApplicationUtilities";
+import { deleteItem } from "../../trackerApiCalls";
+import DeleteItem from "../common/DeleteItem";
 import DatePicker from "react-datepicker";
 import moment from "moment-timezone";
 
@@ -25,6 +27,7 @@ interface JobApplicationAttributes {
   contacts: Contact[];
   company_id: number;
   company_name: string;
+  contact_id: number;
 }
 
 interface DataCompile {
@@ -51,6 +54,13 @@ function JobApplication() {
   const [dateApplied, setDateApplied] = useState("");
   const [companyId, setCompanyId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
+  const [statusUpdateFlag, setStatusUpdateFlag] = useState(false);
+
+  const [contacts, setContacts] = useState<Contact[]>([]);
+
+  const navigate = useNavigate();
+  const userId = userData.user.data.id;
+
 
   useEffect(() => {
     if (jobAppId) {
@@ -72,6 +82,7 @@ function JobApplication() {
               .local()
               .format("YYYY-MM-DD")
           );
+          setContacts(data.data.attributes.contacts);
         } catch (err) {
           console.error("Failed to fetch job application:", err);
           setError("Unable to fetch job application data.");
@@ -80,6 +91,8 @@ function JobApplication() {
       fetchJobApplication();
     }
   }, [jobAppId]);
+
+  const filteredContact = contacts.filter(contact => contact.id === jobApp?.contact_id);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -118,10 +131,17 @@ function JobApplication() {
 
   useEffect(() => {
     if (dateApplied) {
-      handleSubmit();
+      handleSubmit()
     }
-  }, [dateApplied]);
+  }, [dateApplied])
 
+  useEffect(() => {
+    if(statusUpdateFlag) {
+      handleSubmit()
+      setStatusUpdateFlag(false)
+    }
+  }, [status, statusUpdateFlag])
+    
   return (
     <div className="min-h-screen p-4 sm:p-8 pt-8 sm:pt-36">
       {error && <p className="text-red-600 text-center">{error}</p>}
@@ -145,8 +165,10 @@ function JobApplication() {
                 {jobApp.company_name}
               </h2>
             </Link>
-            <div className="flex align-row mt-5">
-              <p className="font-bold mb-4 mr-2">Applied On: </p>
+            <div className='text-[1.25vw] font-[Helvetica Neue] flex flex-row items-center flex align-row mt-5 mb-4 font-bold'>
+              <p id="applied-on" className="mr-2">
+                Applied On: {" "}
+              </p>
               {isEditing ? (
                 <div className="flex flex-col">
                   <DatePicker
@@ -176,18 +198,27 @@ function JobApplication() {
                 </span>
               )}
             </div>
-            <div className="flex-row">
-              <p className="mb-6 font-bold">
-                Status:{" "}
-                <span
-                  className={`py-1 px-2 rounded ${
-                    statusStyles[statusMap[jobApp.status]]
-                  }`}
-                  data-testid="job-status"
-                >
-                  {statusMap[jobApp.status]}
-                </span>
-              </p>
+            <div className="text-[1.25vw] font-[Helvetica Neue] flex flex-row items-center ">
+              <p id="application-status" className="font-bold mr-2">Status:</p>
+                <select
+                  value={status}
+                  id="appStatus"
+                  onChange={(e) => {
+                    setStatus(Number(e.target.value))
+                    setStatusUpdateFlag(true)
+                  }}
+                  className={`p-2 border-4 rounded-lg focus:outline-none focus:ring-2 m-2 ${statusMap[status] ? statusStyles[statusMap[status]] : ''
+                    }`}
+                  required >
+                  <option value="" className="text-gray-400">
+                    Select Status
+                  </option>
+                  {Object.entries(statusMap).map(([key, value]) => (
+                  <option key={key} value={key}>
+                    {value}
+                  </option>
+                  ))}
+                </select>
             </div>
             <h3 className="text-cyan-600 text-2xl mb-4">Notes</h3>
             <p
@@ -209,6 +240,16 @@ function JobApplication() {
             >
               Back
             </Link>
+            <div className="mt-[80px] flex flex-col items-start ml-20">
+              <DeleteItem
+                userId={userId}
+                itemId={jobAppId || ""}
+                itemType="job_application"
+                deleteAction={deleteItem}
+                token={token ?? ""}
+                onDeleteSuccess={() => navigate("/job_applications")}
+              />
+            </div>
           </section>
 
           <section className="mt-8 lg:mt-0">
@@ -246,30 +287,31 @@ function JobApplication() {
                 Read More...
               </button>
             </div>
-            {/**WORKING CODE CAN BE USED TO RESOLVE ISSUE 93**
-            /* <div>
+            <div>
               <h2 className="text-cyan-600 text-xl sm:text-2xl font-bold mb-4">
-                My Contacts at {jobApp.company_name}
+                    My Contact at {jobApp.company_name}
               </h2>
               <ul>
-                {jobApp.contacts.length > 0 ? (
-                  jobApp.contacts.map((contact) => (
-                    <li key={contact.id} className="mb-4">
-                      <p className="text-cyan-500 font-semibold">
-                        {contact.first_name} {contact.last_name}
-                      </p>
-                    </li>
-                  ))
-                  ) : (
-                    <Link to="/contacts/new">
-                      <p className="text-cyan-500 underline font-semibold hover:text-cyan-600">
-                        Add a new contact
-                      </p>
+                    {filteredContact.length > 0 ? (
+                      <Link
+                      key={filteredContact[0].id}
+                      to={`/contacts/${filteredContact[0].id}`}
+                      className="text-blue-500 hover:underline text-lg font-semibold"
+                    >
+                      {filteredContact[0].first_name} {filteredContact[0].last_name}
                     </Link>
-                  )
-                }
-              </ul>
-            </div> */}
+                    
+                    ) : (
+                      <Link to="/contacts/new">
+                        <p className="text-cyan-500 underline font-semibold hover:text-cyan-600">
+                          Add a new contact
+                        </p>
+                      </Link>
+                    )}
+                  </ul>
+
+
+            </div>
           </section>
 
           {isModalOpen && (
@@ -401,3 +443,5 @@ function JobApplication() {
 }
 
 export default JobApplication;
+
+

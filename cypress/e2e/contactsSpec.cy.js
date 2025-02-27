@@ -217,7 +217,7 @@ describe("Contacts page", () => {
       .should("have.text", "Type notes here...");
   });
 
-  it("Should take you to a contact's page when clicking on a contact's name", () => {
+  it("Should take you to a contact's page when clicking anywhere on the contacts row", () => {
     cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
       statusCode: 200,
       body: {
@@ -251,7 +251,7 @@ describe("Contacts page", () => {
       },
     }).as("get-contact-details");
     cy.wait("@get-contacts");
-    cy.get("table tbody tr").first().find("a").click();
+    cy.get("table tbody tr").first().click();
     cy.url().should("include", "/contacts/1");
   });
 });

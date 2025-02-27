@@ -211,6 +211,9 @@ describe("New Contacts page after logging in", () => {
       }).as("getUpdatedCompanies");
 
       cy.get("a > .bg-cyan-600").click();
+      cy.get("#firstName").type("Emma");
+      cy.get("#lastName").type("Boots");
+
       cy.contains("button", "Add new company").click();
       cy.get("label").contains("Company Name:").should("exist");
       cy.get("label").contains("Website:").should("exist");
@@ -236,9 +239,6 @@ describe("New Contacts page after logging in", () => {
         .should("have.value", "3")
         .find("option:selected")
         .should("have.text", "Company C");
-
-      cy.get("#firstName").type("Emma");
-      cy.get("#lastName").type("Boots");
 
       cy.get('button[type="submit"]').click();
 
@@ -315,13 +315,6 @@ describe("New Contacts page after logging in", () => {
     });
 
     it("Should validate the phone number format", () => {
-      cy.intercept("POST", "http://localhost:3001/api/v1/users/2/contacts", {
-        statusCode: 422,
-        body: {
-          message: "Phone number must be in the format '555-555-5555'",
-        },
-      }).as("addContactInvalidPhone");
-
       cy.get("a > .bg-cyan-600").click();
       cy.contains("Add New Contact");
 
@@ -331,7 +324,6 @@ describe("New Contacts page after logging in", () => {
       cy.get("#phoneNumber").type("12345");
       cy.get('button[type="submit"]').click();
 
-      cy.wait("@addContactInvalidPhone");
       cy.contains("Phone number must be in the format '555-555-5555'").should(
         "exist"
       );
@@ -381,5 +373,22 @@ describe("New Contacts page after logging in", () => {
       );
       cy.contains("button", "X").scrollIntoView().click();
     });
+
+    it("Should keep the add company modal open when clicked", () => {
+      cy.get("a > .bg-cyan-600").click();
+      cy.get("#firstName").type("Emma");
+      cy.get("#lastName").type("Boots");
+      cy.contains("Add New Contact");
+      cy.contains("button", "Add new company").click();
+      cy.wait(5000) //including a wait period in this test due to a bug that was causing the modal to close unexpectedly after opening 
+
+      cy.get("label").contains("Company Name:").should("exist");
+      cy.get("label").contains("Website:").should("exist");
+      cy.get("label").contains("Street Address:").should("exist");
+      cy.get("label").contains("City:").should("exist");
+      cy.get("label").contains("State:").should("exist");
+      cy.get("label").contains("Zip Code:").should("exist");
+      cy.get("label").contains("Notes:").should("exist");
+    })
   });
 });

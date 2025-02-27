@@ -49,10 +49,29 @@ const NewContact = ({ userData }: UserInformationProps) => {
   ) => {
     const { name, value } = e.target;
 
-    setFormInputData((prev) => ({
-      ...prev,
-      [name]: value === " " ? null : value,
-    }));
+    if (name === "phoneNumber") {
+      let phoneInput = value.replace(/\D/g, "");
+      if (phoneInput.length > 3 && phoneInput.length <= 6) {
+        phoneInput = phoneInput.slice(0, 3) + "-" + phoneInput.slice(3);
+      } else if (phoneInput.length > 6) {
+        phoneInput =
+          phoneInput.slice(0, 3) +
+          "-" +
+          phoneInput.slice(3, 6) +
+          "-" +
+          phoneInput.slice(6, 10);
+      }
+
+      setFormInputData((prev) => ({
+        ...prev,
+        [name]: phoneInput,
+      }));
+    } else {
+      setFormInputData((prev) => ({
+        ...prev,
+        [name]: value === " " ? null : value,
+      }));
+    }
   };
 
   const handleCompanyCreated = (
@@ -68,9 +87,17 @@ const NewContact = ({ userData }: UserInformationProps) => {
       companyId: newCompanyId,
     }));
   };
+  const isPhoneValid = (phoneNumber: string) => {
+    return phoneNumber === "" || /^\d{3}-\d{3}-\d{4}$/.test(phoneNumber);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!isPhoneValid(formInputData.phoneNumber)) {
+      setFeedback("Phone number must be in the format '555-555-5555'");
+      return;
+    }
     const newContact = {
       first_name: formInputData.firstName,
       last_name: formInputData.lastName,
@@ -214,6 +241,7 @@ const NewContact = ({ userData }: UserInformationProps) => {
             </select>
             <div>
               <button
+                type="button"
                 className="bg-cyan-600 text-white px-[.5vw] py-[1vh] rounded w-[18vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2 mt-3"
                 onClick={() => setIsOpen(true)}
               >

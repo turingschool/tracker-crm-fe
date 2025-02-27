@@ -168,3 +168,41 @@ export interface DashBoardDattaI{
     sectionUrl: string;
     sectionDescription: string
 }
+
+  export interface DeleteItemProps {
+    userId: number;
+    itemId: string | number;
+    itemType: string;
+    deleteAction: (
+      userId: number,
+      itemType: string,
+      itemId: string | number,
+      token: string
+    ) => Promise<boolean>;
+    token: string;
+    onDeleteSuccess: () => void;
+}
+
+export interface APIResult<T> {
+  data?: T;
+  error?: string;
+}
+
+export interface CompanyData {
+  company: {
+    data: {
+      attributes: {
+        name: string;
+        website: string;
+        street_address: string;
+        city: string;
+        state: string;
+        zip_code: string;
+        notes: string;
+      }
+    }
+  },
+  contacts: {
+    data: ContactData[];
+  }
+}
