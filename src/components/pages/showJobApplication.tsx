@@ -143,30 +143,30 @@ function JobApplication() {
   }, [status, statusUpdateFlag])
     
   return (
-    <div className="min-h-screen p-4 sm:p-8 pt-8 sm:pt-36">
+    <div className="min-h-screen mt-12 sm:p-8 sm:pt-6">
       {error && <p className="text-red-600 text-center">{error}</p>}
       {jobApp ? (
         <main className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-8">
           <section>
             <h1
-              className="text-cyan-600 text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4"
+              className="text-cyan-600 text-[5.5vh] font-bold mb-2"
               data-testid="job-Title"
             >
               {jobApp.position_title}
             </h1>
             <Link
-              className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline"
+              className="p-0"
               to={`/companies/${companyId}/contacts`}
             >
               <h2
-                className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline"
+                className="text-[3vh] font-bold text-cyan-700 hover:text-cyan-500"
                 data-testid="job-companyName"
               >
                 {jobApp.company_name}
               </h2>
             </Link>
-            <div className='text-[1.25vw] font-[Helvetica Neue] flex flex-row items-center flex align-row mt-5 mb-4 font-bold'>
-              <p id="applied-on" className="mr-2">
+            <div className='flex flex-row items-center flex align-row mt-5 mb-4 text-lg text-gray-700 font-semibold'>
+              <p id="applied-on" className="mr-2 cursor-pointer">
                 Applied On: {" "}
               </p>
               {isEditing ? (
@@ -181,14 +181,14 @@ function JobApplication() {
                       }
                     }}
                     inline
-                    className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline cursor:pointer"
+                    className="font-semibold text-cyan-500 hover:text-cyan-700 cursor:pointer "
                     onClickOutside={() => setIsEditing(false)}
                     required
                   />
                 </div>
               ) : (
                 <span
-                  className="font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline cursor:pointer"
+                  className="font-semibold text-cyan-600 cursor:pointer hover:text-cyan-500"
                   data-testid="application-date"
                   onClick={() => setIsEditing(true)}
                 >
@@ -198,8 +198,8 @@ function JobApplication() {
                 </span>
               )}
             </div>
-            <div className="text-[1.25vw] font-[Helvetica Neue] flex flex-row items-center ">
-              <p id="application-status" className="font-bold mr-2">Status:</p>
+            <div className="flex flex-row items-center text-lg text-gray-700 font-semibold">
+              <p id="application-status" className="mr-2">Status:</p>
                 <select
                   value={status}
                   id="appStatus"
@@ -207,7 +207,7 @@ function JobApplication() {
                     setStatus(Number(e.target.value))
                     setStatusUpdateFlag(true)
                   }}
-                  className={`p-2 border-4 rounded-lg focus:outline-none focus:ring-2 m-2 ${statusMap[status] ? statusStyles[statusMap[status]] : ''
+                  className={`py-1 px-2 m-2 border-transparent border-r-8 rounded focus:outline-none focus:ring-2  ${statusMap[status] ? statusStyles[statusMap[status]] : ''
                     }`}
                   required >
                   <option value="" className="text-gray-400">
@@ -220,89 +220,91 @@ function JobApplication() {
                   ))}
                 </select>
             </div>
-            <h3 className="text-cyan-600 text-2xl mb-4">Notes</h3>
+            <h3 className="text-cyan-600 text-2xl my-4">Notes</h3>
             <p
-              className={`mb-8 ${jobApp.notes ? "" : "text-cyan-500"}`}
+              className={`mb-6 whitespace-pre-wrap ${jobApp.notes ? "" : "text-cyan-500"}`}
               data-testid="job-notes"
             >
               {jobApp.notes ? jobApp.notes : "Click edit to add some notes."}
             </p>
-            <button
-              className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded"
-              onClick={openEdit}
-              data-testid="edit-button"
-            >
-              Edit
-            </button>
-            <Link
-              className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded inline-block text-center ml-2"
-              to="/job_applications"
-            >
-              Back
-            </Link>
-            <div className="mt-[80px] flex flex-col items-start ml-20">
-              <DeleteItem
-                userId={userId}
-                itemId={jobAppId || ""}
-                itemType="job_application"
-                deleteAction={deleteItem}
-                token={token ?? ""}
-                onDeleteSuccess={() => navigate("/job_applications")}
-              />
-            </div>
           </section>
-
-          <section className="mt-8 lg:mt-0">
+          <section className="mt-8 lg:m-16 ">
             <div className="mb-8">
-              <h2 className="text-cyan-600 text-2xl sm:text-3xl mb-4">
+              <h2 className="text-cyan-700 text-2xl font-semibold sm:text-3xl mb-4">
                 Job Description
               </h2>
               <a
                 href={jobApp.application_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-cyan-500 underline hover:text-cyan-700"
+                className="text-lg text-cyan-600 underline hover:text-cyan-500"
                 data-testid="job-URL"
               >
                 {jobApp.application_url}
               </a>
               <p
-                className="mt-4 text-sm sm:text-base"
+                className="mt-4 text-sm  sm:text-base whitespace-pre-wrap"
                 data-testid="job-description"
               >
-                {jobApp.job_description.slice(0, 300)}...
+                {jobApp.job_description.slice(0, 150)}...
               </p>
               <button
                 onClick={openModal}
-                className="text-cyan-600 underline hover:text-cyan-800 mt-2 block"
+                className="text-cyan-600 underline hover:text-cyan-700 mt-2 block"
               >
                 Read More...
               </button>
             </div>
             <div>
-              <h2 className="text-cyan-600 text-xl sm:text-2xl font-bold mb-4">
-                    My Contact at {jobApp.company_name}
+              <h2 className="text-cyan-700 text-xl sm:text-2xl font-semibold mb-4">
+                    My Contacts at {jobApp.company_name}
               </h2>
               <ul>
-                    {filteredContact.length > 0 ? (
-                      <Link
-                      key={filteredContact[0].id}
-                      to={`/contacts/${filteredContact[0].id}`}
-                      className="text-blue-500 hover:underline text-lg font-semibold"
-                    >
-                      {filteredContact[0].first_name} {filteredContact[0].last_name}
-                    </Link>
-                    
-                    ) : (
-                      <Link to="/contacts/new">
-                        <p className="text-cyan-500 underline font-semibold hover:text-cyan-600">
-                          Add a new contact
-                        </p>
-                      </Link>
-                    )}
-                  </ul>
-
-
+                {filteredContact.length > 0 ? (
+                  <Link
+                  key={filteredContact[0].id}
+                  to={`/contacts/${filteredContact[0].id}`}
+                  className="text-cyan-600 hover:text-cyan-500 text-lg font-semibold"
+                >
+                  {filteredContact[0].first_name} {filteredContact[0].last_name}
+                  </Link>
+                ) : (
+                  <Link to="/contacts/new">
+                    <p className="text-cyan-600 font-semibold hover:text-cyan-500 underline underline-offset-8">
+                      Add a new contact
+                    </p>
+                  </Link>
+                )}
+              </ul>
+            </div>
+          </section>
+          <section>
+            {/* Buttons */}
+            <div className="flex flex-col items-start ml-[5vw] space-y-4 sm:mt-8">
+              <button
+                className="border-2 border-cyan-600 text-cyan-700 px-8 py-2 rounded hover:bg-cyan-600 hover:text-white transition-all"
+                onClick={openEdit}
+                data-testid="edit-button"
+              >
+                Edit
+              </button>
+              {/* Code for a "Back" button that is not in the mock up */}
+              {/* <Link
+                className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded inline-block text-center ml-2"
+                to="/job_applications"
+              >
+                Back
+              </Link> */}
+                <div className="ml-6">
+                  <DeleteItem
+                    userId={userId}
+                    itemId={jobAppId || ""}
+                    itemType="job_application"
+                    deleteAction={deleteItem}
+                    token={token ?? ""}
+                    onDeleteSuccess={() => navigate("/job_applications")}
+                    />
+                </div>
             </div>
           </section>
 
@@ -315,10 +317,10 @@ function JobApplication() {
                 className="bg-white rounded p-6 w-3/4 max-w-lg max-h-[80vh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
               >
-                <h2 className="text-cyan-600 text-xl font-bold mb-4">
+                <h2 className="text-cyan-600 text-xl font-bold mb-4 whitespace-pre-wrap">
                   Full Job Description
                 </h2>
-                <p className="mb-4">{jobApp.job_description}</p>
+                <p className="mb-4 whitespace-pre-wrap">{jobApp.job_description}</p>
                 <button
                   onClick={closeModal}
                   className="bg-cyan-600 text-white px-4 py-2 rounded hover:bg-cyan-800"

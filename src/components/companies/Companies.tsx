@@ -78,8 +78,8 @@ function Companies() {
                 className="hover:bg-gray-100 cursor-pointer"
                 onClick={() => navigate(`/companies/${company.id}/contacts`)}
                 >
-                <td className="p-4 border-b font-semibold">{company.attributes.name}</td>
-                <td className="p-4 border-b max-w-[58vw] truncate overflow-hidden whitespace-nowrap ">
+                <td className="p-4 border-b text-gray-700">{company.attributes.name}</td>
+                <td className="p-4 border-b max-w-[58vw] text-gray-700 truncate overflow-hidden whitespace-nowrap ">
                   {company.attributes.notes}
                 </td>
               </tr>

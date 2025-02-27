@@ -106,12 +106,14 @@ function Contacts({ userData }: UserInformationProps) {
         <table className="w-[70vw] mt-[1.5vh]">
           <thead className="border-t">
             <tr>
-              <th className="text-left p-4 border-b">Name</th>
-              <th className="text-left p-4 border-b">Company</th>
-              <th className="text-left p-4 border-b">Notes</th>
+              <th className="text-left text-gray-700 p-4 border-b">Name</th>
+              <th className="text-left text-gray-700 p-4 border-b">Company</th>
+              <th className="text-left text-gray-700 p-4 border-b">Notes</th>
             </tr>
           </thead>
-          <tbody>{contactData}</tbody>
+          <tbody className="text-gray-600">
+            {contactData}
+          </tbody>
         </table>
         {(contacts?.length || 0) === 0 ? (
           <p data-cy="no-contacts-message" className="text-center">
