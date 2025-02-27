@@ -82,7 +82,17 @@ export const DashBoard : React.FC = () => {
                     </Link>
                     <div className="font-size-[4vh] text-4xl text-cyan-600">Job Hunt Tips</div>
 
-                    <div className="font-size-[4vh] text-2xl text-cyan-600">Try to make at least one new contact, research a new company, and apply to one job each week so you don't lose your momentum.  You've got this!<ConditionallyRenderBtn section="job application" sectionCount={jobApplicationsCount} sectionUrl="/jobapplications/new" /><ConditionallyRenderBtn sectionCount={contactsCount}  section="contact" sectionUrl="/contacts/new" /><ConditionallyRenderBtn section="company" sectionCount={companiesCount} sectionUrl="/companies/new" /></div>
+                    <div className="font-size-[4vh] text-2xl text-cyan-600">Try to make at least one new contact, research a new company, and apply to one job each week so you don't lose your momentum.  You've got this!
+                        <div data-cy="jobApplicationBtn">
+                        <ConditionallyRenderBtn section="job application" sectionCount={jobApplicationsCount} sectionUrl="/jobapplications/new" />
+                        </div>
+                        <div  data-cy="contactBtn">
+                        <ConditionallyRenderBtn sectionCount={contactsCount}  section="contact" sectionUrl="/contacts/new" />
+                        </div>
+                        <div data-cy="companyBtn">
+                        <ConditionallyRenderBtn section="company" sectionCount={companiesCount} sectionUrl="/companies/new" />
+                        </div>
+                    </div>
                 </div>
             </>
         )
