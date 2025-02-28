@@ -94,7 +94,9 @@ describe("View specific job app page with all fields filled in", () => {
       .next()
       .should("have.text", "Creative Solutions Inc.")
       .next()
-      .should("have.text", "Back to job application details");
+      .should("have.text", "Back to job application details")
+      .next()
+      .should("have.text","Technical Interview Questions");
   });
 
   it("navigates to the company details page", () => {
