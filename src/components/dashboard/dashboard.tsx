@@ -36,10 +36,12 @@ export const DashBoard : React.FC = () => {
             <label className='text-center block text-[20px] font-bold text-cyan-600 mt-1'>{`${sectionDescription}`}</label></>
         }
         return <><label className='text-center block mt-1 font-bold text-[50px] text-cyan-600' data-cy="dashNum">{`${sectionCount}`}</label>
-            <label className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]'>New  {section}s this week</label></>
+            <label className='text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]'>
+              {section === "contact" || section === "job application" ? `New ${section}s this week` : "New companies this week"}
+            </label></>
         }
 
-    const ConditionallyRenderBtn: React.FC<CountProps> = ({ section, sectionCount = 0, sectionUrl }) => {
+    const ConditionallyRenderBtn: React.FC<CountProps> = ({ section, sectionCount, sectionUrl }) => {
         if (sectionCount === 0) {
             return (
                 <Link
@@ -83,6 +85,8 @@ export const DashBoard : React.FC = () => {
                     <div data-cy="jobHuntingTips" className="font-size-[4vh] text-4xl text-cyan-600">Job Hunt Tips</div>
 
                     <div data-cy="jobHuntTip" className="font-size-[4vh] text-2xl text-cyan-600">Try to make at least one new contact, research a new company, and apply to one job each week to keep up your momentum. You've got this!
+                    </div>
+                    <div className="inline-flex space-x-4">
                         <div>
                             <button data-cy="jobApplicationBtn">
                                 <ConditionallyRenderBtn section="job application" sectionCount={jobApplicationsCount} sectionUrl="/jobapplications/new" />
