@@ -152,7 +152,7 @@ export interface DashBoardDattaI{
     id?: number;
     name?: string;
     email?: string;
-    [key: string]: any;  
+    [key: string]: any;
   }
 
   export interface UserRegistrationData {
@@ -181,4 +181,28 @@ export interface DashBoardDattaI{
     ) => Promise<boolean>;
     token: string;
     onDeleteSuccess: () => void;
+}
+
+export interface APIResult<T> {
+  data?: T;
+  error?: string;
+}
+
+export interface CompanyData {
+  company: {
+    data: {
+      attributes: {
+        name: string;
+        website: string;
+        street_address: string;
+        city: string;
+        state: string;
+        zip_code: string;
+        notes: string;
+      }
+    }
+  },
+  contacts: {
+    data: ContactData[];
+  }
 }

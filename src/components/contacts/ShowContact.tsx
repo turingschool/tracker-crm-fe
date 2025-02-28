@@ -26,7 +26,21 @@ function ShowContact() {
     const contactFetcher = async () => {
       try {
         const allData = await fetchShowContact(userId, token, contactId)
-        setContact(allData.data)
+
+        const companyData = allData.data.attributes.company 
+        
+        const normalizedCompany = 
+          companyData && companyData.data
+          ? companyData.data.attributes 
+          : companyData || null
+
+        setContact({
+          ...allData.data,
+          attributes: {
+            ...allData.data.attributes,
+            company: normalizedCompany,
+          }
+        })
         
         const companyId = allData.data.attributes.company?.id;
         console.log("CompanyID: ", companyId);
@@ -39,6 +53,7 @@ function ShowContact() {
 
         try {
           const companyContacts = await fetchCompanyContact(userId, token, companyId)
+          console.log("fetched company contacts: ", companyContacts)
 
         if (companyContacts.status === 404) {
           setOtherContact([]);

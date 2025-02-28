@@ -308,12 +308,12 @@ describe("View specific job app page with all fields filled in", () => {
     cy.wait("@showSingleJobApp");
 
     cy.get("h2.text-cyan-600").should("contain.text", "My Contact at Creative Solutions Inc.");
-    cy.get("a.text-blue-500").should("contain.text", "Michael Johnson");
+    cy.get("a.text-cyan-500").should("contain.text", "Michael Johnson");
   });
 
   it("navigates to the contact's personal page when clicking on their name", () => {
     cy.wait("@showSingleJobApp");
-    cy.get("a.text-blue-500").contains("Michael Johnson").click();
+    cy.get("a.text-cyan-500").contains("Michael Johnson").click();
     cy.location("pathname").should("match", /\/contacts\/\d+$/);
   });
   

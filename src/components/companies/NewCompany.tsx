@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { fetchCompanies, createCompany } from "../../trackerApiCalls";
 import { CompanyAttributes } from "../../Interfaces";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
+import { useErrorContext } from "../../context/ErrorContext"; 
 
 interface NewCompanyProps {
   isModal?: boolean;
@@ -22,43 +23,60 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
   const [notes, setNotes] = useState<string>("");
   const [existingCompanies, setExistingCompanies] = useState<any[]>([]);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-
   const [errors, setErrors] = useState<{ name?: string; duplicate?: string }>(
     {}
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { setErrors: setBackendErrors } = useErrorContext()
+  const { errorMessages } = useErrorContext();
 
   useEffect(() => {
     const getCompanies = async () => {
       if (token && userData?.user?.data?.id) {
-        const companies = await fetchCompanies(userData.user.data.id, token);
-        setExistingCompanies(companies || []);
+        const result = await fetchCompanies(
+          userData.user.data.id,
+          token!,
+          setBackendErrors  
+        );
+        if (result.data) {
+          setExistingCompanies(result.data);
+        } else {
+          setExistingCompanies([]);
+        }
       }
     };
-
+  
     getCompanies();
   }, [token, userData]);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    if (errorMessages.length > 0) {
+      timer = setTimeout(() => {
+        setBackendErrors([]);
+      }, 5000);
+    }
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [errorMessages, setBackendErrors]);
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
     setSuccessMessage(null);
-
-    if (!name.trim()) {
-      setErrors({ name: "Company name is required." });
-      return;
-    }
-
+  
     const isDuplicate = existingCompanies.some(
       (company) =>
         company.attributes.name.toLowerCase() === name.trim().toLowerCase()
     );
-
+  
     if (isDuplicate) {
       setErrors({ duplicate: "A company with this name already exists." });
       return;
     }
-
+  
     const newCompany: CompanyAttributes = {
       id: 0,
       name,
@@ -69,23 +87,31 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
       zip_code: zipCode,
       notes,
     };
-
+  
     try {
       if (!token || !userData?.user?.data?.id) {
         console.error("Missing token or user ID");
         return;
       }
-
+  
       setIsLoading(true);
-      const response = await createCompany(
+      const result = await createCompany(
         userData.user.data.id,
         token,
-        newCompany
+        newCompany,
+        setBackendErrors
       );
+      setIsLoading(false);
+  
+      if (result.error) {
+        setErrors({ name: result.error });
+        return;
+      }
+  
       setSuccessMessage("Company added successfully!");
-
+  
       if (isModal && onSuccess) {
-        onSuccess(response.data.id, response.data.attributes.name);
+        onSuccess(result.data.data.id, result.data.data.attributes.name);
       } else if (window.location.href.includes("companies")) {
         setTimeout(() => {
           navigate("/companies");
@@ -97,10 +123,22 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
       setIsLoading(false);
     }
   };
+  
+
   return (
+
     <div className="flex flex-row">
       <div className="max-w-4xl w-10/12  m-auto p-12 justify-self-center bg-white border border-gray-200 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold mb-4">Add New Company</h1>
+      {errorMessages.length > 0 && (
+      <div className="mb-4">
+        {errorMessages.map((msg, index) => (
+          <p key={index} className="text-red-700 bg-red-100 p-3 rounded-md">
+            {msg}
+          </p>
+        ))}
+      </div>
+    )}
+        <h1 className="text-2xl text-cyan-600 font-bold mb-4">Add New Company</h1>
         {successMessage && (
           <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
             {successMessage}
@@ -117,7 +155,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
               value={name}
               placeholder="Company Name"
               onChange={(e) => setName(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
               required
             />
             {errors.name && <p className="text-red-500 mt-1">{errors.name}</p>}
@@ -133,7 +171,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
               value={website}
               placeholder="https://example.com"
               onChange={(e) => setWebsite(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
           <div className="flex flex-col">
@@ -144,7 +182,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
               value={streetAddress}
               placeholder="123 Main St"
               onChange={(e) => setStreetAddress(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
           <div className="flex flex-col">
@@ -155,7 +193,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
               value={city}
               placeholder="City"
               onChange={(e) => setCity(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
           <div className="flex flex-col">
@@ -163,7 +201,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
             <select
               value={state}
               onChange={(e) => setState(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
             >
               <option value="">Select State</option>
               <option value="AL">Alabama</option>
@@ -226,7 +264,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
               value={zipCode}
               placeholder="12345"
               onChange={(e) => setZipCode(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
           <div className="flex flex-col">
@@ -235,12 +273,12 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
               value={notes}
               placeholder="Notes about the company"
               onChange={(e) => setNotes(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
             />
           </div>
           <button
             type="submit"
-            className={`mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`mt-4 bg-cyan-500 text-white px-4 py-2 rounded-lg hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 ${
               isLoading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={isLoading}
