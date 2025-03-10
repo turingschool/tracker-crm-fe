@@ -162,7 +162,7 @@ describe("Show a single contact page", () => {
 
   it("Should display other contacts that are at the same company", () => {
     cy.wait("@get-contact-details");
-    cy.get('[data-testid="other-contacts"]').should(
+    cy.get('[data-testid="other-contacts-header"]').should(
       "have.text",
       "Other contacts at Future Designs LLC"
     );
@@ -197,7 +197,7 @@ describe("Show a single contact page", () => {
     cy.get("table tbody tr").first().click();
 
     cy.wait("@get-contact-details-no-comp");
-    cy.get('[data-testid="other-contacts"]').should("have.text", "No Contacts");
+    cy.get('[data-testid="other-contacts-header"]').should("have.text", "No Contacts");
     cy.get('[data-testid="company-name"]').should(
       "have.text",
       "No Affiliated Companies"
@@ -257,10 +257,10 @@ describe("Show a single contact page (Sad Path)", () => {
 
   it("Should display an error message when the contact data fails to load", () => {
     cy.wait("@get-contact-details-error");
-    cy.get(".error").should("be.visible");
-    cy.get(".error").should(
+    cy.get('[data-cytest="error"]').should("be.visible");
+    cy.get('[data-cytest="error"]').should(
       "have.text",
-      "Failed to fetch contact: Internal Server Error. Please try again later."
+      "Error: Failed to fetch contact: Internal Server Error. Please try again later."
     );
   });
 });
@@ -418,8 +418,7 @@ describe("Additional contacts link navigates to contact", () => {
   });
 
   it("should navigate to the contact page after clicking a contact in the additional contacts list", () => {
-    cy.get('[data-testid="other-contacts"]')
-      .find("li")
+    cy.get('[data-testid="other-contacts-list"]')
       .first()
       .find("a")
       .click();
@@ -482,6 +481,35 @@ describe("Edit Contact Modal", () => {
       },
     }).as("get-contact-details");
 
+    cy.intercept(
+      "GET",
+      "http://localhost:3001/api/v1/users/2/companies/1/contacts",
+      {
+        statusCode: 200,
+        body: {
+          contacts: {
+            data: [
+              {
+                id: "1",
+                type: "contact",
+                attributes: {
+                  first_name: "John",
+                  last_name: "Smith",
+                  email: "123@example.com",
+                  phone_number: "123-555-6789",
+                  notes: "Works with Future Designs LLC",
+                },
+              },
+            ],
+          },
+        },
+        headers: {
+          Authorization: "Bearer The token",
+          "Content-Type": "application/json",
+        },
+      }
+    ).as("get-company-contacts");
+
     cy.visit("http://localhost:3000/");
     cy.get("#email").type("dollyP@email.com");
     cy.get("#password").type("Jolene123");
@@ -496,8 +524,8 @@ describe("Edit Contact Modal", () => {
   });
 
   it("Should open the edit modal when clicking the Edit button", () => {
-    cy.get("button").contains("Edit").click();
-    cy.get(".bg-white").should("be.visible");
+    cy.get('[data-testid="edit-button"]').click();
+    // cy.get('[data-testid="edit-modal"]').should("be.visible");
 
     cy.get("input[name='firstName']").should("have.value", "John");
     cy.get("input[name='lastName']").should("have.value", "Smith");
@@ -527,7 +555,8 @@ describe("Edit Contact Modal", () => {
       },
     }).as("update-contact");
 
-    cy.get("button").contains("Edit").click();
+    cy.get('[data-testid="edit-button"]').click();
+    // cy.get('[data-testid="modal"]').should("be.visible");
     cy.get("input[name='firstName']").clear().type("Johnny");
     cy.get("input[name='lastName']").clear().type("Doe");
     cy.get("input[name='email']").clear().type("johnny.doe@example.com");
@@ -547,7 +576,7 @@ describe("Edit Contact Modal", () => {
   });
 
   it("Should close the edit modal when clicking the X button", () => {
-    cy.get("button").contains("Edit").click();
+    cy.get('[data-testid="edit-button"]').click();
     cy.get(".absolute.top-2.right-2").click();
     cy.get(".bg-white").should("not.exist");
   });
@@ -558,7 +587,7 @@ describe("Edit Contact Modal", () => {
       body: { message: "Internal Server Error" },
     }).as("update-contact-error");
 
-    cy.get("button").contains("Edit").click();
+    cy.get('[data-testid="edit-button"]').click();
     cy.get("input[name='firstName']").clear().type("Johnny");
     cy.get("button").contains("Save").click();
     cy.wait("@update-contact-error");

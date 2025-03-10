@@ -74,7 +74,9 @@ function ShowContact() {
   }, [contactId, token]);
 
   if (fetchError) {
-    return <p className="text-center mt-10 text-red-500">Error: {fetchError}</p>;
+    return <p 
+    data-cytest="error"
+    className="text-center mt-10 text-red-500">Error: {fetchError}</p>;
   }
 
   const filteredOtherContacts = contact?.id
@@ -171,6 +173,7 @@ function ShowContact() {
 
             {/* Edit Button */}
             <button
+              data-testid="edit-button"
               className="border-2 border-cyan-600 text-cyan-700 px-8 py-2 rounded hover:bg-cyan-600 hover:text-white transition-all"
               onClick={() => setIsEditOpen(true)}
             >
@@ -206,17 +209,22 @@ function ShowContact() {
 
         {/* Contacts Section */}
         <div className="mt-[16vh] mr-[20vw]">
-          <h2
-            data-testid="other-contacts"
+          <h4
+            data-testid="other-contacts-header"
             className="text-[3vh] font-bold text-cyan-700 mb-[4vh] text-nowrap"
           >
             {contact.attributes.company
               ? `Other contacts at ${contact.attributes.company.name}`
               : "No Contacts"}
-          </h2>
-          <ul className="list-none">
+          </h4>
+          <ul
+            data-testid="other-contacts-list"
+            className="list-none">
             {filteredOtherContacts.map((otherContact) => (
-              <li key={otherContact.id} className="text-2xl font-medium text-cyan-700 mb-[2vh]">
+              <li 
+              data-testid="contact-li"
+              key={otherContact.id} 
+              className="text-2xl font-medium text-cyan-700 mb-[2vh]">
                 <Link
                   className="text-cyan-600 hover:text-cyan-500 no-underline"
                   to={`/contacts/${otherContact.id}`}

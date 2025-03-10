@@ -223,28 +223,21 @@ describe("View specific job app page with all fields filled in", () => {
     cy.wait("@showSingleJobApp");
     cy.get("h2").contains("Creative Solutions Inc.").click();
     cy.wait("@getCompanyDetails");
-    cy.get("h1").should("have.text", "Company Details");
-
-    cy.get("h2")
-      .contains("Company Name:")
-      .next()
-      .should("have.text", "Creative Solutions Inc.");
+    cy.get("h1").should("have.text", "Creative Solutions Inc.");
     
     cy.get("h2")
-      .contains("Website:")
-      .next()
       .should("have.text", "https://creativesolutions.com");
 
-    cy.get("h2")
-      .contains("Address:")
+    cy.get("#address")
+      .contains("Address")
       .next()
       .should("have.text", "789 Creative Street, Seattle, WA 98101");
 
-    cy.get("h2")
-      .contains("Notes:")
+    cy.get("#notes")
+      .contains("Notes")
       .next()
       .should("have.text", "Follow up scheduled for next week.");
-    cy.get("h2")
+    cy.get("#other-contacts")
       .contains("Contacts")
       .next()
       .should("have.text", "Michael Johnson");
