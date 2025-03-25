@@ -1,6 +1,23 @@
 import { UserRegistrationData, FormInputData, NewContact } from "./Interfaces"
 const apiURL = process.env.REACT_APP_BACKEND_API_URL
 const backendURL = `${apiURL}api/v1/`
+const getErrorMessage = (error: unknown): string => {
+  let message: string;
+
+  if (error instanceof Error) {
+    message = error.message
+    console.error("Error fetching companies:", message);
+  } else if (error && typeof error === 'object' && 'message' in error) {
+    message = String(error.message)
+    console.error("Error fetching companies:", message);
+  } else if (typeof error === 'string') {
+    message = error;
+  } else {
+    message = "Something went wrong"
+  }
+
+  return message;
+};
 /*-----------------------------------// GET //--------------------------------------*/
 
 
@@ -153,9 +170,10 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
     }));
 
     return companyList;
-  } catch (error: any) {
-    console.error("Error fetching companies:", error.message);
-    throw error;
+  } catch (error: unknown) {
+    return {
+      error: getErrorMessage(error)
+    }
   }
 }
 
@@ -181,9 +199,12 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
         console.log('response', errorData)
       throw new Error(errorData.message || "Failed to add the contact");
     }
-  } catch (error: any) {
-    console.error("Error adding contact:", error.message);
-    throw (error);
+    const result = await response.json()
+    return result
+  } catch (error: unknown) {
+    return {
+      error: getErrorMessage(error)
+    }
   }
 }
 
@@ -205,9 +226,10 @@ export const fetchShowContact = async (userId: number | undefined, token: string
     }
     const result = await response.json();
     return result
-  } catch (error: any) {
-    console.error("Error fetching contact:", error.message);
-    throw error;
+  } catch (error: unknown) {
+    return {
+      error: getErrorMessage(error)
+    }
   }
 }
 
@@ -259,8 +281,9 @@ export const fetchCompanyContact = async (userId: number | undefined, token: str
     const result = await response.json();  
     const contactsList = result.contacts.data;
     return contactsList
-  } catch (error: any) {
-    console.error("Please try again later", error.message);
-    throw error;
+  } catch (error: unknown) {
+    return {
+      error: getErrorMessage(error)
+    }
   }
 }
