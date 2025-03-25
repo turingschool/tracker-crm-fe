@@ -548,3 +548,8 @@ video {
 [hidden]:where(:not([hidden="until-found"])) {
   display: none;
 }
+
+.register-link {
+  color: purple;
+  text-decoration: underline;
+}
