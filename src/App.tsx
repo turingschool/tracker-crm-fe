@@ -18,6 +18,7 @@ import ShowContact from './components/contacts/ShowContact';
 import JobApplication from './components/pages/showJobApplication';
 import DashBoard from "./components/dashboard/dashboard";
 import { ErrorProvider } from "./context/ErrorContext";
+import JobApplicationInterviewQuestions from "./components/JobApplications/JobApplicationInterviewQuestions"
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Route path="/contacts/new" element={<NewContact userData={userData}/>} />
           <Route path="/job_applications" element={<ApplicationsGrid/>}/>
           <Route path="/job_applications/:jobAppId" element={<JobApplication/>}/>
+          <Route path="/job_applications/:jobAppId/interviewQuestions" element={<JobApplicationInterviewQuestions/>}/>
           <Route
             path="/userInformation"
             element={<UserInformation userData={userData} />}
