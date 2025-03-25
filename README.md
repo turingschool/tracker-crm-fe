@@ -117,11 +117,6 @@ For more information, see the [CircleCI Documentation](https://circleci.com/docs
    ```sh
    npm install
    ```
-3. Change git remote url to avoid accidental pushes to base project
-   ```sh
-   git remote set-url origin github_username/repo_name
-   git remote -v # confirm the changes
-   ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
