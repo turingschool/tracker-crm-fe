@@ -118,7 +118,7 @@ describe('Delete a Job Application', () => {
     cy.contains("Are you sure you want to delete this").should("not.exist");
   });
 
-  it("Should delete the job application when OK is clicked", () => {
+  it("Should delete the job application when Delete is clicked", () => {
     cy.intercept(
       {
         method: "DELETE",
@@ -128,7 +128,7 @@ describe('Delete a Job Application', () => {
     ).as("deleteJobApplication")
 
     cy.get("button").contains("Delete").click();
-    cy.contains("Ok").click();
+    cy.contains("Delete").click();
 
     cy.wait("@deleteJobApplication");
     cy.url().should("include", "/job_applications");
@@ -141,7 +141,7 @@ describe('Delete a Job Application', () => {
       statusCode: 500,
       body: { error: "Something went wrong while deleting the job application" },
     }).as("deleteJobApplicationFail");
-    cy.contains("Ok").should("exist").click();
+    cy.contains("Delete").should("exist").click();
     cy.wait("@deleteJobApplicationFail");
     cy.on("window:alert", (text) => {
       expect(text).to.contains("Failed to delete job_application. Please try again");

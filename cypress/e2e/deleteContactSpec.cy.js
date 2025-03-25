@@ -126,7 +126,7 @@ describe("Delete a Contact", () => {
     cy.url().should("include", "/contacts/1");
   });
 
-  it("Should delete the contact when OK is clicked", () => {
+  it("Should delete the contact when Delete is clicked", () => {
     cy.intercept(
       {
         method: "DELETE",
@@ -158,7 +158,7 @@ describe("Delete a Contact", () => {
     }).as("getContactsAfterDelete");
 
     cy.get("button").contains("Delete").click();
-    cy.contains("Ok").click();
+    cy.contains("Delete").click();
 
     cy.wait("@deleteContact");
     cy.wait("@getContactsAfterDelete");
@@ -180,7 +180,7 @@ describe("Delete a Contact", () => {
       statusCode: 500,
       body: { error: "Something went wrong while deleting the contact" },
     }).as("deleteContactFail");
-    cy.contains("Ok").should("exist").click();
+    cy.contains("Delete").should("exist").click();
     cy.wait("@deleteContactFail");
     cy.on("window:alert", (text) => {
       expect(text).to.contains("Failed to delete contact. Please try again");

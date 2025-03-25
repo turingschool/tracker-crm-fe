@@ -167,14 +167,14 @@ describe("Delete Company", () => {
   it("Should open the delete confirmation modal", () => {
     cy.contains("button", "Delete").click();
     cy.contains("Are you sure you want to delete this company?").should("be.visible");
-    cy.get("button").contains("Ok").should("be.visible");
+    cy.get("button").contains("Delete").should("be.visible");
     cy.get("button").contains("Cancel").should("be.visible");
   });
 
   it("Clicking outside the modal should close it", () => {
     cy.get("button").contains("Delete").click();
     cy.contains("Are you sure you want to delete this company?").should("be.visible");
-    cy.get("button").contains("Ok").should("be.visible");
+    cy.get("button").contains("Delete").should("be.visible");
     cy.get("button").contains("Cancel").should("be.visible");
     
     cy.get(".fixed.inset-0").click("topLeft"); 
@@ -184,14 +184,14 @@ describe("Delete Company", () => {
   it("Clicking 'Cancel' should close the modal", () => {
     cy.get("button").contains("Delete").click();
     cy.contains("Are you sure you want to delete this company?").should("be.visible");
-    cy.get("button").contains("Ok").should("be.visible");
+    cy.get("button").contains("Delete").should("be.visible");
     cy.get("button").contains("Cancel").should("be.visible");
   
     cy.get("button").contains("Cancel").click();
     cy.contains("Are you sure you want to delete this company?").should("not.exist");
   });
 
-  it("Clicking 'OK' should trigger the delete request", () => {
+  it("Clicking 'Delete' should trigger the delete request", () => {
     cy.intercept(
       "DELETE",
       `http://localhost:3001/api/v1/users/${userId}/companies/1`,
@@ -200,10 +200,10 @@ describe("Delete Company", () => {
   
     cy.get("button").contains("Delete").click();
     cy.contains("Are you sure you want to delete this company?").should("be.visible");
-    cy.get("button").contains("Ok").should("be.visible");
+    cy.get("button").contains("Delete").should("be.visible");
     cy.get("button").contains("Cancel").should("be.visible");
   
-    cy.get("button").contains("Ok").click();
+    cy.get("button").contains("Delete").click();
   
     cy.wait("@deleteCompany");
     
@@ -233,7 +233,7 @@ describe("Delete Company", () => {
     cy.contains("John Doe").should("exist");
   
     cy.contains("Delete").click();
-    cy.contains("Ok").click();
+    cy.contains("Delete").click();
     cy.wait("@deleteCompany");
   
     cy.get('[data-testid="contacts-iconD"]').click();
@@ -246,7 +246,7 @@ describe("Delete Company", () => {
   it("Should show an error alert if deletion fails", () => {  
     cy.contains("Delete").should("exist").click();    
     cy.contains("Are you sure you want to delete this company?").should("be.visible");  
-    cy.get("button").contains("Ok").should("be.visible");
+    cy.get("button").contains("Delete").should("be.visible");
     cy.get("button").contains("Cancel").should("be.visible");
   
     cy.intercept("DELETE", `http://localhost:3001/api/v1/users/${userId}/companies/1`, {
@@ -254,7 +254,7 @@ describe("Delete Company", () => {
       body: { error: "Something went wrong while deleting the company" },
     }).as("deleteCompanyFail");  
   
-    cy.contains("Ok").should("exist").click();  
+    cy.contains("Delete").should("exist").click();  
     cy.wait("@deleteCompanyFail");  
   
     cy.on("window:alert", (text) => {
