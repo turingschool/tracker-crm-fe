@@ -87,7 +87,7 @@ const LoginForm: React.FC = () => {
             data-testid="login-button">
               Login
           </button>
-          <p className='no-account-message font-[Helvetica Neue] font-sans'>No Account? Click <NavLink to="/UserRegistration" className="register-link">Here</NavLink> To Register.</p>
+          <p className='no-account-message font-[Helvetica Neue] font-sans'>No Account? Click <NavLink to="/UserRegistration" className="text-purple-500 underline">Here</NavLink> To Register.</p>
 
         </form>
         {errorMessage && <p className='failed-login flex justify-center items-center rounded-md border-red-600 border-2 bg-slate-700 w-[50%] h-[5%] absolute top-[25%] left-[25%] font-[Helvetica Neue] font-sans font-semibold text-lg text-red-600'>{errorMessage}</p>}
