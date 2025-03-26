@@ -2,21 +2,15 @@ import { UserRegistrationData, FormInputData, NewContact } from "./Interfaces"
 const apiURL = process.env.REACT_APP_BACKEND_API_URL
 const backendURL = `${apiURL}api/v1/`
 const getErrorMessage = (error: unknown): string => {
-  let message: string;
-
   if (error instanceof Error) {
-    message = error.message
-    console.error("Error fetching companies:", message);
-  } else if (error && typeof error === 'object' && 'message' in error) {
-    message = String(error.message)
-    console.error("Error fetching companies:", message);
+    console.error("Error fetching companies:", error.message);
+    return error.message;
   } else if (typeof error === 'string') {
-    message = error;
+    return error;
   } else {
-    message = "Something went wrong"
+    return "Something went wrong"
   }
 
-  return message;
 };
 /*-----------------------------------// GET //--------------------------------------*/
 
