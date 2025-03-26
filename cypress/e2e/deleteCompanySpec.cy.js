@@ -198,12 +198,14 @@ describe("Delete Company", () => {
       { statusCode: 204 }
     ).as("deleteCompany");
   
-    cy.get("button").contains("Delete").click();
+    cy.get("button").contains("Delete").click();  // Open the modal
     cy.contains("Are you sure you want to delete this company?").should("be.visible");
+    cy.get('[data-test="delete-modal"]').should('exist'); // Ensure modal exists
+    cy.get('[data-test="delete-modal"]').should('be.visible'); // Ensure modal is visible
     cy.get("button").contains("Delete").should("be.visible");
     cy.get("button").contains("Cancel").should("be.visible");
-  
-    cy.get("button").contains("Delete").click();
+
+    cy.get('[data-test="confirm-delete"]').click(); // Click Delete inside modal  
   
     cy.wait("@deleteCompany");
     
@@ -229,11 +231,14 @@ describe("Delete Company", () => {
     cy.get("table tbody tr").first().click();
     cy.wait("@getCompany");
   
-    cy.contains("Contacts").should("exist");
+    cy.contains("My contacts at").should("exist");
     cy.contains("John Doe").should("exist");
   
-    cy.contains("Delete").click();
-    cy.contains("Delete").click();
+    cy.contains("Delete").click();  // Open the modal
+    cy.get('[data-test="delete-modal"]').should('exist'); // Ensure modal exists
+    cy.get('[data-test="delete-modal"]').should('be.visible'); // Ensure modal is visible
+    cy.get("button").contains("Delete").should("be.visible");
+    cy.get('[data-test="confirm-delete"]').click(); // Click Delete inside modal
     cy.wait("@deleteCompany");
   
     cy.get('[data-testid="contacts-iconD"]').click();
@@ -246,15 +251,14 @@ describe("Delete Company", () => {
   it("Should show an error alert if deletion fails", () => {  
     cy.contains("Delete").should("exist").click();    
     cy.contains("Are you sure you want to delete this company?").should("be.visible");  
-    cy.get("button").contains("Delete").should("be.visible");
-    cy.get("button").contains("Cancel").should("be.visible");
-  
     cy.intercept("DELETE", `http://localhost:3001/api/v1/users/${userId}/companies/1`, {
       statusCode: 500,
       body: { error: "Something went wrong while deleting the company" },
     }).as("deleteCompanyFail");  
   
-    cy.contains("Delete").should("exist").click();  
+    cy.get('[data-test="delete-modal"]').should('exist'); // Ensure modal exists
+    cy.get('[data-test="delete-modal"]').should('be.visible'); // Ensure modal is visible
+    cy.get('[data-test="confirm-delete"]').click(); // Click Delete inside modal
     cy.wait("@deleteCompanyFail");  
   
     cy.on("window:alert", (text) => {
