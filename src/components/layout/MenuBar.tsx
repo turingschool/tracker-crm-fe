@@ -119,21 +119,26 @@ function MenuBar() {
       </nav>
 
       {/* -- MOBILE HAMBURGER, shown on small screens only -- */}
-      <button className="flex items-center justify-items-center visible sm:hidden p-2" onClick={toggleSideMenu}>
-        <MenuIcon data-testid="menu-iconM" fontSize="large" className="m-auto justify-items-center"/>
-      </button>
-
+      <div className="relative h-screen">
+        {/* Logo */}
+          <Link className="absolute top-2 left-1 sm:hidden z-5" to="/" onClick={toggleSideMenu}>
+            <img className="w-11" src={logo} alt="Logo" />
+          </Link>
+        <button className="flex items-center h-full visible sm:hidden p-2" onClick={toggleSideMenu}>
+          <MenuIcon data-testid="menu-iconM" fontSize="large" className="m-auto justify-items-center"/>
+        </button>
+      </div>
+        
       {/* -- MOBILE SLIDE-OUT MENU, shown on small screens only -- */}
       <nav className={"fixed flex flex-col top-0 left-0 z-10 bg-[#046576] w-64 h-screen transition-all duration-500 " +
         (sideMenuOpen ? "-translate-x-full" : "translate-x-0")} data-testid="slideout-menu">
         <button className="min-sm:hidden m-4 text-white" onClick={toggleSideMenu}>
           <CloseIcon fontSize="large" data-testid="close-iconM" className="m-auto text-white"/>
         </button>
-
-        {/* Logo */}
-        <Link className="block text-center my-4" to="/" onClick={toggleSideMenu}>
-          <img className="mx-auto w-1/2" src={logo} alt="Logo" />
-        </Link>
+         {/* Logo */}
+         <Link className="block text-center my-4" to="/" onClick={toggleSideMenu}>
+            <img className="mx-auto w-1/2" src={logo} alt="Logo" />
+          </Link>
         {/* Home */}
         <NavLink className="m-auto mt-[1vh] text-white" to="/home" data-testid="home-iconM" onClick={toggleSideMenu}>
           <HomeIcon fontSize="large" />
