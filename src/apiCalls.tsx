@@ -3,14 +3,12 @@ const apiURL = process.env.REACT_APP_BACKEND_API_URL
 const backendURL = `${apiURL}api/v1/`
 const getErrorMessage = (error: unknown): string => {
   if (error instanceof Error) {
-    console.error("Error fetching companies:", error.message);
     return error.message;
   } else if (typeof error === 'string') {
     return error;
   } else {
     return "Something went wrong"
   }
-
 };
 /*-----------------------------------// GET //--------------------------------------*/
 
@@ -165,6 +163,7 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
 
     return companyList;
   } catch (error: unknown) {
+    console.error("Error fetching companies:", error);
     return {
       error: getErrorMessage(error)
     }
@@ -196,6 +195,7 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
     const result = await response.json()
     return result
   } catch (error: unknown) {
+    console.error("Error fetching new contacts:", error);
     return {
       error: getErrorMessage(error)
     }
@@ -221,6 +221,7 @@ export const fetchShowContact = async (userId: number | undefined, token: string
     const result = await response.json();
     return result
   } catch (error: unknown) {
+    console.error("Error fetching contacts:", error);
     return {
       error: getErrorMessage(error)
     }
@@ -276,6 +277,7 @@ export const fetchCompanyContact = async (userId: number | undefined, token: str
     const contactsList = result.contacts.data;
     return contactsList
   } catch (error: unknown) {
+    console.error("Error fetching company contacts:", error);
     return {
       error: getErrorMessage(error)
     }
