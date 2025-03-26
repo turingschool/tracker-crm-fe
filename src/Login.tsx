@@ -58,7 +58,9 @@ const LoginForm: React.FC = () => {
         <form onSubmit={handleSubmit} className='flex flex-col justify-evenly items-center md:w-[24vw] mx-[6vw] md:mx-[12vw] my-[30vh]'>
         <img className='turing-logo -mt-[24vh] -ml-[30vw] mb-[24vh] size-20' src={turingLogo} />
 
-          <h1 className='font-[Helvetica Neue] font-sans  text-xl'>Please login</h1>
+          <h1 className='font-[Helvetica Neue] font-sans  text-xl'>
+            Please login
+          </h1>
           <div className='email-input flex flex-col justify-center w-[100%] mb-[10px]'>
             <label htmlFor="email" className='font-[Helvetica Neue] font-sans text-xl'>Email:</label>
             <input
@@ -83,6 +85,7 @@ const LoginForm: React.FC = () => {
           </div>
           <button 
             type="submit" 
+            id="submit" 
             className='login-btn w-[35%] min-h-10vh h-[10%] rounded-sm bg-[#3cb6cc] font-[Helvetica Neue] font-sans text-base'
             data-testid="login-button">
               Login

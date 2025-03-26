@@ -253,7 +253,7 @@ export const fetchCompanyContact = async (userId: number | undefined, token: str
     );
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch a companies contacts: ${response.statusText}`
+        `Failed to fetch a company's contacts: ${response.statusText}`
       );
     }
     const result = await response.json();  

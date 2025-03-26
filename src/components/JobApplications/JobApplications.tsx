@@ -65,7 +65,7 @@ const ApplicationsGrid: React.FC = () => {
               </Link>
             </div>
             <table className="w-[70vw] mt-[1.5vh]">
-              <thead className="border-t">
+              <thead className="border-t text-gray-700">
                 <tr>
                   <th className="text-left p-4 border-b">Company</th>
                   <th className="text-left p-4 border-b">Title</th>
@@ -77,7 +77,7 @@ const ApplicationsGrid: React.FC = () => {
                 {filteredApplications.map((app) => (
                   <tr
                     key={app.id}
-                    className="hover:bg-gray-100 cursor-pointer"
+                    className="text-gray-600 hover:bg-gray-100 cursor-pointer"
                   >
                     <td className="p-4 border-b">
                       <Link to={`/job_applications/${app.id}`}>
