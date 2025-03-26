@@ -156,13 +156,13 @@ describe("Company Show Page", () => {
   });
 
   it("Should open, close, reopen the modal and then update company details", () => {
-    cy.get('[data-cytest="edit-button"]').click();
+    cy.get('[data-testid="edit-button"]').click();
 
-    cy.get('[data-cytest="modal"]')
+    cy.get('[data-testid="edit-modal"]')
       .find("h2")
       .should("have.text", "Edit Company");
     
-    cy.get('[data-cytest="modal"]')
+    cy.get('[data-testid="edit-modal"]')
       .within(() => {
         cy.get('[data-cytest="name-input"]').should("exist").should("have.value", "Google");
         cy.get('[data-cytest="website-input"]').should("exist").should("have.value", "https://google.com");
@@ -179,7 +179,7 @@ describe("Company Show Page", () => {
 
   it("Should intercept and verify the PATCH request when updating company details", () => {
     cy.fixture("mockUpdatedCompany").then((mockUpdatedCompany) => {
-      cy.get('[data-cytest="edit-button"]').click();
+      cy.get('[data-testid="edit-button"]').click();
       cy.get(".fixed.inset-0").find("h2").should("have.text", "Edit Company");
   
       cy.intercept("PATCH", "http://localhost:3001/api/v1/users/2/companies/1", (req) => {
@@ -190,7 +190,7 @@ describe("Company Show Page", () => {
         });
       }).as("updateCompany");
   
-      cy.get('[data-cytest="modal"]').within(() => {
+      cy.get('[data-testid="edit-modal"]').within(() => {
         cy.get('[data-cytest="name-input"]').clear().type(mockUpdatedCompany.data.attributes.name);
         cy.get('[data-cytest="website-input"]').clear().type(mockUpdatedCompany.data.attributes.website);
         cy.get('[data-cytest="save-button"]').click();
@@ -207,7 +207,7 @@ describe("Company Show Page", () => {
     cy.get('[data-testid="edit-button"]').click();
     cy.get(".fixed.inset-0").find("h2").should("have.text", "Edit Company");
 
-    cy.get('[data-cytest="modal"]').within(() => {
+    cy.get('[data-testid="edit-modal"]').within(() => {
       cy.get('[data-cytest="name-input"]').clear();
 
       cy.get('[data-cytest="save-button"]').click();
@@ -219,7 +219,7 @@ describe("Company Show Page", () => {
         .and("have.text", "Company name is required.");
     });
   
-    cy.get('[data-cytest="modal"]').should("exist");
+    cy.get('[data-testid="edit-modal"]').should("exist");
   });
 
   it("Should not error out if all fields except name are blank", () => {
@@ -243,7 +243,7 @@ describe("Company Show Page", () => {
   
     cy.wait("@updateCompany").its("response.statusCode").should("eq", 200);
 
-    cy.get('[data-cytest="modal"]').should("not.exist");
+    cy.get('[data-testid="edit-modal"]').should("not.exist");
   });
 });
 
