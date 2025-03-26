@@ -7,7 +7,7 @@ const getErrorMessage = (error: unknown): string => {
   } else if (typeof error === 'string') {
     return error;
   } else {
-    return "Something went wrong"
+    return "Something went wrong 😔"
   }
 };
 /*-----------------------------------// GET //--------------------------------------*/
@@ -163,13 +163,12 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
 
     return companyList;
   } catch (error: unknown) {
-    console.error("Error fetching companies:", error);
+    console.error("Error fetching companies: ", error);
     return {
       error: getErrorMessage(error)
     }
   }
 }
-
 
   /*-----------------------------------// Post- Contact //--------------------------------------*/
   export const fetchNewContact = async (userId: number | undefined, token: string | null, formInputData: FormInputData, newContact: NewContact) => {
@@ -195,7 +194,7 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
     const result = await response.json()
     return result
   } catch (error: unknown) {
-    console.error("Error fetching new contacts:", error);
+    console.error("Error creating new contact: ", error);
     return {
       error: getErrorMessage(error)
     }
