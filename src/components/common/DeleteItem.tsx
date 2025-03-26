@@ -38,6 +38,7 @@ const DeleteItem = ({
 
       {deleteModalOpen && (
         <div
+          data-test="delete-modal" // Unique identifier for Cypress
           className="fixed inset-0 flex justify-center items-center bg-white bg-opacity-75"
           onClick={() => setDeleteModalOpen(false)} 
         >
@@ -51,6 +52,7 @@ const DeleteItem = ({
             </p>
             <div className="flex justify-center text-xl">
               <button
+                data-test="confirm-delete" // Unique identifier for Cypress
                 onClick={handleDelete}
 
                 className="bg-red-600 text-white px-4 py-2 rounded border border-black mr-6 w-40"
@@ -60,6 +62,7 @@ const DeleteItem = ({
                 {deleting ? "Deleting ..." : "Delete"}
               </button>
               <button
+                data-test="cancel-delete" // Unique identifier for Cypress
                 onClick={() => setDeleteModalOpen(false)}
 
                 className="bg-red-600 text-white px-4 py-2 rounded border border-black w-40"
