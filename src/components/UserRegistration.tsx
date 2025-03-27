@@ -85,9 +85,9 @@ function UserRegistration(): React.ReactElement {
             <img className="turing-logo absolute top-5 left-5 size-20" src={turingLogo} alt="Turing Logo" />
 
             <form onSubmit={handleFormSubmit}>
-              <h2 className="create-account text-4xl text-gray-600 font-[Helvetica Neue] text-center mt-40 mb-10 tracking-wider">
+              <h1 className="create-account text-4xl text-gray-600 font-[Helvetica Neue] text-center mt-40 mb-10 tracking-wider">
                 Create Account
-              </h2>
+              </h1>
 
               <div>
                 <FormField
