@@ -153,8 +153,10 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
     }));
 
     return companyList;
-  } catch (error: any) {
-    console.error("Error fetching companies:", error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error fetching companies:", error.message);
+    }
     throw error;
   }
 }
@@ -181,8 +183,10 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
         console.log('response', errorData)
       throw new Error(errorData.message || "Failed to add the contact");
     }
-  } catch (error: any) {
-    console.error("Error adding contact:", error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error adding contact:", error.message);
+    }
     throw (error);
   }
 }
@@ -205,8 +209,10 @@ export const fetchShowContact = async (userId: number | undefined, token: string
     }
     const result = await response.json();
     return result
-  } catch (error: any) {
-    console.error("Error fetching contact:", error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error fetching contact:", error.message);
+    }
     throw error;
   }
 }
@@ -259,8 +265,10 @@ export const fetchCompanyContact = async (userId: number | undefined, token: str
     const result = await response.json();  
     const contactsList = result.contacts.data;
     return contactsList
-  } catch (error: any) {
-    console.error("Please try again later", error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Please try again later", error.message);
+    }
     throw error;
   }
 }
