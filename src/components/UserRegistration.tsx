@@ -126,10 +126,10 @@ function UserRegistration(): React.ReactElement {
                 >
                   Register
                 </button>
-                <p className="login-link font-[Helvetica Neue] font-sans">
+                <p className="account-message font-[Helvetica Neue] font-sans">
                   Already have an account?
 								</p>
-								<p>
+								<p className="link-to-login">
                   Click <NavLink to="/" className="link-to-login text-purple-500 hover:underline">Here</NavLink> to login.
                 </p>
               </div>
