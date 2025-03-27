@@ -1,15 +1,6 @@
 import { UserRegistrationData, FormInputData, NewContact } from "./Interfaces"
 const apiURL = process.env.REACT_APP_BACKEND_API_URL
 const backendURL = `${apiURL}api/v1/`
-const getErrorMessage = (error: unknown): string => {
-  if (error instanceof Error) {
-    return error.message;
-  } else if (typeof error === 'string') {
-    return error;
-  } else {
-    return "Something went wrong 😔"
-  }
-};
 /*-----------------------------------// GET //--------------------------------------*/
 
 
@@ -169,6 +160,7 @@ export const fetchCompanies = async (userId: number | undefined, token: string |
     throw error;
   }
 }
+
 
   /*-----------------------------------// Post- Contact //--------------------------------------*/
   export const fetchNewContact = async (userId: number | undefined, token: string | null, formInputData: FormInputData, newContact: NewContact) => {
