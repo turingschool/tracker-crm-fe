@@ -130,7 +130,7 @@ function UserRegistration(): React.ReactElement {
                   Already have an account?
 								</p>
 								<p>
-                  Click <NavLink to="/" className="link-to-login text-purple-500 hover:underline">here</NavLink> to login.
+                  Click <NavLink to="/" className="link-to-login text-purple-500 hover:underline">Here</NavLink> to login.
                 </p>
               </div>
             </form>
