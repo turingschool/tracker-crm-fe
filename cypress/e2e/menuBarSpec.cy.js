@@ -220,6 +220,17 @@ it(" if plus icon is clicked multiple times, still behaves correctly", () => {
       cy.get('[data-testid="menu-iconM"]').click().click();
       cy.get('[data-testid="slideout-menu"]').should("not.be.visible");
     });
+
+    it("should display the Turing logo in the top of the menu bar", () => {
+      cy.get('[data-testid="close-iconM"]').click();
+      cy.get('.w-11').should("be.visible");
+    });
+
+    it("Turing logo when clicked will navigative to home screen", () => {
+      cy.get('[data-testid="close-iconM"]').click();
+      cy.get('.w-11').should("be.visible").click();
+      cy.url().should("include", "/home");
+    });
   });
 
   it("Should have a quad-color-bar to the right of the nav bar", () => {
