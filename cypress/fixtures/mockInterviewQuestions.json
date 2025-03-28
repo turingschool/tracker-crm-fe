@@ -82,3 +82,82 @@
     }
   ]
 }
+
+
+
+//results from postman
+// {
+//   "id": "chatcmpl-BFth5PS38pcH5bcgKhMBoNwtMm73f",
+//   "data": [
+//       {
+//           "index": 1,
+//           "type": "interview_question",
+//           "attributes": {
+//               "question": "Can you explain the MVC architecture and how it is implemented in Ruby on Rails?"
+//           }
+//       },
+//       {
+//           "index": 2,
+//           "type": "interview_question",
+//           "attributes": {
+//               "question": "How do you manage database migrations in a Ruby on Rails application?"
+//           }
+//       },
+//       {
+//           "index": 3,
+//           "type": "interview_question",
+//           "attributes": {
+//               "question": "What are some common performance issues you have encountered in Ruby on Rails, and how did you address them?"
+//           }
+//       },
+//       {
+//           "index": 4,
+//           "type": "interview_question",
+//           "attributes": {
+//               "question": "Can you describe the RESTful API design principles and how you apply them when developing APIs?"
+//           }
+//       },
+//       {
+//           "index": 5,
+//           "type": "interview_question",
+//           "attributes": {
+//               "question": "What tools and libraries do you use for testing Ruby on Rails applications?"
+//           }
+//       },
+//       {
+//           "index": 6,
+//           "type": "interview_question",
+//           "attributes": {
+//               "question": "How do you handle authentication and authorization in a Ruby on Rails application?"
+//           }
+//       },
+//       {
+//           "index": 7,
+//           "type": "interview_question",
+//           "attributes": {
+//               "question": "Can you provide an example of how you have used JavaScript to enhance user experience in a web application?"
+//           }
+//       },
+//       {
+//           "index": 8,
+//           "type": "interview_question",
+//           "attributes": {
+//               "question": "What strategies do you use to ensure the security of a REST API?"
+//           }
+//       },
+//       {
+//           "index": 9,
+//           "type": "interview_question",
+//           "attributes": {
+//               "question": "How do you approach debugging and troubleshooting in a Ruby on Rails application?"
+//           }
+//       },
+//       {
+//           "index": 10,
+//           "type": "interview_question",
+//           "attributes": {
+//               "question": "Can you discuss your experience with version control systems, particularly Git, in collaborative software development?"
+//           }
+//       }
+//   ]
+// }
