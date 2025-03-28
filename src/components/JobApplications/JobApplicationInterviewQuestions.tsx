@@ -46,7 +46,7 @@ interface ChatGPTQuestion {
     };
 
     fetchData(jobDescription, token);
-  }, []); 
+  }, [jobDescription, token, backendURL]); 
 
 interface DummyQuestions {
   id: number;
