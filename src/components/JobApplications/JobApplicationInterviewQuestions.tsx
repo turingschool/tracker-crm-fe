@@ -6,7 +6,7 @@ const JobApplicationInterviewQuestions: React.FC = () => {
 const apiURL = process.env.REACT_APP_BACKEND_API_URL
 const backendURL = `${apiURL}api/v1/`
 const { token } = useUserLoggedContext();
-const [chatgptQuestions, setChatgptQuestions] = useState(null);
+const [chatgptQuestions, setChatgptQuestions] = useState<ChatGPTQuestion[] ;
 const location = useLocation()
 const positionTitle = location.state.positionTitle
 const companyId = location.state.companyId
@@ -14,6 +14,18 @@ const companyName = location.state.companyName
 const jobAppId = location.state.jobAppId
 const jobDescription = location.state.jobDescription
 
+interface APIResponse {
+  id: string;
+  data: ChatGPTQuestion[];
+}
+
+interface ChatGPTQuestion {
+  index: number;
+  type: string;
+  attributes: {
+    question: string;
+  };
+}
   useEffect(() => {
     const fetchData = async (jobDescription: string, token: string | null) => {
       try {
@@ -27,7 +39,7 @@ const jobDescription = location.state.jobDescription
         });
         const result = await response.json();
         setChatgptQuestions(result.data);
-        console.log("chat gpt questions", chatgptQuestions)
+        console.log("chat gpt questions", result.data)
       } catch (error) {
         console.error('Error:', error);
       }
@@ -78,11 +90,11 @@ return (
           <h4 className="mt-10 text-[20px] font-bold text-cyan-600 tracking-wide">
             Technical Interview Questions
           </h4>
-          {Object.entries(questionObject).map(([id, text]) => (
-            <div key={id} data-testid="interview-questions-list" className="ml-5 text-gray-600 w-1/2 text-[17px]">
+          {chatgptQuestions.map((question) => (
+            <div key={question.index} data-testid="interview-question-list" className="ml-5 text-gray-600 w-1/2 text-[17px]">
               <br>
               </br>
-              {id}. {text}
+              {question.index}. {question.attributes.question}
             </div>
           ))}
         </main>
