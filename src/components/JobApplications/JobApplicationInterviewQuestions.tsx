@@ -6,7 +6,7 @@ const JobApplicationInterviewQuestions: React.FC = () => {
 const apiURL = process.env.REACT_APP_BACKEND_API_URL
 const backendURL = `${apiURL}api/v1/`
 const { token } = useUserLoggedContext();
-const [chatgptQuestions, setChatgptQuestions] = useState<ChatGPTQuestion[] ;
+const [chatgptQuestions, setChatgptQuestions] = useState<ChatGPTQuestion[]>([]);
 const location = useLocation()
 const positionTitle = location.state.positionTitle
 const companyId = location.state.companyId
@@ -14,10 +14,10 @@ const companyName = location.state.companyName
 const jobAppId = location.state.jobAppId
 const jobDescription = location.state.jobDescription
 
-interface APIResponse {
-  id: string;
-  data: ChatGPTQuestion[];
-}
+// interface APIResponse {
+//   id: string;
+//   data: ChatGPTQuestion[];
+// }
 
 interface ChatGPTQuestion {
   index: number;
@@ -48,10 +48,10 @@ interface ChatGPTQuestion {
     fetchData(jobDescription, token);
   }, [jobDescription, token, backendURL]); 
 
-interface DummyQuestions {
-  id: number;
-  text: string;
-}
+// interface DummyQuestions {
+//   id: number;
+//   text: string;
+// }
 
 // const questions :DummyQuestions[] = [
 //   { id: 1, text: "Can you explain the difference between state and props in React?" },
