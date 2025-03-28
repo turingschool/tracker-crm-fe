@@ -41,19 +41,20 @@ export const DashBoard : React.FC = () => {
             </label></>
         }
 
-    const ConditionallyRenderBtn: React.FC<CountProps> = ({ section, sectionCount, sectionUrl }) => {
-        if (sectionCount === 0) {
-            return (
-                <Link
-                    className="text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]"
-                    to={`${sectionUrl}`}
-                >
-                    Add new {section}
-                </Link>
-            );
-        }
-        return <div></div>;
-    };
+        const ConditionallyRenderBtn: React.FC<{ section: string; sectionUrl: string }> = ({ section, sectionUrl }) => {
+
+            if (jobApplicationsCount === 0 || contactsCount === 0 || companiesCount === 0) {
+                return (
+                    <Link
+                        className="text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]"
+                        to={`${sectionUrl}`}
+                    >
+                        Add new {section}
+                    </Link>
+                );
+            }
+            return null; 
+        };
 
     if(token && isLoggedIn){
         return (
@@ -89,17 +90,17 @@ export const DashBoard : React.FC = () => {
                     <div className="inline-flex space-x-4">
                         <div>
                             <button data-cy="jobApplicationBtn">
-                                <ConditionallyRenderBtn section="job application" sectionCount={jobApplicationsCount} sectionUrl="/jobapplications/new" />
+                                <ConditionallyRenderBtn section="job application" sectionUrl="/jobapplications/new" />
                             </button>
                         </div>
                         <div >
                             <button data-cy="contactBtn">
-                                <ConditionallyRenderBtn sectionCount={contactsCount}  section="contact" sectionUrl="/contacts/new" />
+                                <ConditionallyRenderBtn section="contact" sectionUrl="/contacts/new" />
                             </button>
                         </div>
                         <div>
                             <button data-cy="companyBtn">
-                                <ConditionallyRenderBtn section="company" sectionCount={companiesCount} sectionUrl="/companies/new" />
+                                <ConditionallyRenderBtn section="company" sectionUrl="/companies/new" />
                             </button>
                         </div>
                     </div>
