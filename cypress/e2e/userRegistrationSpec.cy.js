@@ -26,8 +26,8 @@ describe('User Registration Form - Create New User', () => {
     cy.get('label').eq(1).should('contain', 'Email');
     cy.get('label').eq(2).should('contain', 'Password');
     cy.get('label').eq(3).should('contain', 'Confirm Password');
-    cy.get('p.login-link').should('contain', 'Already have an account?');
-    cy.get('a.link-to-login').should('contain', 'Click here to login.');
+    cy.get('.account-message').should('contain', 'Already have an account?');
+    cy.get('.link-to-login').should('contain', 'Click Here to login.');
     cy.get('.tracker').should('contain', 'Tracker');
     cy.get('.by-turing').should('contain', 'by Turing');
     cy.get('.app-tagline').should('contain', 'Job hunting made easier');

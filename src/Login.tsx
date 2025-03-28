@@ -59,7 +59,7 @@ const LoginForm: React.FC = () => {
         <form onSubmit={handleSubmit} className='flex flex-col justify-evenly items-center md:w-[24vw] mx-[6vw] md:mx-[12vw] my-[30vh]'>
         <img className='turing-logo -mt-[24vh] -ml-[30vw] mb-[24vh] size-20' src={turingLogo} />
 
-          <h1 className='font-[Helvetica Neue] font-sans  text-xl'>
+          <h1 className='font-[Helvetica Neue] font-sans text-xl'>
             Please login
           </h1>
           <div className='email-input flex flex-col justify-center w-[100%] mb-[10px]'>
@@ -87,11 +87,12 @@ const LoginForm: React.FC = () => {
           <button 
             type="submit" 
             id="submit" 
-            className='login-btn w-[35%] min-h-10vh h-[10%] rounded-sm bg-[#3cb6cc] font-[Helvetica Neue] font-sans text-base'
+            className='login-btn flex justify-center items-center bg-cyan-800 text-white rounded h-12 w-40 p-[8px] mt-[4px] mb-[4px] hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500'
             data-testid="login-button">
               Login
           </button>
-          <p className='no-account-message font-[Helvetica Neue] font-sans'>No Account? Click <NavLink to="/UserRegistration" className="text-purple-500 underline">Here</NavLink> To Register.</p>
+          <p className='no-account-message font-[Helvetica Neue] font-sans'>No Account?</p>
+					<p className='register-message font-[Helvetica Neue] font-sans'> Click <NavLink to="/UserRegistration" className="text-purple-500 hover:underline">Here</NavLink> To Register.</p>
 
         </form>
         {errorMessage && <p className='failed-login flex justify-center items-center rounded-md border-red-600 border-2 bg-slate-700 w-[50%] h-[5%] absolute top-[25%] left-[25%] font-[Helvetica Neue] font-sans font-semibold text-lg text-red-600'>{errorMessage}</p>}
