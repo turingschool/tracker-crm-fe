@@ -8,6 +8,7 @@ const JobApplicationInterviewQuestions: React.FC = () => {
   // const backendURL = `${apiURL}api/v1/`
   const { token } = useUserLoggedContext();
   const [chatgptQuestions, setChatgptQuestions] = useState<ChatGPTQuestion[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const location = useLocation()
   const positionTitle = location.state.positionTitle
   const companyId = location.state.companyId
@@ -29,6 +30,7 @@ interface ChatGPTQuestion {
 }
   useEffect(() => {
     const getInterviewQuestions = async () => {
+      setIsLoading(true);
       try {
         const result = await fetchInterviewQuestions(jobDescription, token);
 
@@ -39,6 +41,8 @@ interface ChatGPTQuestion {
         }
       } catch (error) {
         console.error('Error: ', error); 
+      } finally {
+        setIsLoading(false)
       }
     };
     if (jobDescription && token) {
