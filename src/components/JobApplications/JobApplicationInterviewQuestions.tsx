@@ -2,6 +2,7 @@ import {useUserLoggedContext} from "../../context/UserLoggedContext";
 import { Link, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { fetchInterviewQuestions } from "../../trackerApiCalls";
+import { ChatGPTQuestion } from "../../Interfaces";
 
 const JobApplicationInterviewQuestions: React.FC = () => {
   // const apiURL = process.env.REACT_APP_BACKEND_API_URL
@@ -21,20 +22,21 @@ const JobApplicationInterviewQuestions: React.FC = () => {
 //   data: ChatGPTQuestion[];
 // }
 
-interface ChatGPTQuestion {
-  index: number;
-  type: string;
-  attributes: {
-    question: string;
-  };
-}
+// interface ChatGPTQuestion {
+//   index: number;
+//   type: string;
+//   attributes: {
+//     question: string;
+//   };
+// }
   useEffect(() => {
     const getInterviewQuestions = async () => {
       setIsLoading(true);
       try {
-        const result = await fetchInterviewQuestions(jobDescription, token);
+        const result = await fetchInterviewQuestions(jobDescription, token || "");
 
         if (result.data) {
+          console.log("Question data structure:", result.data);
           setChatgptQuestions(result.data);
         } else if (result.error) {
           console.error("Error fetching questions: ", result.error);          
@@ -112,13 +114,17 @@ return (
           <h4 className="mt-10 text-[20px] font-bold text-cyan-600 tracking-wide">
             Technical Interview Questions
           </h4>
-          {chatgptQuestions.map((question) => (
+          { isLoading ? (
+            <p>Loading questions... </p>
+          ) : ( 
+            chatgptQuestions.map((question) => (
             <div key={question.index} data-testid="interview-question-list" className="ml-5 text-gray-600 w-1/2 text-[17px]">
               <br>
               </br>
               {question.index}. {question.attributes.question}
             </div>
-          ))}
+          ))
+          )}
         </main>
     </div>
   );
