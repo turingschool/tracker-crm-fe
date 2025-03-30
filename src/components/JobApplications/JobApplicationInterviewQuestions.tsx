@@ -117,13 +117,14 @@ return (
           { isLoading ? (
             <p>Loading questions... </p>
           ) : ( 
-            chatgptQuestions.map((question) => (
-            <div key={question.index} data-testid="interview-question-list" className="ml-5 text-gray-600 w-1/2 text-[17px]">
-              <br>
-              </br>
-              {question.index}. {question.attributes.question}
+            <div data-testid="interview-questions-list"> 
+              { chatgptQuestions.map((question) => ( 
+                <div key={question.index} className="ml-5 text-gray-600 w-1/2 text-[17px]">
+                  <br></br>
+                  {question.index}. {question.attributes.question}
+                </div>
+              ))}
             </div>
-          ))
           )}
         </main>
     </div>
