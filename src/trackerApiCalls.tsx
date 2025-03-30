@@ -331,7 +331,7 @@ export const postJobApplication = async (userParams: Record<string, any>) => {
 
 
 /*-----------------------------------// GET INTERVIEW QUESTIONS //--------------------------------------*/
-export const fetchInterviewQuestions = async (jobDescription: string, token: string | null) => {
+export const fetchInterviewQuestions = async (jobDescription: string, token: string ): Promise<APIResult<any>> => {
   try {
     const response = await fetch(`${backendURL}interview_questions`, {
       method: 'POST',
