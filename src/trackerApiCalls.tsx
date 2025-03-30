@@ -328,3 +328,28 @@ export const postJobApplication = async (userParams: Record<string, any>) => {
     console.error("Error adding job application:", error)
   }
 };
+
+
+/*-----------------------------------// GET INTERVIEW QUESTIONS //--------------------------------------*/
+export const fetchInterviewQuestions = async (jobDescription: string, token: string | null) => {
+  try {
+    const response = await fetch(`${backendURL}interview_questions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({description: jobDescription}),
+    });
+
+    if (!response.ok) {
+      return { error: `Failed to fetch interview questions: ${response.statusText}` };
+    }
+
+    const data = await response.json();
+    return { data: data.data }
+  } catch (error: any) {
+    console.error('Error fetching interview questions:', error);
+    return { error: error.message || "An unexpected error occurred." };
+  }
+};

@@ -1,10 +1,11 @@
 import {useUserLoggedContext} from "../../context/UserLoggedContext";
 import { Link, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
+import { fetchInterviewQuestions } from "../../trackerApiCalls";
 
 const JobApplicationInterviewQuestions: React.FC = () => {
-const apiURL = process.env.REACT_APP_BACKEND_API_URL
-const backendURL = `${apiURL}api/v1/`
+// const apiURL = process.env.REACT_APP_BACKEND_API_URL
+// const backendURL = `${apiURL}api/v1/`
 const { token } = useUserLoggedContext();
 const [chatgptQuestions, setChatgptQuestions] = useState<ChatGPTQuestion[]>([]);
 const location = useLocation()
@@ -27,25 +28,25 @@ interface ChatGPTQuestion {
   };
 }
   useEffect(() => {
-    const fetchData = async (jobDescription: string, token: string | null) => {
-      try {
-        const response = await fetch(`${backendURL}interview_questions`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-          body: JSON.stringify({description: jobDescription}),
-        });
-        const result = await response.json();
-        setChatgptQuestions(result.data);
-        console.log("chat gpt questions", result.data)
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
+    // const fetchJobData = async (jobDescription: string, token: string | null) => {
+    //   try {
+    //     const response = await fetch(`${backendURL}interview_questions`, {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${token}`,
+    //       },
+    //       body: JSON.stringify({description: jobDescription}),
+    //     });
+    //     const result = await response.json();
+    //     setChatgptQuestions(result.data);
+    //     console.log("chat gpt questions", result.data)
+    //   } catch (error) {
+    //     console.error('Error:', error);
+    //   }
+    // };
 
-    fetchData(jobDescription, token);
+    fetchJobData(jobDescription, token);
   }, [jobDescription, token, backendURL]); 
 
 // interface DummyQuestions {
