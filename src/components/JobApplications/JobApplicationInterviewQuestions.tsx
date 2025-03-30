@@ -4,16 +4,16 @@ import { useEffect, useState } from "react"
 import { fetchInterviewQuestions } from "../../trackerApiCalls";
 
 const JobApplicationInterviewQuestions: React.FC = () => {
-// const apiURL = process.env.REACT_APP_BACKEND_API_URL
-// const backendURL = `${apiURL}api/v1/`
-const { token } = useUserLoggedContext();
-const [chatgptQuestions, setChatgptQuestions] = useState<ChatGPTQuestion[]>([]);
-const location = useLocation()
-const positionTitle = location.state.positionTitle
-const companyId = location.state.companyId
-const companyName = location.state.companyName
-const jobAppId = location.state.jobAppId
-const jobDescription = location.state.jobDescription
+  // const apiURL = process.env.REACT_APP_BACKEND_API_URL
+  // const backendURL = `${apiURL}api/v1/`
+  const { token } = useUserLoggedContext();
+  const [chatgptQuestions, setChatgptQuestions] = useState<ChatGPTQuestion[]>([]);
+  const location = useLocation()
+  const positionTitle = location.state.positionTitle
+  const companyId = location.state.companyId
+  const companyName = location.state.companyName
+  const jobAppId = location.state.jobAppId
+  const jobDescription = location.state.jobDescription
 
 // interface APIResponse {
 //   id: string;
@@ -28,6 +28,23 @@ interface ChatGPTQuestion {
   };
 }
   useEffect(() => {
+    const getInterviewQuestions = async () => {
+      try {
+        const result = await fetchInterviewQuestions(jobDescription, token);
+
+        if (result.data) {
+          setChatgptQuestions(result.data);
+        } else if (result.error) {
+          console.error("Error fetching questions: ", result.error);          
+        }
+      } catch (error) {
+        console.error('Error: ', error); 
+      }
+    };
+    if (jobDescription && token) {
+      getInterviewQuestions()
+    }
+  }, [jobDescription, token]); 
     // const fetchJobData = async (jobDescription: string, token: string | null) => {
     //   try {
     //     const response = await fetch(`${backendURL}interview_questions`, {
@@ -46,8 +63,8 @@ interface ChatGPTQuestion {
     //   }
     // };
 
-    fetchJobData(jobDescription, token);
-  }, [jobDescription, token, backendURL]); 
+  //   fetchJobData(jobDescription, token);
+  // }, [jobDescription, token, backendURL]); 
 
 // interface DummyQuestions {
 //   id: number;
