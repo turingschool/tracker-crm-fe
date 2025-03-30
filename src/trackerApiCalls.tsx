@@ -350,6 +350,6 @@ export const fetchInterviewQuestions = async (jobDescription: string, token: str
     return { data: data.data }
   } catch (error: any) {
     console.error('Error fetching interview questions:', error);
-    return { error: error.message || "An unexpected error occurred." };
+    return { error: error.message || 'An unexpected error occurred.' };
   }
 };
