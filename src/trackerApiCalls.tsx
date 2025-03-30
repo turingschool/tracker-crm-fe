@@ -1,5 +1,5 @@
 import { handleErrorResponse } from "./context/ErrorHelpers";
-import { Company, CompanyData, APIResult } from "./Interfaces";
+import { Company, CompanyData, APIResult, ChatGPTQuestion } from "./Interfaces";
 
 const apiURL = process.env.REACT_APP_BACKEND_API_URL;
 const backendURL = `${apiURL}api/v1/`;
@@ -331,7 +331,7 @@ export const postJobApplication = async (userParams: Record<string, any>) => {
 
 
 /*-----------------------------------// GET INTERVIEW QUESTIONS //--------------------------------------*/
-export const fetchInterviewQuestions = async (jobDescription: string, token: string ): Promise<APIResult<any>> => {
+export const fetchInterviewQuestions = async (jobDescription: string, token: string ): Promise<APIResult<ChatGPTQuestion[]>> => {
   try {
     const response = await fetch(`${backendURL}interview_questions`, {
       method: 'POST',

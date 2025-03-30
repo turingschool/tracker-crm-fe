@@ -207,3 +207,12 @@ export interface CompanyData {
     data: ContactData[];
   }
 }
+
+
+export interface ChatGPTQuestion {
+  index: number;
+  type: string;
+  attributes: {
+    question: string;
+  };
+}
