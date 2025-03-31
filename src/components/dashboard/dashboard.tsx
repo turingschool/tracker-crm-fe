@@ -41,17 +41,16 @@ export const DashBoard : React.FC = () => {
             </label></>
         }
 
-        const ConditionallyRenderBtn: React.FC<{ section: string; sectionUrl: string }> = ({ section, sectionUrl }) => {
-
-            if (jobApplicationsCount === 0 || contactsCount === 0 || companiesCount === 0) {
-                return (
-                    <Link
-                        className="text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]"
-                        to={`${sectionUrl}`}
-                    >
-                        Add new {section}
-                    </Link>
-                );
+    const ConditionallyRenderBtn: React.FC<{ section: string; sectionUrl: string }> = ({ section, sectionUrl }) => {
+        if (jobApplicationsCount === 0 || contactsCount === 0 || companiesCount === 0) {
+            return (
+                <Link
+                  className="text-center block text-[20px] font-bold bg-cyan-600 mt-1 w-[16vw] text-white ml-[3vh]"
+                  to={`${sectionUrl}`}
+                >
+                  Add new {section}
+                </Link>
+              );
             }
             return null; 
         };
