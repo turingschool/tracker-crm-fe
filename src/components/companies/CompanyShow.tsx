@@ -195,100 +195,102 @@ function CompanyShow() {
   
   
   return (
-    <main className="flex">
-      <div className="w-[76vw] pl-[6vw] mt-[8vh]">
-        <h1 className="text-[5.5vh] font-bold text-cyan-600 tracking-wide">
-          {companyAttributes.name}
-        </h1>
-        <h2 className="mb-[5vh] text-[3vh] text-cyan-700 hover:underline underline-offset-8 hover:text-cyan-500">
-        <Link
-          to={
-            companyAttributes.website
-              ? companyAttributes.website.startsWith("http")
-                ? companyAttributes.website
-                : `https://${companyAttributes.website}`
-              : "#"
-          }
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {companyAttributes.website || "No website provided"}
-        </Link>
-        </h2>
-
-        {/* Company Details */}  
-        <div className="space-y-4 my-[6vh] pr-[12vw]">
-          <div 
-          id = "address"
-          className="flex flex-row my-[6vh]">
-            <span className="text-lg text-gray-700 font-semibold pr-4">
-              Address
-            </span>
-            <p className="text-lg text-gray-600">
-              {companyAddress}
-            </p>
-          </div>
-          <div
-            id = "notes"
+    <main className="flex-col">
+      <h1 className=" mt-[10vh] ml-[6vw] text-[5.5vh] font-bold text-cyan-600 tracking-wide">
+        {companyAttributes.name}
+      </h1>
+      <div className="flex gap-[8vw]">
+        <div className="pl-[6vw] mt-[3vh] flex-1">
+          <h2 className="mb-[5vh] text-[3vh] text-cyan-700 hover:underline underline-offset-8 hover:text-cyan-500">
+          <Link
+            to={
+              companyAttributes.website
+                ? companyAttributes.website.startsWith("http")
+                  ? companyAttributes.website
+                  : `https://${companyAttributes.website}`
+                : "#"
+            }
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            <span className="text-[2.5vh] font-bold text-cyan-700">
-              Notes
-            </span>
-            <p className="text-gray-600 whitespace-pre-wrap">
-              {companyAttributes.notes}
-            </p>
+            {companyAttributes.website || "No website provided"}
+          </Link>
+          </h2>
+
+          {/* Company Details */}  
+          <div className="space-y-4 my-[6vh] pr-[12vw]">
+            <div 
+            id = "address"
+            className="flex flex-row my-[6vh]">
+              <span className="text-lg text-gray-700 font-semibold pr-4">
+                Address
+              </span>
+              <p className="text-lg text-gray-600">
+                {companyAddress}
+              </p>
+            </div>
+            <div
+              id = "notes"
+            >
+              <span className="text-[2.5vh] font-bold text-cyan-700">
+                Notes
+              </span>
+              <p className="text-gray-600 whitespace-pre-wrap">
+                {companyAttributes.notes}
+              </p>
+            </div>
           </div>
+
+          {/* Buttons */}
+          <div className="mt-[10vh] flex flex-col items-center space-y-4 ml-[-16vw]">
+
+            {/* Edit Button */}
+            <button
+              data-testid="edit-button"
+              className="border-2 border-cyan-600 text-cyan-700 px-8 py-2 rounded hover:bg-cyan-600 hover:text-white transition-all"
+              onClick={() => setIsEditModalOpen(true)}
+            >
+              Edit
+            </button>
+              
+            {/* Delete Button */}
+            <DeleteItem
+              userId={userData.user.data.id}
+              itemId={id!}
+              itemType="company"
+              deleteAction={deleteItem}
+              token={token!}
+              onDeleteSuccess={() => navigate("/companies")}
+            />
         </div>
-
-        {/* Buttons */}
-        <div className="mt-[10vh] flex flex-col items-center space-y-4 ml-[-16vw]">
-
-          {/* Edit Button */}
-          <button
-            data-testid="edit-button"
-            className="border-2 border-cyan-600 text-cyan-700 px-8 py-2 rounded hover:bg-cyan-600 hover:text-white transition-all"
-            onClick={() => setIsEditModalOpen(true)}
-          >
-            Edit
-          </button>
-            
-          {/* Delete Button */}
-          <DeleteItem
-            userId={userData.user.data.id}
-            itemId={id!}
-            itemType="company"
-            deleteAction={deleteItem}
-            token={token!}
-            onDeleteSuccess={() => navigate("/companies")}
-          />
       </div>
-    </div>
-    
-    {/* Contacts Section */}
-    <div className="my-[16vh] mr-[20vw]">
-      <h3
-        id = "other-contacts"
-        className = "text-[3vh] font-bold text-cyan-700 mb-[4vh] text-nowrap"
-      >
-        {companyAttributes.name
-          ? `My contacts at ${companyAttributes.name}`
-          : `No contacts found at ${companyAttributes.name}`}
-      </h3>
-      <ul className="list-none">
-        {companyContacts.map((contact) => (
-          <li 
-            key={contact.id} 
-            data-testid={`contact-link-${contact.id}`}
-            className="text-2xl font-medium text-cyan-700 mb-[2vh]">
-              <Link
-                className="text-cyan-600 hover:text-cyan-500 no-underline"
-                to={`/contacts/${contact.id}`}
-              >
-                {contact.attributes.first_name} {contact.attributes.last_name}
-              </Link>
-          </li>
-        ))}
-      </ul>
+      
+      {/* Contacts Section */}
+      <div className="my-[3vh] mr-[20vw] flex-1">
+        <h3
+          id = "other-contacts"
+          className = "text-[3vh] font-bold text-cyan-700 mb-[4vh] text-wrap"
+        >
+          {companyAttributes.name
+            ? `My contacts at ${companyAttributes.name}`
+            : `No contacts found at ${companyAttributes.name}`}
+        </h3>
+        <ul className="list-none">
+          {companyContacts.map((contact) => (
+            <li 
+              key={contact.id} 
+              data-testid={`contact-link-${contact.id}`}
+              className="text-2xl font-medium text-cyan-700 mb-[2vh]">
+                <Link
+                  className="text-cyan-600 hover:text-cyan-500 no-underline"
+                  to={`/contacts/${contact.id}`}
+                >
+                  {contact.attributes.first_name} {contact.attributes.last_name}
+                </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
 
 {/* Edit Modal */}
