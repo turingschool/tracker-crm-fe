@@ -119,53 +119,49 @@ describe('Dash Board after loggging in with zero recent jobs, contacts and compa
   });
 })
 
-  describe('Dash Board buttons to add new resources', () => {
-    beforeEach(()=>{
-      cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
-        statusCode: 200,
-        body: {
-          token: 'fake-token',
-          user: {
-            data: {
-              id: 1,
-              type: 'user',
-              attributes: {
-                name: 'Danny DeVito',
-                email: 'danny_de@email.com',
-                companies: []
-              }
+describe('Dash Board buttons to add new resources', () => {
+  beforeEach(()=>{
+    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
+      statusCode: 200,
+      body: {
+        token: 'fake-token',
+        user: {
+          data: {
+            id: 1,
+            type: 'user',
+            attributes: {
+              name: 'Danny DeVito',
+              email: 'danny_de@email.com',
+              companies: []
             }
           }
         }
-      }).as("mockSession2");
-  
-      cy.intercept(
-        'GET',
-        'http://localhost:3001/api/v1/users/1/dashboard',
-        { statusCode: 200, fixture: 'mockDashBoardNoJobsContactsOrCompanies' }
-      );
+      }
+    }).as("mockSession2");
 
-      cy.intercept("GET", "http://localhost:3001/api/v1/users/1/contacts", {
-        statusCode: 200,
-        body: mockContactsData,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).as("getContacts");
+    cy.intercept(
+      'GET',
+      'http://localhost:3001/api/v1/users/1/dashboard',
+      { statusCode: 200, fixture: 'mockDashBoardNoJobsContactsOrCompanies' }
+    ).as("getDashboardData");
 
-      cy.intercept("GET", `http://localhost:3001/api/v1/users/1/companies`, {
-        statusCode: 200,
-        body: mockCompanies,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).as("getCompanies");
-  
-      cy.visit("http://localhost:3000/");
-      cy.get("#email").type("danny_de@email.com")
-      cy.get("#password").type("jerseyMikesRox7")
-      cy.get('[data-testid="login-button"]').click();
-    })
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/1/contacts", {
+      statusCode: 200,
+      body: mockContactsData,
+      headers: { "Content-Type": "application/json" },
+    }).as("getContacts");
+
+    cy.intercept("GET", `http://localhost:3001/api/v1/users/1/companies`, {
+      statusCode: 200,
+      body: mockCompanies,
+      headers: { "Content-Type": "application/json" },
+    }).as("getCompanies");
+
+    cy.visit("http://localhost:3000/");
+    cy.get("#email").type("danny_de@email.com");
+    cy.get("#password").type("jerseyMikesRox7");
+    cy.get('[data-testid="login-button"]').click();
+  });
 
   it("Should have a clickable button to route you to add a new job application", () => {
     cy.get('[data-cy="jobApplicationBtn"]').click();
@@ -181,4 +177,56 @@ describe('Dash Board after loggging in with zero recent jobs, contacts and compa
     cy.get('[data-cy="companyBtn"]').click();
     cy.url().should('include', 'http://localhost:3000/companies/new');
   });
-})
+
+  it("should render all 'Add new' buttons when there are no resources", () => {
+    cy.fixture("mockDashBoardNoJobsContactsOrCompanies").then((data) => {
+      data.jobApplications = [];
+      data.contacts = [];
+      data.companies = [];
+      
+      cy.intercept("GET", "**/api/v1/users/1/dashboard", {
+        statusCode: 200,
+        body: data,
+      }).as("getDashboardData");
+    });
+  
+    cy.reload();
+    cy.wait("@getDashboardData");
+  
+    cy.get('[data-cy="jobApplicationBtn"]').should("exist").and("have.text", "Add new job application");
+    cy.get('[data-cy="contactBtn"]').should("exist").and("have.text", "Add new contact");
+    cy.get('[data-cy="companyBtn"]').should("exist").and("have.text", "Add new company");
+  });
+
+  it("should keep all 'Add new' buttons visible when one resource has data", () => {
+    cy.intercept("GET", "**/api/v1/users/1/dashboard", {
+      jobApplications: [{ id: 1, title: "Software Engineer" }],
+      contacts: [],
+      companies: [],
+    }).as("getDashboardData");
+  
+    cy.reload();
+    cy.wait("@getDashboardData");
+  
+    cy.get('[data-cy="jobBtn"]').should("exist").and("have.text", "Add new Job");
+    cy.get('[data-cy="contactBtn"]').should("exist").and("have.text", "Add new Contact");
+    cy.get('[data-cy="companyBtn"]').should("exist").and("have.text", "Add new Company");
+  });
+
+  it("should not render any buttons when all sections have data", () => {
+    cy.fixture("mockDashBoardNoJobsContactsOrCompanies").then((data) => {
+      const modifiedData = { ...data, jobApplications: [{ id: 1 }], contacts: [{ id: 1 }], companies: [{ id: 1 }] };
+      cy.intercept("GET", "**/api/v1/users/1/dashboard", {
+        statusCode: 200,
+        body: modifiedData
+      }).as("getDashboardData");
+    });
+
+    cy.reload();
+    cy.wait("@getDashboardData");
+    cy.get('[data-cy="jobBtn"]').should("not.exist");
+    cy.get('[data-cy="contactBtn"]').should("not.exist");
+    cy.get('[data-cy="companyBtn"]').should("not.exist");
+  });
+
+});
