@@ -23,7 +23,8 @@ describe('testing for Login page', () => {
     .get('.login-form-wrap > .form-inputs > form > .login-btn').should('contain', 'Login')
   
     .get('.no-account-message').should('be.visible')
-    .get('.no-account-message').should('contain', 'No Account? Click Here To Register.')
+    .get('.no-account-message').should('contain', 'No Account?')
+		.get('.register-message').should('contain', 'Click Here To Register.')
 
     .get('a').should('be.visible')
     .get('a').should('contain', 'Here')
