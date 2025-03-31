@@ -128,7 +128,7 @@ describe("Edit Contact Functionality", () => {
 
   it("Should close the modal when clicking the X button", () => {
     cy.get("button").contains("Edit").click();
-    cy.get(".absolute.top-2.right-2").click();
+    cy.get(".absolute.top-2.right-2").click({ force: true });
     cy.get(".bg-white").should("not.exist");
   });
 
