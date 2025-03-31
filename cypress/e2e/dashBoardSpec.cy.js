@@ -198,20 +198,35 @@ describe('Dash Board buttons to add new resources', () => {
     cy.get('[data-cy="companyBtn"]').should("exist").and("have.text", "Add new company");
   });
 
-  it("should keep all 'Add new' buttons visible when one resource has data", () => {
-    cy.intercept("GET", "**/api/v1/users/1/dashboard", {
-      jobApplications: [{ id: 1, title: "Software Engineer" }],
-      contacts: [],
-      companies: [],
-    }).as("getDashboardData");
-  
-    cy.reload();
-    cy.wait("@getDashboardData");
-  
-    cy.get('[data-cy="jobBtn"]').should("exist").and("have.text", "Add new Job");
-    cy.get('[data-cy="contactBtn"]').should("exist").and("have.text", "Add new Contact");
-    cy.get('[data-cy="companyBtn"]').should("exist").and("have.text", "Add new Company");
-  });
+  it("should render all 'Add new' buttons when one resource has data", () => {
+    cy.fixture("mockDashBoardSingleJobData").then((data) => {
+      data.jobApplications = [
+        {
+          id: 1,
+          position_title: "Jr. CTO",
+          date_applied: "2024-10-31",
+          status: 1,
+          notes: "Fingers crossed!",
+          job_description: "Looking for Turing grad/jr dev to be CTO",
+          application_url: "www.example.com",
+          created_at: "2024-12-16T21:16:09.601Z",
+          updated_at: "2024-12-16T21:16:09.601Z",
+          company_id: 1,
+          user_id: 1
+        }
+      ]
+      cy.intercept("GET", "**/api/v1/users/1/dashboard", {
+        statusCode: 200,
+        body: data,
+      }).as("getDashboardData");
+      cy.reload()
+      cy.wait("@getDashboardData")
+
+      cy.get('[data-cy="jobApplicationBtn"]').should("exist").and("have.text", "Add new job application");
+      cy.get('[data-cy="contactBtn"]').should("exist").and("have.text", "Add new contact");
+      cy.get('[data-cy="companyBtn"]').should("exist").and("have.text", "Add new company");
+    })
+  })
 
   it("should not render any buttons when all sections have data", () => {
     cy.fixture("mockDashBoardNoJobsContactsOrCompanies").then((data) => {
