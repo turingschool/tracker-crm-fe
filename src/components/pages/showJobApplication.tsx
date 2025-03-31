@@ -4,38 +4,10 @@ import { showJobApp, updateJobApplication } from "../../trackerApiCalls";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { statusMap, statusStyles } from "../JobApplicationUtilities";
 import { deleteItem } from "../../trackerApiCalls";
+import { JobApplicationContact, JobApplicationAttributes, JobApplicationDataCompile } from "../../Interfaces";
 import DeleteItem from "../common/DeleteItem";
 import DatePicker from "react-datepicker";
 import moment from "moment-timezone";
-
-interface Contact {
-  id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone_number: string;
-  notes: string;
-}
-
-interface JobApplicationAttributes {
-  position_title: string;
-  date_applied: string;
-  status: number;
-  notes: string;
-  job_description: string;
-  application_url: string;
-  contacts: Contact[];
-  company_id: number;
-  company_name: string;
-  contact_id: number;
-}
-
-interface DataCompile {
-  token?: string;
-  userId?: number;
-  id?: string;
-  [key: string]: any;
-}
 
 function JobApplication() {
   const [jobApp, setJobApp] = useState<JobApplicationAttributes | null>(null);
@@ -56,7 +28,7 @@ function JobApplication() {
   const [isEditing, setIsEditing] = useState(false);
   const [statusUpdateFlag, setStatusUpdateFlag] = useState(false);
 
-  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [contacts, setContacts] = useState<JobApplicationContact[]>([]);
 
   const navigate = useNavigate();
   const userId = userData.user.data.id;
@@ -107,7 +79,7 @@ function JobApplication() {
 
     setIsEditing(false);
 
-    const compileData: DataCompile = {
+    const compileData: JobApplicationDataCompile = {
       userId: userData.user.data.id ? Number(userData.user.data.id) : undefined,
       token: userData.token,
       id: jobAppId,
