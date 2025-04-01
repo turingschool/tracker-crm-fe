@@ -11,6 +11,7 @@ import moment from "moment-timezone";
 
 function JobApplication() {
   const [jobApp, setJobApp] = useState<JobApplicationAttributes | null>(null);
+  const { position_title, notes, job_description, application_url, date_applied, company_id, status } = jobApp || {}
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModelOpen, setIsEditModelOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
