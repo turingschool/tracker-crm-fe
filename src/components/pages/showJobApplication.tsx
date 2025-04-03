@@ -42,7 +42,6 @@ function JobApplication() {
           const id = parseInt(jobAppId, 10);
           if (isNaN(id)) throw new Error("Invalid jobAppId.");
           const data = await showJobApp(user.data.id, id, token);
-          console.log('data attributes: ', data.data)
 
           setJobApp({
             ...data.data.attributes,
@@ -175,7 +174,7 @@ function JobApplication() {
                     setJobApp({...jobApp, status: Number(e.target.value)})
                     setStatusUpdateFlag(true)
                   }}
-                  className={`py-1 px-2 m-2 border-transparent border-r-8 rounded focus:outline-none focus:ring-2  ${statusMap[status as number] ? statusStyles[statusMap[status as number]] 
+                  className={`py-1 px-2 m-2 border-transparent border-r-8 rounded focus:outline-none focus:ring-2  ${statusMap[status as number] ? statusStyles[statusMap[status as number]] : ''
                     }`}
                   required >
                   <option value="" className="text-gray-400">
