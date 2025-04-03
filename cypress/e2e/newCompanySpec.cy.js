@@ -154,4 +154,24 @@ describe("New Company page after logging in", () => {
     cy.get(".bg-green-100").should("contain.text", "Company added successfully!");
     cy.url().should("include", "/companies");
   });
+
+	it("Should show an error message that company name cannot be blank", () => {
+		cy.intercept("POST", "http://localhost:3001/api/v1/users/2/companies", {
+      statusCode: 422,
+      body: {
+				"message": "Name can't be blank",
+				"status": 422
+		},
+    }).as("companyNameBlank");
+
+		cy.get("#website").type("www.testcompany.com");
+    cy.get("#streetAddress").type("123 Test St");
+    cy.get("#city").type("Test City");
+    cy.get("select").select("CO");
+    cy.get("#zipCode").type("12345");
+    cy.get("textarea").type("Test notes");
+		cy.get('button[type="submit"]').click();
+		cy.wait("@companyNameBlank")
+		cy.get('[data-testid="backend-error"]').should('contain', "Name can't be blank")
+	});
 });
