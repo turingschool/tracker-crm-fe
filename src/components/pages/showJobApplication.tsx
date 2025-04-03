@@ -140,7 +140,7 @@ function JobApplication() {
               {isEditing ? (
                 <div className="flex flex-col">
                   <DatePicker
-                    selected={new Date(date_applied as string)}
+                    selected={new Date(date_applied as string | number | Date)}
                     onChange={(date_applied: Date | null) => {
                       if (date_applied) {
                         setJobApp({
@@ -169,7 +169,7 @@ function JobApplication() {
             <div className="flex flex-row items-center text-lg text-gray-700 font-semibold">
               <p id="application-status" className="mr-2">Status:</p>
                 <select
-                  value={status}
+                  value={status ?? 0}
                   id="appStatus"
                   onChange={(e) => {
                     setJobApp({...jobApp, status: Number(e.target.value)})
