@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import turingLogo from '../Turing-logo.png';
 import FormField from './layout/FormField';
-import { Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader'; // Import the spinner
 import { registerUser } from '../apiCalls';
 import { loginUser } from '../trackerApiCalls';
 import { useUserLoggedContext } from '../context/UserLoggedContext';
+import TrackerBar from './layout/TrackerBar';
 
 function UserRegistration(): React.ReactElement {
   const [name, setName] = useState<string>('');
@@ -80,15 +81,15 @@ function UserRegistration(): React.ReactElement {
         </div>
       ) : (
         <>
-          <div className="form-inputs w-6/12 flex flex-col items-center">
-            <img className="turing-logo absolute top-5 left-5 size-20" src={turingLogo} alt="Turing Logo" />
+          <div className="form-inputs w-6/12 flex flex-col">
+            <form onSubmit={handleFormSubmit} className='flex flex-col justify-evenly items-center md:w-[24vw] mx-[6vw] md:mx-[12vw] my-[20vh]'>
+						<img className="turing-logo -mt-[14vh] -ml-[30vw] mb-[14vh] size-20" src={turingLogo} alt="Turing Logo" />
 
-            <form onSubmit={handleFormSubmit}>
-              <h2 className="create-account text-4xl text-gray-600 font-[Helvetica Neue] text-center mt-40 mb-10 tracking-wider">
+              <h1 className="create-account font-[Helvetica Neue] font-sans text-xl">
                 Create Account
-              </h2>
+              </h1>
 
-              <div>
+              <div className="flex flex-col justify-center w-[100%] mb-[2px]">
                 <FormField
                   formType="text"
                   state={name}
@@ -117,45 +118,24 @@ function UserRegistration(): React.ReactElement {
 
               {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-              <div className="mt-5 flex flex-col items-center justify-center">
+              <div className=" flex flex-col items-center justify-center">
                 <button
                   type="submit"
-                  className="flex justify-center items-center bg-cyan-800 text-white rounded h-12 w-40 p-[8px] mt-[4px] hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500"
+                  className="flex justify-center items-center bg-cyan-800 text-white rounded h-12 w-40 p-[8px] mt-[4px] mb-[4px] hover:bg-cyan-600 focus:ring-2 focus:ring-cyan-500"
                   data-cy="register-button"
                 >
                   Register
                 </button>
-                <p className="login-link text-gray-500 text-xl font-extralight block mt-4 text-center">
+                <p className="account-message font-[Helvetica Neue] font-sans">
                   Already have an account?
-                  <br />
-                  <Link to="/" className="link-to-login hover:underline">
-                  {/* Is this the correct endpoint for the login page? */}
-                    Click here to login.
-                  </Link>
+								</p>
+								<p className="link-to-login">
+                  Click <NavLink to="/" className="link-to-login text-purple-500 hover:underline">Here</NavLink> to login.
                 </p>
               </div>
             </form>
           </div>
-
-          <div className="quad-color-bar flex flex-col w-[1%] h-[100%]">
-            <div className="cyan-bar bg-cyan-500 w-[100%] h-[25%]" />
-            <div className="yellow-bar bg-yellow-500 w-[100%] h-[25%]" />
-            <div className="red-bar bg-red-500 w-[100%] h-[25%]" />
-            <div className="green-bar bg-green-500 w-[100%] h-[25%]" />
-          </div>
-          <div className="title-wrap w-6/12 flex flex-col justify-center items-center bg-cyan-800">
-            <div className="app-name-and-author flex justify-center">
-              <h1 className="tracker font-sans font-[Helvetica Neue] text-7xl font-semibold tracking-wide text-sky-200">
-                Tracker
-              </h1>
-              <h2 className="by-turing font-sans font-[Helvetica Neue] text-3xl font-bold leading-9 tracking-wide text-cyan-600">
-                <br />&nbsp; by Turing
-              </h2>
-            </div>
-            <h3 className="app-tagline flex justify-center font-sans font-[Helvetica Neue] text-3xl font-extralight tracking-widest text-sky-200">
-              Job hunting made easier.
-            </h3>
-          </div>
+					<TrackerBar />
         </>
       )}
     </div>

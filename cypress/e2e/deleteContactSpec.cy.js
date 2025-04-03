@@ -126,7 +126,7 @@ describe("Delete a Contact", () => {
     cy.url().should("include", "/contacts/1");
   });
 
-  it("Should delete the contact when OK is clicked", () => {
+  it("Should delete the contact when Delete is clicked", () => {
     cy.intercept(
       {
         method: "DELETE",
@@ -157,8 +157,11 @@ describe("Delete a Contact", () => {
       },
     }).as("getContactsAfterDelete");
 
-    cy.get("button").contains("Delete").click();
-    cy.contains("Ok").click();
+    cy.get('button').contains('Delete').click(); // Open the modal
+    cy.get('[data-test="delete-modal"]').should('exist'); // Ensure modal exists
+    cy.get('[data-test="delete-modal"]').should('be.visible'); // Ensure modal is visible
+    cy.get('[data-test="confirm-delete"]').click(); // Click Delete inside modal
+
 
     cy.wait("@deleteContact");
     cy.wait("@getContactsAfterDelete");
@@ -180,7 +183,9 @@ describe("Delete a Contact", () => {
       statusCode: 500,
       body: { error: "Something went wrong while deleting the contact" },
     }).as("deleteContactFail");
-    cy.contains("Ok").should("exist").click();
+    cy.get('[data-test="delete-modal"]').should('exist'); // Ensure modal exists
+    cy.get('[data-test="delete-modal"]').should('be.visible'); // Ensure modal is visible
+    cy.get('[data-test="confirm-delete"]').click(); // Click Delete inside modal
     cy.wait("@deleteContactFail");
     cy.on("window:alert", (text) => {
       expect(text).to.contains("Failed to delete contact. Please try again");

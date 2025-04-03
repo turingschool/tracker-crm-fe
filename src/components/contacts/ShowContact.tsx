@@ -176,6 +176,12 @@ function ShowContact() {
     }
   }, [contactId, token]);
 
+  if (fetchError) {
+    return <p 
+    data-cytest="error"
+    className="text-center mt-10 text-red-500">Error: {fetchError}</p>;
+  }
+
   const filteredOtherContacts = contact?.id
     ? otherContacts.filter(
         (otherContact) => contact?.id && otherContact.id !== contact.id
@@ -248,8 +254,8 @@ function ShowContact() {
                 </div>
               ) : contact?.attributes.email ? (
                 <a
-                  className="text-cyan-600 hover:underline"
                   data-testid="email-address"
+                  className="text-cyan-600 hover:underline hover:text-cyan-500"
                   href={`mailto:${contact.attributes.email}`}
                 >
                   {contact.attributes.email}
@@ -316,76 +322,91 @@ function ShowContact() {
                   Add Phone Number
                 </span>
               )}
-            </p>
+            </div>
           </div>
-              <h2
-                data-testid="notes"
-                className="text-[2.5vh] font-bold text-cyan-700 mt-[2vh]"
-              >
-                Notes
-              </h2>
-              <p data-testid="note-text" className="mt-[2vh]">
-                {contact.attributes.notes}
-              </p>
-              <div className="mt-[20vh] flex flex-col items-center space-y-4 ml-[-16vw]">
-                <button
-                  className="border-2 border-cyan-600 text-cyan-600 px-6 py-2 rounded hover:bg-cyan-600 hover:text-white transition-all"
-                  onClick={() => setIsEditOpen(true)}
-                >
-                  Edit
-                </button>   
-                {contact && (
-                  <DeleteItem
-                    userId={userId}
-                    itemId={contactId || ""}
-                    itemType="contact"
-                    deleteAction={deleteItem}
-                    token={token ?? ""}
-                    onDeleteSuccess={() => {
-                      setContact(null); 
-                      navigate("/contacts");
-                    }}
-                  />
-                )}
-              </div>
-              <EditContactModal
-                open={isEditOpen}
-                setIsOpen={setIsEditOpen}
-                contact={contact}
+          <span
+            data-testid="notes"
+            className="text-[2.5vh] font-bold text-cyan-700 mt-[2vh]"
+          >
+            Notes
+          </span>
+          <p data-testid="note-text" className="text-gray-600 mt-[2vh] whitespace-pre-wrap">
+            {contact.attributes.notes}
+          </p>
+
+          {/* Buttons */}
+          <div className="mt-[10vh] flex flex-col items-center space-y-4 ml-[-16vw]">
+
+            {/* Edit Button */}
+            <button
+              data-testid="edit-button"
+              className="border-2 border-cyan-600 text-cyan-700 px-8 py-2 rounded hover:bg-cyan-600 hover:text-white transition-all"
+              onClick={() => setIsEditOpen(true)}
+            >
+              Edit
+            </button>
+            
+            {/* Delete Button */}
+            {contact && (
+              <DeleteItem
                 userId={userId}
-                token={token ?? ""} 
-                onUpdate={handleUpdateContact}
+                itemId={contactId || ""}
+                itemType="contact"
+                deleteAction={deleteItem}
+                token={token ?? ""}
+                onDeleteSuccess={() => {
+                  setContact(null); 
+                  navigate("/contacts");
+                }}
               />
-            </div>
-            <div className="mt-[17vh]">
-              <h2
-                data-testid="other-contacts"
-                className="text-[2.5vh] font-bold text-cyan-700 mb-6"
-              >
-                {contact.attributes.company
-                  ? `Other contacts at ${contact.attributes.company.name}`
-                  : "No Contacts"}
-              </h2>
-              <ul className="list-none">
-                {filteredOtherContacts.map((otherContact) => (
-                  <li key={otherContact.id} className="font-normal mb-[2vh]">
-                    <Link
-                    className="text-cyan-600 hover:text-cyan-700 no-underline"
-                    to={`/contacts/${otherContact.id}`}
-                    >
-                    {otherContact.attributes.first_name}{" "}
-                    {otherContact.attributes.last_name}
-                  </Link>
-                </li>
-                ))}
-              </ul>
-            </div>
-          </>
-        ) : (
-          <p>Loading contact...</p>
-        )}
-      </section>
-    );
+            )}
+          </div>
+
+          {/* Edit Modal */}
+          <EditContactModal
+            open={isEditOpen}
+            setIsOpen={setIsEditOpen}
+            contact={contact}
+            userId={userId}
+            token={token ?? ""} 
+            onUpdate={handleUpdateContact}
+          />
+        </div>
+
+        {/* Contacts Section */}
+        <div className="mt-[16vh] mr-[20vw]">
+          <h4
+            data-testid="other-contacts-header"
+            className="text-[3vh] font-bold text-cyan-700 mb-[4vh] text-nowrap"
+          >
+            {contact.attributes.company
+              ? `Other contacts at ${contact.attributes.company.name}`
+              : "No Contacts"}
+          </h4>
+          <ul
+            data-testid="other-contacts-list"
+            className="list-none">
+            {filteredOtherContacts.map((otherContact) => (
+              <li 
+              data-testid="contact-li"
+              key={otherContact.id} 
+              className="text-2xl font-medium text-cyan-700 mb-[2vh]">
+                <Link
+                  className="text-cyan-600 hover:text-cyan-500 no-underline"
+                  to={`/contacts/${otherContact.id}`}
+                  >
+                  {otherContact.attributes.first_name} {otherContact.attributes.last_name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        </>
+      ) : (
+        <p>Loading contact...</p>
+      )}
+    </main>
+  );
     
 }
 export default ShowContact;

@@ -96,7 +96,7 @@ describe("Company Show Page", () => {
     cy.visit("/");
     cy.get("#email").type("danny_de@email.com");
     cy.get("#password").type("jerseyMikesRox7");
-    cy.get('[data-testid="login-button"]').click();
+    cy.get("#submit").click();
     cy.wait("@mockSession");
     cy.get('a[href="/companies"]').first().click();
     cy.wait("@getCompanies");
@@ -105,21 +105,17 @@ describe("Company Show Page", () => {
   });
 
   it("Should display the correct company details", () => {
-    cy.get("h1").should("have.text", "Company Details");
+    cy.get("h1").should("have.text", "Google");
 
-    cy.get("h2").contains("Company Name:")
-      .next().should("have.text", "Google");
+    cy.get("h2").should("have.text", "https://google.com")
     
-    cy.get("h2").contains("Website:")
-      .next().should("have.text", "https://google.com");
-    
-    cy.get("h2").contains("Address:")
+    cy.get("#address").contains("Address")
       .next().should(
         "have.text",
         "1600 Amphitheatre Parkway, Mountain View, CA 94043"
       );
     
-    cy.get("h2").contains("Notes:")
+    cy.get("#notes").contains("Notes")
       .next().should("have.text", "Innovative tech company.");
   });
 
@@ -134,15 +130,18 @@ describe("Company Show Page", () => {
   });
 
   it("Should display the dynamic contacts correctly", () => {
-    cy.contains("Contacts").should("exist");
+    cy.get("#other-contacts").should("exist")
+      .should("have.text", "My contacts at Google");
 
     const contacts = [
-      { name: "John Doe", link: "/contacts/101" },
-      { name: "Jane Smith", link: "/contacts/102" },
+      { name: "John Doe", link: "/contacts/101", id: "101" },
+      { name: "Jane Smith", link: "/contacts/102", id: "102" },
     ];
 
     contacts.forEach((contact) => {
-      cy.contains(contact.name).should("have.attr", "href", contact.link);
+      cy.get(`[data-testid="contact-link-${contact.id}"]`)
+        .find("a")
+        .should("have.attr", "href", `/contacts/${contact.id}`);
     });
   });
 
@@ -157,13 +156,13 @@ describe("Company Show Page", () => {
   });
 
   it("Should open, close, reopen the modal and then update company details", () => {
-    cy.get('[data-cytest="edit-button"]').click();
+    cy.get('[data-testid="edit-button"]').click();
 
-    cy.get('[data-cytest="modal"]')
+    cy.get('[data-testid="edit-modal"]')
       .find("h2")
       .should("have.text", "Edit Company");
     
-    cy.get('[data-cytest="modal"]')
+    cy.get('[data-testid="edit-modal"]')
       .within(() => {
         cy.get('[data-cytest="name-input"]').should("exist").should("have.value", "Google");
         cy.get('[data-cytest="website-input"]').should("exist").should("have.value", "https://google.com");
@@ -180,7 +179,7 @@ describe("Company Show Page", () => {
 
   it("Should intercept and verify the PATCH request when updating company details", () => {
     cy.fixture("mockUpdatedCompany").then((mockUpdatedCompany) => {
-      cy.get('[data-cytest="edit-button"]').click();
+      cy.get('[data-testid="edit-button"]').click();
       cy.get(".fixed.inset-0").find("h2").should("have.text", "Edit Company");
   
       cy.intercept("PATCH", "http://localhost:3001/api/v1/users/2/companies/1", (req) => {
@@ -191,7 +190,7 @@ describe("Company Show Page", () => {
         });
       }).as("updateCompany");
   
-      cy.get('[data-cytest="modal"]').within(() => {
+      cy.get('[data-testid="edit-modal"]').within(() => {
         cy.get('[data-cytest="name-input"]').clear().type(mockUpdatedCompany.data.attributes.name);
         cy.get('[data-cytest="website-input"]').clear().type(mockUpdatedCompany.data.attributes.website);
         cy.get('[data-cytest="save-button"]').click();
@@ -199,16 +198,16 @@ describe("Company Show Page", () => {
   
       cy.wait("@updateCompany").its("response.statusCode").should("eq", 200);
   
-      cy.get("h2").contains("Company Name:").next().should("have.text", mockUpdatedCompany.data.attributes.name);
-      cy.get("h2").contains("Website:").next().should("have.text", mockUpdatedCompany.data.attributes.website);
+      cy.get("h1").should("have.text", mockUpdatedCompany.data.attributes.name);
+      cy.get("h2").should("have.text", mockUpdatedCompany.data.attributes.website);
     });
   });
 
   it("Should show an error when trying to save without a company name", () => {
-    cy.get('[data-cytest="edit-button"]').click();
+    cy.get('[data-testid="edit-button"]').click();
     cy.get(".fixed.inset-0").find("h2").should("have.text", "Edit Company");
 
-    cy.get('[data-cytest="modal"]').within(() => {
+    cy.get('[data-testid="edit-modal"]').within(() => {
       cy.get('[data-cytest="name-input"]').clear();
 
       cy.get('[data-cytest="save-button"]').click();
@@ -220,11 +219,11 @@ describe("Company Show Page", () => {
         .and("have.text", "Company name is required.");
     });
   
-    cy.get('[data-cytest="modal"]').should("exist");
+    cy.get('[data-testid="edit-modal"]').should("exist");
   });
 
   it("Should not error out if all fields except name are blank", () => {
-    cy.get('[data-cytest="edit-button"]').click();
+    cy.get('[data-testid="edit-button"]').click();
   
     cy.get('[data-cytest="website-input"]').clear();
     cy.get('[data-cytest="street-address-input"]').clear();
@@ -244,7 +243,7 @@ describe("Company Show Page", () => {
   
     cy.wait("@updateCompany").its("response.statusCode").should("eq", 200);
 
-    cy.get('[data-cytest="modal"]').should("not.exist");
+    cy.get('[data-testid="edit-modal"]').should("not.exist");
   });
 });
 

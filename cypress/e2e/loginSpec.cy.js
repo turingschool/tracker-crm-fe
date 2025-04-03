@@ -23,7 +23,8 @@ describe('testing for Login page', () => {
     .get('.login-form-wrap > .form-inputs > form > .login-btn').should('contain', 'Login')
   
     .get('.no-account-message').should('be.visible')
-    .get('.no-account-message').should('contain', 'No Account? Click Here To Register.')
+    .get('.no-account-message').should('contain', 'No Account?')
+		.get('.register-message').should('contain', 'Click Here To Register.')
 
     .get('a').should('be.visible')
     .get('a').should('contain', 'Here')
@@ -35,10 +36,10 @@ describe('testing for Login page', () => {
     .get('.login-form-wrap > .quad-color-bar > .green-bar').should('be.visible')
 
     .get('.login-form-wrap > .title-wrap').should('be.visible')
-    .get('.login-form-wrap > .title-wrap > .app-name-and-author > .app-name').should('be.visible')
-    .get('.login-form-wrap > .title-wrap > .app-name-and-author > .app-name').should('contain', 'Tracker')
-    .get('.login-form-wrap > .title-wrap > .app-name-and-author > .app-author').should('be.visible')
-    .get('.login-form-wrap > .title-wrap > .app-name-and-author > .app-author').should('contain', 'by Turing')
+    .get('.login-form-wrap > .title-wrap > .app-name-and-author > .tracker').should('be.visible')
+    .get('.login-form-wrap > .title-wrap > .app-name-and-author > .tracker').should('contain', 'Tracker')
+    .get('.login-form-wrap > .title-wrap > .app-name-and-author > .by-turing').should('be.visible')
+    .get('.login-form-wrap > .title-wrap > .app-name-and-author > .by-turing').should('contain', 'by Turing')
     .get('.login-form-wrap > .title-wrap > .app-tagline').should('be.visible')
     .get('.login-form-wrap > .title-wrap > .app-tagline').should('contain', 'Job hunting made easier')
   });

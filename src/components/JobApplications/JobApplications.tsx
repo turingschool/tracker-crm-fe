@@ -65,7 +65,7 @@ const ApplicationsGrid: React.FC = () => {
               </Link>
             </div>
             <table className="w-[70vw] mt-[1.5vh]">
-              <thead className="border-t">
+              <thead className="border-t text-gray-700">
                 <tr>
                   <th className="text-left p-4 border-b">Company</th>
                   <th className="text-left p-4 border-b">Title</th>
@@ -77,20 +77,23 @@ const ApplicationsGrid: React.FC = () => {
                 {filteredApplications.map((app) => (
                   <tr
                     key={app.id}
-                    className="hover:bg-gray-100 cursor-pointer"
+                    className="text-gray-600 hover:bg-gray-100 cursor-pointer"
                   >
-                    <td className="p-4 border-b">
-                      <Link to={`/job_applications/${app.id}`}>
+                    <td className="p-2 border-b">
+                      <Link to={`/job_applications/${app.id}`}
+                      className="block w-full h-full p-2">
                         {app.company_name || app.company_id}
                       </Link>
                     </td>
-                    <td className="p-4 border-b">
-                      <Link to={`/job_applications/${app.id}`}>
+                    <td className="p-2 border-b">
+                      <Link to={`/job_applications/${app.id}`}
+                      className="block w-full h-full p-2">
                         {app.position_title}
                       </Link>
                     </td>
-                    <td className="p-4 border-b">
-                      <Link to={`/job_applications/${app.id}`}>
+                    <td className="p-2 border-b">
+                      <Link to={`/job_applications/${app.id}`}
+                      className="block w-full h-full p-2">
                         <span
                           className={`py-2 px-6 text-sm inline-block text-center w-[10vw] min-w-[80px] max-w-[200px] 
               truncate overflow-hidden whitespace-nowrap ${statusStyles[statusMap[app.status]]}`}
@@ -99,8 +102,9 @@ const ApplicationsGrid: React.FC = () => {
                         </span>
                       </Link>
                     </td>
-                    <td className="p-4 border-b">
-                      <Link to={`/job_applications/${app.id}`}>
+                    <td className="p-2 border-b">
+                      <Link to={`/job_applications/${app.id}`}
+                      className="block w-full h-full p-2">
                         {app.updated_at}
                       </Link>
                     </td>

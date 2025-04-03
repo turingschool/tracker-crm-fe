@@ -95,7 +95,8 @@ describe('Delete a Job Application', () => {
   })
 
   it("Should display the delete button on the job application show page", () => {
-    cy.contains("button", "Delete").should("be.visible");
+    // cy.contains("button", "Delete").should("be.visible");
+    cy.get('button.text-red-700').contains('Delete').scrollIntoView().should('be.visible').click();
     cy.wait("@patchJobApplicationDetails")
   });
 
@@ -118,7 +119,7 @@ describe('Delete a Job Application', () => {
     cy.contains("Are you sure you want to delete this").should("not.exist");
   });
 
-  it("Should delete the job application when OK is clicked", () => {
+  it("Should delete the job application when Delete is clicked", () => {
     cy.intercept(
       {
         method: "DELETE",
@@ -128,8 +129,9 @@ describe('Delete a Job Application', () => {
     ).as("deleteJobApplication")
 
     cy.get("button").contains("Delete").click();
-    cy.contains("Ok").click();
-
+    cy.get('[data-test="delete-modal"]').should('exist'); // Ensure modal exists
+    cy.get('[data-test="delete-modal"]').should('be.visible'); // Ensure modal is visible
+    cy.get('[data-test="confirm-delete"]').click(); // Click Delete inside modal
     cy.wait("@deleteJobApplication");
     cy.url().should("include", "/job_applications");
   })
@@ -141,7 +143,9 @@ describe('Delete a Job Application', () => {
       statusCode: 500,
       body: { error: "Something went wrong while deleting the job application" },
     }).as("deleteJobApplicationFail");
-    cy.contains("Ok").should("exist").click();
+    cy.get('[data-test="delete-modal"]').should('exist'); // Ensure modal exists
+    cy.get('[data-test="delete-modal"]').should('be.visible'); // Ensure modal is visible
+    cy.get('[data-test="confirm-delete"]').click(); // Click Delete inside modal
     cy.wait("@deleteJobApplicationFail");
     cy.on("window:alert", (text) => {
       expect(text).to.contains("Failed to delete job_application. Please try again");
