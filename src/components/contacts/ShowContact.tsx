@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import DeleteItem from "../common/DeleteItem";
 import { deleteItem } from "../../trackerApiCalls";
 import { Contact, ContactData } from "../../Interfaces"
-import { fetchShowContact, fetchCompanyContact } from "../../apiCalls"
+import { fetchShowContact, fetchCompanyContact, fetchUpdatedContact } from "../../apiCalls"
 import EditContactModal from "./EditContactModal";
 
 function ShowContact() {
@@ -17,9 +17,46 @@ function ShowContact() {
   const [fetchError, setFetchError] = useState<string | null>(null);
   const navigate = useNavigate();
   const userId = userData.user.data.id;
-  const [isEditOpen, setIsEditOpen] = useState<boolean>(false); 
+  const [isEditOpen, setIsEditOpen] = useState<boolean>(false);
+  const [isEditingEmail, setIsEditingEmail] = useState<boolean>(false);
+  const [emailValue, setEmailValue] = useState<string>("");
+  const [emailError, setEmailError] = useState<string | null>(null);
+
   const handleUpdateContact = (updatedContact: ContactData) => {
     setContact(updatedContact);
+  };
+
+  const handleEmailUpdate = async () => {
+    if (!contact || !contactIdInt) return;
+
+    try {
+      const updatedContactData = {
+        ...contact.attributes,
+        email: emailValue
+      };
+
+      const updatedContact = await fetchUpdatedContact(
+        userId,
+        contactIdInt,
+        updatedContactData,
+        token ?? ""
+      );
+
+      setContact(updatedContact);
+      setIsEditingEmail(false);
+      setEmailError(null);
+    } catch (error) {
+      setEmailError("Failed to update email. Please try again.");
+      console.error("Error updating email:", error);
+    }
+  };
+
+  const handleEmailKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+     if (e.key === 'Escape') {
+      setIsEditingEmail(false);
+      setEmailValue(contact?.attributes.email || "");
+      setEmailError(null);
+    }
   };
 
   useEffect(() => {
@@ -110,7 +147,40 @@ function ShowContact() {
               <div className="mt-[2.5vh] ml-0">
               <p className="text-black mb-[2vh] flex">
               <span data-testid="contact-email" className="font-bold w-[7vw]">Email</span>
-              {contact.attributes.email ? (
+              {isEditingEmail ? (
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="email"
+                      value={emailValue}
+                      onChange={(e) => setEmailValue(e.target.value)}
+                      onKeyDown={handleEmailKeyPress}
+                      onBlur={handleEmailUpdate}
+                      className="border border-cyan-600 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      autoFocus
+                    />
+                    <button 
+                      onClick={handleEmailUpdate}
+                      className="text-cyan-600 hover:text-cyan-700 transition-colors"
+                      aria-label="Save email"
+                    >
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        className="h-5 w-5" 
+                        viewBox="0 0 20 20" 
+                        fill="currentColor"
+                      >
+                        <path 
+                          fillRule="evenodd" 
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" 
+                          clipRule="evenodd" 
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                  {emailError && <span className="text-red-500 text-sm mt-1">{emailError}</span>}
+                </div>
+              ) : contact?.attributes.email ? (
                 <a
                   className="text-cyan-600 hover:underline"
                   data-testid="email-address"
@@ -119,7 +189,13 @@ function ShowContact() {
                   {contact.attributes.email}
                 </a>
               ) : (
-                <span className="text-cyan-600 underline cursor-pointer">
+                <span 
+                  className="text-cyan-600 underline cursor-pointer"
+                  onClick={() => {
+                    setIsEditingEmail(true);
+                    setEmailValue("");
+                  }}
+                >
                   Add Email
                 </span>
               )}
