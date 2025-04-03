@@ -21,9 +21,75 @@ function ShowContact() {
   const [isEditingEmail, setIsEditingEmail] = useState<boolean>(false);
   const [emailValue, setEmailValue] = useState<string>("");
   const [emailError, setEmailError] = useState<string | null>(null);
+  const [isEditingPhone, setIsEditingPhone] = useState<boolean>(false);
+  const [phoneValue, setPhoneValue] = useState<string>("");
+  const [phoneError, setPhoneError] = useState<string | null>(null);
 
   const handleUpdateContact = (updatedContact: ContactData) => {
     setContact(updatedContact);
+  };
+
+  const formatPhoneNumber = (value: string) => {
+    let phoneInput = value.replace(/\D/g, "");
+    if (phoneInput.length > 3 && phoneInput.length <= 6) {
+      phoneInput = phoneInput.slice(0, 3) + "-" + phoneInput.slice(3);
+    } else if (phoneInput.length > 6) {
+      phoneInput =
+        phoneInput.slice(0, 3) +
+        "-" +
+        phoneInput.slice(3, 6) +
+        "-" +
+        phoneInput.slice(6, 10);
+    }
+    return phoneInput;
+  };
+
+  const isPhoneValid = (phoneNumber: string) => {
+    return phoneNumber === "" || /^\d{3}-\d{3}-\d{4}$/.test(phoneNumber);
+  };
+
+  const handlePhoneUpdate = async () => {
+    if (!contact || !contactIdInt) return;
+
+    if (!isPhoneValid(phoneValue)) {
+      setPhoneError("Phone number must be in the format '555-555-5555'");
+      return;
+    }
+
+    try {
+      const updatedContactData = {
+        ...contact.attributes,
+        phone_number: phoneValue
+      };
+
+      const updatedContact = await fetchUpdatedContact(
+        userId,
+        contactIdInt,
+        updatedContactData,
+        token ?? ""
+      );
+
+      setContact(updatedContact);
+      setIsEditingPhone(false);
+      setPhoneError(null);
+    } catch (error) {
+      setPhoneError("Failed to update phone number. Please try again.");
+      console.error("Error updating phone number:", error);
+    }
+  };
+
+  const handlePhoneKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Escape') {
+      setIsEditingPhone(false);
+      setPhoneValue(contact?.attributes.phone_number || "");
+      setPhoneError(null);
+    }
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const formattedValue = formatPhoneNumber(value);
+    setPhoneValue(formattedValue);
   };
 
   const handleEmailUpdate = async () => {
@@ -203,10 +269,50 @@ function ShowContact() {
 
             <p className="text-black mb-[2vh] flex">
               <span data-testid="contact-phone" className="font-bold w-[7vw]">Phone</span>
-              {contact.attributes.phone_number ? (
+              {isEditingPhone ? (
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={phoneValue}
+                      onChange={handlePhoneChange}
+                      onKeyDown={handlePhoneKeyPress}
+                      onBlur={handlePhoneUpdate}
+                      placeholder="555-555-5555"
+                      className="border border-cyan-600 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                      autoFocus
+                    />
+                    <button 
+                      onClick={handlePhoneUpdate}
+                      className="text-cyan-600 hover:text-cyan-700 transition-colors"
+                      aria-label="Save phone number"
+                    >
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        className="h-5 w-5" 
+                        viewBox="0 0 20 20" 
+                        fill="currentColor"
+                      >
+                        <path 
+                          fillRule="evenodd" 
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" 
+                          clipRule="evenodd" 
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                  {phoneError && <span className="text-red-500 text-sm mt-1">{phoneError}</span>}
+                </div>
+              ) : contact?.attributes.phone_number ? (
                 <span data-testid="phone-num">{contact.attributes.phone_number}</span>
               ) : (
-                <span className="text-cyan-600 underline cursor-pointer">
+                <span 
+                  className="text-cyan-600 underline cursor-pointer"
+                  onClick={() => {
+                    setIsEditingPhone(true);
+                    setPhoneValue("");
+                  }}
+                >
                   Add Phone Number
                 </span>
               )}
