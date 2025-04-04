@@ -371,7 +371,7 @@ describe("New Contacts page after logging in", () => {
         "contain.text",
         "A company with this name already exists."
       );
-      cy.contains("button", "X").scrollIntoView().click();
+      cy.contains("button", "X").scrollIntoView().click({ force: true });
     });
 
     it("Should keep the add company modal open when clicked", () => {

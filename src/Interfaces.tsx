@@ -208,6 +208,35 @@ export interface CompanyData {
   }
 }
 
+export interface JobApplicationContact {
+  id: number;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone_number: string;
+  notes: string;
+}
+
+export interface JobApplicationAttributes {
+  position_title: string;
+  date_applied: string;
+  status: number;
+  notes: string;
+  job_description: string;
+  application_url: string;
+  contacts: Contact[];
+  company_id: number;
+  company_name: string;
+  contact_id: number;
+}
+
+export interface JobApplicationDataCompile {
+  token?: string;
+  userId?: number;
+  id?: string;
+  [key: string]: any;
+}
+
 
 export interface ChatGPTQuestion {
   index: number;

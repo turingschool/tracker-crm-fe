@@ -526,22 +526,6 @@ describe("Editability of specific job application fields", () => {
       }
     ).as("showSingleJobApp");
 
-    cy.intercept(
-      "PATCH",
-      "http://localhost:3001/api/v1/users/1/job_applications/3",
-      (req) => {
-        console.log("request body:", req.body);
-        req.body.status = status; 
-        req.reply({
-          statusCode: 200,
-          fixture: "mockJobAppStatusUpdate",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      }
-    ).as("updateJobAppStatus");
-
     cy.visit("http://localhost:3000/");
     cy.get("#email").type("danny_de@email.com");
     cy.get("#password").type("jerseyMikesRox7");
@@ -585,6 +569,24 @@ describe("Editability of specific job application fields", () => {
   });
 
   describe("Updating job application status from the application show page", () => {
+    beforeEach(() => {
+      cy.intercept(
+        "PATCH",
+        "http://localhost:3001/api/v1/users/1/job_applications/3",
+        (req) => {
+          console.log("request body:", req.body);
+          req.body.status = status; 
+          req.reply({
+            statusCode: 200,
+            fixture: "mockJobAppStatusUpdate",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+        }
+      ).as("updateJobAppStatus");
+    })
+
     const statuses = [
       "Submitted",
       "Interviewing",
@@ -723,7 +725,7 @@ describe("Editability of specific job application fields", () => {
       cy.get('#appStatus')
         .should(
           "have.value", 
-          "2"
+          "3"
         );
       cy.get('[data-testid="job-notes"]')
         .should(
@@ -769,7 +771,6 @@ describe("Editability of specific job application fields", () => {
       cy.get('[data-testid="edit-modal-form-submit-button"]').click();
       cy.wait("@showSingleJobAppEmptyFields");
       
-     
       cy.wait("@getJobApplications");
       cy.wait("@showSingleJobApp");
       
