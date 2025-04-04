@@ -184,15 +184,19 @@ export const showJobApp = async (
 
     if (!response.ok) {
       const errorData = await response.json()
-        console.log('response: ', errorData);
+        console.log('Response: ', errorData);
       throw new Error(errorData.message || "Failed to fetch job application.")
     }
 
     return await response.json();
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error("Error in showJobApp:", error);
+      console.error("Error in showJobApp:", error.message);
       throw error;
+    }
+    else {
+      console.error("An unexpected error has occured: ", error)
+      throw new Error("An unexpected error has occured.")
     }
   }
 };
