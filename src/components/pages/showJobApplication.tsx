@@ -57,7 +57,7 @@ function JobApplication() {
       };
       fetchJobApplication();
     }
-  }, [jobAppId, token, user.data.id]);
+  }, [jobAppId]);
 
   const filteredContact = contacts.filter(contact => contact.id === jobApp?.contact_id);
 
@@ -100,14 +100,14 @@ function JobApplication() {
     if (date_applied) {
       handleSubmit()
     }
-  }, [date_applied, token, user.data.id])
+  }, [date_applied])
 
   useEffect(() => {
     if(statusUpdateFlag) {
       handleSubmit()
       setStatusUpdateFlag(false)
     }
-  }, [status, statusUpdateFlag, token, user.data.id])
+  }, [status, statusUpdateFlag])
     
   return (
     <div className="min-h-screen mt-12 sm:p-8 sm:pt-6">
