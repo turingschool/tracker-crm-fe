@@ -11,6 +11,7 @@ import moment from "moment-timezone";
 
 function JobApplication() {
   const [jobApp, setJobApp] = useState<JobApplicationAttributes | null>(null);
+  const { position_title, notes, job_description, application_url, date_applied, company_id, status } = jobApp || {}
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModelOpen, setIsEditModelOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -18,13 +19,13 @@ function JobApplication() {
   const { token, userData } = useUserLoggedContext();
   const { user } = userData;
   const { jobAppId } = useParams<{ jobAppId?: string }>();
-  const [status, setStatus] = useState(0);
-  const [positionTitle, setPositionTitle] = useState("");
-  const [notes, setNotes] = useState("");
-  const [jobDescription, setJobDescription] = useState("");
-  const [applicationURL, setApplicationURL] = useState("");
-  const [dateApplied, setDateApplied] = useState("");
-  const [companyId, setCompanyId] = useState("");
+  // const [status] = useState(0);
+  // const [positionTitle, setPositionTitle] = useState("");
+  // const [notes, setNotes] = useState("");
+  // const [jobDescription, setJobDescription] = useState("");
+  // const [applicationURL, setApplicationURL] = useState("");
+  // const [dateApplied, setDateApplied] = useState("");
+  // const [companyId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [statusUpdateFlag, setStatusUpdateFlag] = useState(false);
 
@@ -42,18 +43,12 @@ function JobApplication() {
           if (isNaN(id)) throw new Error("Invalid jobAppId.");
           const data = await showJobApp(user.data.id, id, token);
 
-          setJobApp(data.data.attributes as JobApplicationAttributes);
-          setPositionTitle(data.data.attributes.position_title);
-          setStatus(data.data.attributes.status);
-          setNotes(data.data.attributes.notes);
-          setJobDescription(data.data.attributes.job_description);
-          setApplicationURL(data.data.attributes.application_url);
-          setCompanyId(data.data.attributes.company_id);
-          setDateApplied(
-            moment(data.data.attributes.date_applied)
+          setJobApp({
+            ...data.data.attributes,
+            date_applied: moment(data.data.attributes.date_applied)
               .local()
               .format("YYYY-MM-DD")
-          );
+          } as JobApplicationAttributes);
           setContacts(data.data.attributes.contacts);
         } catch (err) {
           console.error("Failed to fetch job application:", err);
@@ -83,12 +78,12 @@ function JobApplication() {
       userId: userData.user.data.id ? Number(userData.user.data.id) : undefined,
       token: userData.token,
       id: jobAppId,
-      position_title: positionTitle,
+      position_title: position_title,
       status: status,
       notes: notes,
-      job_description: jobDescription,
-      application_url: applicationURL,
-      date_applied: dateApplied,
+      job_description: job_description,
+      application_url: application_url,
+      date_applied: date_applied,
     };
 
     updateJobApplication(compileData)
@@ -102,10 +97,10 @@ function JobApplication() {
   };
 
   useEffect(() => {
-    if (dateApplied) {
+    if (date_applied) {
       handleSubmit()
     }
-  }, [dateApplied])
+  }, [date_applied])
 
   useEffect(() => {
     if(statusUpdateFlag) {
@@ -128,7 +123,7 @@ function JobApplication() {
             </h1>
             <Link
               className="p-0"
-              to={`/companies/${companyId}/contacts`}
+              to={`/companies/${company_id}/contacts`}
             >
               <h2
                 className="text-[3vh] font-bold text-cyan-700 hover:text-cyan-500"
@@ -144,12 +139,12 @@ function JobApplication() {
               {isEditing ? (
                 <div className="flex flex-col">
                   <DatePicker
-                    selected={new Date(dateApplied)}
-                    onChange={(dateApplied: Date | null) => {
-                      if (dateApplied) {
-                        setDateApplied(
-                          moment(dateApplied).format("YYYY-MM-DD")
-                        );
+                    selected={new Date(date_applied as string | number | Date)}
+                    onChange={(date_applied: Date | null) => {
+                      if (date_applied) {
+                        setJobApp({
+                          ...jobApp, date_applied: moment(date_applied).format("YYYY-MM-DD")
+                        });
                       }
                     }}
                     inline
@@ -164,22 +159,22 @@ function JobApplication() {
                   data-testid="application-date"
                   onClick={() => setIsEditing(true)}
                 >
-                  {moment(dateApplied).isValid()
-                    ? moment(dateApplied).format("MMMM D, YYYY")
-                    : dateApplied}
+                  {moment(date_applied).isValid()
+                    ? moment(date_applied).format("MMMM D, YYYY")
+                    : date_applied}
                 </span>
               )}
             </div>
             <div className="flex flex-row items-center text-lg text-gray-700 font-semibold">
               <p id="application-status" className="mr-2">Status:</p>
                 <select
-                  value={status}
+                  value={status ?? 0}
                   id="appStatus"
                   onChange={(e) => {
-                    setStatus(Number(e.target.value))
+                    setJobApp({...jobApp, status: Number(e.target.value)})
                     setStatusUpdateFlag(true)
                   }}
-                  className={`py-1 px-2 m-2 border-transparent border-r-8 rounded focus:outline-none focus:ring-2  ${statusMap[status] ? statusStyles[statusMap[status]] : ''
+                  className={`py-1 px-2 m-2 border-transparent border-r-8 rounded focus:outline-none focus:ring-2  ${statusMap[status as number] ? statusStyles[statusMap[status as number]] : ''
                     }`}
                   required >
                   <option value="" className="text-gray-400">
@@ -204,7 +199,14 @@ function JobApplication() {
             <div className="mb-8">
 
               <div className="flex justify-end" data-testid="interview-questions"> 
-                <Link to={`/job_applications/${jobAppId}/interviewQuestions`} state={{jobAppId: jobAppId, positionTitle: positionTitle, companyName: jobApp.company_name, companyId: companyId, jobDescription:jobDescription}}>
+                <Link to={`/job_applications/${jobAppId}/interviewQuestions`} 
+                  state={{
+                    jobAppId: jobAppId, 
+                    positionTitle: position_title, 
+                    companyName: jobApp.company_name, 
+                    companyId: company_id, 
+                    jobDescription:job_description
+                  }}>
                 <button className="bg-cyan-600 hover:bg-cyan-500 text-white tracking-wide py-2 px-4 rounded max-w-max">
                 Practice Interview ✨
                 </button>
@@ -333,8 +335,8 @@ function JobApplication() {
                   <input
                     type="text"
                     id="positionTitle"
-                    value={positionTitle}
-                    onChange={(e) => setPositionTitle(e.target.value)}
+                    value={position_title}
+                    onChange={(e) => setJobApp({...jobApp, position_title: e.target.value})}
                     className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
                     placeholder="Position Title"
                     data-testid="edit-modal-form-title"
@@ -342,13 +344,13 @@ function JobApplication() {
                   />
                   <label>Status:</label>
                   <select
-                    value={status}
+                    value={status ?? 0}
                     id="appStatus"
-                    onChange={(e) => setStatus(Number(e.target.value))}
+                    onChange={(e) => setJobApp({...jobApp, status: Number(e.target.value)})}
                     data-testid="edit-modal-form-status"
                     required
                     className={`p-2 border-2 rounded-lg focus:outline-none focus:ring-2 m-2 ${
-                      statusMap[status] ? statusStyles[statusMap[status]] : ""
+                      statusMap[status as number] ? statusStyles[statusMap[status as number]] : ""
                     }`}
                   >
                     <option value="" className="text-gray-400">
@@ -362,9 +364,9 @@ function JobApplication() {
                   </select>
                   <label>Job Description:</label>
                   <textarea
-                    value={jobDescription}
+                    value={job_description}
                     id="jobDescription"
-                    onChange={(e) => setJobDescription(e.target.value)}
+                    onChange={(e) => setJobApp({...jobApp, job_description: e.target.value})}
                     className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2  m-2"
                     placeholder="Job Description"
                     data-testid="edit-modal-form-description"
@@ -374,8 +376,8 @@ function JobApplication() {
                   <input
                     type="url"
                     id="appURL"
-                    value={applicationURL}
-                    onChange={(e) => setApplicationURL(e.target.value)}
+                    value={application_url}
+                    onChange={(e) => setJobApp({...jobApp, application_url: e.target.value})}
                     className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2 w-[90%]"
                     placeholder="www.example.com"
                     required
@@ -385,7 +387,7 @@ function JobApplication() {
                   <textarea
                     value={notes}
                     id="notes"
-                    onChange={(e) => setNotes(e.target.value)}
+                    onChange={(e) => setJobApp({...jobApp, notes: e.target.value})}
                     className="p-2 border-2 border-slate-800 rounded-lg focus:outline-none focus:ring-2 w-[90%] m-2"
                     rows={6}
                     placeholder="Notes..."
