@@ -203,6 +203,100 @@ describe("Show a single contact page", () => {
       "No Affiliated Companies"
     );
   });
+
+  it("Should display inline element to add information if contact has no phone number", () => {
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
+      statusCode: 200,
+      body: {
+        data: {
+          id: "1",
+          type: "contacts",
+          attributes: {
+            first_name: "John",
+            last_name: "Smith",
+            company_id: null,
+            email: "",
+            phone_number: "",
+            notes: "Detailed notes for John Smith",
+            user_id: 2,
+            company: null,
+          },
+        },
+      },
+      headers: {
+        Authorization: "Bearer The token",
+        "Content-Type": "application/json",
+      },
+    }).as("get-contact-details-no-phone");
+
+    cy.visit("http://localhost:3000/contacts/1");
+    cy.wait("@get-contact-details-no-phone");
+
+    cy.get('[data-testid="contact-phone"]').should("have.text", "Phone");
+    cy.get(':nth-child(2) > .text-cyan-600').should("have.text", "Add Phone Number").click();
+    cy.get('.border').should('be.visible').click().type('123-456-7890');
+    
+    cy.intercept("PATCH", "http://localhost:3001/api/v1/users/2/contacts/1", {
+      statusCode: 200,
+      body: {
+        data: {
+          id: "1",
+          type: "contacts",
+          attributes: {
+            first_name: "John",
+            last_name: "Smith",
+            company_id: null,
+            email: "",
+            phone_number: "123-456-7890",
+            notes: "Detailed notes for John Smith",
+            user_id: 2,
+            company: null,
+          },
+        },
+      },
+      headers: {
+        Authorization: "Bearer The token",
+        "Content-Type": "application/json",
+      },
+    }).as("get-contact-details-phone-added");
+
+    cy.get('.h-5').click();
+    cy.get('[data-testid="phone-num"]').should("have.text", "123-456-7890");
+
+    
+  });
+
+  it("Should display text to add information if contact has no email", () => {
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
+      statusCode: 200,
+      body: {
+        data: {
+          id: "1",
+          type: "contacts",
+          attributes: {
+            first_name: "John",
+            last_name: "Smith",
+            company_id: null,
+            email: "",
+            phone_number: "",
+            notes: "Detailed notes for John Smith",
+            user_id: 2,
+            company: null,
+          },
+        },
+      },
+      headers: {
+        Authorization: "Bearer The token",
+        "Content-Type": "application/json",
+      },
+    }).as("get-contact-details-no-phone");
+
+    cy.visit("http://localhost:3000/contacts/1");
+    cy.wait("@get-contact-details-no-phone");
+
+    cy.get('[data-testid="contact-email"]').should("have.text", "Email");
+    cy.get(':nth-child(1) > .text-cyan-600').should("have.text", "John SmithAdd Email");
+  });
 });
 
 describe("Show a single contact page (Sad Path)", () => {
@@ -257,8 +351,8 @@ describe("Show a single contact page (Sad Path)", () => {
 
   it("Should display an error message when the contact data fails to load", () => {
     cy.wait("@get-contact-details-error");
-    cy.get('[data-cytest="error"]').should("be.visible");
-    cy.get('[data-cytest="error"]').should(
+    cy.get('.flex-grow > .text-center').should("be.visible");
+    cy.get('.flex-grow > .text-center').should(
       "have.text",
       "Error: Failed to fetch contact: Internal Server Error. Please try again later."
     );
