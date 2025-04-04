@@ -331,17 +331,22 @@ export const postJobApplication = async (userParams: Record<string, any>) => {
 
 
 /*-----------------------------------// GET INTERVIEW QUESTIONS //--------------------------------------*/
-export const fetchInterviewQuestions = async (jobDescription: string, token: string ): Promise<APIResult<ChatGPTQuestion[]>> => {
+export const fetchInterviewQuestions = async (
+    userId: number,
+    jobApplicationId: number,
+    token: string 
+  ): Promise<APIResult<ChatGPTQuestion[]>> => {
   try {
-    const response = await fetch(`${backendURL}interview_questions`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+    const response = await fetch(
+      `${backendURL}users/job_applications/${jobApplicationId}/interview_questions/fetch_or_create`, 
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify({description: jobDescription}),
     });
-
+    
     if (!response.ok) {
       return { error: `Failed to fetch interview questions: ${response.statusText}` };
     }
