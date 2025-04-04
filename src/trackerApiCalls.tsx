@@ -194,8 +194,8 @@ export const showJobApp = async (
       throw error;
     }
     else {
-      console.error("An unexpected error has occured: ", error)
-      throw new Error("An unexpected error has occured.")
+      console.error("An unexpected error has occurred: ", error)
+      throw new Error("An unexpected error has occurred.")
     }
   }
 };
