@@ -78,12 +78,7 @@ function JobApplication() {
       userId: userData.user.data.id ? Number(userData.user.data.id) : undefined,
       token: userData.token,
       id: jobAppId,
-      position_title: position_title,
-      status: status,
-      notes: notes,
-      job_description: job_description,
-      application_url: application_url,
-      date_applied: date_applied,
+      ...jobApp
     };
 
     updateJobApplication(compileData)
