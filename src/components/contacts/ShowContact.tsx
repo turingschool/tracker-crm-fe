@@ -231,6 +231,7 @@ function ShowContact() {
                     autoFocus
                   />
                   <button 
+                    data-testid="save-email"
                     onClick={handleEmailUpdate}
                     className="text-cyan-600 hover:text-cyan-700 transition-colors"
                     aria-label="Save email"
@@ -249,7 +250,7 @@ function ShowContact() {
                     </svg>
                   </button>
                 </div>
-                {emailError && <span className="text-red-500 text-sm mt-1">{emailError}</span>}
+                {emailError && <span data-testid="email-error" className="text-red-500 text-sm mt-1">{emailError}</span>}
               </div>
             ) : contact.attributes.email ? (
               <a
@@ -261,6 +262,7 @@ function ShowContact() {
               </a>
             ) : (
               <span 
+                data-testid="add-email"
                 className="text-cyan-600 underline cursor-pointer"
                 onClick={() => {
                   setIsEditingEmail(true);
@@ -288,6 +290,7 @@ function ShowContact() {
                     autoFocus
                   />
                   <button 
+                    data-testid="save-phone"
                     onClick={handlePhoneUpdate}
                     className="text-cyan-600 hover:text-cyan-700 transition-colors"
                     aria-label="Save phone number"
@@ -306,7 +309,7 @@ function ShowContact() {
                     </svg>
                   </button>
                 </div>
-                {phoneError && <span className="text-red-500 text-sm mt-1">{phoneError}</span>}
+                {phoneError && <span data-testid="phone-error" className="text-red-500 text-sm mt-1">{phoneError}</span>}
               </div>
             ) : contact.attributes.phone_number ? (
               <span data-testid="phone-num">{contact.attributes.phone_number}</span>

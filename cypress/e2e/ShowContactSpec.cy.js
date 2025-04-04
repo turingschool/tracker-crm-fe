@@ -260,10 +260,68 @@ describe("Show a single contact page", () => {
       },
     }).as("get-contact-details-phone-added");
 
-    cy.get('.h-5').click();
+    cy.get('[data-testid="save-phone"]').click();
     cy.get('[data-testid="phone-num"]').should("have.text", "123-456-7890");
+  });
 
+  it("Should unable to accept invalid phone number", () => {
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
+      statusCode: 200,
+      body: {
+        data: {
+          id: "1",
+          type: "contacts",
+          attributes: {
+            first_name: "John",
+            last_name: "Smith",
+            company_id: null,
+            email: "",
+            phone_number: "",
+            notes: "Detailed notes for John Smith",
+            user_id: 2,
+            company: null,
+          },
+        },
+      },
+      headers: {
+        Authorization: "Bearer The token",
+        "Content-Type": "application/json",
+      },
+    }).as("get-contact-details-no-phone");
+
+    cy.visit("http://localhost:3000/contacts/1");
+    cy.wait("@get-contact-details-no-phone");
+
+    cy.get('[data-testid="contact-phone"]').should("have.text", "Phone");
+    cy.get(':nth-child(2) > .text-cyan-600').should("have.text", "Add Phone Number").click();
+    cy.get('.border').should('be.visible').click().type('1-46-7890');
     
+    cy.intercept("PATCH", "http://localhost:3001/api/v1/users/2/contacts/1", {
+      statusCode: 200,
+      body: {
+        data: {
+          id: "1",
+          type: "contacts",
+          attributes: {
+            first_name: "John",
+            last_name: "Smith",
+            company_id: null,
+            email: "",
+            phone_number: "123-456-7890",
+            notes: "Detailed notes for John Smith",
+            user_id: 2,
+            company: null,
+          },
+        },
+      },
+      headers: {
+        Authorization: "Bearer The token",
+        "Content-Type": "application/json",
+      },
+    }).as("get-contact-details-phone-added");
+
+    cy.get('[data-testid="save-phone"]').click();
+    cy.get('[data-testid="phone-error"]').should("have.text", "Phone number must be in the format '555-555-5555'"); 
   });
 
   it("Should display text to add information if contact has no email", () => {
@@ -295,8 +353,38 @@ describe("Show a single contact page", () => {
     cy.wait("@get-contact-details-no-phone");
 
     cy.get('[data-testid="contact-email"]').should("have.text", "Email");
-    cy.get(':nth-child(1) > .text-cyan-600').should("have.text", "John SmithAdd Email");
+    cy.get('[data-testid="add-email"]').contains("Add Email").click();
+    cy.get('.border').should('be.visible').click().type('123@example.com');
+
+    cy.intercept("PATCH", "http://localhost:3001/api/v1/users/2/contacts/1", {
+      statusCode: 200,
+      body: {
+        data: {
+          id: "1",
+          type: "contacts",
+          attributes: {
+            first_name: "John",
+            last_name: "Smith",
+            company_id: null,
+            email: "123@example.com",
+            phone_number: "",
+            notes: "Detailed notes for John Smith",
+            user_id: 2,
+            company: null,
+          },
+        },
+      },
+      headers: {
+        Authorization: "Bearer The token",
+        "Content-Type": "application/json",
+      },
+    }).as("get-contact-details-email-added");
+
+    cy.get('[data-testid="save-email"]').click();
+    cy.get('[data-testid="email-address"]').should("have.text", "123@example.com");
   });
+
+  
 });
 
 describe("Show a single contact page (Sad Path)", () => {
