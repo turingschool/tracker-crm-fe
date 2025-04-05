@@ -75,7 +75,7 @@ function NewJobApplication() {
   }, [userData.user.data.id, token]);
 
 	function validateURL(URL: string) {
-		if (URL.includes("http://")) {
+		if (URL.includes("http://") || URL.includes("https://")) {
 			setApplicationURL(URL)
 		} else {
 			setApplicationURL(`http://${URL}`)
