@@ -130,7 +130,7 @@ describe('Create New Job Application page after logging in', () => {
         .should('eq', 'Job Description (required)')
       cy.get('#appURL').should('have.attr', 'placeholder')
       cy.get('#appURL').invoke('attr', 'placeholder')
-        .should('eq', 'www.example.com')
+        .should('eq', 'http://www.example.com')
       cy.get('#notes').should('have.attr', 'placeholder')
       cy.get('#notes').invoke('attr', 'placeholder')
         .should('eq', 'Notes...')
