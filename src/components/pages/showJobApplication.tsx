@@ -45,7 +45,7 @@ function JobApplication() {
           setContacts(data.data.attributes.contacts);
         } catch (err) {
           console.error("Failed to fetch job application:", err);
-          setError("Unable to fetch job application data.");
+          setError(err instanceof Error ? err.message : "Unable to fetch job application data.");
         }
       };
       fetchJobApplication();
@@ -99,7 +99,6 @@ function JobApplication() {
     
   return (
     <div className="min-h-screen mt-12 sm:p-8 sm:pt-6">
-      {error && <p className="text-red-600 text-center">{error}</p>}
       {jobApp ? (
         <main className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-8">
           <section>
@@ -401,7 +400,7 @@ function JobApplication() {
           )}
         </main>
       ) : (
-        <p className="text-center text-gray-500">Loading...</p>
+        error && <p className="text-red-600 text-center">{error}</p>
       )}
     </div>
   );
