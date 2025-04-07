@@ -74,11 +74,11 @@ function NewJobApplication() {
     getCompanies();
   }, [userData.user.data.id, token]);
 
-	function validateURL(URL: string) {
-		if (URL.includes("http://") || URL.includes("https://")) {
-			setApplicationURL(URL)
+	function validateURL(url: string) {
+		if (url.includes("http://") || url.includes("https://")) {
+			setApplicationURL(url)
 		} else {
-			setApplicationURL(`http://${URL}`)
+			setApplicationURL(`http://${url}`)
 		}
 	}
 
