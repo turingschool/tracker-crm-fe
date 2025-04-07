@@ -19,13 +19,6 @@ function JobApplication() {
   const { token, userData } = useUserLoggedContext();
   const { user } = userData;
   const { jobAppId } = useParams<{ jobAppId?: string }>();
-  // const [status] = useState(0);
-  // const [positionTitle, setPositionTitle] = useState("");
-  // const [notes, setNotes] = useState("");
-  // const [jobDescription, setJobDescription] = useState("");
-  // const [applicationURL, setApplicationURL] = useState("");
-  // const [dateApplied, setDateApplied] = useState("");
-  // const [companyId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [statusUpdateFlag, setStatusUpdateFlag] = useState(false);
 
