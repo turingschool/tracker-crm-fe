@@ -74,6 +74,14 @@ function NewJobApplication() {
     getCompanies();
   }, [userData.user.data.id, token]);
 
+	function validateURL(url: string) {
+		if (url.includes("http://") || url.includes("https://")) {
+			setApplicationURL(url)
+		} else {
+			setApplicationURL(`http://${url}`)
+		}
+	}
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -206,7 +214,7 @@ function NewJobApplication() {
             </label>
 
             {/* Contact Information */}
-           <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
+          <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
               <span className="font-semibold">Contact Information:</span>
               <select
                 value={contactInformation}
@@ -214,7 +222,7 @@ function NewJobApplication() {
                 onChange={(e) => setContactInformation(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
               >
-               <option value="" className="text-gray-400">
+              <option value="" className="text-gray-400">
                   Select a Contact
                 </option>
                 {filteredContacts.map((contact) => (
@@ -239,8 +247,9 @@ function NewJobApplication() {
                 id="appURL"
                 value={applicationURL}
                 onChange={(e) => setApplicationURL(e.target.value)}
+								onBlur={() => validateURL(applicationURL)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2 w-[90%]"
-                placeholder='www.example.com'
+                placeholder='http://www.example.com'
               />
             </label>
 
