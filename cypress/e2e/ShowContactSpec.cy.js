@@ -204,7 +204,7 @@ describe("Show a single contact page", () => {
     );
   });
 
-  it("Should display inline element to add information if contact has no phone number", () => {
+  it("Should show inline element to add information if contact has no phone number", () => {
     cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
       statusCode: 200,
       body: {
@@ -264,7 +264,7 @@ describe("Show a single contact page", () => {
     cy.get('[data-testid="phone-num"]').should("have.text", "123-456-7890");
   });
 
-  it("Should unable to accept invalid phone number", () => {
+  it("Should be unable to accept invalid phone number uing inline element", () => {
     cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
       statusCode: 200,
       body: {
@@ -384,6 +384,61 @@ describe("Show a single contact page", () => {
     cy.get('[data-testid="email-address"]').should("have.text", "123@example.com");
   });
 
+  it("should show an error if the PATCH API call fails", () => {
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
+      statusCode: 200,
+      body: {
+        data: {
+          id: "1",
+          type: "contacts",
+          attributes: {
+            first_name: "John",
+            last_name: "Smith",
+            company_id: null,
+            email: "",
+            phone_number: "",
+            notes: "Detailed notes for John Smith",
+            user_id: 2,
+            company: null,
+          },
+        },
+      },
+    }).as("get-contact-details-no-phone");
+
+    cy.visit("http://localhost:3000/contacts/1");
+    cy.wait("@get-contact-details-no-phone");
+
+    cy.get('[data-testid="contact-phone"]').should("have.text", "Phone");
+    cy.get(':nth-child(2) > .text-cyan-600').should("have.text", "Add Phone Number").click();
+    cy.get('.border').should('be.visible').click().type('123-456-7890');
+
+    cy.intercept("PATCH", "http://localhost:3001/api/v1/users/2/contacts/1", {
+      statusCode: 500,
+      body: {
+        data: {
+          id: "1",
+          type: "contacts",
+          attributes: {
+            first_name: "John",
+            last_name: "Smith",
+            company_id: null,
+            email: "123@example.com",
+            phone_number: "",
+            notes: "Detailed notes for John Smith",
+            user_id: 2,
+            company: null,
+          },
+        },
+      },
+      headers: {
+        Authorization: "Bearer The token",
+        "Content-Type": "application/json",
+      },
+    }).as("get-contact-details-email-added");
+
+    cy.get('[data-testid="save-phone"]').click();
+    cy.get('[data-testid="phone-error"]').should("have.text", "Failed to update phone number. Please try again.")
+  });
   
 });
 
