@@ -27,7 +27,6 @@ function JobApplication() {
   const navigate = useNavigate();
   const userId = userData.user.data.id;
 
-
   useEffect(() => {
     if (jobAppId) {
       const fetchJobApplication = async () => {
