@@ -384,6 +384,67 @@ describe("Show a single contact page", () => {
     cy.get('[data-testid="email-address"]').should("have.text", "123@example.com");
   });
 
+  it("should display an error if invalid email is entered using inline element", () => {
+    cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
+      statusCode: 200,
+      body: {
+        data: {
+          id: "1",
+          type: "contacts",
+          attributes: {
+            first_name: "John",
+            last_name: "Smith",
+            company_id: null,
+            email: "",
+            phone_number: "",
+            notes: "Detailed notes for John Smith",
+            user_id: 2,
+            company: null,
+          },
+        },
+      },
+      headers: {
+        Authorization: "Bearer The token",
+        "Content-Type": "application/json",
+      },
+    }).as("get-contact-details-no-phone");
+
+    cy.visit("http://localhost:3000/contacts/1");
+    cy.wait("@get-contact-details-no-phone");
+
+    cy.get('[data-testid="contact-email"]').should("have.text", "Email");
+    cy.get('[data-testid="add-email"]').contains("Add Email").click();
+    cy.get('.border').should('be.visible').click().type('kk');
+
+    cy.intercept("PATCH", "http://localhost:3001/api/v1/users/2/contacts/1", {
+      statusCode: 500,
+      body: {
+        data: {
+          id: "1",
+          type: "contacts",
+          attributes: {
+            first_name: "John",
+            last_name: "Smith",
+            company_id: null,
+            email: "123@example.com",
+            phone_number: "",
+            notes: "Detailed notes for John Smith",
+            user_id: 2,
+            company: null,
+          },
+        },
+      },
+      headers: {
+        Authorization: "Bearer The token",
+        "Content-Type": "application/json",
+      },
+    }).as("get-contact-details-email-added");
+
+    cy.get('[data-testid="save-email"]').click();
+    cy.get('[data-testid="email-error"]').should("have.text", "Failed to update email. Please try again.")
+  });
+  
+
   it("should show an error if the PATCH API call fails", () => {
     cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
       statusCode: 200,
