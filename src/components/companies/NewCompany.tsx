@@ -132,7 +132,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
       {errorMessages.length > 0 && (
       <div className="mb-4">
         {errorMessages.map((msg, index) => (
-          <p key={index} className="text-red-700 bg-red-100 p-3 rounded-md">
+          <p key={index} className=" text-red-700 bg-red-100 p-3 rounded-md" data-testid="backend-error">
             {msg}
           </p>
         ))}
