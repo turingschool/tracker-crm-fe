@@ -36,7 +36,7 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
         const result = await fetchCompanies(
           userData.user.data.id,
           token!,
-          setBackendErrors  
+          // setBackendErrors  
         );
         if (result.data) {
           setExistingCompanies(result.data);

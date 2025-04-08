@@ -1,5 +1,5 @@
 import {useUserLoggedContext} from "../../context/UserLoggedContext";
-import { fetchDashBoardData } from '../../apiCalls';
+import { fetchDashBoardData } from '../../trackerApiCalls';
 import React, {useState,useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {DashBoardDattaI, CountProps} from "../../Interfaces";

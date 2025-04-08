@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
-import { fetchCompanies } from "../../apiCalls";
-import { fetchNewContact } from "../../apiCalls";
+import { fetchCompanies } from "../../trackerApiCalls";
+import { fetchNewContact } from "../../trackerApiCalls";
 import { UserInformationProps, FormInputData } from "../../Interfaces";
 import CompanyModal from "./CompanyModal";
 

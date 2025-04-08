@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import DeleteItem from "../common/DeleteItem";
 import { deleteItem } from "../../trackerApiCalls";
 import { Contact, ContactData } from "../../Interfaces"
-import { fetchShowContact, fetchCompanyContact } from "../../apiCalls"
+import { fetchShowContact, fetchCompanyContact } from "../../trackerApiCalls"
 import EditContactModal from "./EditContactModal";
 
 function ShowContact() {

@@ -18,7 +18,7 @@ function Companies() {
   useEffect(() => {
     const getCompanies = async () => {
       if (token && userData?.user?.data?.id) {
-        const result = await fetchCompanies(userData.user.data.id, token, setErrors);
+        const result = await fetchCompanies(userData.user.data.id, token);
         if (result.error) {
           console.error("Error fetching companies:", result.error);
         } else if (result.data) {
