@@ -1,11 +1,9 @@
 describe("Job Application Interview Questions", () => {
   beforeEach(() => {
-    // Visit a blank page first to set up session storage
-    cy.visit("http://localhost:3000");
-
-    // Set up session storage with authentication data
-    cy.window().then((win) => {
-      const userData = {
+    // Mock the login request
+    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
+      statusCode: 200,
+      body: {
         token: "fake-token",
         user: {
           data: {
@@ -18,13 +16,10 @@ describe("Job Application Interview Questions", () => {
             }
           }
         }
-      };
-      win.sessionStorage.setItem("token", "fake-token");
-      win.sessionStorage.setItem("isLoggedIn", "true");
-      win.sessionStorage.setItem("userData", JSON.stringify(userData));
-    });
+      }
+    }).as("mockSession");
 
-    // Set up intercepts
+    // Set up other intercepts
     cy.intercept(
       "GET",
       "http://localhost:3001/api/v1/users/1/dashboard",
@@ -98,9 +93,16 @@ describe("Job Application Interview Questions", () => {
       }
     ).as("showJobInterviewQuestions");
 
-    // Visit the job applications page
-    cy.visit("http://localhost:3000/job_applications");
+    // Start with login
+    cy.visit("http://localhost:3000/");
+    cy.get("#email").type("testuser@example.com");
+    cy.get("#password").type("password123");
+    cy.get('[data-testid="login-button"]').click();
+    cy.wait("@mockSession");
     cy.wait("@getDashboard");
+
+    // Navigate to job applications
+    cy.visit("http://localhost:3000/job_applications");
     cy.wait("@getJobApplications");
 
     // Click on the specific job application
