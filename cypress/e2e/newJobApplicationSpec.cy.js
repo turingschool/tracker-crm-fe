@@ -130,7 +130,7 @@ describe('Create New Job Application page after logging in', () => {
         .should('eq', 'Job Description (required)')
       cy.get('#appURL').should('have.attr', 'placeholder')
       cy.get('#appURL').invoke('attr', 'placeholder')
-        .should('eq', 'www.example.com')
+        .should('eq', 'http://www.example.com')
       cy.get('#notes').should('have.attr', 'placeholder')
       cy.get('#notes').invoke('attr', 'placeholder')
         .should('eq', 'Notes...')
@@ -144,6 +144,8 @@ describe('Create New Job Application page after logging in', () => {
       cy.get('#jobDescription').type('Test Description').should('have.value', 'Test Description');
       cy.get('#appContact').select('Jane Smith').should('have.value', '2');
       cy.get('#appURL').type('www.example.com').should('have.value', 'www.example.com');
+			cy.get('#notes').click()
+			cy.get('#appURL').should('have.value', 'http://www.example.com');
       cy.get('#notes').type('Test Notes').should('have.value', 'Test Notes');
     })
 
