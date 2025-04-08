@@ -338,7 +338,7 @@ export const fetchInterviewQuestions = async (
   ): Promise<APIResult<ChatGPTQuestion[]>> => {
   try {
     const response = await fetch(
-      `${backendURL}users/job_applications/${jobApplicationId}/interview_questions/fetch_or_create`, 
+      `${backendURL}users/${userId}/job_applications/${jobApplicationId}/interview_questions/fetch_or_create`, 
       {
         method: 'GET',
         headers: {
@@ -346,7 +346,7 @@ export const fetchInterviewQuestions = async (
           'Authorization': `Bearer ${token}`,
       },
     });
-    
+
     if (!response.ok) {
       return { error: `Failed to fetch interview questions: ${response.statusText}` };
     }
