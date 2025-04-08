@@ -236,3 +236,12 @@ export interface JobApplicationDataCompile {
   id?: string;
   [key: string]: any;
 }
+
+
+export interface ChatGPTQuestion {
+  index: number;
+  type: string;
+  attributes: {
+    question: string;
+  };
+}
