@@ -1,5 +1,5 @@
 import { handleErrorResponse } from "./context/ErrorHelpers";
-import { Company, CompanyData, APIResult } from "./Interfaces";
+import { Company, CompanyData, APIResult, ChatGPTQuestion } from "./Interfaces";
 
 const apiURL = process.env.REACT_APP_BACKEND_API_URL;
 const backendURL = `${apiURL}api/v1/`;
@@ -326,5 +326,35 @@ export const postJobApplication = async (userParams: Record<string, any>) => {
     return await response.json();
   } catch (error) {
     console.error("Error adding job application:", error)
+  }
+};
+
+
+/*-----------------------------------// GET INTERVIEW QUESTIONS //--------------------------------------*/
+export const fetchInterviewQuestions = async (
+    userId: number,
+    jobApplicationId: number,
+    token: string 
+  ): Promise<APIResult<ChatGPTQuestion[]>> => {
+  try {
+    const response = await fetch(
+      `${backendURL}users/${userId}/job_applications/${jobApplicationId}/interview_questions/fetch_or_create`, 
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      return { error: `Failed to fetch interview questions: ${response.statusText}` };
+    }
+
+    const data = await response.json();
+    return { data: data.data }
+  } catch (error: any) {
+    console.error('Error fetching interview questions:', error);
+    return { error: error.message || 'An unexpected error occurred.' };
   }
 };
