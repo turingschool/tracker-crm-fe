@@ -33,7 +33,7 @@ const JobApplicationInterviewQuestions: React.FC = () => {
     const getInterviewQuestions = async () => {
       setIsLoading(true);
       try {
-        const result = await fetchInterviewQuestions(jobDescription, token || "");
+        const result = await fetchInterviewQuestions(user.Id, jobAppId, token || "");
 
         if (result.data) {
           console.log("Question data structure:", result.data);
