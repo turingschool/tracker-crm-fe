@@ -5,9 +5,7 @@ import { fetchInterviewQuestions } from "../../trackerApiCalls";
 import { ChatGPTQuestion } from "../../Interfaces";
 
 const JobApplicationInterviewQuestions: React.FC = () => {
-  // const apiURL = process.env.REACT_APP_BACKEND_API_URL
-  // const backendURL = `${apiURL}api/v1/`
-  const { token } = useUserLoggedContext();
+  const { token, userData } = useUserLoggedContext();
   const [chatgptQuestions, setChatgptQuestions] = useState<ChatGPTQuestion[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const location = useLocation()
@@ -33,7 +31,7 @@ const JobApplicationInterviewQuestions: React.FC = () => {
     const getInterviewQuestions = async () => {
       setIsLoading(true);
       try {
-        const result = await fetchInterviewQuestions(user.Id, jobAppId, token || "");
+        const result = await fetchInterviewQuestions(userData.user.data.id, jobAppId, token || "");
 
         if (result.data) {
           console.log("Question data structure:", result.data);
@@ -50,7 +48,7 @@ const JobApplicationInterviewQuestions: React.FC = () => {
     if (jobDescription && token) {
       getInterviewQuestions()
     }
-  }, [jobDescription, token]); 
+  }, [jobDescription, token, userData.user.data.id]); 
     // const fetchJobData = async (jobDescription: string, token: string | null) => {
     //   try {
     //     const response = await fetch(`${backendURL}interview_questions`, {
