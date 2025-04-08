@@ -60,7 +60,6 @@ function JobApplication() {
   }, [jobAppId]);
 
   const filteredContact = contacts.filter(contact => contact.id === jobApp?.contact_id);
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
@@ -103,7 +102,6 @@ function JobApplication() {
       setStatusUpdateFlag(false)
     }
   }, [status, statusUpdateFlag])
-    
   return (
     <div className="min-h-screen mt-12 sm:p-8 sm:pt-6">
       {error && <p className="text-red-600 text-center">{error}</p>}
@@ -247,8 +245,13 @@ function JobApplication() {
                   {filteredContact[0].first_name} {filteredContact[0].last_name}
                   </Link>
                 ) : (
-                  <Link to="/contacts/new">
-                    <p className="text-cyan-600 font-semibold hover:text-cyan-500 underline underline-offset-8">
+                  <Link 
+                    to="/contacts/new"
+                    state={{ jobApplicationId: jobAppId }}
+                    >
+                    <p className="text-cyan-600 font-semibold hover:text-cyan-500 underline underline-offset-8"
+                    data-testid="add-new-contact"
+                    >
                       Add a new contact
                     </p>
                   </Link>
