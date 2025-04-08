@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
 import { fetchCompanies } from "../../apiCalls";
 import { fetchNewContact } from "../../apiCalls";
@@ -8,6 +8,8 @@ import CompanyModal from "./CompanyModal";
 
 const NewContact = ({ userData }: UserInformationProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const jobApplicationId = location.state?.jobApplicationId
 
   const { token } = useUserLoggedContext();
   const userId = userData.user.data.id
@@ -104,8 +106,8 @@ const NewContact = ({ userData }: UserInformationProps) => {
       email: formInputData.email,
       phone_number: formInputData.phoneNumber,
       notes: formInputData.notes,
+      job_application_id: jobApplicationId,
     };
-
     try {
       await fetchNewContact(userId, token, formInputData, newContact);
       setFeedback("Contact added successfully! Redirecting...");
@@ -140,11 +142,13 @@ const NewContact = ({ userData }: UserInformationProps) => {
               <label
                 htmlFor="firstName"
                 className="block text-gray-700 font-medium mb-1"
+                data-testid="first-name"
               >
                 First Name <span className="text-red-500">*</span>
               </label>
               <input
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                data-testid="first-name-input"
                 type="text"
                 id="firstName"
                 name="firstName"
@@ -158,11 +162,13 @@ const NewContact = ({ userData }: UserInformationProps) => {
               <label
                 htmlFor="lastName"
                 className="block text-gray-700 font-medium mb-1"
+                data-testid="last-name"
               >
                 Last Name <span className="text-red-500">*</span>
               </label>
               <input
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                data-testid="last-name-input"
                 type="text"
                 id="lastName"
                 name="lastName"
@@ -219,6 +225,7 @@ const NewContact = ({ userData }: UserInformationProps) => {
               className={`w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500 ${
                 !formInputData.companyId ? "text-gray-400" : "text-black"
               }`}
+              data-testid="select-company-name"
               id="companyId"
               name="companyId"
               value={formInputData.companyId || ""}
@@ -243,6 +250,7 @@ const NewContact = ({ userData }: UserInformationProps) => {
               <button
                 type="button"
                 className="bg-cyan-600 text-white px-[.5vw] py-[1vh] rounded w-[18vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2 mt-3"
+                data-testid="add-new-company"
                 onClick={() => setIsOpen(true)}
               >
                 Add new company
@@ -278,6 +286,7 @@ const NewContact = ({ userData }: UserInformationProps) => {
             <button
               type="submit"
               className="bg-cyan-600 text-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2"
+              data-testid="save-new-contact"
             >
               Save
             </button>
