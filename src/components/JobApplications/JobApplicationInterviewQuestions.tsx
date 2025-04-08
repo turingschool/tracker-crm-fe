@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { fetchInterviewQuestions } from "../../trackerApiCalls";
 import { ChatGPTQuestion } from "../../Interfaces";
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const JobApplicationInterviewQuestions: React.FC = () => {
   const { token, userData } = useUserLoggedContext();
@@ -113,7 +114,15 @@ return (
             Technical Interview Questions
           </h4>
           { isLoading ? (
-            <p>Loading questions... </p>
+            <div className="flex flex-col items-center justify-center mt-8 space-y-4">
+              <ClipLoader
+                color={"#0891b2"} // matches text-cyan-600
+                loading={isLoading}
+                size={50}
+                aria-label="Generating Interview Questions"
+              />
+              <p className="text-cyan-600 text-lg">Generating your custom interview questions. This may take a few moments.</p>
+            </div>
           ) : ( 
             <ul data-testid="interview-questions-list"> 
               { chatgptQuestions.map((question) => ( 
