@@ -264,7 +264,9 @@ describe("Show a single contact page", () => {
     cy.get('[data-testid="phone-num"]').should("have.text", "123-456-7890");
   });
 
-  it("Should be unable to accept invalid phone number uing inline element", () => {
+  
+
+  it("Should be unable to accept invalid phone number using inline element", () => {
     cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
       statusCode: 200,
       body: {
@@ -324,7 +326,7 @@ describe("Show a single contact page", () => {
     cy.get('[data-testid="phone-error"]').should("have.text", "Phone number must be in the format '555-555-5555'"); 
   });
 
-  it("Should display text to add information if contact has no email", () => {
+  it("Should show inline element to add information if contact has no email", () => {
     cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
       statusCode: 200,
       body: {

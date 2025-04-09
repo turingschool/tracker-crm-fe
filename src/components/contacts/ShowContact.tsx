@@ -275,7 +275,12 @@ function ShowContact() {
           </p>
 
           <p className="text-black mb-[2vh] flex">
-            <span data-testid="contact-phone" className="font-bold w-[7vw]">Phone</span>
+            <span 
+              data-testid="contact-phone" 
+              className="font-bold w-[7vw]"
+              aria-label="Phone">
+                Phone
+            </span>
             {isEditingPhone ? (
               <div className="flex flex-col">
                 <div className="flex items-center gap-2">
