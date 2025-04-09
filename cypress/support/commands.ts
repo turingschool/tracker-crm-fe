@@ -53,12 +53,13 @@ Cypress.Commands.add('login', (email, password) => {
         },
       },
     },
-  })
+  }).as('loginRequest');
 
   cy.visit('http://localhost:3000/');
   cy.get('#email').type(email);
   cy.get('#password').type(password);
   cy.get('[data-testid="login-button"]').click();
+  cy.wait('@loginRequest')
 });
 
 Cypress.Commands.add('mockJobApplications', () => {
