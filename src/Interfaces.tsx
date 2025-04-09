@@ -256,10 +256,4 @@ export interface TipTapProps {
 
 export interface PopOverProps {
   editor: Editor;
-  // isOpen: boolean;
-  // position: {
-  //   top: number;
-  //   left: number;
-  // };
-  onClose: () => void;
 }

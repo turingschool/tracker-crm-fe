@@ -63,11 +63,29 @@ const TipTap: React.FC<TipTapProps> = ({ content, onChange}) => {
     };
   }, [editor]);
 
+  useEffect(() => {
+    if (!editor) return;
+
+    const editorEl = editor.view.dom;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!editorEl.contains(e.target as Node)) {
+        editor.commands.blur();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [editor]);
+
   if (!editor) return null;
   
   return (
     <>
-      <PopOver editor={editor}  onClose={() => {}}/>
+      <PopOver editor={editor} />
       <EditorContent editor={editor} />
     </>
   );

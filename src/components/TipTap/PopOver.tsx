@@ -5,7 +5,7 @@ import FormatItalic from '@mui/icons-material/FormatItalic';
 import FormatUnderlined from '@mui/icons-material/FormatUnderlined';
 import Highlight from '@mui/icons-material/Highlight';
 
-const PopOver: React.FC<PopOverProps> = ({ editor, onClose }) => {
+const PopOver: React.FC<PopOverProps> = ({ editor }) => {
   if (!editor) return null;
   
   const shouldShow: BubbleMenuProps['shouldShow']= ({ editor, from, to }) => {
@@ -16,28 +16,24 @@ const PopOver: React.FC<PopOverProps> = ({ editor, onClose }) => {
     e.preventDefault();
     
     editor.chain().focus().toggleBold().run(); 
-    onClose?.();
   }
 
   const handleItalic = (e: React.MouseEvent) => {
     e.preventDefault();
     
     editor.chain().focus().toggleItalic().run(); 
-    onClose?.();
   }
 
   const handleUnderline = (e: React.MouseEvent) => {
     e.preventDefault();
     
     editor.chain().focus().toggleUnderline().run(); 
-    onClose?.();
   }
 
   const handleHighlight = (e: React.MouseEvent) => {
     e.preventDefault();
     
     editor.chain().focus().toggleHighlight().run();
-    onClose?.();
   }
 
   return (
