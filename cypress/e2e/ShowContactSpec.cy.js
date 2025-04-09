@@ -577,7 +577,7 @@ describe("Edit Contact Modal", () => {
 
   it("Should close the edit modal when clicking the X button", () => {
     cy.get('[data-testid="edit-button"]').click();
-    cy.get(".absolute.top-2.right-2").click({ force: true });
+    cy.get('[aria-label="Close modal"]').click();
     cy.get(".bg-white").should("not.exist");
   });
 
