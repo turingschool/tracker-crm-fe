@@ -27,10 +27,10 @@ const CompanyModal: React.FC<CompanyModalProps> = ({
       onClick={() => setIsOpen(false)}
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-lg w-[50vw] max-h-[90vh] relative"
+        className="bg-white p-6 rounded-lg shadow-lg w-[50vw] max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="absolute top-2 right-8 z-50">
+        <div className="flex justify-end mb-2">
           <button
             onClick={() => setIsOpen(false)}
             className="bg-white p-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-100 shadow-sm"
@@ -39,7 +39,8 @@ const CompanyModal: React.FC<CompanyModalProps> = ({
             X
           </button>
         </div>
-        <div className="overflow-y-auto max-h-[calc(90vh-4rem)] pr-8 mt-4">
+        <div className="overflow-y-auto max-h-[calc(90vh-4rem)] pr-8">
+          <h2 className="text-xl font-bold text-cyan-600 mb-4">New Company</h2>
           <NewCompany isModal={true} onSuccess={handleNewCompany} />
         </div>
       </div>
