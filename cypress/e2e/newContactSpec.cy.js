@@ -368,11 +368,11 @@ describe("New Contacts page after logging in", () => {
       cy.get(".max-w-4xl")
         .find("button[type='submit']")
         .click();
+      cy.get('[aria-label="Close modal"]').click();
       cy.get(".text-red-500").should(
         "contain.text",
         "A company with this name already exists."
       );
-      cy.get('[aria-label="Close modal"]').click();
     });
 
     it("Should keep the add company modal open when clicked", () => {
