@@ -4,6 +4,7 @@ import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import { statusMap, statusStyles} from "../JobApplicationUtilities";
 import { fetchContacts, fetchCompanies } from "../../apiCalls";
 import { postJobApplication } from '../../trackerApiCalls';
+import TipTap from '../TipTap/TipTap';
 
 interface Company {
   id: string;
@@ -74,14 +75,6 @@ function NewJobApplication() {
     getCompanies();
   }, [userData.user.data.id, token]);
 
-	function validateURL(url: string) {
-		if (url.includes("http://") || url.includes("https://")) {
-			setApplicationURL(url)
-		} else {
-			setApplicationURL(`http://${url}`)
-		}
-	}
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -109,7 +102,7 @@ function NewJobApplication() {
         console.error("Error adding job application:", error)
       })
   }
-
+  
   return (
     <div className='bg-white h-screen flex'>
       <div className='flex-1 p-5'>
@@ -214,7 +207,7 @@ function NewJobApplication() {
             </label>
 
             {/* Contact Information */}
-          <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
+           <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[90%]">
               <span className="font-semibold">Contact Information:</span>
               <select
                 value={contactInformation}
@@ -222,7 +215,7 @@ function NewJobApplication() {
                 onChange={(e) => setContactInformation(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
               >
-              <option value="" className="text-gray-400">
+               <option value="" className="text-gray-400">
                   Select a Contact
                 </option>
                 {filteredContacts.map((contact) => (
@@ -247,23 +240,21 @@ function NewJobApplication() {
                 id="appURL"
                 value={applicationURL}
                 onChange={(e) => setApplicationURL(e.target.value)}
-								onBlur={() => validateURL(applicationURL)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2 w-[90%]"
-                placeholder='http://www.example.com'
+                placeholder='www.example.com'
               />
             </label>
-
             {/* Notes */}
             <label className="text-[1vw] font-[Helvetica Neue] flex flex-col">
               <span className="font-semibold">Notes:</span>
-              <textarea
-                value={notes}
-                id="notes"
-                onChange={(e) => setNotes(e.target.value)}
-                className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 w-[90%] m-2"
-                rows={15}
-                placeholder='Notes...'
-              />
+                <div className="ProseMirror">
+                  <TipTap 
+
+                    content={notes}
+                    placeholder={"Notes ... "}
+                    onChange={setNotes}
+                  />
+                </div>
             </label>
           </div>
         <div className='pt-4 pl-2'>
