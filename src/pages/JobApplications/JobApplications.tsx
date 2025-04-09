@@ -4,7 +4,7 @@ import { fetchApplicationsData } from '../../apiCalls';
 import ClipLoader from "react-spinners/ClipLoader";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import { JobApplication } from '../../Interfaces';
-import { statusMap, statusStyles} from "../JobApplicationUtilities";
+import { statusMap, statusStyles} from "./components/JobApplicationUtilities";
 import useSWR from 'swr';
 
 const ApplicationsGrid: React.FC = () => {

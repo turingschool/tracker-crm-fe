@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { showJobApp, updateJobApplication } from "../../trackerApiCalls";
-import { useUserLoggedContext } from "../../context/UserLoggedContext";
-import { statusMap, statusStyles } from "../JobApplicationUtilities";
-import { deleteItem } from "../../trackerApiCalls";
-import { JobApplicationContact, JobApplicationAttributes, JobApplicationDataCompile } from "../../Interfaces";
-import DeleteItem from "../common/DeleteItem";
+import { showJobApp, updateJobApplication } from "../../../trackerApiCalls";
+import { useUserLoggedContext } from "../../../context/UserLoggedContext";
+import { statusMap, statusStyles } from "../../../pages/JobApplications/components/JobApplicationUtilities";
+import { deleteItem } from "../../../trackerApiCalls";
+import { JobApplicationContact, JobApplicationAttributes, JobApplicationDataCompile } from "../../../Interfaces";
+import DeleteItem from "../../../components/common/DeleteItem";
 import DatePicker from "react-datepicker";
 import moment from "moment-timezone";
 
@@ -127,7 +127,7 @@ function JobApplication() {
                 {jobApp.company_name}
               </h2>
             </Link>
-            <div className='flex flex-row items-center flex align-row mt-5 mb-4 text-lg text-gray-700 font-semibold'>
+            <div className='flex flex-row items-center align-row mt-5 mb-4 text-lg text-gray-700 font-semibold'>
               <p id="applied-on" className="mr-2 cursor-pointer">
                 Applied On: {" "}
               </p>
