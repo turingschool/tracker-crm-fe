@@ -51,24 +51,28 @@ describe("New Contacts page after logging in", () => {
       },
     }).as("getCompanies");
 
-    cy.intercept("POST", `http://localhost:3001/api/v1/users/2/companies`, {
-      statusCode: 201,
-      body: {
-        data: {
-          id: 3,
-          type: "company",
-          attributes: {
-            name: "Company 123",
-            website: "www.testcompany.com",
-            street_address: "123 Test St",
-            city: "Test City",
-            state: "CO",
-            zip_code: "80237",
-            notes: "Test notes",
+    cy.intercept(
+      "POST",
+      `http://localhost:3001/api/v1/users/2/companies`,
+      {
+        statusCode: 201,
+        body: {
+          data: {
+            id: 3,
+            type: "company",
+            attributes: {
+              name: "Company 123",
+              website: "www.testcompany.com",
+              street_address: "123 Test St",
+              city: "Test City",
+              state: "CO",
+              zip_code: "80237",
+              notes: "Test notes",
+            },
           },
         },
-      },
-    }).as("addCompany");
+      }
+    ).as("addCompany");
 
     cy.visit("http://localhost:3000/contacts");
     cy.get("#email").type("dollyP@email.com");
@@ -226,8 +230,6 @@ describe("New Contacts page after logging in", () => {
       cy.get("#companyName").type("Company Placeholder");
       cy.get(".max-w-4xl")
         .find("button[type='submit']")
-        .scrollIntoView()
-        .should("be.visible")
         .click();
       cy.wait("@addCompany");
 
@@ -365,13 +367,12 @@ describe("New Contacts page after logging in", () => {
       cy.get("#companyName").type("Company A");
       cy.get(".max-w-4xl")
         .find("button[type='submit']")
-        .scrollIntoView()
         .click();
       cy.get(".text-red-500").should(
         "contain.text",
         "A company with this name already exists."
       );
-      cy.contains("button", "X").scrollIntoView().click({ force: true });
+      cy.get('[aria-label="Close modal"]').click();
     });
 
     it("Should keep the add company modal open when clicked", () => {
