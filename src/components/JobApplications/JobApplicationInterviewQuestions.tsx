@@ -1,63 +1,47 @@
 import {useUserLoggedContext} from "../../context/UserLoggedContext";
 import { Link, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
+import { fetchInterviewQuestions } from "../../trackerApiCalls";
+import { ChatGPTQuestion } from "../../Interfaces";
+import ClipLoader from 'react-spinners/ClipLoader';
 
 const JobApplicationInterviewQuestions: React.FC = () => {
-const apiURL = process.env.REACT_APP_BACKEND_API_URL
-const backendURL = `${apiURL}api/v1/`
-const { token } = useUserLoggedContext();
-const [chatgptQuestions, setChatgptQuestions] = useState(null);
-const location = useLocation()
-const positionTitle = location.state.positionTitle
-const companyId = location.state.companyId
-const companyName = location.state.companyName
-const jobAppId = location.state.jobAppId
-const jobDescription = location.state.jobDescription
+  const { token, userData } = useUserLoggedContext();
+  const [chatgptQuestions, setChatgptQuestions] = useState<ChatGPTQuestion[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const location = useLocation()
+  const positionTitle = location.state.positionTitle
+  const companyId = location.state.companyId
+  const companyName = location.state.companyName
+  const jobAppId = location.state.jobAppId
+  const jobDescription = location.state.jobDescription
 
   useEffect(() => {
-    const fetchData = async (jobDescription: string, token: string | null) => {
+    const getInterviewQuestions = async () => {
+      setIsLoading(true);
+      setError(null);
       try {
-        const response = await fetch(`${backendURL}interview_questions`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-          body: JSON.stringify({description: jobDescription}),
-        });
-        const result = await response.json();
-        setChatgptQuestions(result.data);
-        console.log("chat gpt questions", chatgptQuestions)
+        const result = await fetchInterviewQuestions(userData.user.data.id, jobAppId, token || "");
+
+        if (result.data) {
+          console.log("Question data structure:", result.data);
+          setChatgptQuestions(result.data);
+        } else if (result.error) {
+          console.error("Error fetching questions: ", result.error);
+          setError("Failed to fetch interview questions. Please try again.");          
+        }
       } catch (error) {
-        console.error('Error:', error);
+        console.error('Error: ', error);
+        setError("An error occurred while fetching interview questions."); 
+      } finally {
+        setIsLoading(false)
       }
     };
-
-    fetchData(jobDescription, token);
-  }, []); 
-
-interface DummyQuestions {
-  id: number;
-  text: string;
-}
-
-const questions :DummyQuestions[] = [
-  { id: 1, text: "Can you explain the difference between state and props in React?" },
-  { id: 2, text: "Given a React component that fetches data from an API, how would you manage loading, success, and error states?" },
-  { id: 3, text: "How would you handle form submission and validation in a React application?" },
-  { id: 4, text: "How does JavaScript handle asynchronous operations? Can you explain async/await and provide an example?" },
-  { id: 5, text: "What are some techniques to improve performance in a React application?" },
-  { id: 6, text: "How would you define a RESTful API in Ruby on Rails?" },
-  { id: 7, text: "Given a User model with has_many :bookings, how would you retrieve all bookings for a user in Rails?" },
-  { id: 8, text: "How would you implement authentication in a Rails API using Devise or JWT?" },
-  { id: 9, text: "Given an array of integers, write a function that returns the two numbers that sum to a given target." },
-  { id: 10, text: "Imagine you're working on a React/Rails app and an API request fails with a 500 error. How would you go about debugging the issue?" }
-]
-
-const questionObject = questions.reduce((acc, question) => {
-  acc[question.id] = question.text 
-  return acc
-}, {} as Record<number, string>);
+    if (jobDescription && token) {
+      getInterviewQuestions()
+    }
+  }, [jobDescription, token, userData.user.data.id]); 
 
 return (
     <div className="min-h-screen p-4 sm:p-8 pt-8 sm:pt-36">
@@ -65,10 +49,10 @@ return (
           <h1 className="text-cyan-600 text-3xl sm:text-4xl lg:text-5xl font-semibold mb-4">
             {positionTitle}
           </h1>
+          <h2 className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline">
+            {companyName}
+          </h2>
           <Link className="font-bold text-cyan-800 hover:text-cyan-700 p-0 hover:underline" to={`/companies/${companyId}/contacts`}>
-            <h2 className="text-[3.5vh] font-bold text-cyan-500 hover:text-cyan-700 p-0 hover:underline">
-              {companyName}
-            </h2>
           </Link>
           < Link to={`/job_applications/${jobAppId}`}>
             <h3 className="underline underline-offset-[7px] text-cyan-600 text-[2.3vh]">
@@ -78,13 +62,31 @@ return (
           <h4 className="mt-10 text-[20px] font-bold text-cyan-600 tracking-wide">
             Technical Interview Questions
           </h4>
-          {Object.entries(questionObject).map(([id, text]) => (
-            <div key={id} data-testid="interview-questions-list" className="ml-5 text-gray-600 w-1/2 text-[17px]">
-              <br>
-              </br>
-              {id}. {text}
+          {error && (
+            <div data-testid="error-message" className="mt-4 p-4 bg-red-100 text-red-700 rounded">
+              {error}
             </div>
-          ))}
+          )}
+          { isLoading ? (
+            <div data-testid="loading-spinner" className="flex flex-col items-center justify-center mt-8 space-y-4">
+              <ClipLoader
+                color={"#0891b2"} // matches text-cyan-600
+                loading={isLoading}
+                size={50}
+                aria-label="Generating Interview Questions"
+              />
+              <p className="text-cyan-600 text-lg">Generating your custom interview questions. This may take a few moments.</p>
+            </div>
+          ) : ( 
+            <ul data-testid="interview-questions-list"> 
+              { chatgptQuestions.map((question) => ( 
+                <li key={question.index} className="ml-5 text-gray-600 w-1/2 text-[17px]">
+                  <br></br>
+                  {question.index}. {question.attributes.question}
+                </li>
+              ))}
+            </ul>
+          )}
         </main>
     </div>
   );
