@@ -1,6 +1,6 @@
 import { UserRegistrationData, FormInputData, NewContact } from "./Interfaces"
 import { handleErrorResponse } from "./context/ErrorHelpers";
-import { CompanyData, APIResult } from "./Interfaces"; //removed Company due to duplicate fetchCompanies function not using it. 
+import { Company, CompanyData, APIResult } from "./Interfaces";
 
 const apiURL = process.env.REACT_APP_BACKEND_API_URL;
 const backendURL = `${apiURL}api/v1/`;
@@ -10,67 +10,65 @@ const backendURL = `${apiURL}api/v1/`;
 /*----------------------------------// FETCH Companies //--------------------------------*/
 // Refactored to handle error messages through the backend.
 
-// export const fetchCompanies = async (
-//   userId: number,
-//   token: string,
-//   setErrors: (messages: string[]) => void
-// ): Promise<APIResult<Company[]>> => {
-//   try {
-//     const response = await fetch(`${backendURL}users/${userId}/companies`, {
-//       method: "GET",
-//       headers: {
-//         authorization: `Bearer ${token}`,
-//         "Content-Type": "application/json",
-//       },
-//     });
+type FetchCompaniesOptions = {
+  userId: number;
+  token: string;
+};
 
-//     if (!response.ok) {
-//       await handleErrorResponse(response, setErrors);
-//       return { error: `Failed to fetch companies: ${response.statusText}` };
-//     }
+const fetchCompaniesBase = async ({ userId, token }: FetchCompaniesOptions): Promise<any> => {
+  const apiURL = process.env.REACT_APP_BACKEND_API_URL || "";
+  const backendURL = `${apiURL}api/v1/`;
 
-//     const data = await response.json();
-//     return { data: data.data };
-//   } catch (error: any) {
-//     if (error && typeof error.message === "string" && error.message.includes("Failed to fetch")) {
-//       setErrors(["Unable to connect to the server. Please try again later."]);
-//       return { error: "Unable to connect to the server. Please try again later." };
-//     }
-//     return { error: error.message || "An unexpected error occurred." };
-//   }
-// };
+  const response = await fetch(`${backendURL}users/${userId}/companies`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
 
-export const fetchCompanies = async (userId: number | undefined, token: string | null) => {
+  if (!response.ok) {
+    throw new Error(`Failed to fetch companies: ${response.statusText}`);
+  }
+
+  const result = await response.json();
+  return result.data;
+};
+export const fetchCompanies = async (
+  userId: number,
+  token: string,
+  setErrors: (messages: string[]) => void
+): Promise<APIResult<Company[]>> => {
   try {
-    const apiURL = process.env.REACT_APP_BACKEND_API_URL
-    const backendURL = `${apiURL}api/v1/`
-    const response = await fetch(`${backendURL}users/${userId}/companies`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch companies");
-    }
-
-    const result = await response.json();
-    const companyList = result.data.map((company: any) => ({
-      id: company.id,
-      name: company.attributes.name,
-    }));
-
-    return companyList;
+    const data = await fetchCompaniesBase({ userId, token });
+    return { data };
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error("Error fetching companies:", error.message);
-      throw error;
+    if (error.message.includes("Failed to fetch")) {
+      setErrors(["Unable to connect to the server. Please try again later."]);
+      return { error: "Unable to connect to the server. Please try again later." };
     }
+    setErrors([error.message]);
+    return { error: error.message };
   }
-}
+    setErrors(['An unexpected error occurred']);
+    return { error: "An unexpected error occurred." };
+  }
+};
 
+export const fetchCompaniesMapped = async (
+  userId: number,
+  token: string | null
+): Promise<{ id: number; name: string }[]> => {
+  if (!userId || !token) throw new Error("Missing userId or token");
+
+  const data = await fetchCompaniesBase({ userId, token });
+
+  return data.map((company: any) => ({
+    id: company.id,
+    name: company.attributes.name,
+  }));
+};
 
 /*-----------------------------------// CREATE A COMPANY //---------------------------------*/
 //Refactored to handle error messages through the back end.
@@ -191,30 +189,6 @@ export const getUser = async (userId: number) => {
     return { error: error.message || "Unable to connect to the server. Please try again later." };
   }
 };
-
-// export const getUser = async (userId: number) => {
-//   console.log(userId, '---> HIT GET USER')
-//   try {
-//     const response = await fetch(`${backendURL}users/${userId}`, {
-//       method: 'GET',
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//     });
-
-//     if (!response.ok) {
-//       console.log(response);
-
-//       throw new Error(`Failed to fetch user data: ${response.status}`);
-//     }
-//     console.log(response.json(), '<--- HERE IN API')
-//     return await response.json();
-//   } catch (err) {
-    
-//     console.error('Error in getUser:', err);
-//     throw err;
-//   }
-// };
 
 /*-----------------------------------// SHOW JOB APPLICATIONS //--------------------------------------*/
 
