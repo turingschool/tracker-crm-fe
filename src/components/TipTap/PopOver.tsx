@@ -42,7 +42,7 @@ const PopOver: React.FC<PopOverProps> = ({ editor }) => {
           e.preventDefault();
           e.stopPropagation();
         }}
-        className={'pointer-events-none z-10000 flex w-[24em] p-0 bg-gray-200 rounded-lg justify-around items-center divide-x divide-gray-500'}
+        className={'pointer-events-none z-10000 flex w-[24em] p-0 bg-gray-200 rounded-lg justify-around items-center divide-x divide-gray-500 shadow-lg shadow-gray-700/50'}
       >
         <button 
           onMouseDown={(e) => {
@@ -52,7 +52,7 @@ const PopOver: React.FC<PopOverProps> = ({ editor }) => {
           onClick={handleBold} 
           className={`${editor.isActive('bold') ? 'bg-gray-400' : 'bg-transparent'} p-3 m-0 flex-1 pointer-events-auto flex justify-center items-center rounded-l-lg`}
         >
-          <FormatBold />
+          <FormatBold sx={{ fontSize: 16 }}/>
         </button>
         <button 
           onMouseDown={(e) => {
@@ -62,7 +62,7 @@ const PopOver: React.FC<PopOverProps> = ({ editor }) => {
           onClick={handleItalic} 
           className={`${editor.isActive('italic') ? 'bg-gray-400' : 'bg-transparent'} p-3 m-0 flex-1 pointer-events-auto flex justify-center items-center`}
         >
-          <FormatItalic />
+          <FormatItalic sx={{ fontSize: 16 }}/>
         </button>
         <button 
           onMouseDown={(e) => {
@@ -72,7 +72,7 @@ const PopOver: React.FC<PopOverProps> = ({ editor }) => {
           onClick={handleUnderline} 
           className={`${editor.isActive('underline') ? 'bg-gray-400' : 'bg-transparent'} p-3 m-0 flex-1 pointer-events-auto flex justify-center items-center`}
         >
-          <FormatUnderlined />
+          <FormatUnderlined sx={{ fontSize: 16 }}/>
         </button>
         <button 
           onMouseDown={(e) => {
@@ -82,7 +82,7 @@ const PopOver: React.FC<PopOverProps> = ({ editor }) => {
           onClick={handleHighlight} 
           className={`${editor.isActive('highlight') ? 'bg-gray-400' : 'bg-transparent'} p-3 m-0 flex-1 pointer-events-auto flex justify-center items-center rounded-r-lg`}
         >
-          <Highlight />
+          <Highlight sx={{ fontSize: 16 }}/>
         </button>
       </div>
     </BubbleMenu>
