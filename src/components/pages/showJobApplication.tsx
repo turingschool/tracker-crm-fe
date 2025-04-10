@@ -109,7 +109,7 @@ function JobApplication() {
       {error && <p className="text-red-600 text-center">{error}</p>}
       {jobApp ? (
         <main className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-8">
-          <section>
+          <section className="flex flex-col">
             <h1
               className="text-cyan-600 text-[5.5vh] font-bold mb-2"
               data-testid="job-Title"
@@ -190,25 +190,23 @@ function JobApplication() {
               {jobApp.notes ? jobApp.notes : "Click edit to add some notes."}
             </p>
           </section>
-          <section className="mt-8 lg:m-16 ">
-            <div className="mb-8">
-
-              <div className="flex justify-end" data-testid="interview-questions"> 
-                <Link to={`/job_applications/${jobAppId}/interviewQuestions`} 
-                  state={{
-                    jobAppId: jobAppId, 
-                    positionTitle: position_title, 
-                    companyName: jobApp.company_name, 
-                    companyId: company_id, 
-                    jobDescription:job_description
-                  }}>
-                <button className="bg-cyan-600 hover:bg-cyan-500 text-white tracking-wide py-2 px-4 rounded max-w-max">
-                Practice Interview ✨
+          <section className="flex flex-col">
+            <div className="flex justify-end mb-8 sticky top-4 z-10" data-testid="interview-questions"> 
+              <Link to={`/job_applications/${jobAppId}/interviewQuestions`} 
+                state={{
+                  jobAppId: jobAppId, 
+                  positionTitle: position_title, 
+                  companyName: jobApp.company_name, 
+                  companyId: company_id, 
+                  jobDescription:job_description
+                }}>
+                <button className="bg-cyan-600 hover:bg-cyan-500 text-white tracking-wide py-2 px-4 rounded">
+                  Practice Interview ✨
                 </button>
-                </Link>
-              </div>
+              </Link>
+            </div>
+            <div className="flex flex-col">
               <h2 className="text-cyan-700 text-2xl font-semibold sm:text-3xl mb-4">
-
                 Job Description
               </h2>
               <a
@@ -221,7 +219,7 @@ function JobApplication() {
                 {jobApp.application_url}
               </a>
               <p
-                className="mt-4 text-sm  sm:text-base whitespace-pre-wrap"
+                className="mt-4 text-sm sm:text-base whitespace-pre-wrap"
                 data-testid="job-description"
               >
                 {jobApp.job_description.slice(0, 150)}...
