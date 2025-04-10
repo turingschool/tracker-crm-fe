@@ -11,14 +11,14 @@ import Contacts from './components/contacts/Contacts';
 import NewContact from './components/contacts/NewContact';
 import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
-import NewJobApplication from './components/JobApplications/NewJobApplication';
+import NewJobApplication from './pages/JobApplications/components/NewJobApplication';
 import CompanyShow from './components/companies/CompanyShow';
-import ApplicationsGrid from './components/JobApplications/JobApplications';
+import ApplicationsGrid from './pages/JobApplications/JobApplications';
 import ShowContact from './components/contacts/ShowContact';
-import JobApplication from './components/pages/showJobApplication';
+import JobApplication from './pages/JobApplications/components/showJobApplication';
 import DashBoard from "./components/dashboard/dashboard";
 import { ErrorProvider } from "./context/ErrorContext";
-import JobApplicationInterviewQuestions from "./components/JobApplications/JobApplicationInterviewQuestions"
+import JobApplicationInterviewQuestions from "./pages/JobApplications/components/JobApplicationInterviewQuestions"
 
 
 function App() {

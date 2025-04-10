@@ -35,3 +35,39 @@
 //     }
 //   }
 // }
+
+Cypress.Commands.add('login', (email, password) => {
+  cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
+    statusCode: 200,
+    body: {
+      token: "fake-token",
+      user: {
+        data: {
+          id: 1,
+          type: "user",
+          attributes: {
+            name: "Test User",
+            email: "testuser@example.com",
+            companies: [],
+          },
+        },
+      },
+    },
+  }).as('loginRequest');
+
+  cy.visit('http://localhost:3000/');
+  cy.get('#email').type(email);
+  cy.get('#password').type(password);
+  cy.get('[data-testid="login-button"]').click();
+  cy.wait('@loginRequest')
+});
+
+Cypress.Commands.add('mockJobApplications', () => {
+  cy.intercept('GET', 'http://localhost:3001/api/v1/users/1/job_applications', {
+    statusCode: 200,
+    fixture: 'mockJobApps',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).as('getJobApplications');
+});
