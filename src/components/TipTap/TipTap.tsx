@@ -8,7 +8,7 @@ import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight'; 
 import PopOver from './PopOver';
 
-const TipTap: React.FC<TipTapProps> = ({ content, onChange}) => {
+const TipTap: React.FC<TipTapProps> = ({ content, placeholder, onChange}) => {
   // Configure editor
   const editor = useEditor({
     extensions: [
@@ -18,7 +18,7 @@ const TipTap: React.FC<TipTapProps> = ({ content, onChange}) => {
         multicolor: true,
       }),
       Placeholder.configure({
-        placeholder: 'Notes ...',
+        placeholder: placeholder,
         includeChildren: true,
         showOnlyWhenEditable: true,
         emptyEditorClass: "is-empty"
@@ -51,7 +51,7 @@ const TipTap: React.FC<TipTapProps> = ({ content, onChange}) => {
         const end = editor.view.domAtPos(to).node;
 
         if (start.contains(e.target as Node) || end.contains(e.target as Node)) {
-          editor.commands.blur();
+          // editor.commands.blur();
           editor.commands.setTextSelection({from: to, to });
         }
       }

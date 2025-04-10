@@ -249,7 +249,6 @@ function NewJobApplication() {
               <span className="font-semibold">Notes:</span>
                 <div className="ProseMirror">
                   <TipTap 
-
                     content={notes}
                     placeholder={"Notes ... "}
                     onChange={setNotes}
