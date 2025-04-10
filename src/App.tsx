@@ -1,20 +1,18 @@
 import './App.css';
-// import { useState } from 'react';
-// import { UserData } from './Interfaces'
 import LoginForm from './Login';
 import MenuBar from './components/layout/MenuBar';
 import { useUserLoggedContext } from './context/UserLoggedContext';
 import UserInformation from './components/pages/userInformation';
 import UserRegistration from './components/UserRegistration';
 import { Route, Routes, Navigate } from 'react-router-dom';
-import Contacts from './components/contacts/Contacts';
-import NewContact from './components/contacts/NewContact';
+import Contacts from './pages/Contacts/Contacts';
+import NewContact from './pages/Contacts/components/NewContact';
 import Companies from './components/companies/Companies';
 import NewCompany from './components/companies/NewCompany';
 import NewJobApplication from './pages/JobApplications/components/NewJobApplication';
 import CompanyShow from './components/companies/CompanyShow';
 import ApplicationsGrid from './pages/JobApplications/JobApplications';
-import ShowContact from './components/contacts/ShowContact';
+import ShowContact from './pages/Contacts/components/ShowContact';
 import JobApplication from './pages/JobApplications/components/showJobApplication';
 import DashBoard from "./components/dashboard/dashboard";
 import { ErrorProvider } from "./context/ErrorContext";

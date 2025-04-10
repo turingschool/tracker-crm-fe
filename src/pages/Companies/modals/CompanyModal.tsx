@@ -1,5 +1,5 @@
 import React from "react";
-import NewCompany from "../companies/NewCompany";
+import NewCompany from "../../../components/companies/NewCompany";
 
 type CompanyModalProps = {
   open: boolean;
