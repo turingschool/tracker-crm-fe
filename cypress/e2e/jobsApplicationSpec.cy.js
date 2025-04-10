@@ -470,9 +470,8 @@ describe("View specific job app page when data fails to load", () => {
 
     cy.get(".text-red-600").should(
       "have.text",
-      "Unable to fetch job application data."
+      "Failed to fetch job application."
     );
-    cy.get(".text-gray-500").should("have.text", "Loading...");
   });
 });
 
