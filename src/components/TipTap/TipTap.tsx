@@ -35,13 +35,14 @@ const TipTap: React.FC<TipTapProps> = ({ content, onChange}) => {
     },
   })
 
-  // Close popover and unselect text when clicking in editor outside of popover
+  // *************
+  // Handle clicks on text selection -> collapse bubble menu and remove focus
   useEffect(() => {
     if (!editor) return;
 
     const editorEl = editor.view.dom;
 
-    const handleMouseDown = (e: MouseEvent) => {
+    const handleSelectionClick = (e: MouseEvent) => {
       const { state } = editor;
       const { from, to } = state.selection;
 
@@ -56,33 +57,57 @@ const TipTap: React.FC<TipTapProps> = ({ content, onChange}) => {
       }
     };
 
-    editorEl.addEventListener('mousedown', handleMouseDown);
+    editorEl.addEventListener('mousedown', handleSelectionClick);
 
     return () => {
-      editorEl.removeEventListener('mousedown', handleMouseDown);
+      editorEl.removeEventListener('mousedown', handleSelectionClick);
     };
   }, [editor]);
 
+  // Handle clicks inside of editor outside of bubble menu -> collapse bubble menu and remove focus
+  useEffect(() => {
+    if (!editor) return;
+
+    const handleClickInsideEditor = (e: MouseEvent) => {
+      const selection = window.getSelection();
+      if (!selection || selection.isCollapsed) return;
+
+      const clickedInsideBubble = (e.target as HTMLElement).closest('.tiptap-bubble-menu');
+      if (!clickedInsideBubble) {
+        editor.commands.setTextSelection(editor.state.selection.to);
+        editor.commands.blur();
+      }
+    };
+
+    editor.view.dom.addEventListener('mousedown', handleClickInsideEditor);
+
+    return () => {
+      editor.view.dom.removeEventListener('mousedown', handleClickInsideEditor);
+    };
+  }, [editor])
+
+  // Handle clicks ouside of the editor -> collapse bubble menu and remove focus
   useEffect(() => {
     if (!editor) return;
 
     const editorEl = editor.view.dom;
 
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleClickOutsideEditor = (e: MouseEvent) => {
       if (!editorEl.contains(e.target as Node)) {
         editor.commands.blur();
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutsideEditor);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutsideEditor);
     }
   }, [editor]);
+// *************************
 
   if (!editor) return null;
-  
+
   return (
     <>
       <PopOver editor={editor} />
