@@ -4,7 +4,7 @@ import { fetchApplicationsData } from '../../apiCalls';
 import ClipLoader from "react-spinners/ClipLoader";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import { JobApplication } from '../../Interfaces';
-import { statusMap, statusStyles} from "../JobApplicationUtilities";
+import { statusMap, statusStyles} from "./components/JobApplicationUtilities";
 import useSWR from 'swr';
 
 const ApplicationsGrid: React.FC = () => {
@@ -87,7 +87,9 @@ const ApplicationsGrid: React.FC = () => {
                     </td>
                     <td className="p-2 border-b">
                       <Link to={`/job_applications/${app.id}`}
-                      className="block w-full h-full p-2">
+                      className="block w-full h-full p-2"
+                      data-testid={`job-link-${app.id}`}
+                      >
                         {app.position_title}
                       </Link>
                     </td>

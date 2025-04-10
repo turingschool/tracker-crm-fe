@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { showJobApp, updateJobApplication } from "../../trackerApiCalls";
-import { useUserLoggedContext } from "../../context/UserLoggedContext";
-import { statusMap, statusStyles } from "../JobApplicationUtilities";
-import { deleteItem } from "../../trackerApiCalls";
-import { JobApplicationContact, JobApplicationAttributes, JobApplicationDataCompile } from "../../Interfaces";
-import DeleteItem from "../common/DeleteItem";
+import { showJobApp, updateJobApplication } from "../../../trackerApiCalls";
+import { useUserLoggedContext } from "../../../context/UserLoggedContext";
+import { statusMap, statusStyles } from "../../../pages/JobApplications/components/JobApplicationUtilities";
+import { deleteItem } from "../../../trackerApiCalls";
+import { JobApplicationContact, JobApplicationAttributes, JobApplicationDataCompile } from "../../../Interfaces";
+import DeleteItem from "../../../components/common/DeleteItem";
 import DatePicker from "react-datepicker";
 import moment from "moment-timezone";
 
@@ -19,13 +19,6 @@ function JobApplication() {
   const { token, userData } = useUserLoggedContext();
   const { user } = userData;
   const { jobAppId } = useParams<{ jobAppId?: string }>();
-  // const [status] = useState(0);
-  // const [positionTitle, setPositionTitle] = useState("");
-  // const [notes, setNotes] = useState("");
-  // const [jobDescription, setJobDescription] = useState("");
-  // const [applicationURL, setApplicationURL] = useState("");
-  // const [dateApplied, setDateApplied] = useState("");
-  // const [companyId] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [statusUpdateFlag, setStatusUpdateFlag] = useState(false);
 
@@ -33,7 +26,6 @@ function JobApplication() {
 
   const navigate = useNavigate();
   const userId = userData.user.data.id;
-
 
   useEffect(() => {
     if (jobAppId) {
@@ -52,7 +44,7 @@ function JobApplication() {
           setContacts(data.data.attributes.contacts);
         } catch (err) {
           console.error("Failed to fetch job application:", err);
-          setError("Unable to fetch job application data.");
+          setError(err instanceof Error ? err.message : "Unable to fetch job application data.");
         }
       };
       fetchJobApplication();
@@ -60,7 +52,6 @@ function JobApplication() {
   }, [jobAppId]);
 
   const filteredContact = contacts.filter(contact => contact.id === jobApp?.contact_id);
-
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
@@ -103,10 +94,8 @@ function JobApplication() {
       setStatusUpdateFlag(false)
     }
   }, [status, statusUpdateFlag])
-    
   return (
     <div className="min-h-screen mt-12 sm:p-8 sm:pt-6">
-      {error && <p className="text-red-600 text-center">{error}</p>}
       {jobApp ? (
         <main className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-8">
           <section>
@@ -127,7 +116,7 @@ function JobApplication() {
                 {jobApp.company_name}
               </h2>
             </Link>
-            <div className='flex flex-row items-center flex align-row mt-5 mb-4 text-lg text-gray-700 font-semibold'>
+            <div className='flex flex-row items-center align-row mt-5 mb-4 text-lg text-gray-700 font-semibold'>
               <p id="applied-on" className="mr-2 cursor-pointer">
                 Applied On: {" "}
               </p>
@@ -247,8 +236,13 @@ function JobApplication() {
                   {filteredContact[0].first_name} {filteredContact[0].last_name}
                   </Link>
                 ) : (
-                  <Link to="/contacts/new">
-                    <p className="text-cyan-600 font-semibold hover:text-cyan-500 underline underline-offset-8">
+                  <Link 
+                    to="/contacts/new"
+                    state={{ jobApplicationId: jobAppId }}
+                    >
+                    <p className="text-cyan-600 font-semibold hover:text-cyan-500 underline underline-offset-8"
+                    data-testid="add-new-contact"
+                    >
                       Add a new contact
                     </p>
                   </Link>
@@ -408,7 +402,7 @@ function JobApplication() {
           )}
         </main>
       ) : (
-        <p className="text-center text-gray-500">Loading...</p>
+        error && <p className="text-red-600 text-center">{error}</p>
       )}
     </div>
   );
