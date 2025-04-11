@@ -77,8 +77,8 @@ describe("View specific job app page with all fields filled in", () => {
 
     cy.get("h1.text-cyan-600")
       .should("have.text", "Backend Developer")
-      .next()
-      .should("have.text", "Creative Solutions Inc.");
+    cy.get("[data-testid='job-companyName'")
+      .should("have.text", 'Creative Solutions Inc.')
   });
 
   it("navigates to the company details page", () => {
@@ -115,7 +115,7 @@ describe("View specific job app page with all fields filled in", () => {
     cy.wait("@showSingleJobApp");
 
     cy.get("h2.text-cyan-700").should("contain.text", "Job Description");
-    cy.get(".mb-8 > .text-cyan-600")
+    cy.get('[data-testid="job-URL"]')
       .should(
         "have.attr",
         "href",
@@ -126,7 +126,7 @@ describe("View specific job app page with all fields filled in", () => {
       "contain.text",
       "Developing RESTful APIs and optimizing server performance"
     );
-    cy.get("section.mt-8 button.text-cyan-600").should(
+    cy.get('[data-testid="read-more"]').should(
       "have.text",
       "Read More..."
     );
@@ -137,7 +137,6 @@ describe("View specific job app page with all fields filled in", () => {
     cy.wait("@showSingleJobApp");
 
     cy.get("h2.text-cyan-700").should("contain.text", "Contacts at Creative Solutions Inc.");
-    // cy.get("a.text-cyan-500").should("contain.text", "Michael Johnson");
   });
 
   it("navigates to the contact's personal page when clicking on their name", () => {
@@ -150,7 +149,7 @@ describe("View specific job app page with all fields filled in", () => {
   it("handles the modal for full job description", () => {
     cy.wait("@showSingleJobApp");
 
-    cy.get("section.mt-8 button.text-cyan-600").click();
+    cy.get('[data-testid="read-more"]').click();
     cy.get("div.bg-white").within(() => {
       cy.get("h2").should("have.text", "Full Job Description");
       cy.get("p").should(
@@ -166,7 +165,7 @@ describe("View specific job app page with all fields filled in", () => {
     cy.wait("@showSingleJobApp");
 
     cy.get(".fixed.inset-0.bg-black.bg-opacity-50").should("not.exist");
-    cy.get("section.mt-8 button.text-cyan-600").click();
+    cy.get('[data-testid="read-more"]').click();
     cy.get(".fixed.inset-0.bg-black.bg-opacity-50").should("be.visible");
     cy.get(".text-cyan-600.text-xl.font-bold.mb-4").should("be.visible");
     cy.get(".mb-4").should("be.visible");
@@ -183,7 +182,7 @@ describe("View specific job app page with all fields filled in", () => {
     cy.wait("@showSingleJobApp");
 
     cy.get(".fixed.inset-0.bg-black.bg-opacity-50").should("not.exist");
-    cy.get("section.mt-8 button.text-cyan-600").click();
+    cy.get('[data-testid="read-more"]').click();
     cy.get(".fixed.inset-0.bg-black.bg-opacity-50").should("be.visible");
     cy.get(".text-cyan-600.text-xl.font-bold.mb-4").should("be.visible");
     cy.get(".mb-4").should("be.visible");
