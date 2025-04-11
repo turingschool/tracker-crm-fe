@@ -222,6 +222,7 @@ function JobApplication() {
                   {jobApp.job_description.slice(0, 150)}...
                 </p>
                 <button
+                  data-testid='read-more'
                   onClick={openModal}
                   className="text-cyan-600 underline hover:text-cyan-700 mt-2 block"
                 >
