@@ -97,90 +97,15 @@ function JobApplication() {
   return (
     <div className="min-h-screen mt-12 sm:p-8 sm:pt-6">
       {jobApp ? (
-        <main className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-8">
-          <section className="flex flex-col">
+        <main className="flex flex-col">
+          <div className="flex justify-between items-center mb-8">
             <h1
-              className="text-cyan-600 text-[5.5vh] font-bold mb-2"
+              className="text-cyan-600 text-[5.5vh] font-bold"
               data-testid="job-Title"
             >
               {jobApp.position_title}
             </h1>
-            <Link
-              className="p-0"
-              to={`/companies/${company_id}/contacts`}
-            >
-              <h2
-                className="text-[3vh] font-bold text-cyan-700 hover:text-cyan-500"
-                data-testid="job-companyName"
-              >
-                {jobApp.company_name}
-              </h2>
-            </Link>
-            <div className='flex flex-row items-center align-row mt-5 mb-4 text-lg text-gray-700 font-semibold'>
-              <p id="applied-on" className="mr-2 cursor-pointer">
-                Applied On: {" "}
-              </p>
-              {isEditing ? (
-                <div className="flex flex-col">
-                  <DatePicker
-                    selected={new Date(date_applied as string | number | Date)}
-                    onChange={(date_applied: Date | null) => {
-                      if (date_applied) {
-                        setJobApp({
-                          ...jobApp, date_applied: moment(date_applied).format("YYYY-MM-DD")
-                        });
-                      }
-                    }}
-                    inline
-                    className="font-semibold text-cyan-500 hover:text-cyan-700 cursor:pointer "
-                    onClickOutside={() => setIsEditing(false)}
-                    required
-                  />
-                </div>
-              ) : (
-                <span
-                  className="font-semibold text-cyan-600 cursor:pointer hover:text-cyan-500"
-                  data-testid="application-date"
-                  onClick={() => setIsEditing(true)}
-                >
-                  {moment(date_applied).isValid()
-                    ? moment(date_applied).format("MMMM D, YYYY")
-                    : date_applied}
-                </span>
-              )}
-            </div>
-            <div className="flex flex-row items-center text-lg text-gray-700 font-semibold">
-              <p id="application-status" className="mr-2">Status:</p>
-                <select
-                  value={status ?? 0}
-                  id="appStatus"
-                  onChange={(e) => {
-                    setJobApp({...jobApp, status: Number(e.target.value)})
-                    setStatusUpdateFlag(true)
-                  }}
-                  className={`py-1 px-2 m-2 border-transparent border-r-8 rounded focus:outline-none focus:ring-2  ${statusMap[status as number] ? statusStyles[statusMap[status as number]] : ''
-                    }`}
-                  required >
-                  <option value="" className="text-gray-400">
-                    Select Status
-                  </option>
-                  {Object.entries(statusMap).map(([key, value]) => (
-                  <option key={key} value={key}>
-                    {value}
-                  </option>
-                  ))}
-                </select>
-            </div>
-            <h3 className="text-cyan-600 text-2xl my-4">Notes</h3>
-            <p
-              className={`mb-6 whitespace-pre-wrap ${jobApp.notes ? "" : "text-cyan-500"}`}
-              data-testid="job-notes"
-            >
-              {jobApp.notes ? jobApp.notes : "Click edit to add some notes."}
-            </p>
-          </section>
-          <section className="flex flex-col">
-            <div className="flex justify-end mb-8 sticky top-4 z-10" data-testid="interview-questions"> 
+            <div data-testid="interview-questions"> 
               <Link to={`/job_applications/${jobAppId}/interviewQuestions`} 
                 state={{
                   jobAppId: jobAppId, 
@@ -194,89 +119,174 @@ function JobApplication() {
                 </button>
               </Link>
             </div>
-            <div className="flex flex-col">
-              <h2 className="text-cyan-700 text-2xl font-semibold sm:text-3xl mb-4">
+          </div>
+          
+          <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-8">
+            <section className="flex flex-col">
+              <div className="flex flex-row justify-between items-center mb-4">
+                <Link
+                  className="p-0"
+                  to={`/companies/${company_id}/contacts`}
+                >
+                  <h2
+                    className="text-[3vh] font-bold text-cyan-700 hover:text-cyan-500"
+                    data-testid="job-companyName"
+                  >
+                    {jobApp.company_name}
+                  </h2>
+                </Link>
+              </div>
+              
+              <div className='flex flex-row items-center align-row mt-5 mb-4 text-lg text-gray-700 font-semibold'>
+                <p id="applied-on" className="mr-2 cursor-pointer">
+                  Applied On: {" "}
+                </p>
+                {isEditing ? (
+                  <div className="flex flex-col">
+                    <DatePicker
+                      selected={new Date(date_applied as string | number | Date)}
+                      onChange={(date_applied: Date | null) => {
+                        if (date_applied) {
+                          setJobApp({
+                            ...jobApp, date_applied: moment(date_applied).format("YYYY-MM-DD")
+                          });
+                        }
+                      }}
+                      inline
+                      className="font-semibold text-cyan-500 hover:text-cyan-700 cursor:pointer "
+                      onClickOutside={() => setIsEditing(false)}
+                      required
+                    />
+                  </div>
+                ) : (
+                  <span
+                    className="font-semibold text-cyan-600 cursor:pointer hover:text-cyan-500"
+                    data-testid="application-date"
+                    onClick={() => setIsEditing(true)}
+                  >
+                    {moment(date_applied).isValid()
+                      ? moment(date_applied).format("MMMM D, YYYY")
+                      : date_applied}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-row items-center text-lg text-gray-700 font-semibold">
+                <p id="application-status" className="mr-2">Status:</p>
+                  <select
+                    value={status ?? 0}
+                    id="appStatus"
+                    onChange={(e) => {
+                      setJobApp({...jobApp, status: Number(e.target.value)})
+                      setStatusUpdateFlag(true)
+                    }}
+                    className={`py-1 px-2 m-2 border-transparent border-r-8 rounded focus:outline-none focus:ring-2  ${statusMap[status as number] ? statusStyles[statusMap[status as number]] : ''
+                      }`}
+                    required >
+                    <option value="" className="text-gray-400">
+                      Select Status
+                    </option>
+                    {Object.entries(statusMap).map(([key, value]) => (
+                    <option key={key} value={key}>
+                      {value}
+                    </option>
+                    ))}
+                  </select>
+              </div>
+              <h3 className="text-cyan-600 text-2xl my-4">Notes</h3>
+              <p
+                className={`mb-6 whitespace-pre-wrap ${jobApp.notes ? "" : "text-cyan-500"}`}
+                data-testid="job-notes"
+              >
+                {jobApp.notes ? jobApp.notes : "Click edit to add some notes."}
+              </p>
+            </section>
+            <section className="flex flex-col">
+              <h2 className="text-cyan-700 text-[3vh] font-bold mb-4">
                 Job Description
               </h2>
-              <a
-                href={jobApp.application_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-lg text-cyan-600 underline hover:text-cyan-500"
-                data-testid="job-URL"
-              >
-                {jobApp.application_url}
-              </a>
-              <p
-                className="mt-4 text-sm sm:text-base whitespace-pre-wrap"
-                data-testid="job-description"
-              >
-                {jobApp.job_description.slice(0, 150)}...
-              </p>
-              <button
-                onClick={openModal}
-                className="text-cyan-600 underline hover:text-cyan-700 mt-2 block"
-              >
-                Read More...
-              </button>
-            </div>
-            <div>
-              <h2 className="text-cyan-700 text-xl sm:text-2xl font-semibold mb-4">
-                    My Contacts at {jobApp.company_name}
-              </h2>
-              <ul>
-                {filteredContact.length > 0 ? (
-                  <Link
-                  key={filteredContact[0].id}
-                  to={`/contacts/${filteredContact[0].id}`}
-                  className="text-cyan-600 hover:text-cyan-500 text-lg font-semibold"
+              
+              <div className="flex flex-col mb-6">
+                <a
+                  href={jobApp.application_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-lg text-cyan-600 underline hover:text-cyan-500"
+                  data-testid="job-URL"
                 >
-                  {filteredContact[0].first_name} {filteredContact[0].last_name}
-                  </Link>
-                ) : (
-                  <Link 
-                    to="/contacts/new"
-                    state={{ jobApplicationId: jobAppId }}
-                    >
-                    <p className="text-cyan-600 font-semibold hover:text-cyan-500 underline underline-offset-8"
-                    data-testid="add-new-contact"
-                    >
-                      Add a new contact
-                    </p>
-                  </Link>
-                )}
-              </ul>
-            </div>
-          </section>
-          <section>
-            {/* Buttons */}
-            <div className="flex flex-col items-start ml-[5vw] space-y-4 sm:mt-8">
-              <button
-                className="border-2 border-cyan-600 text-cyan-700 px-8 py-2 rounded hover:bg-cyan-600 hover:text-white transition-all"
-                onClick={openEdit}
-                data-testid="edit-button"
-              >
-                Edit
-              </button>
-              {/* Code for a "Back" button that is not in the mock up */}
-              {/* <Link
-                className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded inline-block text-center ml-2"
-                to="/job_applications"
-              >
-                Back
-              </Link> */}
-                <div className="ml-6">
-                  <DeleteItem
-                    userId={userId}
-                    itemId={jobAppId || ""}
-                    itemType="job_application"
-                    deleteAction={deleteItem}
-                    token={token ?? ""}
-                    onDeleteSuccess={() => navigate("/job_applications")}
-                    />
-                </div>
-            </div>
-          </section>
+                  {jobApp.application_url}
+                </a>
+                <p
+                  className="mt-4 text-sm sm:text-base whitespace-pre-wrap"
+                  data-testid="job-description"
+                >
+                  {jobApp.job_description.slice(0, 150)}...
+                </p>
+                <button
+                  onClick={openModal}
+                  className="text-cyan-600 underline hover:text-cyan-700 mt-2 block"
+                >
+                  Read More...
+                </button>
+              </div>
+              
+              <div>
+                <h2 className="text-cyan-700 text-xl sm:text-2xl font-semibold mb-4">
+                      My Contacts at {jobApp.company_name}
+                </h2>
+                <ul>
+                  {filteredContact.length > 0 ? (
+                    <Link
+                    key={filteredContact[0].id}
+                    to={`/contacts/${filteredContact[0].id}`}
+                    className="text-cyan-600 hover:text-cyan-500 text-lg font-semibold"
+                  >
+                    {filteredContact[0].first_name} {filteredContact[0].last_name}
+                    </Link>
+                  ) : (
+                    <Link 
+                      to="/contacts/new"
+                      state={{ jobApplicationId: jobAppId }}
+                      >
+                      <p className="text-cyan-600 font-semibold hover:text-cyan-500 underline underline-offset-8"
+                      data-testid="add-new-contact"
+                      >
+                        Add a new contact
+                      </p>
+                    </Link>
+                  )}
+                </ul>
+              </div>
+            </section>
+            <section>
+              {/* Buttons */}
+              <div className="flex flex-col items-start ml-[5vw] space-y-4 sm:mt-8">
+                <button
+                  className="border-2 border-cyan-600 text-cyan-700 px-8 py-2 rounded hover:bg-cyan-600 hover:text-white transition-all"
+                  onClick={openEdit}
+                  data-testid="edit-button"
+                >
+                  Edit
+                </button>
+                {/* Code for a "Back" button that is not in the mock up */}
+                {/* <Link
+                  className="bg-transparent border border-cyan-600 text-cyan-600 px-4 py-2 rounded inline-block text-center ml-2"
+                  to="/job_applications"
+                >
+                  Back
+                </Link> */}
+                  <div className="ml-6">
+                    <DeleteItem
+                      userId={userId}
+                      itemId={jobAppId || ""}
+                      itemType="job_application"
+                      deleteAction={deleteItem}
+                      token={token ?? ""}
+                      onDeleteSuccess={() => navigate("/job_applications")}
+                      />
+                  </div>
+              </div>
+            </section>
+          </div>
 
           {isModalOpen && (
             <div
