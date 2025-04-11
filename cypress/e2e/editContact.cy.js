@@ -35,7 +35,7 @@ describe("Edit Contact Functionality", () => {
         ],
       },
       headers: { "Content-Type": "application/json" },
-    }).as("get-contacts");
+    }).as("getContacts");
 
     cy.intercept("GET", "http://localhost:3001/api/v1/users/2/contacts/1", {
       statusCode: 200,
@@ -91,9 +91,11 @@ describe("Edit Contact Functionality", () => {
 
     cy.get('[data-testid="contacts-iconD"]').click();
     cy.url().should("include", "/contacts");
+    cy.wait("@getContacts");
 
     cy.get("table tbody tr").first().click();
     cy.url().should("include", "/contacts/1");
+    cy.wait("@get-contact-details");
   });
 
   it("Should open the edit modal when clicking the Edit button", () => {
@@ -128,7 +130,7 @@ describe("Edit Contact Functionality", () => {
 
   it("Should close the modal when clicking the X button", () => {
     cy.get("button").contains("Edit").click();
-    cy.get(".absolute.top-2.right-2").click({ force: true });
+    cy.get('[aria-label="Close modal"]').click();
     cy.get(".bg-white").should("not.exist");
   });
 

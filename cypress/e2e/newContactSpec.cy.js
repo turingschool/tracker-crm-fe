@@ -51,24 +51,28 @@ describe("New Contacts page after logging in", () => {
       },
     }).as("getCompanies");
 
-    cy.intercept("POST", `http://localhost:3001/api/v1/users/2/companies`, {
-      statusCode: 201,
-      body: {
-        data: {
-          id: 3,
-          type: "company",
-          attributes: {
-            name: "Company 123",
-            website: "www.testcompany.com",
-            street_address: "123 Test St",
-            city: "Test City",
-            state: "CO",
-            zip_code: "80237",
-            notes: "Test notes",
+    cy.intercept(
+      "POST",
+      `http://localhost:3001/api/v1/users/2/companies`,
+      {
+        statusCode: 201,
+        body: {
+          data: {
+            id: 3,
+            type: "company",
+            attributes: {
+              name: "Company 123",
+              website: "www.testcompany.com",
+              street_address: "123 Test St",
+              city: "Test City",
+              state: "CO",
+              zip_code: "80237",
+              notes: "Test notes",
+            },
           },
         },
-      },
-    }).as("addCompany");
+      }
+    ).as("addCompany");
 
     cy.visit("http://localhost:3000/contacts");
     cy.get("#email").type("dollyP@email.com");
@@ -226,8 +230,6 @@ describe("New Contacts page after logging in", () => {
       cy.get("#companyName").type("Company Placeholder");
       cy.get(".max-w-4xl")
         .find("button[type='submit']")
-        .scrollIntoView()
-        .should("be.visible")
         .click();
       cy.wait("@addCompany");
 
@@ -352,26 +354,39 @@ describe("New Contacts page after logging in", () => {
     });
 
     it("Should not be able to create a new company with the same name", () => {
-      cy.intercept("POST", "http://localhost:3001/api/v1/users/2/companies", {
-        statusCode: 422,
+      cy.intercept("GET", "http://localhost:3001/api/v1/users/2/companies", {
+        statusCode: 200,
         body: {
-          error: "A company with this name already exists.",
+          data: [
+            {
+              id: 1,
+              attributes: {
+                name: "Company A",
+                website: "example.com",
+                street_address: "123 Main St",
+                city: "Denver",
+                state: "CO",
+                zip_code: "80202",
+                notes: "Test company",
+              },
+            },
+          ],
         },
-      }).as("duplicateCompany");
+      }).as("getCompanies");
 
       cy.get("a > .bg-cyan-600").click();
       cy.contains("button", "Add new company").click();
+      cy.wait("@getCompanies");
 
       cy.get("#companyName").type("Company A");
       cy.get(".max-w-4xl")
         .find("button[type='submit']")
-        .scrollIntoView()
         .click();
-      cy.get(".text-red-500").should(
+
+      cy.get('[data-testid="company-error"]').should(
         "contain.text",
         "A company with this name already exists."
       );
-      cy.contains("button", "X").scrollIntoView().click({ force: true });
     });
 
     it("Should keep the add company modal open when clicked", () => {
@@ -389,6 +404,6 @@ describe("New Contacts page after logging in", () => {
       cy.get("label").contains("State:").should("exist");
       cy.get("label").contains("Zip Code:").should("exist");
       cy.get("label").contains("Notes:").should("exist");
-    })
+    });
   });
 });

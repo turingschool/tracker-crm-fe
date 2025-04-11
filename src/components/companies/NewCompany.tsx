@@ -158,9 +158,15 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
               className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
               required
             />
-            {errors.name && <p className="text-red-500 mt-1">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-500" data-testid="company-error">
+                {errors.name}
+              </p>
+            )}
             {errors.duplicate && (
-              <p className="text-red-500 mt-1">{errors.duplicate}</p>
+              <p className="text-red-500" data-testid="company-error">
+                {errors.duplicate}
+              </p>
             )}
           </div>
           <div className="flex flex-col">
