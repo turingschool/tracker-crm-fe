@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useUserLoggedContext } from "../../context/UserLoggedContext";
-import { fetchCompanies } from "../../apiCalls";
-import { fetchNewContact } from "../../apiCalls";
-import { UserInformationProps, FormInputData } from "../../Interfaces";
-import CompanyModal from "./CompanyModal";
+import { useUserLoggedContext } from "../../../context/UserLoggedContext";
+import { fetchCompanies, fetchNewContact } from "../../../apiCalls";
+import { UserInformationProps, FormInputData } from "../../../Interfaces";
+import CompanyModal from "../../Companies/modals/CompanyModal";
 
 const NewContact = ({ userData }: UserInformationProps) => {
   const navigate = useNavigate();
