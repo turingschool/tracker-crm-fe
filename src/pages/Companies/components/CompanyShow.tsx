@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { US_STATES } from "../../constants/states";
+import { US_STATES } from "../../../constants/states";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { getACompany, deleteItem, updateCompany } from "../../trackerApiCalls";
-import { useUserLoggedContext } from '../../context/UserLoggedContext';
-import  DeleteItem  from "../common/DeleteItem";
-import { useErrorContext } from "../../context/ErrorContext";
-import { CompanyData } from "../../Interfaces";
+import { getACompany, deleteItem, updateCompany } from "../../../trackerApiCalls";
+import { useUserLoggedContext } from '../../../context/UserLoggedContext';
+import  DeleteItem  from "../../../components/common/DeleteItem";
+import { useErrorContext } from "../../../context/ErrorContext";
+import { CompanyData } from "../../../Interfaces";
 
 function CompanyShow() {
   const { id } = useParams<{ id: string }>();
