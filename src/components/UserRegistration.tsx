@@ -3,7 +3,7 @@ import turingLogo from '../Turing-logo.png';
 import FormField from './layout/FormField';
 import { NavLink, useNavigate } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader'; // Import the spinner
-import { registerUser } from '../apiCalls';
+import { registerUser } from '../trackerApiCalls';
 import { loginUser } from '../trackerApiCalls';
 import { useUserLoggedContext } from '../context/UserLoggedContext';
 import TrackerBar from './layout/TrackerBar';

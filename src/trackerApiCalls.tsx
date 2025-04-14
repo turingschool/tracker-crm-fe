@@ -1,3 +1,4 @@
+import { UserRegistrationData, FormInputData, NewContact } from "./Interfaces"
 import { handleErrorResponse } from "./context/ErrorHelpers";
 import { Company, CompanyData, APIResult, ChatGPTQuestion } from "./Interfaces";
 
@@ -7,40 +8,65 @@ const backendURL = `${apiURL}api/v1/`;
 
 
 /*----------------------------------// FETCH Companies //--------------------------------*/
-// Refactored to handle error messages through the backend.
+type FetchCompaniesOptions = {
+  userId: number;
+  token: string;
+};
+
+const fetchCompaniesBase = async ({ userId, token }: FetchCompaniesOptions): Promise<any> => {
+  const apiURL = process.env.REACT_APP_BACKEND_API_URL || "";
+  const backendURL = `${apiURL}api/v1/`;
+
+  const response = await fetch(`${backendURL}users/${userId}/companies`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch companies: ${response.statusText}`);
+  }
+
+  const result = await response.json();
+  return result.data;
+};
 export const fetchCompanies = async (
   userId: number,
   token: string,
   setErrors: (messages: string[]) => void
 ): Promise<APIResult<Company[]>> => {
   try {
-    const response = await fetch(`${backendURL}users/${userId}/companies`, {
-      method: "GET",
-      headers: {
-        authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      await handleErrorResponse(response, setErrors);
-      return { error: `Failed to fetch companies: ${response.statusText}` };
-    }
-
-    const data = await response.json();
-    return { data: data.data };
-  } catch (error: any) {
-    if (error && typeof error.message === "string" && error.message.includes("Failed to fetch")) {
+    const data = await fetchCompaniesBase({ userId, token });
+    return { data };
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+    if (error.message.includes("Failed to fetch")) {
       setErrors(["Unable to connect to the server. Please try again later."]);
       return { error: "Unable to connect to the server. Please try again later." };
     }
-    return { error: error.message || "An unexpected error occurred." };
+    setErrors([error.message]);
+    return { error: error.message };
+  }
+    setErrors(['An unexpected error occurred']);
+    return { error: "An unexpected error occurred." };
   }
 };
 
+export const fetchCompaniesMapped = async (
+  userId: number,
+  token: string | null
+): Promise<{ id: number; name: string }[]> => {
+  if (!userId || !token) throw new Error("Missing userId or token");
 
+  const data = await fetchCompaniesBase({ userId, token });
 
-
+  return data.map((company: any) => ({
+    id: company.id,
+    name: company.attributes.name,
+  }));
+};
 
 /*-----------------------------------// CREATE A COMPANY //---------------------------------*/
 //Refactored to handle error messages through the back end.
@@ -183,20 +209,17 @@ export const showJobApp = async (
     );
 
     if (!response.ok) {
-      const errorData = await response.json()
-        console.log('Response: ', errorData);
-      throw new Error(errorData.message || "Failed to fetch job application.")
+      console.log(response);
+
+      throw new Error(
+        `Failed to fetch job application data: ${response.status}`
+      );
     }
+
     return await response.json();
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error("Error in showJobApp:", error.message);
-      throw error;
-    }
-    else {
-      console.error("An unexpected error has occurred: ", error)
-      throw new Error("An unexpected error has occurred.")
-    }
+  } catch (err) {
+    console.error("Error in showJobApp:", err);
+    throw err;
   }
 };
 
@@ -332,6 +355,217 @@ export const postJobApplication = async (userParams: Record<string, any>) => {
   }
 };
 
+/*-----------------------------------// Index - Job Apps //--------------------------------------*/
+export const fetchApplicationsData = async (userId: number, token: string) => {
+  try {
+
+    const response = await fetch(`${backendURL}users/${userId}/job_applications`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`, 
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch applications: ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    const formattedData = result.data.map((item: any) => ({
+      id: item.id,
+      ...item.attributes,
+    }));
+
+    return formattedData;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
+export const registerUser = async (userData: UserRegistrationData): Promise<void> => {
+  try {
+    console.log(`backend ${backendURL}`)
+    const response = await fetch(`${backendURL}users`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      console.log('error', error);
+      console.log('Error: ', error)
+      throw new Error(error.message);
+    }
+
+    console.log('User successfully registered');
+    return await response.json();
+
+  } catch (error) {
+    console.error('Failed to register User:', error);
+    throw error;
+  }
+};
+
+/*-----------------------------------// DashBoard //--------------------------------------*/
+export const fetchDashBoardData = async (userId: number, token: string | null) => {
+  try {
+    const response = await fetch(`${backendURL}users/${userId}/dashboard`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch applications: ${response.statusText}`);
+    }
+    const result = await response.json();
+    const formattedData = result.data.attributes.dashboard.weekly_summary
+    return formattedData;
+  } catch (error) {
+    throw error;
+  }
+}
+
+/*-----------------------------------// Index - Contacts //--------------------------------------*/
+
+export const fetchContacts = async (userId: number, token: string | null) => {
+  try {
+    const apiURL = process.env.REACT_APP_BACKEND_API_URL
+    const backendURL = `${apiURL}api/v1/`
+    const response = await fetch(`${backendURL}users/${userId}/contacts`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+    });
+    if (!response.ok) {
+      throw new Error(`Failed to fetch contacts: ${response.statusText}`);
+    }
+    const result = await response.json();
+    const formattedData = result.data 
+    return formattedData;
+  } catch (error) {
+    throw error;
+  }
+}
+
+  /*-----------------------------------// Post- Contact //--------------------------------------*/
+  export const fetchNewContact = async (userId: number | undefined, token: string | null, formInputData: FormInputData, newContact: NewContact) => {
+    try {
+      let url = `${backendURL}users/${userId}/contacts`;
+        if (formInputData.companyId) {
+          url = `${backendURL}users/${userId}/companies/${formInputData.companyId}/contacts`;
+        }
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newContact),
+        });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+        console.log('response', errorData)
+      throw new Error(errorData.message || "Failed to add the contact");
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error adding contact:", error.message);
+      throw (error);
+    }
+  }
+}
+
+  /*-----------------------------------// Show - Contact //--------------------------------------*/
+export const fetchShowContact = async (userId: number | undefined, token: string | null, contactId: string | undefined) => {
+  try {
+    const response = await fetch(
+      `${backendURL}users/${userId}/contacts/${contactId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to fetch contact: ${response.statusText}`);
+    }
+    const result = await response.json();
+    return result
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error fetching contact:", error.message);
+      throw error;
+    }
+  }
+}
+
+  /*-----------------------------------// Update - Contact //--------------------------------------*/
+  export const fetchUpdatedContact = async (
+    userId: number,
+    contactId: number,
+    updatedContactData: any,
+    token: string
+  ) => {
+    const response = await fetch(
+      `${backendURL}users/${userId}/contacts/${contactId}`, 
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ contact: updatedContactData }),
+      }
+    );
+  
+    if (!response.ok) {
+      throw new Error(`Failed to update contact. Status: ${response.status}`);
+    }
+  
+    const result = await response.json();
+    return result.data; 
+  };
+
+  /*-----------------------------------//  Company Contacts //--------------------------------------*/
+export const fetchCompanyContact = async (userId: number | undefined, token: string | null, companyId: string) => {
+  try {
+    const response = await fetch(
+      `${backendURL}users/${userId}/companies/${companyId}/contacts`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error(
+        `Failed to fetch a company's contacts: ${response.statusText}`
+      );
+    }
+    const result = await response.json();  
+    const contactsList = result.contacts.data;
+    return contactsList
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Please try again later", error.message);
+      throw error;
+    }
+  }
+}
 
 /*-----------------------------------// GET INTERVIEW QUESTIONS //--------------------------------------*/
 export const fetchInterviewQuestions = async (

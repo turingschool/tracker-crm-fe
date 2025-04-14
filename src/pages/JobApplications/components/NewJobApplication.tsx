@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../../context/UserLoggedContext';
 import { statusMap, statusStyles} from "../../../pages/JobApplications/components/JobApplicationUtilities";
-import { fetchContacts, fetchCompanies } from "../../../apiCalls";
-import { postJobApplication } from '../../../trackerApiCalls';
+import { fetchContacts, fetchCompaniesMapped, postJobApplication } from "../../../trackerApiCalls";
+
 
 interface Company {
-  id: string;
+  id: number;
   name: string;
 }
 
@@ -62,17 +62,20 @@ function NewJobApplication() {
 
   useEffect(() => {
     const getCompanies = async () => {
-      if (!token || !userData?.user?.data?.id) return;
-
+      const userId = userData?.user?.data?.id;
+  
+      if (!token || !userId) return;
+  
       try {
-        const companies = await fetchCompanies(userData.user.data.id, token)
+        const companies = await fetchCompaniesMapped(userId, token);
         setCompanies(companies);
-      } catch (error) {
-        console.error("Fetch error", error);
+      } catch (error: any) {
+        console.error("Fetch error", error.message);
       }
     };
+  
     getCompanies();
-  }, [userData.user.data.id, token]);
+  }, [userData?.user?.data?.id, token]);
 
 	function validateURL(url: string) {
 		if (url.includes("http://") || url.includes("https://")) {

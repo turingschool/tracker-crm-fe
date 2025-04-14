@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { fetchUpdatedContact } from "../../../apiCalls";
+import { fetchUpdatedContact } from "../../../trackerApiCalls";
 import { ContactData } from "../../../Interfaces";
 
 type EditContactModalProps = {
