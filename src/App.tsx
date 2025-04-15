@@ -14,7 +14,7 @@ import CompanyShow from './pages/Companies/components/CompanyShow';
 import ApplicationsGrid from './pages/JobApplications/JobApplications';
 import ShowContact from './pages/Contacts/components/ShowContact';
 import JobApplication from './pages/JobApplications/components/showJobApplication';
-import DashBoard from "./components/dashboard/dashboard";
+import DashBoard from "./pages/Dashboard/dashboard";
 import { ErrorProvider } from "./context/ErrorContext";
 import JobApplicationInterviewQuestions from "./pages/JobApplications/components/JobApplicationInterviewQuestions"
 
