@@ -19,7 +19,7 @@
 ### Related Tickets
 <!--- example: closes #12 https://docs.github.com/en/issues/tracking-your-work-with-issues/using-issues/linking-a-pull-request-to-an-issue -->
 
-### Screenshots (if appllicable):
+### Screenshots (if applicable):
 
 ### Added Test?
 - [ ] Yes 🫡

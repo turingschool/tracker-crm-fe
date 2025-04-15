@@ -1,4 +1,4 @@
-import logo from "../../turing-logo-gray.png";
+import logo from "../../../assets/turing-logo-gray.png";
 import { useParams, NavLink, Link, Outlet } from "react-router-dom";
 import { useState } from "react";
 import { useUserLoggedContext } from "../../../context/UserLoggedContext";

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import turingLogo from '../Turing-logo.png';
+import turingLogo from '../../../assets/Turing-logo.png';
 import FormField from './FormField';
 import { NavLink, useNavigate } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader'; // Import the spinner

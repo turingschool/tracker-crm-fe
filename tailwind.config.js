@@ -9,7 +9,7 @@ module.exports = {
     extend: {
       backgroundImage: (theme) => ({
         none: "none",
-        "turing-logo": "url('turing-logo-gray.png')",
+        "turing-logo": "url('./assets/turing-logo-gray.png')",
       }),
       colors: {
         cyan: {

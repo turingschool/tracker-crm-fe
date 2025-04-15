@@ -1,5 +1,5 @@
 import { useNavigate, NavLink } from 'react-router-dom';
-import turingLogo from './Turing-logo.png';
+import turingLogo from '../../assets/Turing-logo.png';
 import { useState } from 'react';
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import TrackerBar from './components/TrackerBar';
