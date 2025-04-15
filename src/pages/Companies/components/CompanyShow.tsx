@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { US_STATES } from "../../../constants/states";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { getACompany, deleteItem, updateCompany } from "../../../trackerApiCalls";
+import { getACompany, deleteItem, updateCompany } from "../../../constants/trackerApiCalls";
 import { useUserLoggedContext } from '../../../context/UserLoggedContext';
-import  DeleteItem  from "../../../components/common/DeleteItem";
+import  DeleteItem  from "../../../constants/DeleteItem";
 import { useErrorContext } from "../../../context/ErrorContext";
 import { CompanyData } from "../../../Interfaces";
 

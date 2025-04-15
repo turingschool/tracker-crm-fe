@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import turingLogo from '../Turing-logo.png';
-import FormField from '../../../components/layout/FormField';
+import FormField from './FormField';
 import { NavLink, useNavigate } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader'; // Import the spinner
-import { registerUser } from '../../../apiCalls';
-import { loginUser } from '../../../trackerApiCalls';
+import { registerUser } from '../../../constants/apiCalls';
+import { loginUser } from '../../../constants/trackerApiCalls';
 import { useUserLoggedContext } from '../../../context/UserLoggedContext';
 import TrackerBar from './TrackerBar';
 

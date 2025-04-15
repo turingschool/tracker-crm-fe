@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
 import { Company } from "../../Interfaces";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
-import { fetchCompanies } from "../../trackerApiCalls";
+import { fetchCompanies } from "../../constants/trackerApiCalls";
 import { useErrorContext } from "../../context/ErrorContext";
 
 function Companies() {
