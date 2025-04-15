@@ -5,7 +5,7 @@ import { getACompany, deleteItem, updateCompany } from "../../../constants/track
 import { useUserLoggedContext } from '../../../context/UserLoggedContext';
 import  DeleteItem  from "../../../constants/DeleteItem";
 import { useErrorContext } from "../../../context/ErrorContext";
-import { CompanyData } from "../../../Interfaces";
+import { CompanyData } from "../../../constants/Interfaces";
 
 function CompanyShow() {
   const { id } = useParams<{ id: string }>();

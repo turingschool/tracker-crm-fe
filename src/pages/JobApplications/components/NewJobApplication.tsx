@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../../context/UserLoggedContext';
 import { statusMap, statusStyles} from "../../../pages/JobApplications/components/JobApplicationUtilities";
-import { fetchContacts, fetchCompanies } from "../../../apiCalls";
-import { postJobApplication } from '../../../trackerApiCalls';
+import { fetchContacts, fetchCompanies } from "../../../constants/apiCalls";
+import { postJobApplication } from '../../../constants/trackerApiCalls';
 
 interface Company {
   id: string;

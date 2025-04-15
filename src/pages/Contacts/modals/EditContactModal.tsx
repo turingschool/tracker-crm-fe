@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { fetchUpdatedContact } from "../../../apiCalls";
-import { ContactData } from "../../../Interfaces";
+import { fetchUpdatedContact } from "../../../constants/apiCalls";
+import { ContactData } from "../../../constants/Interfaces";
 
 type EditContactModalProps = {
   open: boolean;

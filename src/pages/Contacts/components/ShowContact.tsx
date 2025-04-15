@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../../context/UserLoggedContext";
 import { Link } from "react-router-dom";
-import DeleteItem from "../../../components/common/DeleteItem";
-import { deleteItem } from "../../../trackerApiCalls";
-import { Contact, ContactData } from "../../../Interfaces"
-import { fetchShowContact, fetchCompanyContact, fetchUpdatedContact } from "../../../apiCalls"
+import DeleteItem from "../../../constants/DeleteItem";
+import { deleteItem } from "../../../constants/trackerApiCalls";
+import { Contact, ContactData } from "../../../constants/Interfaces"
+import { fetchShowContact, fetchCompanyContact, fetchUpdatedContact } from "../../../constants/apiCalls"
 import EditContactModal from "../modals/EditContactModal";
 
 function ShowContact() {

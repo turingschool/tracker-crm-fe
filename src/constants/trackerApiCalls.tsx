@@ -1,5 +1,5 @@
-import { handleErrorResponse } from "./context/ErrorHelpers";
-import { Company, CompanyData, APIResult, ChatGPTQuestion } from "./Interfaces";
+import { handleErrorResponse } from "../context/ErrorHelpers";
+import { Company, CompanyData, APIResult, ChatGPTQuestion } from "../constants/Interfaces";
 
 const apiURL = process.env.REACT_APP_BACKEND_API_URL;
 const backendURL = `${apiURL}api/v1/`;

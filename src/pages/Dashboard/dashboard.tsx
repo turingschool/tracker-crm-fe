@@ -2,7 +2,7 @@ import {useUserLoggedContext} from "../../context/UserLoggedContext";
 import { fetchDashBoardData } from '../../constants/apiCalls';
 import React, {useState,useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {DashBoardDattaI, CountProps} from "../../Interfaces";
+import {DashBoardDattaI, CountProps} from "../../constants/Interfaces";
 
 export const DashBoard : React.FC = () => {
     const [dashData, setDashData] = useState<DashBoardDattaI>(
