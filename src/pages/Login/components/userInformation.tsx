@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { UserInformationProps, DataCompile } from '../../Interfaces'
-import { updateUser } from '../../trackerApiCalls'
+import { UserInformationProps, DataCompile } from '../../../Interfaces'
+import { updateUser } from '../../../trackerApiCalls'
 
 function UserInformation({userData}: UserInformationProps) {
   const [name, setName] = useState(userData.user.data.attributes.name);

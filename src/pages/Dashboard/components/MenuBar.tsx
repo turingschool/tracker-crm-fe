@@ -1,7 +1,7 @@
 import logo from "../../turing-logo-gray.png";
 import { useParams, NavLink, Link, Outlet } from "react-router-dom";
 import { useState } from "react";
-import { useUserLoggedContext } from "../../context/UserLoggedContext";
+import { useUserLoggedContext } from "../../../context/UserLoggedContext";
 
 // MUI Icons
 import HomeIcon from "@mui/icons-material/Home";
