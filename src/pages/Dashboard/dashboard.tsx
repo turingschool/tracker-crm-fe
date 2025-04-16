@@ -63,21 +63,21 @@ export const DashBoard : React.FC = () => {
                         <h1>Welcome, {userData.user.data.attributes.name}</h1>
                     </div>
                     <Link to="/job_applications">
-                        <div id="jobApplications" className="bg-white w-full sm:w-[90vw] md:w-[44vw] lg:w-[28vw] h-53 sm:h-52 md:h-56 mb-8 rounded-[20px] shadow-black shadow-xl">
+                        <div id="jobApplications" data-cy="applicationsCard" className="bg-white w-full sm:w-[90vw] md:w-[44vw] lg:w-[28vw] h-53 sm:h-52 md:h-56 mb-8 rounded-[20px] shadow-black shadow-xl">
                             <label className="text-center block text-lg sm:text-xl font-bold text-cyan-600 mt-8 mb-5 pt-5">Jobs</label>
                             <ConditionallyRenderCard section="job application" sectionCount={jobApplicationsCount} sectionDescription="New apps submitted this week" />
                         </div>
                     </Link>
 
                     <Link to="/contacts">
-                        <div id="contacts" className="bg-white w-full sm:w-[90vw] md:w-[44vw] lg:w-[28vw] h-53 sm:h-52 md:h-56 rounded-[20px] shadow-black shadow-xl">
+                        <div id="contacts" data-cy="contactsCard" className="bg-white w-full sm:w-[90vw] md:w-[44vw] lg:w-[28vw] h-53 sm:h-52 md:h-56 rounded-[20px] shadow-black shadow-xl">
                             <label className="text-center block text-[20px] font-bold text-cyan-600 mt-8 mb-5 pt-5">Contacts</label>
                             <ConditionallyRenderCard section="contact" sectionCount={contactsCount} sectionDescription="New connections this week"/>
                         </div>
                     </Link>
 
                     <Link to="/companies">
-                        <div id="companies" className="bg-white w-full sm:w-[90vw] md:w-[44vw] lg:w-[28vw] h-53 sm:h-52 md:h-56 rounded-[20px] shadow-black shadow-xl">
+                        <div id="companies" data-cy="companiesCard" className="bg-white w-full sm:w-[90vw] md:w-[44vw] lg:w-[28vw] h-53 sm:h-52 md:h-56 rounded-[20px] shadow-black shadow-xl">
                             <label className='text-center block text-[20px] font-bold text-cyan-600 mt-8 mb-5 pt-5'>Companies</label>
                             <ConditionallyRenderCard section="company" sectionCount={companiesCount} sectionDescription="New companies this week"/>
                         </div>
