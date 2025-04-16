@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
-import { UserData } from '../Interfaces';
+import { UserData } from '../constants/Interfaces';
 
 interface Value {
   token: string | null,

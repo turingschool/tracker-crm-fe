@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import turingLogo from '../Turing-logo.png';
-import FormField from './layout/FormField';
+import turingLogo from '../../../assets/Turing-logo.png';
+import FormField from './FormField';
 import { NavLink, useNavigate } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader'; // Import the spinner
-import { registerUser } from '../apiCalls';
-import { loginUser } from '../trackerApiCalls';
-import { useUserLoggedContext } from '../context/UserLoggedContext';
-import TrackerBar from './layout/TrackerBar';
+import { registerUser } from '../../../constants/apiCalls';
+import { loginUser } from '../../../constants/trackerApiCalls';
+import { useUserLoggedContext } from '../../../context/UserLoggedContext';
+import TrackerBar from './TrackerBar';
 
 function UserRegistration(): React.ReactElement {
   const [name, setName] = useState<string>('');

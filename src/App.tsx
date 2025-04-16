@@ -1,9 +1,9 @@
 import './App.css';
-import LoginForm from './Login';
-import MenuBar from './components/layout/MenuBar';
+import LoginForm from './pages/Login/Login';
+import MenuBar from './pages/Dashboard/components/MenuBar';
 import { useUserLoggedContext } from './context/UserLoggedContext';
-import UserInformation from './components/pages/userInformation';
-import UserRegistration from './components/UserRegistration';
+import UserInformation from './pages/Login/components/userInformation';
+import UserRegistration from './pages/Login/components/UserRegistration';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Contacts from './pages/Contacts/Contacts';
 import NewContact from './pages/Contacts/components/NewContact';

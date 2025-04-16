@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { showJobApp, updateJobApplication } from "../../../trackerApiCalls";
+import { showJobApp, updateJobApplication } from "../../../constants/trackerApiCalls";
 import { useUserLoggedContext } from "../../../context/UserLoggedContext";
 import { statusMap, statusStyles } from "../../../pages/JobApplications/components/JobApplicationUtilities";
-import { deleteItem } from "../../../trackerApiCalls";
-import { JobApplicationContact, JobApplicationAttributes, JobApplicationDataCompile } from "../../../Interfaces";
-import DeleteItem from "../../../components/common/DeleteItem";
+import { deleteItem } from "../../../constants/trackerApiCalls";
+import { JobApplicationContact, JobApplicationAttributes, JobApplicationDataCompile } from "../../../constants/Interfaces";
+import DeleteItem from "../../../constants/DeleteItem";
 import DatePicker from "react-datepicker";
 import moment from "moment-timezone";
 

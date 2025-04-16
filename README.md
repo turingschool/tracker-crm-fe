@@ -2,7 +2,7 @@
 
 <div style="display: flex; align-items: center; justify-content: center; gap: 1rem;">
   <a href="https://turing.edu/">
-    <img src="./src/Turing-logo.png" alt="Logo" width="80" height="80">
+    <img src="./src/assets/Turing-logo.png" alt="Logo" width="80" height="80">
   </a>
   <h1 style="font-size: 3.5rem; margin: 0;">Tracker by Turing</h1>
 </div>
