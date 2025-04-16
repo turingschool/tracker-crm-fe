@@ -4,7 +4,7 @@ import { useUserLoggedContext } from '../../../context/UserLoggedContext';
 import { statusMap, statusStyles} from "../../../pages/JobApplications/components/JobApplicationUtilities";
 import { fetchContacts, fetchCompanies } from "../../../constants/apiCalls";
 import { postJobApplication } from '../../../constants/trackerApiCalls';
-import TipTap from '../../../components/TipTap/TipTap';
+import TipTap from '../../../wysiwyg/TipTap';
 
 interface Company {
   id: string;
@@ -251,7 +251,7 @@ function NewJobApplication() {
                   <TipTap 
                     content={notes}
                     placeholder={"Notes ... "}
-                    onUpdate={(html) => setNotes(html)}
+                    onUpdate={(html: string) => setNotes(html)}
                   />
                 </div>
             </label>

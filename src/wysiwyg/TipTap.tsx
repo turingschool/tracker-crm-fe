@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import { TipTapProps } from '../../Interfaces';
+import { TipTapProps } from '../constants/Interfaces';
 import Placeholder from '@tiptap/extension-placeholder';
 import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight'; 

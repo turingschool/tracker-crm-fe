@@ -1,5 +1,5 @@
 import { BubbleMenu, BubbleMenuProps } from '@tiptap/react';
-import { PopOverProps } from '../../Interfaces';
+import { PopOverProps } from '../constants/Interfaces';
 import FormatBold from '@mui/icons-material/FormatBold';
 import FormatItalic from '@mui/icons-material/FormatItalic';
 import FormatUnderlined from '@mui/icons-material/FormatUnderlined';
