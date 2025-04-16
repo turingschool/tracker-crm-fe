@@ -3,6 +3,7 @@ import { US_STATES } from "../../../constants/states";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { getACompany, deleteItem, updateCompany } from "../../../constants/trackerApiCalls";
 import { useUserLoggedContext } from '../../../context/UserLoggedContext';
+import HTMLRender from "../../../wysiwyg/HTMLRender"; 
 import  DeleteItem  from "../../../constants/DeleteItem";
 import { useErrorContext } from "../../../context/ErrorContext";
 import { CompanyData } from "../../../constants/Interfaces";
@@ -236,7 +237,7 @@ function CompanyShow() {
                 Notes
               </span>
               <p className="text-gray-600 whitespace-pre-wrap">
-                {companyAttributes.notes}
+                {<HTMLRender htmlString={companyAttributes.notes} />}
               </p>
             </div>
           </div>
