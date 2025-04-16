@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { DeleteItemProps } from "../../Interfaces";
+import { DeleteItemProps } from "../constants/Interfaces";
 
 
 const DeleteItem = ({

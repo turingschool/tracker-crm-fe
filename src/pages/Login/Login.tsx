@@ -1,10 +1,9 @@
 import { useNavigate, NavLink } from 'react-router-dom';
-import turingLogo from './Turing-logo.png';
+import turingLogo from '../../assets/Turing-logo.png';
 import { useState } from 'react';
-// import { LoginFormProps } from './Interfaces';
-import { useUserLoggedContext } from './context/UserLoggedContext';
-import TrackerBar from './components/layout/TrackerBar';
-import { loginUser } from './trackerApiCalls'
+import { useUserLoggedContext } from '../../context/UserLoggedContext';
+import TrackerBar from './components/TrackerBar';
+import { loginUser } from '../../constants/trackerApiCalls'
 
 const LoginForm: React.FC = () => {
   const [email, setEmail] = useState('');
