@@ -5,6 +5,7 @@ import { useUserLoggedContext } from "../../../context/UserLoggedContext";
 import { statusMap, statusStyles } from "../../../pages/JobApplications/components/JobApplicationUtilities";
 import { deleteItem } from "../../../constants/trackerApiCalls";
 import { JobApplicationContact, JobApplicationAttributes, JobApplicationDataCompile } from "../../../constants/Interfaces";
+import HTMLRender from "../../../wysiwyg/HTMLRender"; 
 import DeleteItem from "../../../constants/DeleteItem";
 import DatePicker from "react-datepicker";
 import moment from "moment-timezone";
@@ -197,7 +198,7 @@ function JobApplication() {
                 className={`mb-6 whitespace-pre-wrap ${jobApp.notes ? "" : "text-cyan-500"}`}
                 data-testid="job-notes"
               >
-                {jobApp.notes ? jobApp.notes : "Click edit to add some notes."}
+                {jobApp.notes ? <HTMLRender htmlString={jobApp.notes} /> : "Click edit to add some notes."}
               </p>
             </section>
             <section className="flex flex-col">
