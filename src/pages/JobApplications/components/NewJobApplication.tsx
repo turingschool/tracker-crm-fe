@@ -3,20 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../../context/UserLoggedContext';
 import { statusMap, statusStyles} from "../../../pages/JobApplications/components/JobApplicationUtilities";
 import { fetchContacts, fetchCompanies } from "../../../constants/apiCalls";
+import { BasicCompany, BasicContact } from "../../../constants/Interfaces";
 import { postJobApplication } from '../../../constants/trackerApiCalls';
 import TipTap from '../../../wysiwyg/TipTap';
-
-interface Company {
-  id: string;
-  name: string;
-}
-
-interface Contact {
-  id: string;
-  first_name: string;
-  last_name: string;
-  company_id: string;
-}
 
 function NewJobApplication() {
   const navigate = useNavigate();
@@ -30,8 +19,8 @@ function NewJobApplication() {
   const [applicationURL, setApplicationURL] = useState('');
   const [contactInformation, setContactInformation] = useState('');
   const [availableCompany, setAvailableCompany] = useState("");
-  const [companies, setCompanies] = useState<Company[]>([]);
-  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [companies, setCompanies] = useState<BasicCompany[]>([]);
+  const [contacts, setContacts] = useState<BasicContact[]>([]);
 
   useEffect(() => {
     const getContacts = async () => {
