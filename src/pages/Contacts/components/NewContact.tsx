@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserLoggedContext } from "../../../context/UserLoggedContext";
 import { fetchCompanies, fetchNewContact } from "../../../constants/apiCalls";
 import { UserInformationProps, FormInputData } from "../../../constants/Interfaces";
 import CompanyModal from "../../Companies/modals/CompanyModal";
+import TipTap from '../../../wysiwyg/TipTap';
 
 const NewContact = ({ userData }: UserInformationProps) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const jobApplicationId = location.state?.jobApplicationId
+  const jobApplicationId = location.state?.jobApplicationId;
+  const editorContainerRef = useRef<HTMLDivElement>(null);
 
   const { token } = useUserLoggedContext();
   const userId = userData.user.data.id
@@ -269,16 +271,19 @@ const NewContact = ({ userData }: UserInformationProps) => {
             >
               Notes
             </label>
-            <textarea
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
-              id="notes"
-              name="notes"
-              placeholder="Add notes here"
-              rows={5}
-              cols={50}
-              value={formInputData.notes}
-              onChange={handleInputChange}
-            />
+            <div className="ProseMirror">
+              <TipTap
+                content={formInputData.notes}
+                placeholder="Add notes here"
+                editorContainerRef={editorContainerRef}
+                onUpdate={(html: string) => 
+                  setFormInputData(prev => ({
+                    ...prev,
+                    notes: html
+                  }))
+                }
+              />
+            </div>
           </div>
 
           <div className="text-left">

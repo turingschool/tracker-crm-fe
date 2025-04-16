@@ -251,7 +251,8 @@ export interface ChatGPTQuestion {
 export interface TipTapProps {
   content: string
   placeholder?: string
-  onUpdate?: (content: string ) => void
+  onUpdate?: (content: string ) => void;
+  editorContainerRef?: React.RefObject<HTMLDivElement>;
 }
 
 export interface PopOverProps {

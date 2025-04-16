@@ -8,7 +8,7 @@ import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight'; 
 import PopOver from './PopOver';
 
-const TipTap: React.FC<TipTapProps> = ({ content, placeholder, onUpdate}) => {
+const TipTap: React.FC<TipTapProps> = ({ content, placeholder, onUpdate, editorContainerRef}) => {
   const [isFocused, setIsFocused] = useState(false);
   const editorRef = useRef<HTMLDivElement>(null);
   const bubbleMenuRef = useRef<HTMLDivElement>(null);
@@ -50,9 +50,10 @@ const TipTap: React.FC<TipTapProps> = ({ content, placeholder, onUpdate}) => {
   // Handle focus when user interacts with editor and page
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      const activeEditorRef = editorContainerRef || editorRef;
       if (
-        editorRef.current &&
-        !editorRef.current.contains(event.target as Node) &&
+        activeEditorRef.current &&
+        !activeEditorRef.current.contains(event.target as Node) &&
         bubbleMenuRef.current &&
         !bubbleMenuRef.current.contains(event.target as Node)
       ) {
@@ -68,13 +69,13 @@ const TipTap: React.FC<TipTapProps> = ({ content, placeholder, onUpdate}) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     }
-  }, [editor, isFocused]);
+  }, [editor, isFocused, editorContainerRef]);
 // *************************
 
   if (!editor) return null;
 
   return (
-    <div ref={editorRef} >
+    <div ref={ editorContainerRef || editorRef} >
       <PopOver editor={editor} ref={bubbleMenuRef} />
       <EditorContent editor={editor} />
     </div>
