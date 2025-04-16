@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../../context/UserLoggedContext";
 import { Link } from "react-router-dom";
 import DeleteItem from "../../../constants/DeleteItem";
+import HTMLRender from "../../../wysiwyg/HTMLRender";
 import { deleteItem } from "../../../constants/trackerApiCalls";
 import { Contact, ContactData } from "../../../constants/Interfaces"
 import { fetchShowContact, fetchCompanyContact, fetchUpdatedContact } from "../../../constants/apiCalls"
@@ -339,7 +340,7 @@ function ShowContact() {
           Notes
         </span>
         <p data-testid="note-text" className="text-gray-600 mt-[2vh] whitespace-pre-wrap">
-          {contact.attributes.notes}
+          {<HTMLRender htmlString={contact.attributes.notes} />}
         </p>
 
         <div className="mt-[10vh] flex flex-col items-center space-y-4 ml-[-16vw]">
