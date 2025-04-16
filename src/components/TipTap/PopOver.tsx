@@ -8,10 +8,12 @@ import Highlight from '@mui/icons-material/Highlight';
 const PopOver: React.FC<PopOverProps> = ({ editor , ref }) => {
   if (!editor) return null;
   
+  // Ensure that PopOverMenu is only visible when text is selected
   const shouldShow: BubbleMenuProps['shouldShow']= ({ editor, from, to }) => {
     return from !== to && !editor.isActive('code');
   }
 
+  // Prevent child component operations from affecting parent components
   const handleDefaultAndPropagation = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();

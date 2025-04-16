@@ -47,6 +47,7 @@ const TipTap: React.FC<TipTapProps> = ({ content, placeholder, onUpdate}) => {
     },
   });
 
+  // Handle focus when user interacts with editor and page
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
