@@ -28,6 +28,11 @@ export interface CompanyAttributes {
   notes: string;
 }
 
+export interface BasicCompany {
+  id: string;
+  name: string;
+}
+
 export interface Company {
   id: number;
   type: string;
@@ -101,8 +106,16 @@ export interface DashBoardDattaI{
     last_name: string;
   }
 
+  export interface BasicContact {
+    id: string;
+    first_name: string;
+    last_name: string;
+    company_id: string;
+  }
+
   export interface Contact {
     id: string;
+    type: string;
     attributes: ContactAttributes;
   }
 
