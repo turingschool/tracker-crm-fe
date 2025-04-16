@@ -52,6 +52,11 @@ Vist the [Tracker Site](https://tracker-crm-fe-38f7cf1aaca5.herokuapp.com/)
 - [![TypeScript][TypeScript]][TypeScript-url]
 - [![Cypress][Cypress]][Cypress-url]
 - [![CircleCI][CircleCI]][CircleCI-url]
+- <div align="left">
+  <a href="https://tiptap.dev/">
+    <img src="https://cdn.brandfetch.io/idO5FqrQp9/theme/dark/logo.svg?c=1dxbfHSJFAPEGdCLU4o5B" alt="TipTap" style="padding: 5px; background-color: white;">
+  </a>
+</div>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -229,7 +234,7 @@ Key Functionalities Include:
 - View Company Details:
   Click on a company to see detailed information on a dedicated page, including the company’s name, website, address, and notes. The details page also displays a list of associated contacts, making it easier to manage relationships and connections.
 - Create a Company:
-  Add new companies by filling out a simple form with fields like name, website, address, and notes.
+  Add new companies by filling out a simple form with fields like name, website, address, and notes (includes rich text formatting when text is selected).
 - Update a Company:
   Click the Edit button on a company's details page to open a modal. Modify any field, including the company name, website, address, state, or notes, and save the changes effortlessly.
 - Search for a Company:
@@ -254,7 +259,7 @@ Key Functionalities Include:
 - Delete a Contact:
   Click delete in show contact page to remove a contact, with a modal to verify the decision.
 - Add a new Contact
-  Click on the Add New + button to navigate to a form where a user inputs a new contact and their associated information. The user has the ability to add a new company here as well.
+  Click on the Add New + button to navigate to a form where a user inputs a new contact and their associated information. The notes section includes rich text formatting when text is selected. The user has the ability to add a new company here as well.
 - Search for a Contact
   Use the search bar to quickly find a contact by name, enhancing efficiency and user experience.
 
@@ -272,7 +277,7 @@ Key Functionalities Include:
 
 - Create A Job Application:
 
-Add a new job application by filling out a form with fields for Position Title, Company, Date Applied, Application Status, Job Description, User Contacts, Application URL, and Notes.
+Add a new job application by filling out a form with fields for Position Title, Company, Date Applied, Application Status, Job Description, User Contacts, Application URL, and Notes (includes rich text formatting when text is selected).
 Choose a company that exists under your profile.
 
 ![Add New Job Application Page Demo](./src/assets/newJobAppPage.png)
@@ -420,6 +425,11 @@ FORMAT: lastname, firstname
 
 - [Github](https://github.com/wally-yawn)
 - [LinkedIn](https://www.linkedin.com/in/wally--wallace/)
+
+**Ward, Elysa**
+
+-[Github](https://github.com/elysableu)
+-[LinkedIn](https://www.linkedin.com/in/elysa-ward/)
 
 **Willett, Bryan**
 
