@@ -3,19 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../../context/UserLoggedContext';
 import { statusMap, statusStyles} from "../../../pages/JobApplications/components/JobApplicationUtilities";
 import { fetchContacts, fetchCompanies } from "../../../apiCalls";
+import { Company, Contact }
 import { postJobApplication } from '../../../trackerApiCalls';
 
-interface Company {
-  id: string;
-  name: string;
-}
-
-interface Contact {
-  id: string;
-  first_name: string;
-  last_name: string;
-  company_id: string;
-}
+ 
 
 function NewJobApplication() {
   const navigate = useNavigate();
