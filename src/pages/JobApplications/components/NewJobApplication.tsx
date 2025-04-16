@@ -251,7 +251,7 @@ function NewJobApplication() {
                   <TipTap 
                     content={notes}
                     placeholder={"Notes ... "}
-                    onChange={setNotes}
+                    onUpdate={(html) => setNotes(html)}
                   />
                 </div>
             </label>

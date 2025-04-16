@@ -1,5 +1,5 @@
 // src/Tiptap.tsx
-import { useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { EditorContent, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import { TipTapProps } from '../../Interfaces';
@@ -8,7 +8,11 @@ import Underline from '@tiptap/extension-underline';
 import Highlight from '@tiptap/extension-highlight'; 
 import PopOver from './PopOver';
 
-const TipTap: React.FC<TipTapProps> = ({ content, placeholder, onChange}) => {
+const TipTap: React.FC<TipTapProps> = ({ content, placeholder, onUpdate}) => {
+  const [isFocused, setIsFocused] = useState(false);
+  const editorRef = useRef<HTMLDivElement>(null);
+  const bubbleMenuRef = useRef<HTMLDivElement>(null);
+  
   // Configure editor
   const editor = useEditor({
     extensions: [
@@ -22,97 +26,57 @@ const TipTap: React.FC<TipTapProps> = ({ content, placeholder, onChange}) => {
         includeChildren: true,
         showOnlyWhenEditable: true,
         emptyEditorClass: "is-empty"
-      })
+      }),
     ],
     content: content.trim() === "<p></p>" || content.trim() === "" ? "" : content,
     onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
+      if (onUpdate) {
+        onUpdate(editor.getHTML());
+      }
     },
     editorProps: {
       attributes: {
         class: "h-[15em] min-h-[10em] p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 w-[90%] m-2"
       },
+    }, 
+    onFocus: () => {
+      setIsFocused(true);
     },
-  })
+    onBlur: () => {
+      setIsFocused(false);
+    },
+  });
 
-  // *************
-  // Handle clicks on text selection -> collapse bubble menu and remove focus
   useEffect(() => {
-    if (!editor) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        editorRef.current &&
+        !editorRef.current.contains(event.target as Node) &&
+        bubbleMenuRef.current &&
+        !bubbleMenuRef.current.contains(event.target as Node)
+      ) {
+        if (isFocused && editor) {
+          editor.commands.blur();
 
-    const editorEl = editor.view.dom;
-
-    const handleSelectionClick = (e: MouseEvent) => {
-      const { state } = editor;
-      const { from, to } = state.selection;
-
-      if (from !== to) {
-        const start = editor.view.domAtPos(from).node;
-        const end = editor.view.domAtPos(to).node;
-
-        if (start.contains(e.target as Node) || end.contains(e.target as Node)) {
-          // editor.commands.blur();
-          editor.commands.setTextSelection({from: to, to });
+          window.getSelection()?.removeAllRanges();
         }
       }
-    };
-
-    editorEl.addEventListener('mousedown', handleSelectionClick);
-
-    return () => {
-      editorEl.removeEventListener('mousedown', handleSelectionClick);
-    };
-  }, [editor]);
-
-  // Handle clicks inside of editor outside of bubble menu -> collapse bubble menu and remove focus
-  useEffect(() => {
-    if (!editor) return;
-
-    const handleClickInsideEditor = (e: MouseEvent) => {
-      const selection = window.getSelection();
-      if (!selection || selection.isCollapsed) return;
-
-      const clickedInsideBubble = (e.target as HTMLElement).closest('.tiptap-bubble-menu');
-      if (!clickedInsideBubble) {
-        editor.commands.setTextSelection(editor.state.selection.to);
-        editor.commands.blur();
-      }
-    };
-
-    editor.view.dom.addEventListener('mousedown', handleClickInsideEditor);
-
-    return () => {
-      editor.view.dom.removeEventListener('mousedown', handleClickInsideEditor);
-    };
-  }, [editor])
-
-  // Handle clicks ouside of the editor -> collapse bubble menu and remove focus
-  useEffect(() => {
-    if (!editor) return;
-
-    const editorEl = editor.view.dom;
-
-    const handleClickOutsideEditor = (e: MouseEvent) => {
-      if (!editorEl.contains(e.target as Node)) {
-        editor.commands.blur();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutsideEditor);
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutsideEditor);
     }
-  }, [editor]);
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [editor, isFocused]);
 // *************************
 
   if (!editor) return null;
 
   return (
-    <>
-      <PopOver editor={editor} />
+    <div ref={editorRef} >
+      <PopOver editor={editor} ref={bubbleMenuRef} />
       <EditorContent editor={editor} />
-    </>
+    </div>
   );
 }
 
