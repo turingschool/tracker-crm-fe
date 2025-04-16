@@ -4,6 +4,7 @@ import { fetchCompanies, createCompany } from "../../../constants/trackerApiCall
 import { CompanyAttributes } from "../../../constants/Interfaces";
 import { useUserLoggedContext } from "../../../context/UserLoggedContext";
 import { useErrorContext } from "../../../context/ErrorContext"; 
+import TipTap from '../../../wysiwyg/TipTap';
 
 interface NewCompanyProps {
   isModal?: boolean;
@@ -275,12 +276,13 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
           </div>
           <div className="flex flex-col">
             <label className="mb-2 text-gray-700">Notes:</label>
-            <textarea
-              value={notes}
-              placeholder="Notes about the company"
-              onChange={(e) => setNotes(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-            />
+            <div className="ProseMirror">
+                  <TipTap 
+                    content={notes}
+                    placeholder={"Notes ... "}
+                    onUpdate={(html: string) => setNotes(html)}
+                  />
+                </div>
           </div>
           <button
             type="submit"
