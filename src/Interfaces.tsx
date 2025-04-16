@@ -245,3 +245,15 @@ export interface ChatGPTQuestion {
     question: string;
   };
 }
+
+export interface Company {
+  id: string;
+  name: string;
+}
+
+export interface Contact {
+  id: string;
+  first_name: string;
+  last_name: string;
+  company_id: string;
+}
