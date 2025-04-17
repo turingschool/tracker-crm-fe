@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchApplicationsData } from '../../constants/apiCalls';
+import { fetchApplicationsData } from '../../constants/trackerApiCalls';
 import ClipLoader from "react-spinners/ClipLoader";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import { JobApplication } from '../../constants/Interfaces';

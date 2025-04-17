@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserLoggedContext } from "../../../context/UserLoggedContext";
-import { fetchCompanies, fetchNewContact } from "../../../constants/apiCalls";
+import { fetchCompaniesMapped, fetchNewContact } from "../../../constants/trackerApiCalls";
 import { UserInformationProps, FormInputData } from "../../../constants/Interfaces";
 import CompanyModal from "../../Companies/modals/CompanyModal";
 
@@ -31,16 +31,25 @@ const NewContact = ({ userData }: UserInformationProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const companiesFetcher = async () => {
+    if (!userId || !token) {
+      setFeedback("Missing user information.");
+      return;
+    }
+  
     try {
-      const allData = await fetchCompanies(userId, token);
-      return setCompanies(allData);
-    } catch (error: any) {
-      console.error("Error fetching companies:", error.message);
+      const allData = await fetchCompaniesMapped(userId, token);
+      setCompanies(allData);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+      console.error("Error fetching companies:", error.message); 
+      } else {
+        console.error("unexpected error fetching companies:", error)
+      }
+      setFeedback("Failed to load companies. Please try again later.");
     }
   };
-
   useEffect(() => {
-    companiesFetcher(); // Runs on mount
+    companiesFetcher();
   }, []);
 
   const handleInputChange = (
