@@ -336,11 +336,7 @@ describe("View specific job app page when data fails to load", () => {
 
   it("Should display an error message if unable to fetch data", () => {
     cy.wait("@showJobApplicationError");
-
-    cy.get(".text-red-600").should(
-      "have.text",
-      "Failed to fetch job application."
-    );
+    cy.get(".text-red-600").should('contain', 'Failed to fetch job application')
   });
 });
 

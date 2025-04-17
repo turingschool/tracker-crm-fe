@@ -11,7 +11,7 @@ import Companies from './pages/Companies/Companies';
 import NewCompany from './pages/Companies/components/NewCompany';
 import NewJobApplication from './pages/JobApplications/components/NewJobApplication';
 import CompanyShow from './pages/Companies/components/CompanyShow';
-import ApplicationsGrid from './pages/JobApplications/JobApplications';
+import JobApplications from './pages/JobApplications/JobApplications';
 import ShowContact from './pages/Contacts/components/ShowContact';
 import JobApplication from './pages/JobApplications/components/showJobApplication';
 import DashBoard from "./pages/Dashboard/dashboard";
@@ -43,7 +43,7 @@ function App() {
           <Route path="/companies/:id/contacts" element={<CompanyShow />} />
           <Route path="/contacts" element={<Contacts userData={userData}/>} />
           <Route path="/contacts/new" element={<NewContact userData={userData}/>} />
-          <Route path="/job_applications" element={<ApplicationsGrid/>}/>
+          <Route path="/job_applications" element={<JobApplications/>}/>
           <Route path="/job_applications/:jobAppId" element={<JobApplication/>}/>
           <Route path="/job_applications/:jobAppId/interviewQuestions" element={<JobApplicationInterviewQuestions/>}/>
           <Route

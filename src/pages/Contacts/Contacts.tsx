@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
+
 import { ContactData, UserInformationProps } from "../../constants/Interfaces";
-import { fetchContacts } from '../../constants/apiCalls';
+import { fetchContacts } from '../../constants/trackerApiCalls';
+
 
 function Contacts({ userData }: UserInformationProps) {
   const [contacts, setContacts] = useState<ContactData[] | []>([]);

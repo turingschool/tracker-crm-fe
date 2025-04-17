@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchApplicationsData } from '../../constants/apiCalls';
+import { fetchApplicationsData } from '../../constants/trackerApiCalls';
 import ClipLoader from "react-spinners/ClipLoader";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
 import { JobApplication } from '../../constants/Interfaces';
 import { statusMap, statusStyles} from "./components/JobApplicationUtilities";
 import useSWR from 'swr';
 
-const ApplicationsGrid: React.FC = () => {
+const JobApplications: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const { token, userData } = useUserLoggedContext()
   const { user } = userData;
@@ -129,4 +129,4 @@ const ApplicationsGrid: React.FC = () => {
   
 };
 
-export default ApplicationsGrid;
+export default JobApplications;

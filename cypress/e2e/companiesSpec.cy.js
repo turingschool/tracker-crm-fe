@@ -137,7 +137,7 @@ describe("Companies page backend error handling", () => {
     cy.wait("@getCompaniesError");
     cy.get("p.text-red-700")
       .should("be.visible")
-      .and("contain.text", "Server error");
+      .and("contain.text", "Unable to connect to the server. Please try again later.");
     cy.wait(6000);
     cy.get("p.text-red-700").should("not.exist");
   });

@@ -32,7 +32,7 @@ export interface CompanyAttributes {
 }
 
 export interface BasicCompany {
-  id: string;
+  id: number;
   name: string;
 }
 
