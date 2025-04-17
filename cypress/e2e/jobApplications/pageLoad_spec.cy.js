@@ -28,6 +28,9 @@ describe("Job Application Page Layout - Happy Path", () => {
       sendResponse = resolve;
     });
 
+    // unique key to avoid caching making the test fail
+    const key = `applications-${Date.now()}`;
+
     cy.intercept(
       "GET",
       "http://localhost:3001/api/v1/users/1/job_applications",
@@ -44,10 +47,11 @@ describe("Job Application Page Layout - Happy Path", () => {
       }
     ).as("getJobApplications");
 
-    cy.visit("/job_applications");
+    cy.visit(`/job_applications?key=${key}`);
 
     // assert spinner is shown while data is loading
-    cy.get(".flex.justify-center.items-center.h-64 > span").should("be.visible");
+    cy.get('[data-testid="loading-spinner"]').should("be.visible");
+
 
     // then trigger the response to continue
     sendResponse();
@@ -56,7 +60,7 @@ describe("Job Application Page Layout - Happy Path", () => {
     cy.wait("@getJobApplications");
 
     // Spinner should be gone and data should be visible
-    cy.get(".flex.justify-center.items-center.h-64 > span").should("not.exist");
+    cy.get('[data-testid="loading-spinner"]').should("not.exist");
     cy.get("tbody > tr").should("have.length.at.least", 1);
   });
 

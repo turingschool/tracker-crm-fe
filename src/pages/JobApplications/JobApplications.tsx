@@ -7,16 +7,22 @@ import { JobApplication } from '../../constants/Interfaces';
 import { statusMap, statusStyles} from "./components/JobApplicationUtilities";
 import useSWR from 'swr';
 
+
 const JobApplications: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const { token, userData } = useUserLoggedContext()
   const { user } = userData;
+
+  const searchParams = new URLSearchParams(window.location.search);
+  const key = searchParams.get("key") || "applications";
   
   const fetcher = async (): Promise<JobApplication[]> => {
+    // Add artificial delay in order to trigger spinner load
+    await new Promise((resolve) => setTimeout(resolve, 150));
     return await fetchApplicationsData(user.data.id, token!);
   };
 
-  const { data: applications, error, isLoading } = useSWR('applications', fetcher);
+  const { data: applications, error, isLoading } = useSWR(key, fetcher);
 
   if (error) {
     return <div className="p-6 text-red-600">Error loading applications.</div>;
@@ -36,12 +42,16 @@ const JobApplications: React.FC = () => {
     <main className="flex">
       <div className="w-[76vw] pl-[6vw]">
         {isLoading ? (
-          <div className="flex justify-center items-center h-64">
+          <div 
+            className="flex justify-center items-center h-64" 
+          >
             <ClipLoader
               color={"#3498db"}
               loading={isLoading}
               size={60}
               aria-label="Loading Applications"
+              data-testid="loading-spinner"
+
             />
           </div>
         ) : (
