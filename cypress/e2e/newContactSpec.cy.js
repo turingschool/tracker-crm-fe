@@ -184,15 +184,15 @@ describe("New Contacts page after logging in", () => {
       cy.contains("Company A").should("exist");
     });
 
-    // TipTap Component bug needs to be fixed to pass this test 
-    xit("Should be able to view modal and exit out by clicking outside of modal", () => {
-      cy.get("a > .bg-cyan-600").click(); 
-      cy.contains("button", "Add new company").click();
+    // TipTap Component bug needs to be fixed to pass this test
+    // it("Should be able to view modal and exit out by clicking outside of modal", () => {
+    //   cy.get("a > .bg-cyan-600").click(); 
+    //   cy.contains("button", "Add new company").click();
       
-      cy.get(".fixed.inset-0.bg-black.bg-opacity-50").should("be.visible");
-      cy.get(".fixed.inset-0.bg-black.bg-opacity-50").click("topLeft");
-      cy.get(".fixed.inset-0.bg-black.bg-opacity-50").should("not.exist");
-    });
+    //   cy.get(".fixed.inset-0.bg-black.bg-opacity-50").should("be.visible");
+    //   cy.get(".fixed.inset-0.bg-black.bg-opacity-50").click("topLeft");
+    //   cy.get(".fixed.inset-0.bg-black.bg-opacity-50").should("not.exist");
+    // });
 
     it("Should be able to add new company and create new contact", () => {
       cy.intercept(
