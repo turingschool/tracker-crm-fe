@@ -312,6 +312,11 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/DRIF7ER)
 - [LinkedIn](https://www.linkedin.com/in/charles-t-banks-jr-6b982b152//)
 
+**Bleggi, Jillian**
+
+- [Github]https://github.com/jbleggi
+- [LinkedIn]https://www.linkedin.com/in/jillianbleggi/
+
 **Bloom, Stefan**
 
 - [Github](https://github.com/stefanjbloom)
@@ -342,6 +347,11 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/litobot)
 - [LinkedIn](https://www.linkedin.com/in/litocroy/)
 
+**Davalos, Joel**
+
+- [Github]https://github.com/jdavalos98
+- [LinkedIn]https://www.linkedin.com/in/joeldavalos/
+
 **Delaney, Kyle**
 
 - [Github](https://gist.github.com/kylomite)
@@ -362,6 +372,11 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/sgalvin36)
 - [LinkedIn](https://www.linkedin.com/in/shane-galvin36/)
 
+**Haefling, Matt**
+
+-[Github]https://github.com/mhaefling
+-[LinkedIn]www.linkedin.com/in/matthew-haefling
+
 **Hill, John**
 
 - [Github](https://github.com/jphill19)
@@ -371,6 +386,11 @@ FORMAT: lastname, firstname
 
 - [Github](https://github.com/marshallhotaling)
 - [LinkedIn](https://www.linkedin.com/in/marshall-hotaling-7b52a8304/)
+
+**Knapp, Paul**
+
+- [Github]https://github.com/Paul-Knapp
+- [LinkedIn]www.linkedin.com/in/paul-m-knapp
 
 **Lynch, Devlin**
 
@@ -391,6 +411,11 @@ FORMAT: lastname, firstname
 
 - [Github](https://github.com/reneemes)
 - [LinkedIn](https://www.linkedin.com/in/reneemessersmith/)
+
+**Newland, Kevin**
+
+- [Github]https://github.com/kevin-newland
+- [LinkedIn]https://www.linkedin.com/in/kevin-newland/
 
 **O'Brien, Michael**
 
@@ -417,6 +442,16 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/kaelinpsalazar)
 - [LinkedIn](https://www.linkedin.com/in/kaelin-salazar/)
 
+**Sommers, Jono**
+
+- [Github]https://github.com/JonoSommers
+- [LinkedIn]https://www.linkedin.com/in/jonosommers/
+
+**Vasques, Natasha**
+
+-[Github]https://github.com/nvnatasha
+-[LinkedIn]https://www.linkedin.com/in/natasha-vasquez/
+
 **Verrill, Seth**
 
 - [Github](https://github.com/sethverrill)
@@ -429,8 +464,13 @@ FORMAT: lastname, firstname
 
 **Ward, Elysa**
 
--[Github](https://github.com/elysableu)
--[LinkedIn](https://www.linkedin.com/in/elysa-ward/)
+- [Github]https://github.com/elysableu
+- [LinkedIn]https://www.linkedin.com/in/elysa-ward/
+
+**Weiland, Kristen**
+
+- [Github]https://github.com/KMPWeiland 
+- [LinkedIn]https://www.linkedin.com/in/kristinweiland/
 
 **Willett, Bryan**
 
@@ -460,3 +500,5 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 [Cypress-url]: https://www.cypress.io/
 [CircleCI]: https://img.shields.io/badge/CircleCI-343434?style=for-the-badge&logo=circleci&logoColor=white
 [CircleCI-url]: https://circleci.com/
+
+
