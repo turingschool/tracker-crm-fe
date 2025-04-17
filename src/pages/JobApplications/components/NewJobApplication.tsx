@@ -6,7 +6,6 @@ import { BasicCompany, BasicContact } from "../../../constants/Interfaces";
 import TipTap from '../../../wysiwyg/TipTap';
 import { fetchContacts, fetchCompaniesMapped, postJobApplication } from '../../../constants/trackerApiCalls';
 
-
 function NewJobApplication() {
   const navigate = useNavigate();
   const { token, userData } = useUserLoggedContext();
