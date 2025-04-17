@@ -1,3 +1,6 @@
+// Import Editor type from @tiptap package
+import { Editor } from '@tiptap/react';
+
 export interface UserData {
   token: string,
   user: {
@@ -29,7 +32,7 @@ export interface CompanyAttributes {
 }
 
 export interface BasicCompany {
-  id: string;
+  id: number;
   name: string;
 }
 
@@ -250,11 +253,22 @@ export interface JobApplicationDataCompile {
   [key: string]: any;
 }
 
-
 export interface ChatGPTQuestion {
   index: number;
   type: string;
   attributes: {
     question: string;
   };
+}
+
+export interface TipTapProps {
+  content: string
+  placeholder?: string
+  onUpdate?: (content: string ) => void;
+  editorContainerRef?: React.RefObject<HTMLDivElement>;
+}
+
+export interface PopOverProps {
+  editor: Editor;
+  ref: React.RefObject<HTMLDivElement>;
 }
