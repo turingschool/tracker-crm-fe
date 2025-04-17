@@ -47,14 +47,13 @@ describe('Dash Board after loggging in with recent jobs, contacts and companies'
   });
 
   it("Should show how many connections were submitted in the week", () => {
-    cy.get('.m-24').should("exist")
-    cy.get('.m-24 > .mt-2').should("exist")
+    cy.get('[data-cy="contactsCard"]').should("exist")
     cy.get('#contacts').find('label').first().should("have.text", "Contacts")
     cy.get('#contacts').find('label').last().should("have.text","New connections this week")
   });
 
   it("Should show how many companies were submitted in the week", () => {
-    cy.get('.ml-2 > :nth-child(3)').should("exist")
+    cy.get('[data-cy="companiesCard"]').should("exist")
     cy.get('#companies').should("exist")
     cy.get('#companies').find('label').first().should("have.text", "Companies")
     cy.get('#companies').find('label').last().should("have.text", "New companies this week")
@@ -104,14 +103,13 @@ describe('Dash Board after loggging in with zero recent jobs, contacts and compa
   });
 
   it("Should show how many connections were submitted in the week", () => {
-    cy.get('.m-24').should("exist")
-    cy.get('.m-24 > .mt-2').should("exist")
+    cy.get('[data-cy="contactsCard"]').should("exist")
     cy.get('#contacts').find('label').first().should("have.text", "Contacts")
     cy.get('#contacts').find('label').last().should("have.text","New contacts this week")
   });
 
   it("Should show how many companies were submitted in the week", () => {
-    cy.get('.ml-2 > :nth-child(3)').should("exist")
+    cy.get('[data-cy="companiesCard"]').should("exist")
     cy.get('#companies').should("exist")
     cy.get('[data-cy="dashNum"]').last().should("have.text", "0")
     cy.get('#companies').find('label').first().should("have.text", "Companies")

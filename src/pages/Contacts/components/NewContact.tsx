@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserLoggedContext } from "../../../context/UserLoggedContext";
-import { fetchCompaniesMapped, fetchNewContact } from "../../../trackerApiCalls";
-import { UserInformationProps, FormInputData } from "../../../Interfaces";
+import { fetchCompaniesMapped, fetchNewContact } from "../../../constants/trackerApiCalls";
+import { UserInformationProps, FormInputData } from "../../../constants/Interfaces";
 import CompanyModal from "../../Companies/modals/CompanyModal";
 
 const NewContact = ({ userData }: UserInformationProps) => {

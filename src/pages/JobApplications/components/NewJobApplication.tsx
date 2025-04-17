@@ -2,15 +2,14 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../../context/UserLoggedContext';
 import { statusMap, statusStyles} from "../../../pages/JobApplications/components/JobApplicationUtilities";
-import { fetchContacts, fetchCompaniesMapped, postJobApplication } from "../../../trackerApiCalls";
+import { fetchContacts, fetchCompaniesMapped, postJobApplication } from '../../../constants/trackerApiCalls';
 
-
-interface Company {
+interface BasicCompany {
   id: number;
   name: string;
 }
 
-interface Contact {
+interface BasicContact {
   id: string;
   first_name: string;
   last_name: string;
@@ -29,8 +28,8 @@ function NewJobApplication() {
   const [applicationURL, setApplicationURL] = useState('');
   const [contactInformation, setContactInformation] = useState('');
   const [availableCompany, setAvailableCompany] = useState("");
-  const [companies, setCompanies] = useState<Company[]>([]);
-  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [companies, setCompanies] = useState<BasicCompany[]>([]);
+  const [contacts, setContacts] = useState<BasicContact[]>([]);
 
   useEffect(() => {
     const getContacts = async () => {

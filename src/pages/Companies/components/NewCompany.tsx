@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchCompanies, createCompany } from "../../trackerApiCalls";
-import { CompanyAttributes } from "../../Interfaces";
-import { useUserLoggedContext } from "../../context/UserLoggedContext";
-import { useErrorContext } from "../../context/ErrorContext"; 
+import { fetchCompanies, createCompany } from "../../../constants/trackerApiCalls";
+import { CompanyAttributes } from "../../../constants/Interfaces";
+import { useUserLoggedContext } from "../../../context/UserLoggedContext";
+import { useErrorContext } from "../../../context/ErrorContext"; 
 
 interface NewCompanyProps {
   isModal?: boolean;

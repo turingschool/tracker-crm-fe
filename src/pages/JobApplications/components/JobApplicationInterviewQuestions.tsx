@@ -1,8 +1,8 @@
 import {useUserLoggedContext} from "../../../context/UserLoggedContext";
 import { Link, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { fetchInterviewQuestions } from "../../../trackerApiCalls";
-import { ChatGPTQuestion } from "../../../Interfaces";
+import { fetchInterviewQuestions } from "../../../constants/trackerApiCalls";
+import { ChatGPTQuestion } from "../../../constants/Interfaces";
 import ClipLoader from 'react-spinners/ClipLoader';
 
 const JobApplicationInterviewQuestions: React.FC = () => {

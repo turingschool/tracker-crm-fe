@@ -1,20 +1,20 @@
 import './App.css';
-import LoginForm from './Login';
-import MenuBar from './components/layout/MenuBar';
+import LoginForm from './pages/Login/Login';
+import MenuBar from './pages/Dashboard/components/MenuBar';
 import { useUserLoggedContext } from './context/UserLoggedContext';
-import UserInformation from './components/pages/userInformation';
-import UserRegistration from './components/UserRegistration';
+import UserInformation from './pages/Login/components/userInformation';
+import UserRegistration from './pages/Login/components/UserRegistration';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Contacts from './pages/Contacts/Contacts';
 import NewContact from './pages/Contacts/components/NewContact';
-import Companies from './components/companies/Companies';
-import NewCompany from './components/companies/NewCompany';
+import Companies from './pages/Companies/Companies';
+import NewCompany from './pages/Companies/components/NewCompany';
 import NewJobApplication from './pages/JobApplications/components/NewJobApplication';
-import CompanyShow from './components/companies/CompanyShow';
+import CompanyShow from './pages/Companies/components/CompanyShow';
 import ApplicationsGrid from './pages/JobApplications/JobApplications';
 import ShowContact from './pages/Contacts/components/ShowContact';
 import JobApplication from './pages/JobApplications/components/showJobApplication';
-import DashBoard from "./components/dashboard/dashboard";
+import DashBoard from "./pages/Dashboard/dashboard";
 import { ErrorProvider } from "./context/ErrorContext";
 import JobApplicationInterviewQuestions from "./pages/JobApplications/components/JobApplicationInterviewQuestions"
 

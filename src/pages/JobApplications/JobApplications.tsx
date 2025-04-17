@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchApplicationsData } from '../../trackerApiCalls';
+import { fetchApplicationsData } from '../../constants/trackerApiCalls';
 import ClipLoader from "react-spinners/ClipLoader";
 import { useUserLoggedContext } from '../../context/UserLoggedContext';
-import { JobApplication } from '../../Interfaces';
+import { JobApplication } from '../../constants/Interfaces';
 import { statusMap, statusStyles} from "./components/JobApplicationUtilities";
 import useSWR from 'swr';
 
