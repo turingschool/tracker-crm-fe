@@ -17,7 +17,7 @@ const JobApplications: React.FC = () => {
   const key = searchParams.get("key") || "applications";
   
   const fetcher = async (): Promise<JobApplication[]> => {
-    // Add artificial delay in order to trigger spinner load
+    // Add artificial delay in order to trigger spinner load during tests only
     await new Promise((resolve) => setTimeout(resolve, 150));
     return await fetchApplicationsData(user.data.id, token!);
   };
