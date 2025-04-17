@@ -112,7 +112,14 @@ describe("New Contacts page after logging in", () => {
       cy.get("#phoneNumber")
         .type("555-555-5555")
         .should("have.value", "555-555-5555");
-      cy.get("#notes").type("Test notes").should("have.value", "Test notes");
+      cy.get("[data-cy=tiptap-notes-container]")
+        .find('.ProseMirror')
+        .eq(0)
+        .should('exist')
+        .click()
+        .focus()
+        .type("Test notes")
+        .should("contains.text", "Test notes");
 
       cy.get("#companyId").select("Company A").should("have.value", "1");
     });
@@ -178,7 +185,7 @@ describe("New Contacts page after logging in", () => {
     });
 
     it("Should be able to view modal and exit out by clicking outside of modal", () => {
-      cy.get("a > .bg-cyan-600").click();
+      cy.get("a > .bg-cyan-600").click(); 
       cy.contains("button", "Add new company").click();
       cy.get(".fixed.inset-0.bg-black.bg-opacity-50").should("be.visible");
       cy.get(".fixed.inset-0.bg-black.bg-opacity-50").click("topLeft");

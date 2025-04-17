@@ -230,13 +230,13 @@ function NewJobApplication() {
                 value={applicationURL}
                 onChange={(e) => setApplicationURL(e.target.value)}
                 className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2 w-[90%]"
-                placeholder='www.example.com'
+                placeholder='http://www.example.com'
               />
             </label>
             {/* Notes */}
             <label className="text-[1vw] font-[Helvetica Neue] flex flex-col">
               <span className="font-semibold">Notes:</span>
-                <div className="ProseMirror">
+                <div className="ProseMirror" data-cy="tiptap-notes-container">
                   <TipTap 
                     content={notes}
                     placeholder={"Notes ... "}

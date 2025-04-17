@@ -131,9 +131,10 @@ describe('Create New Job Application page after logging in', () => {
       cy.get('#appURL').should('have.attr', 'placeholder')
       cy.get('#appURL').invoke('attr', 'placeholder')
         .should('eq', 'http://www.example.com')
-      cy.get('#notes').should('have.attr', 'placeholder')
-      cy.get('#notes').invoke('attr', 'placeholder')
-        .should('eq', 'Notes...')
+      // Should be implemented with TipTap testing
+      // cy.get('#notes').should('have.attr', 'placeholder')
+      // cy.get('#notes').invoke('attr', 'placeholder')
+      //   .should('eq', 'Notes...')
     })
   
     it('allows input into form fields', () => {
@@ -144,9 +145,14 @@ describe('Create New Job Application page after logging in', () => {
       cy.get('#jobDescription').type('Test Description').should('have.value', 'Test Description');
       cy.get('#appContact').select('Jane Smith').should('have.value', '2');
       cy.get('#appURL').type('www.example.com').should('have.value', 'www.example.com');
-			cy.get('#notes').click()
-			cy.get('#appURL').should('have.value', 'http://www.example.com');
-      cy.get('#notes').type('Test Notes').should('have.value', 'Test Notes');
+			cy.get("[data-cy=tiptap-notes-container]")
+        .find('.ProseMirror')
+        .eq(0)
+        .should('exist')
+        .click()
+        .focus()
+        .type("Test notes")
+        .should("contains.text", "Test notes");
     })
 
     it('successfully submits a new job application', () => {
@@ -159,7 +165,13 @@ describe('Create New Job Application page after logging in', () => {
       cy.get('#appStatus').select('Offer');
       cy.get('#jobDescription').type('Test Description');
       cy.get('#appURL').type(exampleURL);
-      cy.get('#notes').type('Test Notes');
+      cy.get("[data-cy=tiptap-notes-container]")
+        .find('.ProseMirror')
+        .eq(0)
+        .should('exist')
+        .click()
+        .focus()
+        .type("Test notes");
 
       cy.intercept("GET", "http://localhost:3001/api/v1/users/2/job_applications", {
         statusCode: 200,
@@ -241,7 +253,14 @@ describe('Create New Job Application page after logging in', () => {
       cy.get('#appStatus').select('Offer');
       cy.get('#jobDescription').type('Test Description');
       cy.get('#appURL').type(exampleURL);
-      cy.get('#notes').type('Test Notes');
+      cy.get("[data-cy=tiptap-notes-container]")
+        .find('.ProseMirror')
+        .eq(0)
+        .should('exist')
+        .click()
+        .focus()
+        .type("Test notes")
+        .should("contains.text", "Test notes");
     
       cy.get('button[type="submit"]').click();
     

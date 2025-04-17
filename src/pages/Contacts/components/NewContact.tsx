@@ -271,7 +271,7 @@ const NewContact = ({ userData }: UserInformationProps) => {
             >
               Notes
             </label>
-            <div className="ProseMirror">
+            <div className="ProseMirror relative z-0" data-cy="tiptap-notes-container">
               <TipTap
                 content={formInputData.notes}
                 placeholder="Add notes here"

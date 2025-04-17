@@ -42,14 +42,14 @@ const PopOver: React.FC<PopOverProps> = ({ editor , ref }) => {
   return (
     <BubbleMenu  
       editor={editor} 
-      tippyOptions={{duration: 100, placement: 'top', offset: [30, 5],}} 
+      tippyOptions={{duration: 100, zIndex: 100, placement: 'top', offset: [30, 5],}} 
       shouldShow={shouldShow} 
     >
       <div 
         onMouseDown={(e : React.MouseEvent) =>{
           handleDefaultAndPropagation(e);
         }}
-        className={'bubble-menu pointer-events-none z-10000 flex w-[24em] p-0 bg-gray-200 rounded-lg justify-around items-center divide-x divide-gray-500 shadow-lg shadow-gray-700/50'}
+        className={'bubble-menu pointer-events-none flex w-[24em] p-0 bg-gray-200 rounded-lg justify-around items-center divide-x divide-gray-500 shadow-lg shadow-gray-700/50'}
         ref={ref}
       >
         <button 
