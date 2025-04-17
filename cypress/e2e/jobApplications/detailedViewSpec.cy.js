@@ -1,96 +1,28 @@
-describe("View specific job app page with all fields filled in", () => {
+describe("Happy Path- View specific job app page with all fields filled in", () => {
   beforeEach(() => {
-    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
-      statusCode: 200,
-      body: {
-        token: "fake-token",
-        user: {
-          data: {
-            id: 1,
-            type: "user",
-            attributes: {
-              name: "Test User",
-              email: "testuser@example.com",
-              companies: [],
-            },
-          },
-        },
-      },
-    }).as("mockSession");
-
-    cy.intercept(
-      "GET",
-      "http://localhost:3001/api/v1/users/1/job_applications",
-      (req) => {
-        req.on("response", (res) => {});
-        req.reply({
-          statusCode: 200,
-          fixture: "mockJobApps",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      }
-    ).as("getJobApplications");
-
-    cy.intercept(
-      "GET",
-      "http://localhost:3001/api/v1/users/1/job_applications/3",
-      (req) => {
-        req.on("response", (res) => {});
-        req.reply({
-          statusCode: 200,
-          fixture: "mockSingleJobApp",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      }
-    ).as("showSingleJobApp");
-
-    cy.intercept(
-      "GET",
-      "http://localhost:3001/api/v1/users/1/companies/3/contacts",
-      (req) => {
-        req.headers["Authorization"] = "Bearer fake-token";
-        req.reply({
-          statusCode: 200,
-          fixture: "mockCompanyDetails",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      }
-    ).as("getCompanyDetails");
-
-    cy.visit("http://localhost:3000/");
-    cy.get("#email").type("danny_de@email.com");
-    cy.get("#password").type("jerseyMikesRox7");
-    cy.get('[data-testid="login-button"]').click();
-    cy.get('[data-testid="applications-iconD"]').click();
-    cy.get('[data-testid="applications-iconD"]').click();
-    cy.get("tbody > tr").contains("Creative Solutions Inc.").click();
+    cy.login('danny_de@email.com', 'jerseyMikesRox7');
+    cy.mockJobApplications();
+    cy.mockSingleJobApplication(3, 'mockSingleJobApp');
+    cy.mockCompanyContacts();
+    cy.selectJobApplicationRow('Creative Solutions Inc.');
   });
 
-  it("displays the position title and company name", () => {
-    cy.wait("@showSingleJobApp");
 
-    cy.get("h1.text-cyan-600")
-      .should("have.text", "Backend Developer")
-    cy.get("[data-testid='job-companyName'")
-      .should("have.text", 'Creative Solutions Inc.')
+  it('displays the position title and company name', () => {
+    cy.wait('@showSingleJobApp-3');
+    cy.get('h1.text-cyan-600').should('have.text', 'Backend Developer');
+    cy.get("[data-testid='job-companyName']").should('have.text', 'Creative Solutions Inc.');
   });
 
   it("navigates to the company details page", () => {
-    cy.wait("@showSingleJobApp");
-    cy.get("h2").contains("Creative Solutions Inc.").click();
+    cy.wait('@showSingleJobApp-3');    cy.get("h2").contains("Creative Solutions Inc.").click();
     cy.wait("@getCompanyDetails");
 
     cy.location("pathname").should("match", /\/companies\/3\/contacts$/);
   });
 
   it("displays application details", () => {
-    cy.wait("@showSingleJobApp");
+    cy.wait('@showSingleJobApp-3');
     cy.get("#applied-on")
       .should("contain.text", "Applied On");
     cy.get('[data-testid="application-date"]').should("have.text", "August 20, 2024"); 
@@ -101,7 +33,7 @@ describe("View specific job app page with all fields filled in", () => {
   });
 
   it("displays notes and edit button", () => {
-    cy.wait("@showSingleJobApp");
+    cy.wait('@showSingleJobApp-3');
 
     cy.get("h3.text-cyan-600").should("have.text", "Notes");
     cy.get('[data-testid="job-notes"]').should(
@@ -112,7 +44,7 @@ describe("View specific job app page with all fields filled in", () => {
   });
 
   it("displays job description and link", () => {
-    cy.wait("@showSingleJobApp");
+    cy.wait('@showSingleJobApp-3');
 
     cy.get("h2.text-cyan-700").should("contain.text", "Job Description");
     cy.get('[data-testid="job-URL"]')
@@ -133,20 +65,19 @@ describe("View specific job app page with all fields filled in", () => {
   });
 
   it("displays the contact list", () => {
-
-    cy.wait("@showSingleJobApp");
+    cy.wait('@showSingleJobApp-3');
 
     cy.get("h2.text-cyan-700").should("contain.text", "Contacts at Creative Solutions Inc.");
   });
 
   it("navigates to the contact's personal page when clicking on their name", () => {
-    cy.wait("@showSingleJobApp");
+    cy.wait('@showSingleJobApp-3');
     cy.get("a.text-cyan-600").contains("Michael Johnson").click();
     cy.location("pathname").should("match", /\/contacts\/\d+$/);
   });
   
   it("handles the modal for full job description", () => {
-    cy.wait("@showSingleJobApp");
+    cy.wait('@showSingleJobApp-3');
 
     cy.get('[data-testid="read-more"]').click();
     cy.get("div.bg-white").within(() => {
@@ -161,7 +92,7 @@ describe("View specific job app page with all fields filled in", () => {
   });
 
   it("Should allow user to open and close 'Read More...' modal via close button", () => {
-    cy.wait("@showSingleJobApp");
+    cy.wait('@showSingleJobApp-3');
 
     cy.get(".fixed.inset-0.bg-black.bg-opacity-50").should("not.exist");
     cy.get('[data-testid="read-more"]').click();
@@ -178,7 +109,7 @@ describe("View specific job app page with all fields filled in", () => {
   });
 
   it("Should allow user to open and close 'Read More...' modal when clicking outside of the modal", () => {
-    cy.wait("@showSingleJobApp");
+    cy.wait('@showSingleJobApp-3');
 
     cy.get(".fixed.inset-0.bg-black.bg-opacity-50").should("not.exist");
     cy.get('[data-testid="read-more"]').click();
@@ -193,148 +124,44 @@ describe("View specific job app page with all fields filled in", () => {
   });
 });
 
-describe("View specific job app page with empty fields", () => {
+describe("Happy Path- View specific job app page with empty fields", () => {
   beforeEach(() => {
-    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
-      statusCode: 200,
-      body: {
-        token: "fake-token",
-        user: {
-          data: {
-            id: 1,
-            type: "user",
-            attributes: {
-              name: "Test User",
-              email: "testuser@example.com",
-              companies: [],
-            },
-          },
-        },
-      },
-    }).as("mockSession");
-
-    cy.intercept(
-      "GET",
-      "http://localhost:3001/api/v1/users/1/job_applications",
-      (req) => {
-        req.on("response", (res) => {});
-        req.reply({
-          statusCode: 200,
-          fixture: "mockJobApps",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      }
-    ).as("getJobApplications");
-
-    cy.intercept(
-      "GET",
-      "http://localhost:3001/api/v1/users/1/job_applications/5",
-      (req) => {
-        req.on("response", (res) => {});
-        req.reply({
-          statusCode: 200,
-          fixture: "mockSingleJobAppEmptyFields",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      }
-    ).as("showSingleJobAppEmptyFields");
-
-    cy.visit("http://localhost:3000/");
-    cy.get("#email").type("danny_de@email.com");
-    cy.get("#password").type("jerseyMikesRox7");
-    cy.get('[data-testid="login-button"]').click();
-    cy.get('[data-testid="applications-iconD"]').click();
-    cy.get('[data-testid="applications-iconD"]').click();
-    cy.get("tbody > :nth-child(3) > :nth-child(1)").click();
+    cy.login("danny_de@email.com", "jerseyMikesRox7");
+    cy.mockJobApplications();
+    cy.mockSingleJobApplication(3, "mockSingleJobAppEmptyFields");
+    cy.selectJobApplicationRow("Creative Solutions Inc.");
   });
 
   it("should display unique message for empty notes field", () => {
-    cy.wait("@showSingleJobAppEmptyFields");
-
+    cy.wait(`@showSingleJobApp-3`);
     cy.get("h3.text-cyan-600").should("have.text", "Notes");
     cy.get("p.mb-6").should("have.text", "Click edit to add some notes.");
-    {
-      /* REFACTOR AWAITING UPDATE JOB APP ROUTE */
-    }
+
+    /* REFACTOR AWAITING UPDATE JOB APP ROUTE */
   });
 
-    it("should display a link for adding contacts when contact field is empty", () => {
+  it("should display a link for adding contacts when contact field is empty", () => {
+    cy.wait(`@showSingleJobApp-3`);
 
-      cy.wait("@showSingleJobAppEmptyFields");
+    cy.get("p.text-cyan-600").should("contain.text", "Add a new contact");
 
-      cy.get("p.text-cyan-600").should("contain.text", "Add a new contact");
-      cy.contains('Add a new contact').click();
+    cy.contains("Add a new contact").click();
 
-      cy.intercept("GET", "http://localhost:3001/api/v1/users/1/contacts/new", {
-        statusCode: 200
-      }).as("addContact");
-
-      cy.url().should('include', '/contacts/new');
-      cy.get("h1").should("have.text", "Add New Contact");
-    })
+    cy.url().should("include", "/contacts/new");
+    cy.get("h1").should("have.text", "Add New Contact");
+  });
 });
 
-describe("View specific job app page when data fails to load", () => {
+describe("Sad Path- View specific job app page when data fails to load", () => {
   beforeEach(() => {
-    cy.intercept(
-      "GET",
-      "http://localhost:3001/api/v1/users/1/job_applications",
-      (req) => {
-        req.on("response", (res) => {});
-        req.reply({
-          statusCode: 200,
-          fixture: "mockJobApps",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-      }
-    ).as("getJobApplications");
-
-    cy.intercept(
-      "GET",
-      "http://localhost:3001/api/v1/users/1/job_applications/3",
-      {
-        statusCode: 500,
-        body: { error: "Internal Server Error" },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    ).as("showJobApplicationError");
-    cy.intercept("POST", "http://localhost:3001/api/v1/sessions", {
-      statusCode: 200,
-      body: {
-        token: "fake-token",
-        user: {
-          data: {
-            id: 1,
-            type: "user",
-            attributes: {
-              name: "Test User",
-              email: "testuser@example.com",
-              companies: [],
-            },
-          },
-        },
-      },
-    }).as("mockSession");
-
-    cy.visit("http://localhost:3000/");
-    cy.get("#email").type("danny_de@email.com");
-    cy.get("#password").type("jerseyMikesRox7");
-    cy.get('[data-testid="login-button"]').click();
-    cy.get('[data-testid="applications-iconD"]').click();
-    cy.get('[data-testid="applications-iconD"]').click();
-    cy.get("tbody > tr").contains("Creative").click();
+    cy.login("danny_de@email.com", "jerseyMikesRox7");
+    cy.mockJobApplications();
+    cy.mockSingleJobApplicationError(3);
+    cy.selectJobApplicationRow("Creative");
   });
 
   it("Should display an error message if unable to fetch data", () => {
     cy.wait("@showJobApplicationError");
-    cy.get(".text-red-600").should('contain', 'Failed to fetch job application')
+    cy.get(".text-red-600").should("contain", "Failed to fetch job application");
   });
 });
