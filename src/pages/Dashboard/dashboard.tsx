@@ -1,9 +1,5 @@
 import {useUserLoggedContext} from "../../context/UserLoggedContext";
-<<<<<<< HEAD:src/components/dashboard/dashboard.tsx
-import { fetchDashBoardData } from '../../trackerApiCalls';
-=======
-import { fetchDashBoardData } from '../../constants/apiCalls';
->>>>>>> main:src/pages/Dashboard/dashboard.tsx
+import { fetchDashBoardData } from '../../constants/trackerApiCalls';
 import React, {useState,useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {DashBoardDattaI, CountProps} from "../../constants/Interfaces";
