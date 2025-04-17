@@ -37,7 +37,7 @@
 
 ## About The Project
 
-![Tracker Screen Shot](public/assets/tracker.png)
+![Tracker Screen Shot](public/assets/images/tracker.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -171,9 +171,11 @@ The User Registration section allows new users to create an account by filling o
 
 Existing users may click the 'login' link to directly navigate to the Login page.
 
-![User Registration Demo](src/assets/user_registration_demo.gif)
+![User Registration Demo](public/assets/gifs/user_registration_demo.gif)
 
 ### Feature 2 - Login
+
+![User Login]
 
 ### Feature 3 - Home
 
@@ -206,8 +208,7 @@ The MenuBar component provides a responsive navigation interface for your applic
 
 - **Quad Color Bar:** A decorative vertical bar split into four colors, enhancing the visual design.
 
-![MenuBar Section Demo](public/assets/menu-bar.gif)
-<img src="public/assets/mobile-menu.gif" height="500">
+![MenuBar Section Demo](public/assets/gifs/menu-bar.gif)
 
 The home page/dash is where a user can see there weekly report.
 
@@ -216,7 +217,7 @@ Functionalities Include:
 - User can see the job applications, contacts, and companies they have made for the week.
 - as well as having a simple button to port you to add a new company
 
-![Dashboard Section Demo](public/assets/dashboard.gif)
+![Dashboard Section Demo](public/assets/gifs/dashboard.gif)
 
 ### Feature 4 - Companies
 
@@ -237,7 +238,7 @@ Key Functionalities Include:
 - Delete a Company:
   Click on the delete button in the company details page to remove a company. A confirmation modal will appear to verify the decision before proceeding. Deleting a company does not remove its associated contacts.
 
-![Companies Section Demo](public/assets/companies.gif)
+![Companies Section Demo](public/assets/gifs/companies.gif)
 
 ### Feature 5 - Contacts
 
@@ -258,7 +259,7 @@ Key Functionalities Include:
 - Search for a Contact
   Use the search bar to quickly find a contact by name, enhancing efficiency and user experience.
 
-![Contacts Section Demo](public/assets/contacts.gif)
+![Contacts Section Demo](public/assets/gifs/contacts.gif)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -275,18 +276,18 @@ Key Functionalities Include:
 Add a new job application by filling out a form with fields for Position Title, Company, Date Applied, Application Status, Job Description, User Contacts, Application URL, and Notes.
 Choose a company that exists under your profile.
 
-![Add New Job Application Page Demo](./src/assets/newJobAppPage.png)
+![Add New Job Application Page Demo](public/assets/images/newJobAppPage.png)
 
 - Edit A Job Application:
   Edit several of the fields of an application that has already been input into the system to stay up to date on where in the process the application is at.
 
-![Edit Job Application Page](./src/assets/EditJobApp.png)
+![Edit Job Application Page](public/assets/images/EditJobApp.png)
 
 - Edit an Application Date or Status: Job application dates and statuses can also be edited directly on the job application page. Dates can be changed by clicking on the "Applied On" date to pull up an interactive calendar, and clicking on a new date. Statuses can be changed by clicking on the current status and selecting a new status from the dropdown.
-  ![Edit Job Application Date Page](./src/assets/editJobAppDateOrStatus.png)
+  ![Edit Job Application Date Page](public/assets/images/editJobAppDateOrStatus.png)
 
 - Practice Interview: Ten technical interview questions are generated based on the job description you share. These questions are to help prepare for a potential interview.
-![Practice Job Interview](./src/assets/PracticeInterview.gif)
+![Practice Job Interview](public/assets/gifs/PracticeInterview.gif)
 
 <!-- CONTRIBUTING -->
 
