@@ -290,7 +290,14 @@ describe("NewCompany backend error handling", () => {
     cy.get("input#city").type("CityName");
     cy.get("select").select("CA"); 
     cy.get("input#zipCode").type("12345");
-    cy.get("textarea").type("Some notes about the company");
+    cy.get("[data-cy=tiptap-notes-container]")
+        .find('.ProseMirror')
+        .eq(0)
+        .should('exist')
+        .click()
+        .focus()
+        .type("Some notes about the company");
+    // cy.get("textarea").type("Some notes about the company");
 
     cy.intercept("POST", `http://localhost:3001/api/v1/users/${userId}/companies`, {
       statusCode: 422,

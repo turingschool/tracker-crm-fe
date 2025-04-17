@@ -4,6 +4,7 @@ import { fetchCompanies, createCompany } from "../../../constants/trackerApiCall
 import { CompanyAttributes } from "../../../constants/Interfaces";
 import { useUserLoggedContext } from "../../../context/UserLoggedContext";
 import { useErrorContext } from "../../../context/ErrorContext"; 
+import TipTap from '../../../wysiwyg/TipTap';
 
 interface NewCompanyProps {
   isModal?: boolean;
@@ -137,14 +138,14 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
           </p>
         ))}
       </div>
-    )}
+      )}
         <h1 className="text-2xl text-cyan-600 font-bold mb-4">Add New Company</h1>
         {successMessage && (
           <div className="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
             {successMessage}
           </div>
         )}
-        <form className="flex flex-col space-y-4">
+        <form className="flex flex-col space-y-4 z-1">
           <div className="flex flex-col">
             <label className="mb-2 text-gray-700">
               Company Name: <span className="text-red-500">*</span>
@@ -275,12 +276,13 @@ function NewCompany({ isModal, onSuccess }: NewCompanyProps) {
           </div>
           <div className="flex flex-col">
             <label className="mb-2 text-gray-700">Notes:</label>
-            <textarea
-              value={notes}
-              placeholder="Notes about the company"
-              onChange={(e) => setNotes(e.target.value)}
-              className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500"
-            />
+            <div className="ProseMirror z-0" data-cy="tiptap-notes-container">
+              <TipTap 
+                content={notes}
+                placeholder={"Notes ... "}
+                onUpdate={(html: string) => setNotes(html)}
+              />
+            </div>
           </div>
           <button
             type="submit"

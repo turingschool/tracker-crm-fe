@@ -94,7 +94,8 @@ describe("New Company page after logging in", () => {
     cy.get("#streetAddress").should("have.attr", "placeholder", "123 Main St");
     cy.get("#city").should("have.attr", "placeholder", "City");
     cy.get("#zipCode").should("have.attr", "placeholder", "12345");
-    cy.get("textarea").should("have.attr", "placeholder", "Notes about the company");
+    // Will need to be added to tests spcifically for and in TipTap component
+    // cy.get("textarea").should("have.attr", "placeholder", "Notes about the company");
   });
 
   it("Should allow input in all form fields", () => {
@@ -104,7 +105,14 @@ describe("New Company page after logging in", () => {
     cy.get("#city").type("Test City").should("have.value", "Test City");
     cy.get("select").select("CO").should("have.value", "CO");
     cy.get("#zipCode").type("12345").should("have.value", "12345");
-    cy.get("textarea").type("Test notes").should("have.value", "Test notes");
+    cy.get("[data-cy=tiptap-notes-container]")
+        .find('.ProseMirror')
+        .eq(0)
+        .should('exist')
+        .click()
+        .focus()
+        .type("Test notes")
+        .should("contains.text", "Test notes");
   });
 
   it("Should require mandatory fields", () => {
@@ -146,7 +154,13 @@ describe("New Company page after logging in", () => {
     cy.get("#city").type("Test City");
     cy.get("select").select("CO");
     cy.get("#zipCode").type("12345");
-    cy.get("textarea").type("Test notes");
+    cy.get("[data-cy=tiptap-notes-container]")
+        .find('.ProseMirror')
+        .eq(0)
+        .should('exist')
+        .click()
+        .focus()
+        .type("Test notes");
 
     cy.get("button[type='submit']").click();
 
@@ -169,7 +183,13 @@ describe("New Company page after logging in", () => {
     cy.get("#city").type("Test City");
     cy.get("select").select("CO");
     cy.get("#zipCode").type("12345");
-    cy.get("textarea").type("Test notes");
+    cy.get("[data-cy=tiptap-notes-container]")
+        .find('.ProseMirror')
+        .eq(0)
+        .should('exist')
+        .click()
+        .focus()
+        .type("Test notes");
 		cy.get('button[type="submit"]').click();
 		cy.wait("@companyNameBlank")
 		cy.get('[data-testid="backend-error"]').should('contain', "Name can't be blank")
