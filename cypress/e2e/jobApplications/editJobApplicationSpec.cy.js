@@ -366,7 +366,6 @@ describe('Happy Path- Adding a New Contact to Job Application', () => {
     ).as('getCompanies');    
   });
 
-
   it('should be able to add a new contact from the job application page', () => {
     cy.wait('@getJobApplications')
     cy.get("[data-testid='job-link-3']").should("contain", "Backend Developer").click();
