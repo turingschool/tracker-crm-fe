@@ -449,8 +449,8 @@ FORMAT: lastname, firstname
 
 **Vasquez, Natasha**
 
--[Github](https://github.com/nvnatasha)
--[LinkedIn](https://www.linkedin.com/in/natasha-vasquez/)
+- [Github](https://github.com/nvnatasha)
+- [LinkedIn](https://www.linkedin.com/in/natasha-vasquez/)
 
 **Verrill, Seth**
 
@@ -467,7 +467,7 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/elysableu)
 - [LinkedIn](https://www.linkedin.com/in/elysa-ward/)
 
-**Weiland, Kristen**
+**Weiland, Kristin**
 
 - [Github](https://github.com/KMPWeiland)
 - [LinkedIn](https://www.linkedin.com/in/kristinweiland/)
