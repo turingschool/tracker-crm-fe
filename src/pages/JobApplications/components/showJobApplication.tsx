@@ -174,6 +174,7 @@ function JobApplication() {
               <div className="flex flex-row items-center text-lg text-gray-700 font-semibold">
                 <p id="application-status" className="mr-2">Status:</p>
                   <select
+                    data-testid="edit-status-dropdown"
                     value={status ?? 0}
                     id="appStatus"
                     onChange={(e) => {

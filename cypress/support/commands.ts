@@ -71,3 +71,59 @@ Cypress.Commands.add('mockJobApplications', () => {
     },
   }).as('getJobApplications');
 });
+
+Cypress.Commands.add('mockSingleJobApplication', (id: number, fixtureName: string) => {
+  cy.intercept(
+    'GET',
+    `http://localhost:3001/api/v1/users/1/job_applications/${id}`,
+    {
+      statusCode: 200,
+      fixture: fixtureName,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  ).as(`showSingleJobApp-${id}`);
+});
+
+Cypress.Commands.add('mockCompanyContacts', () => {
+  cy.intercept(
+    'GET',
+    'http://localhost:3001/api/v1/users/1/companies/3/contacts',
+    (req) => {
+      req.headers['Authorization'] = 'Bearer fake-token';
+      req.reply({
+        statusCode: 200,
+        fixture: 'mockCompanyDetails',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+    }
+  ).as('getCompanyDetails');
+});
+
+Cypress.Commands.add('selectJobApplicationRow', (rowSelector: string | number | RegExp) => {
+  cy.get('[data-testid="applications-iconD"]').click();
+  cy.get('[data-testid="applications-iconD"]').click();
+
+  if (typeof rowSelector === 'string' || typeof rowSelector === 'number') {
+    cy.get('tbody > tr').contains(rowSelector).click();
+  } else {
+    cy.get('tbody > tr').filter(`:contains(${rowSelector})`).click();
+  }
+});
+
+Cypress.Commands.add('mockSingleJobApplicationError', (id: number) => {
+  cy.intercept(
+    'GET',
+    `http://localhost:3001/api/v1/users/1/job_applications/${id}`,
+    {
+      statusCode: 500,
+      body: { error: 'Internal Server Error' },
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+  ).as('showJobApplicationError');
+});
