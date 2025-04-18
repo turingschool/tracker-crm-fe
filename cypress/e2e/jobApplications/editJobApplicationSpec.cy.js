@@ -238,47 +238,61 @@ describe("Happy Path- Editing Job Application", () => {
   });
 });
 
-// describe("Happy Path - Editing Job Application Status", () => {
-//   const jobAppId = 3;
-//   const patchUrl = `http://localhost:3001/api/v1/users/1/job_applications/${jobAppId}`;
+describe("Happy Path - Editing Job Application Status", () => {
+  const jobAppId = 3;
+  const patchUrl = `http://localhost:3001/api/v1/users/1/job_applications/${jobAppId}`;
 
-//   const statusOptions = {
-//     "Submitted": 1,
-//     "Interviewing": 2,
-//     "Offer": 3,
-//     "Rejected": 4,
-//     "Phone Screen": 5,
-//     "Code Challenge": 6,
-//     "Not Yet Applied": 7,
-//   };
+  const statusOptions = {
+    "Submitted": 1,
+    "Interviewing": 2,
+    "Offer": 3,
+    "Rejected": 4,
+    "Phone Screen": 5,
+    "Code Challenge": 6,
+    "Not Yet Applied": 7,
+  };
 
-//   beforeEach(() => {
-//     cy.intercept("PATCH", patchUrl, (req) => {
-//       req.body.status = req.body.status || 1;
-//       req.reply({
-//         statusCode: 200,
-//         fixture: "mockJobAppStatusUpdate",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//       });
-//     }).as("updateJobAppStatus");
-//   });
+  beforeEach(() => {
+    cy.login("danny_de@email.com", "jerseyMikesRox7");
+    cy.mockJobApplications();
+    cy.mockSingleJobApplication(jobAppId, "mockJobAppNoContacts");
 
-//   Object.entries(statusOptions).forEach(([label, value]) => {
-//     it(`should update application status to ${label}`, () => {
-//       cy.get("#appStatus")
-//         .select(label)
-//         .should("have.value", `${value}`);
+    cy.intercept(
+      "GET",
+      "http://localhost:3001/api/v1/users/1/companies",
+      {
+        fixture: "mockCompanies",
+        statusCode: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    ).as("getCompanies");
 
-//       cy.wait("@updateJobAppStatus");
+    cy.intercept("PATCH", patchUrl, (req) => {
+      req.body.status = req.body.status || 1;
+      req.reply({
+        statusCode: 200,
+        fixture: "mockJobAppStatusUpdate",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }).as("updateJobAppStatus");
+  });
 
-//       cy.get("#appStatus")
-//         .should("have.value", `${value}`);
-//     });
-//   });
-// });
+  it("should allow the user to change the job application status", () => {
+    cy.visit("/job_applications");
+    cy.wait("@getJobApplications");
 
+    cy.get(`[data-testid='job-link-${jobAppId}']`).click();
+    cy.wait(`@showSingleJobApp-${jobAppId}`);
+
+    cy.get('#appStatus').select("Offer");
+
+    cy.get("[data-testid='edit-status-dropdown']").should("contain", "Offer");
+  });
+});
 
 describe('Happy Path- Adding a New Contact to Job Application', () => {
   beforeEach(() => {
