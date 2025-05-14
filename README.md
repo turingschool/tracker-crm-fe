@@ -375,7 +375,7 @@ FORMAT: lastname, firstname
 **Haefling, Matt**
 
 - [Github](https://github.com/mhaefling)
--[LinkedIn](www.linkedin.com/in/matthew-haefling)
+- [LinkedIn](www.linkedin.com/in/matthew-haefling)
 
 **Hill, John**
 
