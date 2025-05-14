@@ -125,6 +125,19 @@ For more information, see the [CircleCI Documentation](https://circleci.com/docs
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Cypress
+
+1.  To run a single test file via CLI: `npx cypress run --spec "<relative file path name>"`
+2.  To run a folder of tests via CLI: `npx cypress run --spec "<relative folder path>"`
+3.  To run all Cypress tests via CLI: `npx cypress run`
+4.  To open the Cypress UI dashboard: `npx cypress open`
+
+*Note: Frontend and Backend servers should be running before running Cypress commands.*
+
+**Before adding a new Cypress test: [Custom Cypress commands](https://docs.cypress.io/api/cypress-api/custom-commands) are set up at `cypress/support/commands.ts` to enhance test readability and avoid repetitive long code.**
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 ## Styling
 
 ### Font

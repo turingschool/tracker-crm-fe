@@ -1,6 +1,6 @@
-import { mockJobApplicationData } from "../fixtures/mockJobApplicationData.json";
-import { mockJobApplicationDataDeleted} from "../fixtures/mockJobApplicationDataDeleted.json";
-import { mockDashboard } from "../fixtures/mockDashBoard.json";
+import { mockJobApplicationData } from "../../fixtures/mockJobApplicationData.json";
+import { mockJobApplicationDataDeleted} from "../../fixtures/mockJobApplicationDataDeleted.json";
+import { mockDashboard } from "../../fixtures/mockDashBoard.json";
 
 describe('Delete a Job Application', () => {
   beforeEach(() => {
