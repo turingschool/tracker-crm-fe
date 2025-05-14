@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUserLoggedContext } from '../../../context/UserLoggedContext';
 import { statusMap, statusStyles} from "../../../pages/JobApplications/components/JobApplicationUtilities";
-import { BasicCompany, BasicContact } from "../../../constants/Interfaces";
+import { BasicCompany, BasicContact, NewJobApplicationForm } from "../../../constants/Interfaces";
 import TipTap from '../../../wysiwyg/TipTap';
 import { fetchContacts, fetchCompaniesMapped, postJobApplication } from '../../../constants/trackerApiCalls';
 
@@ -69,7 +69,7 @@ function NewJobApplication() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newJobApplication: any = {
+    const newJobApplication: NewJobApplicationForm = {
       userId: userData.user.data.id ? Number(userData.user.data.id) : undefined,
       token: userData.token,
       position_title: positionTitle,

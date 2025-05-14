@@ -56,6 +56,18 @@ export interface JobApplication {
   updated_at: string;
 }
 
+export interface NewJobApplicationForm {
+  userId: number | undefined;
+  token: string;
+  position_title: string;
+  date_applied: string;
+  status: number;
+  notes: string;
+  job_description: string;
+  application_url: string;
+  company_id: string;
+  contact_id: string | null;
+}
 export interface DashBoardDattaI{
   job_applications: [ null |
     {
