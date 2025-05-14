@@ -74,7 +74,7 @@ Vist the [Tracker Site](https://tracker-crm-fe-38f7cf1aaca5.herokuapp.com/)
 
 ### Continuous Integration (CI)
 
-This project uses CircleCI for Continuous Integration (CI). To set up CircleCI for this repository:
+This project uses CircleCI for Continuous Integration (CI). Since CircleCI is already set up for this repository in GitHub, you shouldn't need to do any extra setup for it as long as you have write access to the repository. If you would like to set up CircleCI for a personal fork or other repository of your own, try following the instructions below:
 
 1. **Sign Up for CircleCI**:
 
