@@ -193,11 +193,10 @@ function CompanyShow() {
     notes: ""
   };
   const companyAddress = companyAttributes?.street_address + ", " + companyAttributes.city + ", " + companyAttributes.state + " " + companyAttributes.zip_code
-  
-  
+
   return (
-    <main className="flex-col">
-      <h1 className=" mt-[10vh] ml-[6vw] text-[5.5vh] font-bold text-cyan-600 tracking-wide">
+    <main className="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-6">
+      <h1 className=" mt-[10vh] ml-[6vw] w-full text-xl sm:text-3xl md:text-5xl font-bold text-cyan-600 tracking-wide">
         {companyAttributes.name}
       </h1>
       <div className="flex gap-[8vw]">
@@ -270,7 +269,7 @@ function CompanyShow() {
       <div className="my-[3vh] mr-[20vw] flex-1">
         <h3
           id = "other-contacts"
-          className = "text-[3vh] font-bold text-cyan-700 mb-[4vh] text-wrap"
+          className = "w-full text-xl sm:text-3xl md:text-5xl font-bold text-cyan-700 mb-[4vh] text-wrap"
         >
           {companyAttributes.name
             ? `My contacts at ${companyAttributes.name}`
