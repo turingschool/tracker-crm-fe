@@ -62,6 +62,7 @@ const JobApplicationInterviewQuestions: React.FC = () => {
 
         stopButton?.addEventListener('click', () => {
           mediaRecorder.stop()
+          stopButton.classList.add("invisible")
           console.log(mediaRecorder.state)
           console.log(chunks)
         })
