@@ -147,7 +147,7 @@ function NewJobApplication() {
               {/* Date Applied */}
               <label className="text-[1vw] font-[Helvetica Neue] flex flex-col w-[45%]">
                 <span className="font-semibold">Date Applied:
-                  <span className="text-red-500"> *</span>
+                {status !== 7 && <span className="text-red-500"> *</span>}
                 </span>
                 <input
                   type="date"
@@ -155,7 +155,7 @@ function NewJobApplication() {
                   value={dateApplied}
                   onChange={(e) => setDateApplied(e.target.value)}
                   className="p-2 border-4 border-slate-800 rounded-lg focus:outline-none focus:ring-2 m-2"
-                  required
+                  required={status !==7}
                 />
               </label>
 
