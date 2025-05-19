@@ -44,8 +44,51 @@ const JobApplicationInterviewQuestions: React.FC = () => {
   }, [jobDescription, token, userData.user.data.id]);
 
   const startRecording = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.currentTarget.parentElement?.querySelector(".invisible")?.classList.remove("invisible")
+    const stopButton = event.currentTarget.parentElement?.querySelector(".invisible")
     event.currentTarget.classList.add("invisible")
+    stopButton?.classList.remove("invisible")
+
+    if (navigator.mediaDevices) {
+      navigator.mediaDevices.getUserMedia(
+        {
+          audio: true
+        }
+      ).then((stream) => {
+        const mediaRecorder = new MediaRecorder(stream)
+        let chunks: Blob[] = []
+
+        mediaRecorder.start()
+        console.log(mediaRecorder.state)
+
+        stopButton?.addEventListener('click', () => {
+          mediaRecorder.stop()
+          console.log(mediaRecorder.state)
+          console.log(chunks)
+        })
+
+        mediaRecorder.ondataavailable = (blobEvent) => {
+          chunks.push(blobEvent.data)
+        }
+
+        mediaRecorder.onstop = () => {
+          const clipContainer = stopButton?.parentElement
+          const audio = document.createElement("audio")
+
+          audio.setAttribute("controls", "")
+          clipContainer?.appendChild(audio)
+
+          const blob: Blob = new Blob(chunks, {type: "audio/ogg; codecs=opus"})
+          const audioUrl = window.URL.createObjectURL(blob)
+          audio.src = audioUrl
+        }
+
+      })
+      .catch((err) => {
+        console.log(`The following error occurred: ${err}`)
+      })
+    } else {
+      console.log("unsupported browser")
+    }
   }
 
 return (
