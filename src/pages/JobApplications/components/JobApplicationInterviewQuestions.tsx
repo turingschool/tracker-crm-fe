@@ -83,6 +83,9 @@ return (
                 <li key={question.index} className="ml-5 text-gray-600 w-1/2 text-[17px]">
                   <br></br>
                   {question.index}. {question.attributes.question}
+                  <br/>
+                  <button className="text-cyan-600 text-[1.8vh]">Record your Answer</button>
+                  <button className="text-red-500 text-[1.8h] invisible">Stop Recording</button>
                 </li>
               ))}
             </ul>
