@@ -41,7 +41,12 @@ const JobApplicationInterviewQuestions: React.FC = () => {
     if (jobDescription && token) {
       getInterviewQuestions()
     }
-  }, [jobDescription, token, userData.user.data.id]); 
+  }, [jobDescription, token, userData.user.data.id]);
+
+  const startRecording = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.currentTarget.parentElement?.querySelector(".invisible")?.classList.remove("invisible")
+    event.currentTarget.classList.add("invisible")
+  }
 
 return (
     <div className="min-h-screen p-4 sm:p-8 pt-8 sm:pt-36">
@@ -84,7 +89,8 @@ return (
                   <br></br>
                   {question.index}. {question.attributes.question}
                   <br/>
-                  <button className="text-cyan-600 text-[1.8vh]">Record your Answer</button>
+                  <button onClick={(event) => {startRecording(event)}} className="text-cyan-600 text-[1.8vh]">Record your Answer</button>
+                  <br/>
                   <button className="text-red-500 text-[1.8h] invisible">Stop Recording</button>
                 </li>
               ))}
