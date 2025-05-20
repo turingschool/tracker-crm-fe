@@ -236,7 +236,7 @@ function CompanyShow() {
                 Notes
               </span>
               <p className="text-gray-600 whitespace-pre-wrap">
-                {<HTMLRender htmlString={companyAttributes.notes} />}
+                {<HTMLRender htmlString={companyAttributes.notes || ''} />}
               </p>
             </div>
           </div>
