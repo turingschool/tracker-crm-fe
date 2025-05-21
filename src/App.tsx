@@ -7,6 +7,7 @@ import UserRegistration from './pages/Login/components/UserRegistration';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Contacts from './pages/Contacts/Contacts';
 import NewContact from './pages/Contacts/components/NewContact';
+import ImportContacts from './pages/Contacts/components/ImportContacts';
 import Companies from './pages/Companies/Companies';
 import NewCompany from './pages/Companies/components/NewCompany';
 import NewJobApplication from './pages/JobApplications/components/NewJobApplication';
@@ -43,6 +44,7 @@ function App() {
           <Route path="/companies/:id/contacts" element={<CompanyShow />} />
           <Route path="/contacts" element={<Contacts userData={userData}/>} />
           <Route path="/contacts/new" element={<NewContact userData={userData}/>} />
+          <Route path="/contacts/import" element={<ImportContacts userData={userData}/>} />
           <Route path="/job_applications" element={<JobApplications/>}/>
           <Route path="/job_applications/:jobAppId" element={<JobApplication/>}/>
           <Route path="/job_applications/:jobAppId/interviewQuestions" element={<JobApplicationInterviewQuestions/>}/>
