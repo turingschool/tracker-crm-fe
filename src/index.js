@@ -17,7 +17,7 @@ const configDefaults = {
 }
 
 const sdk = new HoneycombWebSDK({
-  debug: true, // Set to false for production environment.  NOTE: isn't the Heroku version 'production' in essence?
+  debug: false, // Set to false for production environment.  NOTE: isn't the Heroku version 'production' in essence?
   apiKey: `${process.env.HONEYCOMB_API_INGEST_KEY}`, //NOTE: this is supposed to be the "Honeycomb Ingest API key".  I hope this is the same as the main API key I extracted earlier...
   serviceName: 'tracker-crm-fe', // Replace with your application name. Honeycomb uses this string to find your dataset when we receive your data. When no matching dataset exists, we create a new one with this name if your API Key has the appropriate permissions.
   instrumentations: [getWebAutoInstrumentations({
