@@ -9,7 +9,7 @@ import { HoneycombWebSDK } from '@honeycombio/opentelemetry-web'
 import { getWebAutoInstrumentations } from '@opentelemetry/auto-instrumentations-web'
 
 const configDefaults = {
-  ignoreNetworkEvents: true
+  ignoreNetworkEvents: true     //Apparently this will reduce lots of traffic.  We can always try turning it on later (or for specific instrumentation(s) only)
   // propagateTraceHeaderCorsUrls: [
   // /.+/g
   //This looks like regex.  Specify the URL of the domain we want to include (I assume just the BE?).  It looks like CORS headers might get intercepted or something otherwise?
@@ -17,9 +17,8 @@ const configDefaults = {
 }
 
 const sdk = new HoneycombWebSDK({
-  // endpoint: "https://api.eu1.honeycomb.io/v1/traces", // Send to EU instance of Honeycomb. Defaults to sending to US instance.
   debug: true, // Set to false for production environment.  NOTE: isn't the Heroku version 'production' in essence?
-  apiKey: `${process.env.HONEYCOMB_API_KEY}`, //NOTE: this is supposed to be the "Honeycomb Ingest API key".  I hope this is the same as the main API key I extracted earlier...
+  apiKey: `${process.env.HONEYCOMB_API_INGEST_KEY}`, //NOTE: this is supposed to be the "Honeycomb Ingest API key".  I hope this is the same as the main API key I extracted earlier...
   serviceName: 'tracker-crm-fe', // Replace with your application name. Honeycomb uses this string to find your dataset when we receive your data. When no matching dataset exists, we create a new one with this name if your API Key has the appropriate permissions.
   instrumentations: [getWebAutoInstrumentations({
     // Loads custom configuration for xml-http-request instrumentation.
