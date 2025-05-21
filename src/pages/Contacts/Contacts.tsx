@@ -96,6 +96,11 @@ function Contacts({ userData }: UserInformationProps) {
               Add New +
             </button>
           </Link>
+          <Link to="/contacts/import">
+            <button className="bg-cyan-600 hover:bg-cyan-500 text-white tracking-wide py-2 px-4 rounded max-w-max">
+              Import Contacts
+            </button>
+          </Link>
         </div>
         {fetchError !== null ? (
           <p
