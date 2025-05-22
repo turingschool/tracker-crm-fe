@@ -41,6 +41,10 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+Welcome to Tracker by Turing! This web app is intended to be a useful tool for students as they transition from school into the job hunt. It allows users to create and view lists of job applications, companies, and professional contacts, while also saving their created lists to a web-hosted Rails database in the background. The backend repo that manages this database lives here: https://github.com/turingschool/tracker-crm. 
+
+This project is the product of the efforts of 35+ Turing students working collaboratively across several graduating classes. A full list of contributors can be found at the bottom of this README, along with a list of licenses. 
+
 ### Visit Our Site
 
 Vist the [Tracker Site](https://tracker-crm-fe-38f7cf1aaca5.herokuapp.com/)
@@ -138,48 +142,9 @@ For more information, see the [CircleCI Documentation](https://circleci.com/docs
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Styling
-
-### Font
-
-` Helvetica Neue Sans-Serif`
-
-Example: `className="text-[5vw] font-[Helvetica Neue]"`
-
-### Icons
-
-[MUI's SvgIcon icons](https://mui.com/material-ui/material-icons/?query=home)
-
-### Colors & Sizes
-
- #### <u>Containers</u>
-
-`<div className="w-[50vw] mx-auto my-[2vh] p-[3vh] ">`
-
-#### <u>H1 Tags</u>
-
-**_Cyan-600_**
-
-#### <u>Buttons</u>
-
-***Cyan-600***
-
-`<div bg-cyan-600 text-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2>`  
-
-#### <u>Links</u>  
-***Cyan-500**  
-
-### <u>Login Page</u>  
-
-***Cyan-800*** for right half and login button  
-***Sky-200*** for Login Page Title
-
-#### <u>Form Boxes</u>
-`<label htmlFor="email" className="block text-gray-700 font-medium mb-[1vh]"> Email </label> <input className="w-full px-[1vh] py-[1vh] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" name="email"/>`
-
 <!-- ROADMAP -->
 
-## Roadmap
+## Roadmap of Major Features
 
 ### Feature 1 - Registration
 
@@ -214,7 +179,7 @@ The MenuBar component provides a responsive navigation interface for your applic
   - Add New Company
   - Add New Job Application
 
-#### Mobile
+#### Mobile 
 
 - **Hamburger Menu:** A collapsible menu for smaller screens.
 - **Slide-Out Menu:** A sidebar that slides in from the left when opened.
@@ -222,7 +187,7 @@ The MenuBar component provides a responsive navigation interface for your applic
 - **Navigation Links:** Similar to the desktop navigation, but tailored for mobile interaction.
 - **Drop-Down Shortcut Menu:** A simplified version of the desktop drop-down, allowing quick actions for adding new contacts, companies, or job applications.
 
-#### Additional UI Enhancements
+#### Additional UI Enhancements 
 
 - **Quad Color Bar:** A decorative vertical bar split into four colors, enhancing the visual design.
 
@@ -307,6 +272,46 @@ Choose a company that exists under your profile.
 - Practice Interview: Ten technical interview questions are generated based on the job description you share. These questions are to help prepare for a potential interview.
 ![Practice Job Interview](public/assets/gifs/PracticeInterview.gif)
 
+
+## Styling Standards
+
+### Font
+
+` Helvetica Neue Sans-Serif`
+
+Example: `className="text-[5vw] font-[Helvetica Neue]"`
+
+### Icons
+
+[MUI's SvgIcon icons](https://mui.com/material-ui/material-icons/?query=home)
+
+### Colors & Sizes
+
+ #### <u>Containers</u>
+
+`<div className="w-[50vw] mx-auto my-[2vh] p-[3vh] ">`
+
+#### <u>H1 Tags</u>
+
+**_Cyan-600_**
+
+#### <u>Buttons</u>
+
+***Cyan-600***
+
+`<div bg-cyan-600 text-white px-[2vw] py-[1vh] rounded w-[10vw] hover:bg-cyan-700 focus:ring-cyan-500 focus:ring-2>`  
+
+#### <u>Links</u>  
+***Cyan-500**  
+
+### <u>Login Page</u>  
+
+***Cyan-800*** for right half and login button  
+***Sky-200*** for Login Page Title
+
+#### <u>Form Boxes</u>
+`<label htmlFor="email" className="block text-gray-700 font-medium mb-[1vh]"> Email </label> <input className="w-full px-[1vh] py-[1vh] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cyan-500" name="email"/>`
+
 <!-- CONTRIBUTING -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -380,10 +385,25 @@ FORMAT: lastname, firstname
 - [Github](https://github.com/SmilodonP)
 - [LinkedIn](https://www.linkedin.com/in/karlfallenius)
 
+**Fox, Will**
+
+- [Github](https://github.com/willfox0409)
+- [LinkedIn](https://www.linkedin.com/in/williammacdonaldfox)
+
+**Freyr, Rig**
+
+- [Github](https://github.com/ontruster74)
+- [LinkedIn](https://www.linkedin.com/in/rigfreyr)
+
 **Galvin, Shane**
 
 - [Github](https://github.com/sgalvin36)
 - [LinkedIn](https://www.linkedin.com/in/shane-galvin36/)
+
+**Green, Beverly**
+
+- [Github](https://github.com/bevgreen)
+- [LinkedIn](https://www.linkedin.com/in/beverlylouisegreen/)
 
 **Haefling, Matt**
 
@@ -399,6 +419,16 @@ FORMAT: lastname, firstname
 
 - [Github](https://github.com/marshallhotaling)
 - [LinkedIn](https://www.linkedin.com/in/marshall-hotaling-7b52a8304/)
+
+**Inman, Jacob**
+
+- [Github](https://github.com/jinman14)
+- [LinkedIn](https://www.linkedin.com/in/jacobinman/)
+
+**Kendall, Mark**
+
+- [Github](https://github.com/mkendall42)
+- [LinkedIn](https://www.linkedin.com/in/markkendall496/)
 
 **Knapp, Paul**
 
@@ -419,6 +449,11 @@ FORMAT: lastname, firstname
 
 - [Github](https://github.com/TDManning)
 - [LinkedIn](https://www.linkedin.com/in/terra-manning/)
+
+**McKee, Sebastian**
+
+- [Github](https://github.com/0nehundr3d)
+- [LinkedIn](https://www.linkedin.com/in/sebastianmckee/)
 
 **Messersmith, Renee**
 
