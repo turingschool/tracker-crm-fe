@@ -272,3 +272,12 @@ export interface PopOverProps {
   editor: Editor;
   ref: React.RefObject<HTMLDivElement>;
 }
+
+export interface IntervewAnswerFeedback {
+  index: number,
+  type: string,
+  attributes: {
+    answer: string
+    feedback: string
+  }
+}
