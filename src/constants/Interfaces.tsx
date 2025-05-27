@@ -257,6 +257,7 @@ export interface ChatGPTQuestion {
   index: number;
   type: string;
   attributes: {
+    id: number;
     question: string;
   };
 }

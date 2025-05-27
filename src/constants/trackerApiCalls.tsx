@@ -1,4 +1,4 @@
-import { UserRegistrationData, FormInputData, NewContact } from "./Interfaces"
+import { UserRegistrationData, FormInputData, NewContact, IntervewAnswerFeedback } from "./Interfaces"
 import { handleErrorResponse } from "../context/ErrorHelpers";
 import { Company, CompanyData, APIResult, ChatGPTQuestion } from "../constants/Interfaces";
 
@@ -595,3 +595,37 @@ export const fetchInterviewQuestions = async (
     return { error: error.message || 'An unexpected error occurred.' };
   }
 };
+
+/*-----------------------------------// Create Interview Question Feedback //--------------------------------------*/
+export const createInterviewQuestionFeedback = async (
+  userId: number,
+  jobApplicationId: number,
+  interviewQuestionId: number,
+  token: string,
+  file: Blob
+): Promise<APIResult<IntervewAnswerFeedback>> => {
+  try {
+    console.log(file)
+    const response = await fetch(
+      `${backendURL}users/${userId}/job_applications/${jobApplicationId}/interview_questions/${interviewQuestionId}/answer_feedback`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'audio/mpeg',
+          'Authorization': `Bearer ${token}`
+        },
+        body: file
+      }
+    )
+
+    if (!response.ok) {
+      console.error(`Failed to send interview response: ${response.statusText}`)
+    }
+
+    const data = await response.json()
+    return {data: data.data}
+  } catch (error: any) {
+    console.error('Error creating interview feedback:', error)
+    return { error: error.message || 'An unexpected error occurred' }
+  }
+}
