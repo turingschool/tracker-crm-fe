@@ -1,7 +1,7 @@
 import {useUserLoggedContext} from "../../../context/UserLoggedContext";
 import { Link, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { fetchInterviewQuestions } from "../../../constants/trackerApiCalls";
+import { fetchInterviewQuestions, createInterviewQuestionFeedback } from "../../../constants/trackerApiCalls";
 import { ChatGPTQuestion } from "../../../constants/Interfaces";
 import ClipLoader from 'react-spinners/ClipLoader';
 
@@ -44,7 +44,8 @@ const JobApplicationInterviewQuestions: React.FC = () => {
   }, [jobDescription, token, userData.user.data.id]);
 
   const startRecording = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    const stopButton = event.currentTarget.parentElement?.querySelector(".invisible")
+    const stopButton = event.currentTarget.parentElement?.querySelector(".stop-button")
+    const submitButton = event.currentTarget.parentElement?.querySelector(".submit-button")
     event.currentTarget.classList.add("invisible")
     stopButton?.classList.remove("invisible")
 
@@ -63,6 +64,7 @@ const JobApplicationInterviewQuestions: React.FC = () => {
         stopButton?.addEventListener('click', () => {
           mediaRecorder.stop()
           stopButton.classList.add("invisible")
+          submitButton?.classList.remove("invisible")
           console.log(mediaRecorder.state)
           console.log(chunks)
         })
@@ -76,11 +78,14 @@ const JobApplicationInterviewQuestions: React.FC = () => {
           const audio = document.createElement("audio")
 
           audio.setAttribute("controls", "")
-          clipContainer?.appendChild(audio)
+          clipContainer?.insertBefore(audio, submitButton as Node)
 
-          const blob: Blob = new Blob(chunks, {type: "audio/ogg; codecs=opus"})
+          const blob: Blob = new Blob(chunks, {type: "audio/mp3; codecs=opus"})
+          console.log(blob)
           const audioUrl = window.URL.createObjectURL(blob)
           audio.src = audioUrl
+
+          submitButton?.addEventListener('click', () => {submitRecording(submitButton.id, blob)})
         }
 
       })
@@ -89,6 +94,20 @@ const JobApplicationInterviewQuestions: React.FC = () => {
       })
     } else {
       console.log("unsupported browser")
+    }
+  }
+
+  const submitRecording = async (questionId: string, blob: Blob) => {
+    try {
+      const result = await createInterviewQuestionFeedback(userData.user.data.id, jobAppId, Number(questionId), token || "", blob)
+
+      if (result.data) {
+        console.log(result.data)
+      } else if (result.error) {
+        console.error(`Error: ${result.error}`)
+      }
+    } catch(error) {
+      console.error(`Error ${error}`)
     }
   }
 
@@ -135,7 +154,8 @@ return (
                   <br/>
                   <button onClick={(event) => {startRecording(event)}} className="text-cyan-600 text-[1.8vh]">Record your Answer</button>
                   <br/>
-                  <button className="text-red-500 text-[1.8h] invisible">Stop Recording</button>
+                  <button className="text-red-500 text-[1.8h] invisible stop-button">Stop Recording</button>
+                  <button id={question.attributes.id.toString()} className="text-cyan-600 text-[1.8h] invisible submit-button">Submit</button>
                 </li>
               ))}
             </ul>
