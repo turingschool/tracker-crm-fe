@@ -1,20 +1,7 @@
-// // import { useRef, useState, useEffect } from "react";
-// import { useNavigate, useLocation } from "react-router-dom";
-// // import { useUserLoggedContext } from "../../../context/UserLoggedContext";
-// // import { fetchCompaniesMapped, fetchNewContact } from "../../../constants/trackerApiCalls";
-// import { UserInformationProps } from "../../../constants/Interfaces";
-
-
-
-// const ImportContacts = ({ userData }: UserInformationProps) => {
-//   const navigate = useNavigate();
-//   const location = useLocation();
-// return (
-//   <div> Import Contacts Page </div>
-// )
-// }
-// export default ImportContacts; 
 import { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { FormInputData } from "../../../constants/Interfaces";
+import { fetchNewContact } from "../../../constants/trackerApiCalls";
 import { useDropzone } from "react-dropzone";
 import Papa from "papaparse";
 import { UserInformationProps } from "../../../constants/Interfaces";
@@ -65,6 +52,43 @@ const ImportContacts = ({ userData }: UserInformationProps) => {
       },
     });
   }, []);
+  const navigate = useNavigate();
+  const handleConfirmImport = async () => {
+    
+    if (!userData?.user?.data?.id || !userData.token) {
+      setFeedback("Missing user information.");
+      return;
+    }
+    try {
+      const userId = Number(userData.user.data.id);
+      const token = userData.token;
+
+       for (const contact of parsedContacts) {
+      const contactFormInput: FormInputData = {
+        firstName: contact.first_name,
+        lastName: contact.last_name,
+        email: contact.email || "",
+        phoneNumber: contact.phone_number || "",
+        companyId: contact.company_id ? Number(contact.company_id) : null,
+        notes: contact.notes || "",
+      };
+
+      const backendContact = {
+        first_name: contact.first_name,
+        last_name: contact.last_name,
+        email: contact.email || "",
+        phone_number: contact.phone_number || "",
+        notes: contact.notes || "",
+        company_id: contact.company_id ? Number(contact.company_id) : null,
+      };
+        await fetchNewContact(userId, token, contactFormInput, backendContact);
+      }
+      navigate("/contacts", {state: {importSuccess: true } });
+    } catch (error) {
+      console.error("Error adding contacts:", error);
+      navigate("/contacts", {state: {importSuccess: false }})
+    }
+  }
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -117,7 +141,23 @@ const ImportContacts = ({ userData }: UserInformationProps) => {
             </h2>
             <div className="max-h-[30vh] overflow-y-auto border rounded-md p-3">
               <table className="w-full text-sm text-left border-collapse">
-        
+                <div className="flex gap-4 mt-4">
+                  <button
+                    onClick={handleConfirmImport}
+                    className="bg-green-600 test-white px-4 py2 rounded hover:bg-green-700"
+                    >
+                      Confirm and Add Contacts
+                    </button>
+                    <button
+                      onClick={() => {
+                        setParsedContacts([]);
+                        setFeedback(null);
+                      }}
+                      className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                      >
+                        Cancel
+                      </button>
+                  </div>
                 <thead className="bg-gray-100">
                   <tr>
                     {Object.keys(parsedContacts[0]).map((key) => (
