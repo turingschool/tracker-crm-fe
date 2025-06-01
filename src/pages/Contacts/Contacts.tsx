@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUserLoggedContext } from "../../context/UserLoggedContext";
+import { useLocation } from "react-router-dom";
 
 import { ContactData, UserInformationProps } from "../../constants/Interfaces";
 import { fetchContacts } from '../../constants/trackerApiCalls';
@@ -83,7 +84,31 @@ function Contacts({ userData }: UserInformationProps) {
     );
   });
 
+  interface LocationState {
+  importSuccess?: boolean;
+}
+
+const location = useLocation();
+const state = (location.state || {}) as LocationState;
+const importSuccess = state.importSuccess !== undefined
+
+const showImportResult = "importSuccess" in state;
+
+
   return (
+    <>
+    {showImportResult && (
+      <div
+        className={`p-4 mb-6 rounded ${
+          importSuccess ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+        }`}
+      >
+        {importSuccess
+          ? "Contacts successfully imported!"
+          : "Contact import failed. Please try again."}
+      </div>
+    )}
+
     <section className="flex">
       <div className="w-[76vw] pl-[6vw]">
         <h1 className="text-[5.5vh] font-bold text-cyan-600 tracking-wide mb-[2vh] mt-[8vh] ">
@@ -129,6 +154,7 @@ function Contacts({ userData }: UserInformationProps) {
         ) : null}
       </div>
     </section>
+    </>
   );
 }
 
