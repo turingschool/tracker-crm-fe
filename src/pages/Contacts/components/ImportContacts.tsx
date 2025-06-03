@@ -18,7 +18,6 @@ type ContactCSVRow = {
 const requiredFields = ["first_name", "last_name"];
 
 const ImportContacts = ({ userData }: UserInformationProps) => {
-  console.log(userData); // to get rid of temporary warning
 
   const [parsedContacts, setParsedContacts] = useState<ContactCSVRow[]>([]);
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -35,6 +34,8 @@ const ImportContacts = ({ userData }: UserInformationProps) => {
     Papa.parse<ContactCSVRow>(file, {
       header: true,
       skipEmptyLines: true,
+      transformHeader: (header) =>
+        header.trim().toLowerCase().replace(/\s+/g, "_"),
       complete: (results) => {
         const headers = results.meta.fields || [];
 
@@ -81,6 +82,8 @@ const ImportContacts = ({ userData }: UserInformationProps) => {
         notes: contact.notes || "",
         company_id: contact.company_id ? Number(contact.company_id) : null,
       };
+      console.log("backendContact:", backendContact)
+      console.log("contactformInput", contactFormInput)
         await fetchNewContact(userId, token, contactFormInput, backendContact);
       }
       navigate("/contacts", {state: {importSuccess: true } });
@@ -131,6 +134,7 @@ const ImportContacts = ({ userData }: UserInformationProps) => {
           </p>
           <p className="text-sm text-gray-400 mt-2">
             Required columns: <code>first_name</code>, <code>last_name</code>
+            <div></div>Optional columns (if used, must be named exactly): <code>email</code>, <code>phone_number</code>, <code>notes</code>, <code>company_id</code>
           </p>
         </div>
 
