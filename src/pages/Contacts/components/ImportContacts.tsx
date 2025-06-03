@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormInputData } from "../../../constants/Interfaces";
-import { fetchNewContact } from "../../../constants/trackerApiCalls";
+import { fetchNewImportedContacts } from "../../../constants/trackerApiCalls";
 import { useDropzone } from "react-dropzone";
 import Papa from "papaparse";
 import { UserInformationProps } from "../../../constants/Interfaces";
@@ -84,7 +84,7 @@ const ImportContacts = ({ userData }: UserInformationProps) => {
       };
       console.log("backendContact:", backendContact)
       console.log("contactformInput", contactFormInput)
-        await fetchNewContact(userId, token, contactFormInput, backendContact);
+        await fetchNewImportedContacts(userId, token, contactFormInput, backendContact);
       }
       navigate("/contacts", {state: {importSuccess: true } });
     } catch (error) {

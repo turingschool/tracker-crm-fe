@@ -484,6 +484,34 @@ export const fetchContacts = async (userId: number, token: string | null) => {
     }
   }
 }
+  /*-----------------------------------// Post- Imported Contacts //--------------------------------------*/
+  export const fetchNewImportedContacts = async (userId: number | undefined, token: string | null, formInputData: FormInputData, newContact: NewContact) => {
+    try {
+      let url = `${backendURL}users/${userId}/contacts/import`;
+        if (formInputData.companyId) {
+          url = `${backendURL}users/${userId}/companies/${formInputData.companyId}/contacts/import`;
+        }
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ contacts: [newContact] }),
+        });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+        console.log('response', errorData)
+      throw new Error(errorData.message || "Failed to add the contact");
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error("Error adding contact:", error.message);
+      throw (error);
+    }
+  }
+}
 
   /*-----------------------------------// Show - Contact //--------------------------------------*/
 export const fetchShowContact = async (userId: number | undefined, token: string | null, contactId: string | undefined) => {
