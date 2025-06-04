@@ -82,8 +82,6 @@ const ImportContacts = ({ userData }: UserInformationProps) => {
         notes: contact.notes || "",
         company_id: contact.company_id ? Number(contact.company_id) : null,
       };
-      console.log("backendContact:", backendContact)
-      console.log("contactformInput", contactFormInput)
         await fetchNewImportedContacts(userId, token, contactFormInput, backendContact);
       }
       navigate("/contacts", {state: {importSuccess: true } });
