@@ -122,7 +122,7 @@ const showImportResult = "importSuccess" in state;
             </button>
           </Link>
           <Link to="/contacts/import">
-            <button className="bg-cyan-600 hover:bg-cyan-500 text-white tracking-wide py-2 px-4 rounded max-w-max">
+            <button className="bg-green-600 hover:bg-cyan-500 text-white tracking-wide py-2 px-4 rounded max-w-max">
               Import Contacts
             </button>
           </Link>
